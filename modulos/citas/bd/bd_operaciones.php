@@ -171,9 +171,10 @@
 		// mysqli_rollback($con);		
 		if($pedidoServicioID>0){
 			$consulta = "insert into cita(pedidoServicioID,pacienteID,medicoID,especialidadID,servicioID,
-										tipo,fecha,hora,observaciones,estado) values
+										tipo,fecha,hora,observaciones,estado,precio,cantidad) values
 										('".$pedidoServicioID."','".$pacienteID."','".$medicoID."','".$especialidadID."',
-											'".$servicioID."','".$tipo."','".$fecha."','".$hora."','".$motivo."','".$estado."');";
+											'".$servicioID."','".$tipo."','".$fecha."','".$hora."','".$motivo."','".$estado."',
+											'".$precio."',1);";
 			$res = mysqli_query($con,$consulta)or  die (mysqli_error($con));
 			if($res){
 				echo 1;

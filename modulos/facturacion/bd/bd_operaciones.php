@@ -19,7 +19,7 @@
 		echo 1;
 		exit();
 	}
-	//Seleccionar datos para el pedido
+	//Seleccionar datos para el pedido, traer datos generales del pedido
 	if($opc == 'MP_01'){
 		$DNI = $_POST["DNI"];
 		$pedidoID = $_POST["pedidoID"];
@@ -47,7 +47,65 @@
 			echo 0;
 		}
 		exit();
-	}	
+	}
+	// TRAER LOS PAGOS DE UN PEDIDO, SI ES QUE LO TUVIERA
+	if($opc == 'TP_01'){
+		$pedidoID = $_POST["pedidoID"];
+
+		$consulta = "select pagoID,pedidoServicioID,tipoDocumento,numeroDocumento,importe,fechaPago,estado
+									from pago 
+									where pedidoServicioID = '".$pedidoID."';
+								";
+		$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
+		if($row = mysqli_fetch_row($res)){			
+			$fechaPago = str_replace("/","-",$row[5]);
+	    $fechaPago = date('d-m-Y',strtotime($fechaPago));
+			$tipoDoc = $row[2]; //N-B-F : Ninguno - Boleta - Factura
+			$nroDoc = $row[3];	//Numero del documento
+			if($tipoDoc == 'N'){
+				$tipoDoc = "Ninguno";
+				$nroDoc = "---";
+			}else if($tipoDoc == 'B') $tipoDoc = 'Boleta';
+			else if($tipoDoc == 'F') $tipoDoc = 'Factura';
+			echo "
+						<tr>												
+							<td>".$fechaPago."</td>
+							<td>".$row[4]."</td>
+							<td>".$tipoDoc."</td>
+							<td>".$nroDoc."</td>
+						</tr>
+				";
+		}
+	}
+	// TRAER LOS SERVICIOS DE UN PEDIDO
+	if($opc == 'TS_01'){
+		$pedidoID = $_POST["pedidoID"];
+
+		$consulta = "select citaID,pedidoServicioID,pacienteID,medicoID,especialidadID,
+									servicioID,tipo,fecha,hora,observaciones,estado
+									from CITA
+								";
+		$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
+		if($row = mysqli_fetch_row($res)){			
+			$fechaPago = str_replace("/","-",$row[5]);
+	    $fechaPago = date('d-m-Y',strtotime($fechaPago));
+			$tipoDoc = $row[2]; //N-B-F : Ninguno - Boleta - Factura
+			$nroDoc = $row[3];	//Numero del documento
+			if($tipoDoc == 'N'){
+				$tipoDoc = "Ninguno";
+				$nroDoc = "---";
+			}else if($tipoDoc == 'B') $tipoDoc = 'Boleta';
+			else if($tipoDoc == 'F') $tipoDoc = 'Factura';
+			echo "
+						<tr>												
+							<td>".$fechaPago."</td>
+							<td>".$row[4]."</td>
+							<td>".$tipoDoc."</td>
+							<td>".$nroDoc."</td>
+						</tr>
+				";
+		}
+	}
 	// Facturar un pedido
 	if($opc == 'FAC_01'){
 		$DNI = $_POST["DNI"];
@@ -112,3 +170,4 @@
 		exit();
 	}
 ?>
+

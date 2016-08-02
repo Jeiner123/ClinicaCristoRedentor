@@ -1,5 +1,6 @@
 var url = 'bd/bd_operaciones.php';
 
+// Trae los datos generales del pedido
 function cargarPedido(DNI,pedidoID){
 	abrirCargando();	
 	opc = 'MP_01';
@@ -20,15 +21,20 @@ function cargarPedido(DNI,pedidoID){
 				$('#txtImporteIGV').val(datos[4]);
 				$('#txtTotal').val(datos[5]);
 				$('#txtPagado').val(datos[6]);
-				$('#txtSaldo').val(datos[7]);				
+				$('#txtSaldo').val(datos[7]);
 				$('#cboFormaPago').val(datos[8]);
 
 				$('#txtNuevoSaldo').val(datos[7]);
 			}
-			if(datos[8]==''){				
+			if(datos[8]==''){
 				$('#cboFormaPago').parent().addClass('has-error');
 				$('#cboFormaPago').val(0);
 				$('#cboFormaPago').attr('disabled',false);
+			}
+			if(datos[7] == 0){
+				// $('#tablaPagos_filter').parent('div').remove();
+				bloqueoTotalForm('#formFacturar',true);
+				$('.opcionesPago').hide("slow");
 			}
 			cerrarCargando();
 		},
@@ -38,6 +44,69 @@ function cargarPedido(DNI,pedidoID){
 		}
 	});	
 }
+// Trae los pagos que ya se han realizado
+function traerPagos(pedidoID){
+	abrirCargando();
+	opc = 'TP_01';	
+	$.ajax({
+		type: 'POST',
+		data:'opc='+opc+'&pedidoID='+pedidoID,
+		url: url,
+		success: function(rpta){
+			$('#tablaPagos').DataTable().destroy();
+			$('#cuerpoTablaPagos').html(rpta);
+			$('#tablaPagos').DataTable(
+				{
+			   	"columnDefs": [
+            { "targets": [ 0 ],"width": "20%", },						//Fecha
+            { "targets": [ 1 ],"width": "20%", "orderable":false,},						//Importe
+            { "targets": [ 2 ],"width": "30%", "searchable": false , "orderable":false,},	//Tipo documento
+            { "targets": [ 3 ],"width": "20%", "orderable":false,"searchable": false  },		//Numero
+		      ]		      
+				}
+			);
+			$('#tablaPagos_filter').parent('div').remove();
+  		$('#tablaPagos_length').parent('div').remove();
+			cerrarCargando();
+		},
+		error: function(rpta){
+			alert(rpta);
+			cerrarCargando();
+		}
+	});	
+}
+//Trae los servicios de el pedido
+function traerServicios(pedidoID){
+	abrirCargando();
+	opc = 'TS_01';	
+	$.ajax({
+		type: 'POST',
+		data:'opc='+opc+'&pedidoID='+pedidoID,
+		url: url,
+		success: function(rpta){
+			$('#tablaPagos').DataTable().destroy();
+			$('#cuerpoTablaPagos').html(rpta);
+			$('#tablaPagos').DataTable(
+				{
+			   	"columnDefs": [
+            { "targets": [ 0 ],"width": "20%", },						//Fecha
+            { "targets": [ 1 ],"width": "20%", "orderable":false,},						//Importe
+            { "targets": [ 2 ],"width": "30%", "searchable": false , "orderable":false,},	//Tipo documento
+            { "targets": [ 3 ],"width": "20%", "orderable":false,"searchable": false  },		//Numero
+		      ]		      
+				}
+			);
+			$('#tablaPagos_filter').parent('div').remove();
+  		$('#tablaPagos_length').parent('div').remove();
+			cerrarCargando();
+		},
+		error: function(rpta){
+			alert(rpta);
+			cerrarCargando();
+		}
+	});	
+}
+// activa el campo para permitir el numero de documento
 function permitirDocumento(){
 	var documento = $('#cboDocumento').val();
 	if(documento == 'B' || documento == 'F'){
@@ -48,6 +117,7 @@ function permitirDocumento(){
 		inputObligatorio('#txtNroDocumento',0);
 	}
 }
+// Guarda los pagos
 function facturar(form,DNI,pedidoID){	
 	var formaPagoID = $('#cboFormaPago').val();	
 	var documento = $('#cboDocumento').val();	
@@ -88,6 +158,7 @@ function facturar(form,DNI,pedidoID){
 		}
 	});	
 }
+// Calcula el nuevo saldo
 function calcularNuevoSaldo(){
 	var saldo = parseFloat($('#txtSaldo').val());
 	if($('#txtPagar').val() == ''){

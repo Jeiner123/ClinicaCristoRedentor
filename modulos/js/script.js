@@ -54,11 +54,11 @@ function seleccionSimple(e){
 		$(e).addClass('active');
     }
 }
-// function activarMenuPrincipal(){
-// 	var idMenu = "#"+$("#menuPrincipal").val();
-// 	$(idMenu).addClass('active');
-// 	($(idMenu).parent()).parent().addClass('active');
-// }
+function activarMenuPrincipal(){
+	var idMenu = "#"+$("#menuPrincipal").val();
+	$(idMenu).addClass('active');
+	($(idMenu).parent()).parent().addClass('active');
+}
 function activarMenuIzquierda(){
 	var idMenu = "#"+$("#menuIzquierda").val();
 	$(idMenu).addClass('active');
