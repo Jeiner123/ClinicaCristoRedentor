@@ -50,16 +50,6 @@
     <!-- Main content -->
     <section class="content">      
       <div class="box box-primary color-palette-box">
-        <!-- <div class="box-header bg-blue" >
-          <div>
-            <h3 class="box-title">Datos generales</h3>            
-          </div>
-          <div class="box-tools pull-right">
-            <button style='color:#fff;' type="button" class="btn btn-box-tool" data-widget="collapse">
-              <i class="fa fa-minus"></i>
-            </button>            
-          </div>
-        </div> -->
         <div class="box-body" id="formPedido">
           <div class="col-md-6">
             <div class="box-header" style="margin: -10px 0px -20px -10px">
@@ -149,15 +139,14 @@
                 </div>
               </div>
             </div>
-
           </div>
         </div>
         <!-- /.box-body -->
       </div>
       <!-- Formulario Datos Generales -->
-      <div class="box box-solid color-palette-box">
-        <div class="row">
-          <div class="col-md-4">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="box box-solid color-palette-box">
             <div class="box-header bg-blue" >
               <div>
                 <h3 class="box-title">Realizar pago</h3>
@@ -213,7 +202,7 @@
               <!-- ROW -->
             </div>
             <!-- /.box-body -->
-            <div class="box-footer" align="center">
+            <div class="box-footer opcionesPago" align="center">
               <div class="form-group">
                 <input  onClick="facturar('#formFacturar',<?php echo $DNI; ?>,<?php echo $pedidoID; ?>);" id="btnFacturar" value="Facturar" style="margin-right:20px;" type="button" class="btn btn-successInverse" />
                 <a class="btn btn-secundary" data-dismiss="modal" onClick="limpiarForm(this.form);">Cancelar</a>
@@ -222,11 +211,50 @@
             <!-- box-footer -->
           </div>
         </div>
-        
-            
-        
+        <div class="col-md-8">
+          <div class="box box-solid color-palette-box ">
+            <div class="box-header bg-blue" >
+              <div>
+                <h3 class="box-title">Pagos a la fecha</h3>            
+              </div>
+              <div class="box-tools pull-right">
+                <button style='color:#fff;' type="button" class="btn btn-box-tool" data-widget="collapse">
+                  <i class="fa fa-minus"></i>
+                </button>
+              </div>
+            </div>
+            <!-- div.header -->
+            <div class="box-body" align="center">
+              <div class="row" id="pagos">
+                <div class="col-md-12">
+                  <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                    <div class="row">
+                      <div class="col-md-10 col-md-offset-1">
+                        <table id="tablaPagos" class="table table-bordered table-striped table-hover dataTable"role="grid"aria-describedby="example1_info">
+                          <thead style="background-color:#ccc;">
+                            <tr>
+                              <th>Fecha Pago</th>
+                              <th>Importe</th>
+                              <th>Tipo documento</th>
+                              <th>Nro Documento</th>
+                            </tr>
+                          </thead>
+                          <tbody class="cuerpoTabla" id="cuerpoTablaPagos">
+                            <!-- Aqui irán los elementos de la tabla -->
+                          </tbody>
+                        </table>
+                        <!--tablaPagos-->  
+                      </div>
+                    </div>
+                  </div>         
+                </div>
+              </div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+        </div>
       </div>
-      <!-- Facturación -->
+      <!-- Facturación y pagos -->
       <div class="box box-solid color-palette-box ">
         <div class="box-header bg-blue" >
           <div>
@@ -238,6 +266,7 @@
             </button>            
           </div>
         </div>
+        <!-- box-header -->
         <div class="box-body" align="center">
           <div class="row" id="servicioDetalle">
             <div class="col-md-12">
@@ -395,6 +424,7 @@
 <script type="text/javascript">
   // abrirModal("#modalListaServicios");  
   cargarPedido(<?php echo $DNI ?>,<?php echo $pedidoID ?>);
+  traerPagos(<?php echo $pedidoID; ?>);
   $('#tablaServiciosLab').DataTable(
         {
            "columnDefs": [
@@ -410,6 +440,7 @@
   $('#tablaServiciosLab_length').parent('div').remove();
   $('#tablaServiciosLab_info').parent('div').remove();
   $('#tablaServiciosLab_paginate').parent('div').remove();
+  
   
   
 

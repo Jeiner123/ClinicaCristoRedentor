@@ -1,8 +1,10 @@
 USE clinica;
 
+
 drop table if exists CITA;
 drop table if exists PAGO;
 drop table if exists PEDIDO_SERVICIO;
+
 
 create table PEDIDO_SERVICIO(
 	pedidoServicioID int not null auto_increment,
@@ -36,10 +38,9 @@ create table PAGO(
 	foreign key(pedidoServicioID) references PEDIDO_SERVICIO(pedidoServicioID)
 );
 
-/*insert into pedido_servicio(pacienteID,personalReferenciaID,tipo,via,
-	tipoDocumento,numeroDocumento,tasaIGV,importeSinIGV,importeIGV,
-	importeTotal,importePagado,formaPagoID,estadoPago,timestamp)values
-	('00001',null,'C','P',null,null,0,0,0,0,0,'CON','PE','2016-07-23 23:38:01');*/
+INSERT INTO `pedido_servicio` (`pedidoServicioID`, `pacienteID`, `personalReferenciaID`, `tipo`, `via`, `tasaIGV`, `importeSinIGV`, `importeIGV`, `importeTotal`, `importePagado`, `formaPagoID`, `estadoPago`, `timestamp`) VALUES
+(1, 1001, NULL, 'C', 'P', '0.18', '33.90', '6.10', '40.00', '0.00', NULL, 'PEN', '2016-08-02 17:59:48');
+
 
 create table CITA(
 	citaID int not null auto_increment,
@@ -53,6 +54,8 @@ create table CITA(
 	hora varchar(8) not null,
 	observaciones varchar(500) null,
 	estado char(1) not null,					/*R:Reservado 	,S:En Sala,		A:Atendido,	X:Anulado*/		
+	precio decimal(9,2) not null,
+	cantidad decimal(9,2) not null,
 	diagnostico varchar(500) null,
 	tratamiento varchar(500) null,
 	medicamento	varchar(500) null,	
@@ -63,4 +66,6 @@ create table CITA(
 	foreign key(especialidadID) references especialidad(especialidadID),
 	foreign key(servicioID) references servicio(servicioID)
 );
+INSERT INTO `cita` (`citaID`, `pedidoServicioID`, `pacienteID`, `medicoID`, `especialidadID`, `servicioID`, `tipo`, `fecha`, `hora`, `observaciones`, `estado`, `precio`, `cantidad`, `diagnostico`, `tratamiento`, `medicamento`) VALUES
+(1, 1, 1001, 1002, 1, 1, 'C', '2016-08-02', '1:00 PM', '', 'R', '0.00', '0.00', NULL, NULL, NULL);
 

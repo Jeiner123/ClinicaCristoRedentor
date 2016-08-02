@@ -10,10 +10,8 @@
   <!-- <input type='hidden' value='gestion' id='menuPrincipal'> -->
   <input type='hidden' value='m_registrar_lab' id='menuIzquierda'>
   <?php include '../general/menu_principal.php';?>
-
 <div class="wrapper">
   <?php include '../general/izquierda_menu.php';?>
-
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
