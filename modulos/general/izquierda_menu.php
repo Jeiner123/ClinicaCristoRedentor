@@ -156,6 +156,19 @@
             </ul>
           </a>
         </li>
+        <li class="treeview" id="menu_compras">
+          <a href="#">
+            <i class="fa fa-chevron-down"></i>
+            <span>Compras</span>
+            <ul class="treeview-menu">
+              <li class="treeview" id="m_para_proveedores">
+                <a href="../compras/listado_proveedores.php">
+                  <span>Proveedores</span>
+                </a>
+              </li>
+            </ul>
+          </a>
+        </li>
         <li class="treeview" id="menu_parametros">
           <a href="#">
             <i class="fa fa-chevron-down"></i>
