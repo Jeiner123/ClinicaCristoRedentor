@@ -1,0 +1,8 @@
+<?php
+	date_default_timezone_set('America/Lima');
+	$con = mysqli_connect("localhost", "root", "", "clinica");
+	// $con = mysqli_connect("50.62.209.159", "jeiner", "Clinica*123", "clinica");
+	// $ftpServer = "50.62.169.11";
+	// $ftpUsuario = "Jeiner";
+	// $fftpClave = "1053301112";
+?>
