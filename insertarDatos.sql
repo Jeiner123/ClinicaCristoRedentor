@@ -153,3 +153,5 @@ insert into forma_pago(formaPagoID,formaPago,numeroCuotas,estado) values
 
 
 
+
+

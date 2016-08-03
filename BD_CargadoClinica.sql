@@ -186,6 +186,8 @@ create table forma_pago(
 	estado int not null,
 	primary key(formaPagoID)
 );
+
+
 insert into tipo_telefono(tipoTelefono,estado) values		
 	('Otro',1),
 	('Fijo',1),

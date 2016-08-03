@@ -10,7 +10,7 @@
 		$fechaCita = str_replace("/","-",$fechaCita);
 	  $fechaCita = date('Y-m-d',strtotime($fechaCita));
 	  $estado = $_POST['estado'];
-
+	  
 		$consulta = "select C.citaID,P.nombres,P.apPaterno,P.apMaterno,PA.pacienteID,
 												E.especialidad,S.servicio,C.fecha,C.hora,PP.nombres,
 												PP.apPaterno,PP.apMaterno,C.estado,PS.estadoPago,PS.pedidoServicioID,PA.DNI
@@ -34,7 +34,8 @@
 			if($tipo == "C"){
 				$nombreMedico = $nombresM[0].' '.$row[10];
 			}else{
-				$nombreMedico = "Laboratorio";				
+				$nombreMedico = "Laboratorio";
+				$especialidad = "Laboratorio";
 			}
 			$fecha = $row[7];
 			$fecha = str_replace("/","-",$fecha);
@@ -244,10 +245,12 @@
     		$fecha = date('Y/m/d',strtotime($fecha));
 				$hora = $fila[3];
 				$obs = $fila[4];
+				$precio = $fila[5];
 				$consulta = "insert into cita(pedidoServicioID,pacienteID,servicioID,
-										tipo,fecha,hora,observaciones,estado) values
+										tipo,fecha,hora,observaciones,estado,precio,cantidad) values
 										('".$pedidoServicioID."','".$pacienteID."',
-											'".$servicioID."','".$tipo."','".$fecha."','".$hora."','".$obs."','".$estado."');";
+											'".$servicioID."','".$tipo."','".$fecha."','".$hora."','".$obs."','".$estado."',
+											'".$precio."','".$cantidad."');";
 				$res = mysqli_query($con,$consulta)or  die (mysqli_error($con));				
 			}
 		}
