@@ -50,9 +50,14 @@
         </div>        
         <div class="box-body" style='overflow-x:scroll;overflow-y:hidden' align="center">
           <div class="row">
-            <div class="col-md-2 col-md-offset-5 col-xs-6 col-xs-offset-3">
-              <a href="#" class="btn btn-block btn-primary btn-sm btn-flat" onclick="abrirModal('#modalRegProveedor');">
+            <div class="col-md-2 col-xs-6 ">
+              <a href="#" class="btn btn-block btn-primary btn-sm btn-flat" onclick="crearProveedor();">
                 Nuevo
+              </a>
+            </div>
+            <div class="col-md-2 col-xs-6 ">
+              <a href="#" class="btn btn-block btn-success btn-sm btn-flat" onclick="modificarProveedor()" hidden>
+                Editar
               </a>
             </div>
           </div>
@@ -62,7 +67,8 @@
               <table id="tablaProveedor" class="table table-bordered table-hover tablaDatos">
                 <thead>
                   <tr>
-                    <th>RUC</th>
+                    <th>Entidad</th>
+                    <th>RUC/DNI</th>
                     <th>Razón Social</th>
                     <th>Contacto</th>
                     <th>Número de contacto</th>
@@ -91,7 +97,7 @@
 <div class="modal fade" id="modalRegProveedor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" align="center">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
-              <form method="post" class="form-horizontal" id="formPersonal" enctype="multipart/form-data">
+              <form method="post" class="form-horizontal" id="formPersonal" name="formPersonal" enctype="multipart/form-data">
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <h4 id="titulo" class="modal-title subfuente text-center">
@@ -100,7 +106,7 @@
                 </div>
                 <!-- /.modal-header -->
                 <div class="modal-body">
-                  <input id="txtFlag" name="txtFlag" class="form-control" value="N" type="hidden" >
+                  <input id="txtFlag" name="txtFlag" class="form-control" type="hidden">
                   <div class="row">
                     <div class="col-md-12">
                       <h1 style="font-size:17px; margin:0px;" class="header blue">
@@ -108,6 +114,7 @@
                       </h1>
                     </div>
                   </div>
+                  <form class="form-horizontal" role="form" method="post" id="formProveedor" enctype="multipart/form-data">
                   <div class="row">
                     <div class="col-md-4">
                       <label class="control-label">Tipo de entidad</label>
@@ -122,35 +129,33 @@
                     <div class="col-md-4">
                       <label class="control-label">Tipo de documento</label>
                       <label class="control-label" style="color:red;">*</label>
-                      <select class="form-control input-sm" id="cboDocumento" name="cboDocumento">
+                      <select class="form-control input-sm" id="cboDocumento" name="cboDocumento" onchange="bloquearCampos()">
                         <option value="0">-- Seleccionar --</option>
                         <option value="1">DNI</option>
                         <option value="2">CARNET DE EXTRANJERIA</option>
                         <option value="3">RUC</option>
-                        <option value="3">OTROS</option>
+                        <option value="4">OTROS</option>
                       </select> 
                     </div>
                     <div class="col-md-4">
                       <label class="control-label">Número (RUC, DNI, Etc)</label>
                       <label class="control-label" style="color:red;"> *</label>
-                      <input type="text" id="txtDocumento" name="txtDocumento"class="form-control input-sm"  maxlength="8" onkeypress="return soloNumeroEntero(event);">
+                      <input type="text" id="txtDocumento" name="txtDocumento"class="form-control input-sm"  onkeypress="return soloNumeroEntero(event);">
                     </div>
                   </div>
                   <div class="row">
                     
                     <div class="col-md-6">
                       <label class="control-label">Razón social</label>
-                      <label class="control-label" style="color:red;"> *</label>
-                      <input type="text" id="txtDNI" name="txtDNI"class="form-control input-sm">
+                      <input type="text" id="txtRazonSocial" name="txtRazonSocial"class="form-control input-sm">
                     </div>
                     <div class="col-md-6">
                       <label class="control-label">Dirección fiscal</label>
-                      <label class="control-label" style="color:red;"> *</label>
-                      <input type="text" id="txtDNI" name="txtDNI"class="form-control input-sm">
+                      <input type="text" id="txtDireccion" name="txtDireccion"class="form-control input-sm">
                     </div>
                     <div class="col-md-6">
                       <label class="control-label">Email principal</label>
-                      <input type="text" id="txtEmail" name="txtEmail"class="form-control input-sm">
+                      <input type="text" id="txtEmailE" name="txtEmailE"class="form-control input-sm">
                     </div>
                   </div>
                   <div class="row">
@@ -176,7 +181,7 @@
                     </div>
                      <div class="col-md-4">
                       <label class="control-label">Nº Cuenta de detracción</label>
-                      <input type="text" id="txtDetraccion" name="txtDetraccion"class="form-control input-sm" onkeypress="return soloNumeroEntero(event);">
+                      <input type="text" id="txtDetraccion" name="txtDetraccion"class="form-control input-sm">
                     </div>
                   </div>
                   <br>
@@ -188,10 +193,20 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col-md-12">
-                      <label class="control-label">Nombres y apellidos completos</label>
+                    <div class="col-md-4">
+                      <label class="control-label">Nombres</label>
                       <label class="control-label" style="color:red;"> *</label>
-                      <input type="text" id="txtContacto" name="txtContacto"class="form-control input-sm"  maxlength="8" onkeypress="return soloLetras(event);">
+                      <input type="text" id="txtNombre" name="txtNombre"class="form-control input-sm"  onkeypress="return soloLetras(event);">
+                    </div>
+                    <div class="col-md-4">
+                      <label class="control-label">Apellido paterno</label>
+                      <label class="control-label" style="color:red;"> *</label>
+                      <input type="text" id="txtApellidoPat" name="txtApellidoPat"class="form-control input-sm" onkeypress="return soloLetras(event);">
+                    </div>
+                    <div class="col-md-4">
+                      <label class="control-label">Apellido materno</label>
+                      <label class="control-label" style="color:red;"> *</label>
+                      <input type="text" id="txtApellidoMat" name="txtApellidoMat"class="form-control input-sm"  onkeypress="return soloLetras(event);">
                     </div>
                     <div class="col-md-3">
                       <label class="control-label">Teléfono</label>
@@ -211,7 +226,7 @@
                 <!-- /.modal-body -->
                 <div class="modal-footer">                  
                   <div class="row" align="center">
-                    <input  onClick="guardarPersonal(this.form);" value="Guardar" style="margin-right:20px;" type="button" class="btn btn-success btn-flat" id="btnGuardar"/>
+                    <input  onClick="mantenerProveedor(this.form);" value="Guardar" style="margin-right:20px;" type="button" class="btn btn-success btn-flat" id="btnGuardar"/>
                     <a class="btn btn-primary btn-flat" data-dismiss="modal" onClick="limpiarForm(this.form);">Regresar</a>                      
                   </div>
                 </div>

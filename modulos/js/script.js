@@ -43,6 +43,15 @@ function inputObligatorio(input,valor){
 		$(input).parent().removeClass('has-error');
 	}
 }
+
+function inputMismoValor(input,valor){
+	if($.trim($(input).val()).length!=valor){
+		$(input).parent().addClass('has-error');
+	}else{
+		$(input).parent().removeClass('has-error');
+	}
+}
+
 function seleccionSimple(e){
 	if ($(e).parents("table").find('tbody tr td').length == 1){ //Si no hay datos
  	   return false;
