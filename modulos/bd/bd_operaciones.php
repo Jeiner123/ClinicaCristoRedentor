@@ -134,7 +134,7 @@
 		}
 		exit();
 	}
-// CARGAR COMBOS
+// CARGAR COMBOS	
 	// PERSONAL SALUD
 	if($opc=='CC_PS_01'){
 		$especialidadID = $_POST['especialidadID'];

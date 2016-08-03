@@ -67,11 +67,7 @@ function guardarCitaLaboratorio(){
 	}else{
 		$('#txtNombresPaciente').parent().removeClass('has-error');
 	}
-	if($.trim($('#txtCodigoMedicoRef').val()).length<1){
-		$('#txtNombresMedicoRef').parent().addClass('has-error');
-	}else{
-		$('#txtNombresMedicoRef').parent().removeClass('has-error');
-	}
+	
 	if ($('#tablaServiciosLab >tbody >tr').length == 1){
 		if($('#tablaServiciosLab >tbody >tr >td').length == 1){
     	alert( "Debe seleccionar por lo menos un servicio" );
@@ -80,18 +76,20 @@ function guardarCitaLaboratorio(){
     }
 	}
 	$("#tablaServiciosLab tbody tr").each(function (index){
-    var campo1, campo3, campo5, campo6;
+    var servicioID, cantidad, fecha, hora, obs, precio;
     $(this).children("td").each(function (index2){
         switch (index2){
-            case 0: campo1 = $(this).text();break;
-            case 3: campo3 = $(this).text();break;
-            case 5: campo5 = $(this).text();break;
-            case 6: campo6 = $(this).text();break;
-            case 7: campo7 = $(this).text();break;
+            case 0: servicioID = $(this).text();break; //ID
+            case 2: precio = $(this).text();break;	//Precio
+            case 3: cantidad = $(this).text();break; 	//Cantidad
+            case 5: fecha = $(this).text();break;	//Fecha
+            case 6: hora = $(this).text();break;	//Hota
+            case 8: obs = $(this).text();break;	//Observaciones
+
         }
         $(this).css("background-color", "#ECF8E0");
     })
-    listaServicios = listaServicios + campo1 +',,'+ campo3 +',,'+ campo5 +',,'+ campo6 +',,'+ campo7 + "&&";
+    listaServicios = listaServicios + servicioID +',,'+ cantidad +',,'+ fecha +',,'+ hora +',,'+ obs +',,'+ precio+"&&";
     // listaServicios.push(campo1,campo3,campo5,campo6);    
   })  
 	var numErrores = document.getElementsByClassName("has-error").length;

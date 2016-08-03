@@ -4,6 +4,20 @@ USE clinica;
 drop table if exists CITA;
 drop table if exists PAGO;
 drop table if exists PEDIDO_SERVICIO;
+drop table if exists comprobante_pago;
+
+CREATE TABLE  comprobante_pago (
+  comprobanteID char(3) NOT NULL,
+  descripcion varchar (100) NOT NULL,
+  estado int NOT NULL,
+  compras boolean NOT NULL,
+  ventas boolean NOT NULL,
+  ingresos boolean NOT NULL,
+  egresos boolean NOT NULL,
+  honorarios boolean NOT NULL,
+  diario boolean NOT NULL,
+  PRIMARY KEY (comprobanteID)
+);
 
 
 create table PEDIDO_SERVICIO(
@@ -28,14 +42,16 @@ create table PEDIDO_SERVICIO(
 create table PAGO(
 	pagoID int not null auto_increment,
 	pedidoServicioID int not null,
-	tipoDocumento char(2) null,    		/*B:Boleta, F:Factura*/
-	numeroDocumento char(20) null,
+	comprobanteID char(3) null,    		/*B:Boleta, F:Factura*/
+	numeroSerie varchar(5) null,
+	numeroComprobante varchar(20) null,
 	importe decimal(9,2) not null,
 	fechaPago date not null,
 	fechaVence date null,
 	estado int not null,
 	primary key(pagoID),
-	foreign key(pedidoServicioID) references PEDIDO_SERVICIO(pedidoServicioID)
+	foreign key(pedidoServicioID) references PEDIDO_SERVICIO(pedidoServicioID),
+	foreign key(comprobanteID) references COMPROBANTE_PAGO(comprobanteID)
 );
 
 INSERT INTO `pedido_servicio` (`pedidoServicioID`, `pacienteID`, `personalReferenciaID`, `tipo`, `via`, `tasaIGV`, `importeSinIGV`, `importeIGV`, `importeTotal`, `importePagado`, `formaPagoID`, `estadoPago`, `timestamp`) VALUES
@@ -69,3 +85,13 @@ create table CITA(
 INSERT INTO `cita` (`citaID`, `pedidoServicioID`, `pacienteID`, `medicoID`, `especialidadID`, `servicioID`, `tipo`, `fecha`, `hora`, `observaciones`, `estado`, `precio`, `cantidad`, `diagnostico`, `tratamiento`, `medicamento`) VALUES
 (1, 1, 1001, 1002, 1, 1, 'C', '2016-08-02', '1:00 PM', '', 'R', '0.00', '0.00', NULL, NULL, NULL);
 
+insert into COMPROBANTE_PAGO(comprobanteID,descripcion,estado,compras,ventas,ingresos,egresos,honorarios,diario) values
+	('000','OTRO',1,1,1,0,0,0,1),
+	('001','FACTURA',1,1,1,0,0,0,1),
+	('002','RECIVO POR NONORARIOS',1,1,0,0,0,1,1),
+	('003','BOLETA DE VENTA',1,1,1,1,1,0,1),
+	('004','LIQUIDACION DE COMPRA',1,1,0,0,0,0,0),
+	('005','BOLETO DE COMPAÑIA DE AVIACION COMERCIAL POR EL SERVICIO DE TRANSPORTE AEREO DE PASAJEROS',1,0,0,0,0,0,0),
+	('006','CARTA DE PORTE AEREO POR EL SERVICIO DE TRANSPORTE DE CARGA AEREA',1,0,0,0,0,0,0),
+	('007','NOTA DE CREDITO',1,1,1,0,0,0,0),
+	('008','NOTA DE DEBITO',1,1,1,0,0,0,0);

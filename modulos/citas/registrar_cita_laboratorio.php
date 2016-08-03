@@ -233,7 +233,7 @@
                           <th>Importe</th>
                           <th>Fecha</th>
                           <th>Hora</th>
-                          <th></th>                          
+                          <th></th>
                           <th>Observaciones</th>
                         </tr>
                       </thead>
