@@ -14,11 +14,12 @@ USE clinica;
 -- 	Persona
 -- 	Personal
 
--- /*TABLAS CON DATOS, PERO NO REALES.... */
+-- TABLES WITH DUMMY DATA
+
 	create table especialidad(
 		especialidadID int  not null auto_increment,
 		especialidad varchar(100)  not null,
-		estado int not null, 								/*1: Activo, 2:Inactivo, 3:Elimnado*/
+		estado int not null, 								/* 1: Activo | 2: Inactivo | 3: Elimnado */
 		primary key(especialidadID)
 	);
 	create table tipo_servicio(
@@ -91,7 +92,7 @@ USE clinica;
 		foreign key(tipoTelefono2) references tipo_telefono(tipoTelefonoID)
 	);
 create table paciente(
-	pacienteID int(6) not null auto_increment, /*Nro de historia clinica tbm*/
+	pacienteID int(6) not null auto_increment, /* Nro de historia clínica */
 	DNI char(8) not null,
 	familiarDNI char(8) null,
 	parentesco varchar(100) null,
@@ -199,7 +200,7 @@ insert into tipo_telefono(tipoTelefono,estado) values
 	('Entel',1);
 insert into tipo_personal(tipoPersonal,estado) values
 	('MEDICO',1),			
-	('DE SALUD',1),   /*Enfermeras - Laboratoristas*/
+	('DE SALUD',1),   /* Enfermeras - Laboratoristas */
 	('DE APOYO',1),
 	('ADMINISTRATIVO',1);
 insert into area(area,estado) values

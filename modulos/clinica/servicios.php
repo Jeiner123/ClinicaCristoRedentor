@@ -19,7 +19,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Servicios de salud 
+        Servicios de salud
         <small>Lista - Registro - Actualización</small>
       </h1>
       <ol class="breadcrumb">
@@ -33,8 +33,7 @@
       <div class="box box-solid color-palette-box">
         <div class="box-header bg-blue">
           <div>
-            <h3 class="box-title">Lista de Servicios de salud</h3>
-            
+            <h3 class="box-title">Lista de Servicios de salud</h3>            
           </div>
           <div class="box-tools pull-right">
             <button style='color:#fff;' type="button" class="btn btn-box-tool" data-widget="collapse">

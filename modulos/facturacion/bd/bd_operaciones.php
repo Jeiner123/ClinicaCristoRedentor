@@ -16,7 +16,7 @@
 	if($opc == 'ACT_P_S'){
 		$pedidoID = $_POST['pedidoID'];
 		$campo = $_POST['campo'];
-		$nuevoValor = $_POST['nuevoValor'];		
+		$nuevoValor = $_POST['nuevoValor'];
 
 		$consulta = "update PEDIDO_SERVICIO set ".$campo." = '".$nuevoValor."'
 								where pedidoServicioID = '".$pedidoID."'
@@ -78,12 +78,13 @@
 			echo "
 						<tr>												
 							<td>".$fechaPago."</td>
-							<td>".$row[4]."</td>
+							<td style='text-align:right; padding-right:20px;'>".$row[4]."</td>
 							<td>".$comprobante."</td>
 							<td>".$nroSerie.' - '.$nroDoc."</td>
 						</tr>
 				";
 		}
+		exit();
 	}
 	// TRAER LOS SERVICIOS DE UN PEDIDO
 	if($opc == 'TS_01'){
@@ -123,7 +124,7 @@
 							<td>".$servicio."</td>
 							<td>".$precio."</td>
 							<td>".$cantidad."</td>
-							<td>".$importe."</td>
+							<td style='text-align:right; padding-right:20px;'>".$importe."</td>
 							<td>".$estadoCita."</td>
 						</tr>
 				";
@@ -176,13 +177,10 @@
 			echo "No se pudo registrar el pago";
 			exit();
 		}		
-		if($nuevoSaldo==0){
-			$estadoPago = 'PAG';
-		}else{
-			if($nuevoSaldo>0 && $nuevoSaldo < $importeTotal){ //importeTotal
+		if($nuevoSaldo==0)$estadoPago = 'PAG';
+		else if($nuevoSaldo>0 && $nuevoSaldo < $importeTotal) //importeTotal
 				$estadoPago = 'PAR';
-			}
-		}
+		
 		$consulta = "update PEDIDO_SERVICIO set importePagado=importePagado+'".$importe."',
 								estadoPago='".$estadoPago."'
 								where pedidoServicioID='".$pedidoID."'
@@ -195,28 +193,100 @@
 		echo 1;
 		exit();
 	}
-	// LISTAR PAGOS 
+	// CARGAR TABLA  PAGOS 
 	if($opc == 'CTP_01'){
-		$consulta = "select pagoID,pedidoServicioID,comprobanteID,numeroSerie,
-								numeroComprobante,importe,fechaPago,estado
-								from PAGO";
+		$fechaPago = $_POST['fechaPago'];
+		$fechaPago = str_replace("/","-",$fechaPago);
+	  $fechaPago = date('Y-m-d',strtotime($fechaPago));
+	  
+		$consulta = "select P.pagoID,P.pedidoServicioID,P.comprobanteID,P.numeroSerie,
+								P.numeroComprobante,P.importe,P.fechaPago,P.estado,
+								PE.nombres,PE.apPaterno,PE.apMaterno,PE.DNI,PE.telefono1,
+								CP.descripcion
+								from PAGO P
+								inner join PEDIDO_SERVICIO PS on PS.pedidoServicioID = P.pedidoServicioID
+								inner join PACIENTE PA ON PA.pacienteID = PS.pacienteID
+								inner join PERSONA PE ON PE.DNI = PA.DNI
+								inner join COMPROBANTE_PAGO CP ON CP.comprobanteID = P.comprobanteID
+								where P.fechaPago='".$fechaPago."'
+								";
 		$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
-		while($row = mysqli_fetch_row($res)){			
-			$fechaPago = str_replace("/","-",$row[5]);
+		while($row = mysqli_fetch_row($res)){
+			$fechaPago = str_replace("/","-",$row[6]);
 	    $fechaPago = date('d-m-Y',strtotime($fechaPago));
-			$comprobante = $row[2]; //N-B-F : Ninguno - Boleta - Factura
-			$nroSerie = $row[7]; 
-			$nroDoc = $row[3];	//Numero del comprobante
+	    $paciente = $row[8].' '.$row[9];
+	    $telefono = $row[12];
+			$comprobante = $row[13]; //N-B-F : Ninguno - Boleta - Factura
+			$nroSerie = $row[3]; 
+			$nroDoc = $row[4];	//Numero del comprobante
+			$importe = $row[5];
 			if($nroDoc == '')$nroDoc = '---';
 			echo "
 						<tr>												
-							<td>".$fechaPago."</td>
-							<td>".$row[4]."</td>
+							<td style='text-align:center;'>".$fechaPago."</td>
+							<td >".$paciente."</td>
+							<td>".$telefono."</td>
 							<td>".$comprobante."</td>
 							<td>".$nroSerie.' - '.$nroDoc."</td>
+							<td style='text-align:right;'>".$importe."</td>
 						</tr>
 				";
 		}
+		exit();
+	}
+	// CARGAR TABLA  PEDIDOS PENDIENTES	
+	if($opc == 'CTPP_01'){
+		// $fechaPago = $_POST['fechaPago'];
+		// $fechaPago = str_replace("/","-",$fechaPago);
+	  // $fechaPago = date('Y-m-d',strtotime($fechaPago));
+	  
+		$consulta = "select PS.pedidoServicioID,PS.pacienteID,PS.tipo,PS.via,PS.tasaIGV,PS.importeSinIGV,PS.importeIGV,
+											PS.importeTotal,PS.importePagado,FP.formaPago,PS.estadoPago,substring_index(PS.timestamp,' ',1) as 'fecha',
+											PE.DNI,PE.nombres,PE.apPaterno,PE.apMaterno,PE.telefono1
+								from PEDIDO_SERVICIO PS
+								inner join PACIENTE PA ON PS.pacienteID = PA.pacienteID
+								inner join PERSONA PE ON PE.DNI = PA.DNI
+								left join FORMA_PAGO FP ON FP.formaPagoID = PS.formaPagoID
+								";
+		$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
+		while($row = mysqli_fetch_row($res)){
+			$pedidoID = $row[0];
+			$fecha = str_replace("/","-",$row[11]);
+	    $fecha = date('d-m-Y',strtotime($fecha));
+	    $paciente = $row[13].' '.$row[14].' '.$row[15];
+	    $telefono = $row[16];
+	    $tipo = $row[2];
+	    $via = $row[3];
+			$importe = $row[7];
+			$importePagado = $row[8];
+			$formaPago = $row[9];
+			$estadoPago = $row[10];
+			if($formaPago == '')$formaPago = "No facturado";
+			// Via
+			if($via == 'P') $via = 'Personal';
+			else if($via == 'T') $via = 'Teléfono';
+			else if($via == 'W') $via = 'Web';
+			else if($via == 'F') $via = 'Facebook';
+			if($tipo == 'C') $tipo = 'Consultorio';
+			else if($tipo == 'L') $tipo = 'Laboraroio';
+			// Estado  de pago
+			if($estadoPago == 'PEN') $estadoPago = "<span class='label label-danger'>Pendiente</span>";
+			else if($estadoPago == 'PAG') $estadoPago = "<span class='label label-success'>Pagado</span>";
+			else if($estadoPago == 'PAR')	$estadoPago = "<span class='label label-warning'>Parcial</span>";
+			echo "
+						<tr>
+							<td style='text-align:center;'>".$pedidoID."</td>
+							<td >".$paciente."</td>
+							<td>".$tipo."</td>
+							<td style='text-align:center;'>".$via."</td>
+							<td style='text-align:right; padding-right:20px;'>".$importe."</td>
+							<td style='text-align:right; padding-right:20px;'>".$importePagado."</td>
+							<td>".$formaPago."</td>
+							<td>".$estadoPago."</td>
+							<td>".$estadoPago."</td>
+						</tr>
+				";
+		}
+		exit();
 	}
 ?>
-

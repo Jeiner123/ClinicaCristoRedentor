@@ -90,6 +90,8 @@ function traerPagos(pedidoID){
 		      ]		      
 				}
 			);
+			$('#tablaPagos_info').parent('div').remove();
+		  $('#tablaPagos_paginate').parent('div').remove();
 			$('#tablaPagos_filter').parent('div').remove();
   		$('#tablaPagos_length').parent('div').remove();
 			cerrarCargando();
@@ -242,45 +244,62 @@ function actualizarCampoPedidoServicio(pedidoID,campo){
 }
 // Carga todos los pagos de hoy
 function cargarTablaPagos(){
+	var fechaPago = $('#txtFechaCita').val();
 	abrirCargando();
-	opc = 'CTP_01';	
+	opc = 'CTP_01';
+	$.ajax({
+		type: 'POST',
+		data:'opc='+opc+'&fechaPago='+fechaPago,
+		url: url,
+		success: function(rpta){			
+			$('#tablaPagos').DataTable().destroy();
+			$('#cuerpoTablaPagos').html(rpta);
+			$('#tablaPagos').DataTable(
+				// {
+    //        "columnDefs": [
+    //         { "targets": [ 0 ],"width": "50%", "orderable": false, "searchable": false,},
+    //         { "targets": [ 1 ],"width": "15%", "orderable": false, },
+    //         { "targets": [ 2 ],"width": "15%", "orderable": false, "searchable": false , },
+    //         { "targets": [ 3 ],"width": "12%", "orderable": false, "searchable": false ,"type": "double"},
+    //         { "targets": [ 4 ],"width": "8%", "orderable": false,"searchable": false ,}
+    //       ]
+    //     }
+			);
+			cerrarCargando();
+		},
+		error: function(rpta){
+			alert(rpta);
+			cerrarCargando();
+		}
+	});
+}
+// Carga la tabla de todos los ppedidos que están pendientes de facturar
+function cargarTablaPedidoPendiente(){	
+	abrirCargando();
+	opc = 'CTPP_01';	
 	$.ajax({
 		type: 'POST',
 		data:'opc='+opc,
 		url: url,
 		success: function(rpta){
-			alert(rpta);
-			return;
-			if(rpta!=0){
-				var datos = rpta.split(",,");
-				$('#txtDNI').val(datos[0]);
-				$('#txtPaciente').val(datos[1]);
-				$('#txtTelefono1').val(datos[2]);
-				$('#txtSubTotal').val(datos[3]);
-				$('#txtImporteIGV').val(datos[4]);
-				$('#txtTotal').val(datos[5]);
-				$('#txtPagado').val(datos[6]);
-				$('#txtSaldo').val(datos[7]);
-				$('#cboFormaPago').val(datos[8]);
-
-				$('#txtNuevoSaldo').val(datos[7]);
-			}
-			if(datos[8]==''){
-				$('#cboFormaPago').parent().addClass('has-error');
-				$('#cboFormaPago').val(0);
-				$('#cboFormaPago').attr('disabled',false);
-			}
-			if(datos[7] != 0){
-				$('#formularioPago').show();
-				// $('#tablaPagos_filter').parent('div').remove();
-				// bloqueoTotalForm('#formFacturar',true);
-				// $('#formularioPago').remove();
-			}
-			// if(datos[7] == 0){
-			// 	// $('#tablaPagos_filter').parent('div').remove();
-			// 	bloqueoTotalForm('#formFacturar',true);
-			// 	$('#formularioPago').remove();
-			// }
+			// alert(rpta);
+			$('#tablaPedidoPendiente').DataTable().destroy();
+			$('#cuerpoTablaPedidoPendiente').html(rpta);
+			$('#tablaPedidoPendiente').DataTable(
+				{
+           "columnDefs": [
+            { "targets": [ 0 ],"width": "5%",  "searchable": false,}, //ID
+            { "targets": [ 1 ],"width": "30%",  },											//Paciente
+            { "targets": [ 2 ],"width": "7%","searchable": false , }, //Tipo
+            { "targets": [ 3 ],"width": "8%", "orderable": false, "searchable": false ,"type": "double"},//Via
+            { "targets": [ 4 ],"width": "10%","searchable": false ,},	//Ikmporte
+            { "targets": [ 5 ],"width": "10%", "orderable": false,"searchable": false ,},	//importe Pagado
+            { "targets": [ 6 ],"width": "15%","searchable": false ,},	//Forma Pago
+            { "targets": [ 7 ],"width": "7%", "searchable": false ,}	,//Estado
+            { "targets": [ 8 ],"width": "8%", "orderable": false,"searchable": false ,}
+          ]
+        }
+			);
 			cerrarCargando();
 		},
 		error: function(rpta){

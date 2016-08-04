@@ -4,6 +4,9 @@ body{
 form label ,.box-body label{
 	font-weight: normal;
 }
+.btn-lista-flotante{	
+	padding: 1px 6px 1px 6px;
+}
 .btn-transparente{
 	font-size: 14px;
 	background-color:transparent;
