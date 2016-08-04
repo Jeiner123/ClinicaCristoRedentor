@@ -54,9 +54,6 @@ create table PAGO(
 	foreign key(comprobanteID) references COMPROBANTE_PAGO(comprobanteID)
 );
 
-INSERT INTO `pedido_servicio` (`pedidoServicioID`, `pacienteID`, `personalReferenciaID`, `tipo`, `via`, `tasaIGV`, `importeSinIGV`, `importeIGV`, `importeTotal`, `importePagado`, `formaPagoID`, `estadoPago`, `timestamp`) VALUES
-(1, 1001, NULL, 'C', 'P', '0.18', '33.90', '6.10', '40.00', '0.00', NULL, 'PEN', '2016-08-02 17:59:48');
-
 
 create table CITA(
 	citaID int not null auto_increment,
@@ -82,13 +79,11 @@ create table CITA(
 	foreign key(especialidadID) references especialidad(especialidadID),
 	foreign key(servicioID) references servicio(servicioID)
 );
-INSERT INTO `cita` (`citaID`, `pedidoServicioID`, `pacienteID`, `medicoID`, `especialidadID`, `servicioID`, `tipo`, `fecha`, `hora`, `observaciones`, `estado`, `precio`, `cantidad`, `diagnostico`, `tratamiento`, `medicamento`) VALUES
-(1, 1, 1001, 1002, 1, 1, 'C', '2016-08-02', '1:00 PM', '', 'R', '0.00', '0.00', NULL, NULL, NULL);
 
 insert into COMPROBANTE_PAGO(comprobanteID,descripcion,estado,compras,ventas,ingresos,egresos,honorarios,diario) values
 	('000','OTRO',1,1,1,0,0,0,1),
 	('001','FACTURA',1,1,1,0,0,0,1),
-	('002','RECIVO POR NONORARIOS',1,1,0,0,0,1,1),
+	('002','RECIBO POR NONORARIOS',1,1,0,0,0,1,1),
 	('003','BOLETA DE VENTA',1,1,1,1,1,0,1),
 	('004','LIQUIDACION DE COMPRA',1,1,0,0,0,0,0),
 	('005','BOLETO DE COMPAÑIA DE AVIACION COMERCIAL POR EL SERVICIO DE TRANSPORTE AEREO DE PASAJEROS',1,0,0,0,0,0,0),

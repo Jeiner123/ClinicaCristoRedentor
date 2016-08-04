@@ -151,7 +151,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="txtTelefono1">Teléfono (1)</label><label style="color:red">*</label>
-                    <input id="txtTelefono1" name="txtTelefono1"class="form-control input-sm"  maxlength="19" onkeypress="return soloNumeroEntero(event);" >
+                    <input id="txtTelefono1" name="txtTelefono1"class="form-control input-sm"  maxlength="19" onkeypress="return soloTelefono(event);" >
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -168,7 +168,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="txtTelefono2">Teléfono(2)</label>
-                    <input id="txtTelefono2" name="txtTelefono2"class="form-control input-sm"  maxlength="19" onkeypress="return soloNumeroEntero(event);" >
+                    <input id="txtTelefono2" name="txtTelefono2"class="form-control input-sm"  maxlength="19" onkeypress="return soloTelefono(event);" >
                   </div>
                 </div>
                 <div class="col-md-6">

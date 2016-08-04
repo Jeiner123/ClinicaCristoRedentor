@@ -144,8 +144,78 @@
         <!-- /.box-body -->
       </div>
       <!-- Formulario Datos Generales -->
-      <div class="row">        
-        <div class="col-md-8">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="box box-solid color-palette-box" id="formularioPago" hidden>
+            <div class="box-header bg-blue" >
+              <div>
+                <h3 class="box-title">Realizar pago</h3>
+              </div>
+              <div class="box-tools pull-right">
+                <button style='color:#fff;' type="button" class="btn btn-box-tool" data-widget="collapse">
+                  <i class="fa fa-minus"></i>
+                </button>                
+              </div>
+            </div>
+            <!-- div-header -->
+            <div class="box-body" align="center" id="formFacturar" >
+              <div class="row">
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label class="form-label">Fecha pago</label>
+                    <input id="txtFechaCita" name="txtFechaCita" value="<?php echo $fechaHoyDMA ?>"class="form-control date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" disabled>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label class="form-label"><strong>Comprobante</strong></label>
+                    <select class="form-control input-sm" id="cboComprobante" name="cboComprobante">
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-2">
+                  <div class="form-group">
+                    <label for="txtNroSerie">Nro. Serie</label>
+                    <input type="text" id="txtNroSerie" name="txtNroSerie" class="form-control input-sm"  value="0001">
+                  </div>
+                </div>
+                <div class="col-sm-2">
+                  <div class="form-group">
+                    <label for="txtNroComprobante">Nro. Comprobante</label>
+                    <input type="text" id="txtNroComprobante" name="txtNroComprobante" class="form-control input-sm" >
+                  </div>
+                </div>
+              </div>
+              <!-- ROW -->
+              <div class="row">
+                                
+              </div>
+              <!-- ROW -->
+              <div class="row">
+                <div class="col-sm-2">
+                  <div class="form-group">
+                    <label for="txtPagar">Pagar</label>
+                    <input type="text" id="txtPagar" name="txtPagar" class="form-control input-sm" onkeypress="return soloNumeroDecimal(event);" onKeyUp ="return calcularNuevoSaldo();" maxlength="7">
+                  </div>
+                </div>
+                <div class="col-sm-2">
+                  <div class="form-group">
+                    <label for="txtNuevoSaldo">Nuevo Saldo</label>
+                    <input type="text" id="txtNuevoSaldo" name="txtNuevoSaldo" class="form-control input-sm" disabled>
+                  </div>
+                </div>
+              </div>          
+              <!-- ROW -->
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer" align="center">
+                <input  onClick="facturar('#formFacturar',<?php echo $DNI; ?>,<?php echo $pedidoID; ?>);" id="btnFacturar" value="Facturar" style="margin-right:20px;" type="button" class="btn btn-success" />
+                <!-- <a class="btn btn-secundary" data-dismiss="modal" onClick="limpiarForm(this.form);">Cancelar</a> -->
+            </div>
+            <!-- box-footer -->
+          </div>
+        </div>
+        <div class="col-md-12">
           <div class="box box-solid color-palette-box ">
             <div class="box-header bg-blue" >
               <div>
@@ -187,78 +257,7 @@
             <!-- /.box-body -->
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="box box-solid color-palette-box" id="formularioPago" hidden>
-            <div class="box-header bg-blue" >
-              <div>
-                <h3 class="box-title">Realizar pago</h3>
-              </div>
-              <div class="box-tools pull-right">
-                <button style='color:#fff;' type="button" class="btn btn-box-tool" data-widget="collapse">
-                  <i class="fa fa-minus"></i>
-                </button>                
-              </div>
-            </div>
-            <!-- div-header -->
-            <div class="box-body" align="center" id="formFacturar" >
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="form-label">Fecha pago</label>
-                    <input id="txtFechaCita" name="txtFechaCita" value="<?php echo $fechaHoyDMA ?>"class="form-control date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" disabled>
-                  </div>
-                </div>            
-              </div>
-              <!-- ROW -->
-              <div class="row">
-                <div class="col-sm-8">
-                  <div class="form-group">
-                    <label class="form-label">Comprobante</label>
-                    <select class="form-control input-sm" id="cboComprobante" name="cboComprobante">                      
-                    </select>
-                  </div>
-                </div>                
-              </div>
-              <!-- ROW -->
-              <div class="row">
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <label for="txtNroSerie">Nro. Serie</label>
-                    <input type="text" id="txtNroSerie" name="txtNroSerie" class="form-control input-sm"  value="0001">
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <label for="txtNroComprobante">Nro. Comprobante</label>
-                    <input type="text" id="txtNroComprobante" name="txtNroComprobante" class="form-control input-sm" >
-                  </div>
-                </div>
-              </div>
-              <!-- ROW -->
-              <div class="row">
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <label for="txtPagar">Pagar</label>
-                    <input type="text" id="txtPagar" name="txtPagar" class="form-control input-sm" onkeypress="return soloNumeroDecimal(event);" onKeyUp ="return calcularNuevoSaldo();" maxlength="7">
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <label for="txtNuevoSaldo">Nuevo Saldo</label>
-                    <input type="text" id="txtNuevoSaldo" name="txtNuevoSaldo" class="form-control input-sm" disabled>
-                  </div>
-                </div>
-              </div>          
-              <!-- ROW -->
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer" align="center">
-                <input  onClick="facturar('#formFacturar',<?php echo $DNI; ?>,<?php echo $pedidoID; ?>);" id="btnFacturar" value="Facturar" style="margin-right:20px;" type="button" class="btn btn-success" />
-                <!-- <a class="btn btn-secundary" data-dismiss="modal" onClick="limpiarForm(this.form);">Cancelar</a> -->
-            </div>
-            <!-- box-footer -->
-          </div>
-        </div>
+        
       </div>
       <!-- Facturación y pagos -->
       <div class="box box-solid color-palette-box ">

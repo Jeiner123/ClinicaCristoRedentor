@@ -84,21 +84,6 @@
                   <span>Pendientes de facturar</span>
                 </a>
               </li>
-              <li class="treeview" id="m_deuda_citas">
-                <a href="../facturacion/facturar.php">
-                  <span>Facturar</span>
-                </a>
-              </li>
-              <li class="treeview" id="m_deuda_laboratorio">
-                <a href="../citas/registrar_cita_laboratorio.php">
-                  <span>Laboratorio saparado</span>
-                </a>
-              </li>
-              <li class="treeview" id="m_credito_paciente">
-                <a href="../clinica/servicios.php">
-                  <span>Crédito paciente</span>
-                </a>
-              </li>
             </ul>
           </a>
         </li>
@@ -151,6 +136,34 @@
               <li class="treeview" id="m_asignar_especialidades">
                 <a href="../planilla/asignar_especialidades.php">
                   <span>Asignar especialidades</span>
+                </a>
+              </li>
+            </ul>
+          </a>
+        </li>
+        <li class="treeview" id="menu_ventas">
+          <a href="#">
+            <i class="fa fa-chevron-down"></i>
+            <span>Ventas</span>
+            <ul class="treeview-menu">
+              <li class="treeview" id="m_nuevo_venta">
+                <a href="../ventas/nuevo_venta.php">
+                  <span>Nueva venta</span>
+                </a>
+              </li>
+              <li class="treeview" id="m_listado_ventas">
+                <a href="../ventas/listado_ventas.php">
+                  <span>Listado de  ventas</span>
+                </a>
+              </li>
+              <li class="treeview" id="m_nuevo_cliente">
+                <a href="../ventas/nuevo_cliente.php">
+                  <span>Nuevo Cliente</span>
+                </a>
+              </li>
+              <li class="treeview" id="m_listado_clientes">
+                <a href="../ventas/listado_clientes.php">
+                  <span>Listado de  clientes</span>
                 </a>
               </li>
             </ul>

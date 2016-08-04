@@ -92,7 +92,7 @@
 							<td>
 							<div>
                   <div class='inline pos-rel dropup'>
-                    <button  class='btn btn-secundary dropdown-toggle' data-toggle='dropdown' data-position='auto' aria-expanded='true'>
+                    <button  class='btn btn-secundary btn-flat btn-lista-flotante dropdown-toggle btn-xs'  data-toggle='dropdown' data-position='auto' aria-expanded='true'>
                         <i class='ace-icon fa fa-caret-down icon-only bigger-120'></i>
                     </button>
 
@@ -104,7 +104,7 @@
                           <button type='submit' class='btn btn-block btn-transparente btn-flat btn-xs'>
                           	<span class='text-blue'>
 	                            <i class='ace-icon fa fa-usd bigger-120'></i>
-	                            Facturar
+	                            Facturación
 	                          </span>
 													</button>
 					              </form>
@@ -157,12 +157,12 @@
 					$importeIGV = $precio - $importeSinIGV;
 					$importeTotal = $precio;
 		//---------------------------------
-		$consulta = "insert into pedido_servicio(pacienteID,tipo,via,tasaIGV,importeSinIGV,importeIGV,
+		$consulta = "insert into PEDIDO_SERVICIO(pacienteID,tipo,via,tasaIGV,importeSinIGV,importeIGV,
 									importeTotal,importePagado,estadoPago,timestamp)values
 									('".$pacienteID."','".$tipo."','".$via."','".$tasaIGV."','".$importeSinIGV."','".$importeIGV."',
 										'".$importeTotal."','".$importePagado."','".$estadoPago."','".$timestamp."');";
 		if($medicoRef!=''){
-			$consulta = "insert into pedido_servicio(pacienteID,tipo,via,tasaIGV,importeSinIGV,importeIGV,
+			$consulta = "insert into PEDIDO_SERVICIO(pacienteID,tipo,via,tasaIGV,importeSinIGV,importeIGV,
 									importeTotal,importePagado,estadoPago,timestamp,personalReferenciaID)values
 									('".$pacienteID."','".$tipo."','".$via."','".$tasaIGV."','".$importeSinIGV."','".$importeIGV."',
 										'".$importeTotal."','".$importePagado."','".$estadoPago."','".$timestamp."','".$medicoRef."');";
@@ -222,12 +222,12 @@
 		// echo $importeIGV.'-';
 		// echo $importeTotal;
 
-		$consulta = "insert into pedido_servicio(pacienteID,tipo,via,tasaIGV,importeSinIGV,importeIGV,
+		$consulta = "insert into PEDIDO_SERVICIO(pacienteID,tipo,via,tasaIGV,importeSinIGV,importeIGV,
 									importeTotal,importePagado,estadoPago,timestamp)values
 									('".$pacienteID."','".$tipo."','".$via."','".$tasaIGV."','".$importeSinIGV."','".$importeIGV."',
 										'".$importeTotal."','".$importePagado."','".$estadoPago."','".$timestamp."');";
 		if($medicoRef!=''){
-			$consulta = "insert into pedido_servicio(pacienteID,tipo,via,tasaIGV,importeSinIGV,importeIGV,
+			$consulta = "insert into PEDIDO_SERVICIO(pacienteID,tipo,via,tasaIGV,importeSinIGV,importeIGV,
 									importeTotal,importePagado,estadoPago,timestamp,personalReferenciaID)values
 									('".$pacienteID."','".$tipo."','".$via."','".$tasaIGV."','".$importeSinIGV."','".$importeIGV."',
 										'".$importeTotal."','".$importePagado."','".$estadoPago."','".$timestamp."','".$medicoRef."');";

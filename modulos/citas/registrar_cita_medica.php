@@ -65,7 +65,7 @@
                         <strong>...</strong>
                       </button>
                     </div>
-                    <input onclick="abrirModal('#modalListaPacientes');" id="txtNombresPaciente" name="txtNombresPaciente"class="form-control" placeholder="NOMBRES Y APELLIDOS - PACIENTE" readonly="true">
+                    <input onclick="abrirModal('#modalListaPacientes');" id="txtNombresPaciente" name="txtNombresPaciente"class="form-control" placeholder="NOMBRES Y APELLIDOS - PACIENTE">
                   </div>
                 </div>
                 <div class="col-md-2">
