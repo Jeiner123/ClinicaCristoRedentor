@@ -33,7 +33,7 @@
       </ol>
     </section>
     <!-- Main content -->
-    <section class="content">      
+    <section class="content">
       <div class="box box-solid color-palette-box">
         <div class="box-header bg-blue" >
           <div>

@@ -3,12 +3,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title> Gestión de pagos | CLÍNICA CRISTO REDENTOR</title>
+  <title> Gestión de clientes | CLÍNICA CRISTO REDENTOR</title>
   <?php include '../general/header.php';?>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-  <input type='hidden' value='menu_facturacion' id='menuPrincipal'>
-  <input type='hidden' value='m_listado_facturas' id='menuIzquierda'>
+  <input type='hidden' value='menu_clientes' id='menuPrincipal'>
+  <input type='hidden' value='m_listado_clientes' id='menuIzquierda'>
   <?php include '../general/menu_principal.php';?>
 <div class="wrapper">
   <?php include '../general/izquierda_menu.php';?>
@@ -17,7 +17,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Pagos
+        Pacientes
         <!-- <small>Lista - Registro - Actualización</small> -->
       </h1>
       <ol class="breadcrumb">
@@ -25,10 +25,10 @@
           <a href="../../"><i class="fa fa-dashboard" style="color:#"></i>Inicio</a>
         </li>
         <li>
-          <a href="../facturacion/pendiente_facturar.php">Facturación</a>
+          <a href="listado_clientes.php">Clientes</a>
         </li>
         <li class="active">
-          Listado de pagos
+          Listado de pacientes
         </li>
       </ol>
     </section>
@@ -38,7 +38,7 @@
       <div class="box box-solid color-palette-box">
         <div class="box-header bg-blue" >
           <div>
-            <h3 class="box-title">Listado de pagos</h3>
+            <h3 class="box-title">Listado de pacientes</h3>
           </div>
           <div class="box-tools pull-right">
             <button style='color:#fff;' type="button" class="btn btn-box-tool" data-widget="collapse">
@@ -48,32 +48,29 @@
         </div>        
         <div class="box-body" style='overflow-x:scroll;overflow-y:hidden' align="center">
           <div class="row">
-            <div class="col-md-2">
-              <div class="form-group">
-                <label class="form-label">Fecha</label>
-                <div class="input-group">
-                  <input id="txtFechaCita" name="txtFechaCita" class="form-control date-picker input-sm" placeholder="dd-mm-aaaa" type="text" data-date-format="dd-mm-yyyy" value="<?php echo $fechaHoyDMA?>" onchange="cargarTablaPagos();">
-                  <span class="input-group-addon">
-                    <i class="fa fa-calendar bigger-110"></i>
-                  </span>
-                </div>
-              </div>
+            <div class="col-md-2 col-md-offset-5 col-xs-6 col-xs-offset-3">
+              <a href="nuevo_cliente.php" class="btn btn-block btn-primary btn-sm btn-flat" >
+                Nuevo
+              </a>
             </div>
           </div>
+          <br>
           <div class="row">
             <div class="col-md-12">
-              <table id="tablaPagos" class="table table-bordered table-hover tablaDatos">
+              <table id="tablaClientes" class="table table-bordered table-hover tablaDatos">
                 <thead>
-                  <tr>                    
-                    <th style='text-align:center;'>Fecha</th>
-                    <th>Paciente</th>
-                    <th>Telefono</th>
-                    <th>Comprobante</th>
-                    <th>Número Comprob.</th>                    
-                    <th>Importe</th>
+                  <tr>
+                    <th style='text-align:center;'>Documento</th>
+                    <th style='text-align:center;'>N° documento</th>
+                    <th>Cliente</th>
+                    <th style='text-align:center;'>Contacto</th>
+                    <th>Teléfono</th>
+                    <th>Correo</th>
+                    <th style='text-align:center;'>Estado</th>
+                    <th style='text-align:center;'></th>
                   </tr>
                 </thead>
-                <tbody class="cuerpoTabla" id="cuerpoTablaPagos">
+                <tbody class="cuerpoTabla" id="cuerpoTablaClientes">
                   <!-- Aqui irán los elementos de la tabla -->
                 </tbody>
               </table>
@@ -95,17 +92,13 @@
 </html>
 <script src="js/script.js"></script>
 <script type="text/javascript">
-  cargarTablaPagos();
+  cargarTablaPacientes();
   // cargarCboTipoPersonal();
   // cargarCboAreas();
   // cargarCboCargos();
   // // cargarCboEspecialidades();
   // cargarTablaPersonal();
   // abrirModal("#modalRegPersonal");
-  $('#tablaPagos tbody').on('click','tr',function(){seleccionSimple(this);});  
-  $('.date-picker').datepicker({
-    autoclose: true,
-    language: 'es',
-    todayHighlight: true
-  }); 
+  $('#tablaPacientes tbody').on('click','tr',function(){seleccionSimple(this);});  
+  
 </script>
