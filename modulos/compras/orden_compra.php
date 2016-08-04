@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title> Gestión de órdenes de compra | CLÍNICA CRISTO REDENTOR</title>
+  <title>Gestión de órdenes de compra | CLÍNICA CRISTO REDENTOR</title>
   <?php include '../general/header.php';?>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -90,7 +90,7 @@
               </div>
               <div class="input-group">
                   <div class="input-group-btn">
-                    <button onclick="abrirModal('#modalListaProveedor');" type="button"class="btn btn-secundary" title="Buscar paciente">
+                    <button onclick="abrirModal('#modalListaProveedor');" type="button" class="btn btn-secundary" title="Buscar proveedor">
                       <strong>...</strong>
                     </button>
                   </div>
