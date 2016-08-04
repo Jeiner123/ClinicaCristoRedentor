@@ -89,8 +89,8 @@
 	text-decoration:none}
 	.skin-blue .treeview-menu>li>a{
 	color:#515151}
-	.skin-blue .treeview-menu>li.active>a,.skin-blue .treeview-menu>li>a:hover{
-	color:#000}
+	.skin-blue .treeview-menu>li.active>a,.skin-blue .treeview-menu>li>a:hover
+	{color:#000;text-decoration:underline;}
 	.skin-blue .sidebar-form{
 	border-radius:3px;border:1px solid #374850;margin:10px 10px}
 	.skin-blue .sidebar-form input[type="text"],.skin-blue .sidebar-form .btn{

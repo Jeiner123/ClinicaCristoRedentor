@@ -149,79 +149,74 @@
           </li>
 
 		<li class="treeview" id="menu_ventas">
-		  <a href="#">
-			<i class="fa fa-chevron-down"></i>
-			<span>Ventas</span>
-			<ul class="treeview-menu">
-			  <li class="treeview" id="m_nuevo_venta">
-				<a href="../ventas/nuevo_venta.php">
-				  <span>Nueva venta</span>
-				</a>
-			  </li>
-			  <li class="treeview" id="m_listado_ventas">
-				<a href="../ventas/listado_ventas.php">
-				  <span>Listado de  ventas</span>
-				</a>
-			  </li>
-			  <li class="treeview" id="m_nuevo_cliente">
-				<a href="../ventas/nuevo_cliente.php">
-				  <span>Nuevo Cliente</span>
-				</a>
-			  </li>
-			  <li class="treeview" id="m_listado_clientes">
-				<a href="../ventas/listado_clientes.php">
-				  <span>Listado de  clientes</span>
-				</a>
-			  </li>
-			</ul>
-		  </a>
+			<a href="#">
+				<i class="fa fa-chevron-down"></i>
+				<span>Ventas</span>
+				<ul class="treeview-menu">
+					<li class="treeview" id="m_nuevo_venta">
+						<a href="../ventas/nuevo_venta.php">
+							<span>Nueva venta</span>
+						</a>
+					</li>
+					<li class="treeview" id="m_listado_ventas">
+						<a href="../ventas/listado_ventas.php">
+							<span>Listado de  ventas</span>
+						</a>
+					</li>
+					<li class="treeview" id="m_nuevo_cliente">
+						<a href="../ventas/nuevo_cliente.php">
+							<span>Nuevo Cliente</span>
+						</a>
+					</li>
+					<li class="treeview" id="m_listado_clientes">
+						<a href="../ventas/listado_clientes.php">
+							<span>Listado de  clientes</span>
+						</a>
+					</li>
+				</ul>
+			</a>
 		</li>
 		<li class="treeview" id="menu_compras">
-		  <a href="#">
-			<i class="fa fa-chevron-down"></i>
-			<span>Compras</span>
-			<ul class="treeview-menu">
-			  <li class="treeview" id="m_para_proveedores">
-				<a href="../compras/listado_proveedores.php">
-				  <span>Proveedores</span>
-				</a>
-			  </li>
-			</ul>
-			<ul class="treeview-menu">
-			  <li class="treeview" id="orden_compra">
-				<a href="../compras/orden_compra.php">
-				  <span>Orden de compra</span>
-				</a>
-			  </li>
-			</ul>
-			<ul class="treeview-menu">
-			  <li class="treeview" id="compras">
-				<a href="../compras/compras.php">
-				  <span>Nota de ingreso</span>
-				</a>
-			  </li>
-			</ul>
-		  </a>
+			<a href="#">
+				<i class="fa fa-chevron-down"></i>
+				<span>Compras</span>
+				<ul class="treeview-menu">
+					<li class="treeview" id="m_para_proveedores">
+						<a href="../compras/listado_proveedores.php">
+							<span>Proveedores</span>
+						</a>
+					</li>
+					<li class="treeview" id="orden_compra">
+						<a href="../compras/orden_compra.php">
+							<span>Orden de compra</span>
+						</a>
+					</li>
+					<li class="treeview" id="compras">
+						<a href="../compras/compras.php">
+							<span>Nota de ingreso</span>
+						</a>
+					</li>
+				</ul>
+			</a>
 		</li>
 		<li class="treeview" id="menu_parametros">
-		  <a href="#">
-			<i class="fa fa-chevron-down"></i>
-			<span>Parámetros</span>
-			<ul class="treeview-menu">
-			  <li class="treeview" id="m_para_tipo_servicio">
-				<a href="../parametros/tipo_servicio.php">
-				  <span>Tipo de servicio</span>
-				</a>
-			  </li>
-			  <li class="treeview" id="m_para_tipo_personal">
-				<a href="../parametros/tipo_personal.php">
-				  <span>Tipo de personal</span>
-				</a>
-			  </li>
-			</ul>
-		  </a>
+			<a href="#">
+				<i class="fa fa-chevron-down"></i>
+				<span>Parámetros</span>
+				<ul class="treeview-menu">
+					<li class="treeview" id="m_para_tipo_servicio">
+						<a href="../parametros/tipo_servicio.php">
+							<span>Tipo de servicio</span>
+						</a>
+					</li>
+					<li class="treeview" id="m_para_tipo_personal">
+						<a href="../parametros/tipo_personal.php">
+							<span>Tipo de personal</span>
+						</a>
+					</li>
+				</ul>
+			</a>
 		</li>
-
 
 		<?php include 'izquierda_redes.php' ?>
 	  </ul>
