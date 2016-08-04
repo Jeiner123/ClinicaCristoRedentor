@@ -25,7 +25,7 @@ create table TIPO_TRANSACCION(
 	tipo char(01) not null,
 	estado char(01) not null,
 	primary key(codigo)
-)
+);
 
 CREATE TABLE PRODUCTO(
 	codigo int not null,
@@ -33,7 +33,7 @@ CREATE TABLE PRODUCTO(
 	estado char(01) not null,
 	fecha date not null,
 	primary key(codigo)
-)
+);
 
 insert into TIPO_TRANSACCION values
 	('C001','COMPRA DE MERCADERÍAS(PRODUCTOS)','C','A'),
