@@ -181,23 +181,13 @@
 		exit();
 	}
 
-	//SELECCIONAR LOS TIPOS DE COMPRA
+	//SELECCIONAR LOS TIPOS DE EXISTENCIA
 	if($opc=='CC_07'){
-		$consulta = "SELECT codigo,descripcion from TIPO_TRANSACCION where tipo='C'";
+		$consulta = "SELECT codigo,descripcion from TIPO_EXISTENCIA where estado='A'";
 		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
 		while($row = mysqli_fetch_row($res)){	
 			
-			echo "<tr>
-					<td >".$row[0]."</td>
-					<td>".$row[1]."</td>
-					<td style='text-align:center;'>
-						<div class='action-buttons'>
-							<a href='javascrip:;' class='text-blue' onclick='seleccionarTCompra(\"".$row[0]."\",\"".$row[0]." - ".$row[1]."\");' style='margin-right:7px;'>
-				              <u>Seleccionar</u>
-				          </a>	            
-			          </div>
-					</td>
-				</tr>";
+			echo "<option value='".$row[0]."'>".$row[0]."-".$row[1]."</option>";
 		}
 		exit();
 	}

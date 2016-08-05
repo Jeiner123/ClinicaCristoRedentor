@@ -22,29 +22,24 @@ create table PROVEEDOR(
 	foreign key(tipoTelefono) references tipo_telefono(tipoTelefonoID)
 );
 
-create table TIPO_TRANSACCION(
-	codigo char(04) not null,
+create table TIPO_EXISTENCIA(
+	codigo char(02) not null,
 	descripcion varchar(150) not null,
-	tipo char(01) not null,
 	estado char(01) not null,
 	primary key(codigo)
 );
 
-CREATE TABLE PRODUCTO(
-	codigo int not null,
-	descripcion varchar(150) not null,
-	estado char(01) not null,
-	fecha date not null,
-	primary key(codigo)
-);
 
-insert into TIPO_TRANSACCION values
-	('C001','COMPRA DE MERCADERÍAS(PRODUCTOS)','C','A'),
-	('C002','IMPORTACIÓN DE MERCADERÍAS(PRODUCTOS)','C','A'),
-	('C003','COMPRA DE MATERIA PRIMA','C','A'),
-	('C004','IMPORTACIÓN DE MATERIA PRIMA','C','A'),
-	('C005','COMPRA DE MATERIALES AUXILIARES','C','A'),
-	('C006','COMPRA DE SUMINISTROS','C','A'),
-	('C007','COMPRA DE ENVASES','C','A'),
-	('C008','COMPRA DE EMBALAJES','C','A');
+insert into TIPO_EXISTENCIA values
+	('01','MERCADERÍAS','A'),
+	('02','PRODUCTOS TERMINADOS','A'),
+	('03','MATERIAS PRIMAS','A'),
+	('04','ENVASES','A'),
+	('05','MATERIALES AUXILIARES','A'),
+	('06','SUMINISTROS','A'),
+	('07','REPUESTOS','A'),
+	('08','EMBALAJES','A'),
+	('09','SUBPRODUCTOS','A'),
+	('10','DESECHOS Y DESPERDICIOS','A'),
+	('99','OTROS','A');
 	
