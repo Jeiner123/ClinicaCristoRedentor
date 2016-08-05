@@ -179,13 +179,18 @@
 		<li class="treeview" id="menu_compras">
 			<a href="#">
 				<i class="fa fa-chevron-down"></i>
-				<span>Compras</span>
+				<span>Gestión de compras</span>
 				<ul class="treeview-menu">
 					<li class="treeview" id="m_para_proveedores">
 						<a href="../compras/listado_proveedores.php">
-							<span>Proveedores</span>
+							<span>Listado de proveedores</span>
 						</a>
 					</li>
+          <li class="treeview" id="m_nuevo_proveedor">
+            <a href="../compras/nuevo_proveedor.php">
+              <span>Nuevo proveedor</span>
+            </a>
+          </li>
 					<li class="treeview" id="orden_compra">
 						<a href="../compras/orden_compra.php">
 							<span>Orden de compra</span>
