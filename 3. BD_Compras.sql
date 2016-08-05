@@ -6,7 +6,7 @@ create table PROVEEDOR(
 	razonSocial varchar(100) null,
 	emailEmpresa varchar(50) null,
 	direccion varchar(100) null,
-	condPago int null,
+	condPago char(03) null,
 	banco int null,
 	cuentaBanco varchar(100) null,
 	cuentaDetraccion varchar(100) null,
@@ -29,6 +29,13 @@ create table TIPO_EXISTENCIA(
 	primary key(codigo)
 );
 
+create table TIPO_DOCUMENTO(
+	tipoDocumentoID int not null,
+	tipoDocumento varchar(150) not null,
+	estado char(01) not null,
+	primary key(tipoDocumentoID)
+);
+
 
 insert into TIPO_EXISTENCIA values
 	('01','MERCADERÍAS','A'),
@@ -42,4 +49,11 @@ insert into TIPO_EXISTENCIA values
 	('09','SUBPRODUCTOS','A'),
 	('10','DESECHOS Y DESPERDICIOS','A'),
 	('99','OTROS','A');
+	
+insert into TIPO_DOCUMENTO values
+	('0','OTROS TIPOS DE DOCUMENTOS','A'),
+	('1','DOCUMENTO NACIONAL DE IDENTIDAD (DNI)','A'),
+	('4','CARNET DE EXTRANJERIA','A'),
+	('6','REGISTRO ÚNICO DE CONTRIBUYENTES(RUC)','A'),
+	('7','PASAPORTE','A');
 	

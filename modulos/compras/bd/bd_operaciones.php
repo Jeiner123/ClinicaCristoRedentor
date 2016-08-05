@@ -224,6 +224,17 @@
 		}
 		exit();
 	}
+
+	//CARGAR COMBO CONDICIÓN DE PAGO
+	if($opc=='CC_10'){
+		$consulta = "SELECT formaPagoID,formaPago FROM forma_pago where estado='1'";
+		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
+		echo "<option value='0'>--Seleccionar--</option>";
+		while($row = mysqli_fetch_row($res)){	
+			echo "<option value='".$row[0]."'>".$row[0]."-".$row[1]."</option>";
+		}
+		exit();
+	}
 ?>
 
 

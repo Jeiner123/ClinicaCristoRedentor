@@ -1,5 +1,8 @@
 <?php include '../general/validar_sesion.php';?>
 <?php include '../general/variables.php';?>
+<?php 
+  $opcion='N';
+ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -50,7 +53,7 @@
         </div>        
         <div class="box-body" style='overflow-x:scroll;overflow-y:hidden' align="center">
           <!--registro de orden de compra-->
-          <form>
+          <form id="formFactura" name="formFactura">
             <div id="RegOCompra">
             <!-- COL-MD-6 -->
                 <div class="col-md-12">
@@ -59,15 +62,11 @@
                   </div>
                   <hr>
                 </div>
-              
+                <input id="txtFlag" name="txtFlag" class="form-control" type="hidden" value="<?php echo $opcion; ?>">
                 <div class="row" style="margin-left:5px;">
                   <div class="col-md-2">
                     <label class="control-label">Periódo</label>
                     <input type="text" id="txtPeriodo" name="txtPeriodo"class="form-control input-sm" readonly="" value="">
-                  </div>
-                  <div class="col-md-2">
-                    <label class="control-label">Serie</label>
-                    <input type="text" id="txtSerie" name="txtSerie"class="form-control input-sm">
                   </div>
                   <div class="col-md-2">
                     <label class="control-label">Número</label>
@@ -76,7 +75,7 @@
                   <div class="col-md-3">
                     <label class="control-label">Fecha</label>
                     <div class="input-group">
-                      <input id="txtFechaCita" name="txtFechaCita"class="form-control date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" onchange="validarFechaMayor(this);" value="<?php echo $fechaHoyDMA;?>">
+                      <input id="txtFechaCita" name="txtFechaCita"class="form-control date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" onchange="validarFechaMayor(this);" value="<?php echo $fechaHoyDMA;?>" readonly>
                       <span class="input-group-addon">
                         <i class="fa fa-calendar bigger-110"></i>
                       </span>
@@ -322,27 +321,20 @@
                   </div>
                    <div class="col-md-9">
                     <select class="form-control input-sm" name="cboMes" id="cboMes">
-                      <option value="0">--Seleccionar--</option>
-                      <option value="01">Enero</option>
-                      <option value="02">Febrero</option>
-                      <option value="03">Marzo</option>
-                      <option value="04">Abril</option>
-                      <option value="05">Mayo</option>
-                      <option value="06">Junio</option>
-                      <option value="07">Julio</option>
-                      <option value="8">Agosto</option>
-                      <option value="09">Setiembre</option>
-                      <option value="10">Octubre</option>
-                      <option value="11">Noviembre</option>
-                      <option value="12">Diciembre</option>
+                      <?php
+                        foreach ($meses as $mes => $value) {
+                          echo '<option value="'.$mes.'">'.$meses[$mes].'</option>';
+                        }
+                      ?>
                     </select>
+                    <label class="control-label" style="color:red;font-size: 10px;" id="lbError"></label>
                   </div>
                 </div>
               </div>
               <!-- /.modal-footer -->
               <div class="modal-footer">                  
                 <div class="row" align="center">
-                  <input  onClick="generarPeriodo(this.form);" value="Aceptar" style="margin-right:20px;" type="button" class="btn btn-secundary btn-flat" id="btnGuardar"/>                  
+                  <input  onClick="generarPeriodo('<?php echo date('m');?>','<?php echo date('Y');?>');" value="Aceptar" style="margin-right:20px;" type="button" class="btn btn-secundary btn-flat" id="btnGuardar"/>                  
                 </div>
               </div>
               <!-- /.modal-footer -->
@@ -359,12 +351,7 @@
 </body>
 </html>
 <script src="js/script.js"></script>
-<script type="text/javascript">
-  // cargarListaProveedor();
-  // cargarListaProductos();
-  // cargarCboAreas();
-  // cargarCboExistencias();
-  
+<script type="text/javascript">  
   SeleccionarPeriodo('<?php echo date('m');?>');
   $('#tablaOCompra tbody').on('click','tr',function(){seleccionSimple(this);});  
    $('.date-picker').datepicker({

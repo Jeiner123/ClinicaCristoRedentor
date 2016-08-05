@@ -100,13 +100,6 @@
                     <div class="col-md-3">
                     <label class="control-label">Cond. de Pago</label>
                     <select class="form-control input-sm" id="cboModalidadPago" name="cboModalidadPago">
-                      <option value="0">-- Seleccionar --</option>
-                      <option value="1">Contado</option>
-                      <option value="2">Crédito 07 días</option>
-                      <option value="3">Crédito 15 días</option>
-                      <option value="4">Crédito 30 días</option>
-                      <option value="5">Crédito 60 días</option>
-                      <option value="6">50% contado y 50% contraentrega</option>
                     </select> 
                   </div>
                    <div class="col-md-3">

@@ -792,7 +792,12 @@ insert into cargo(cargoID,areaID,cargo,estado) values
 
 insert into forma_pago(formaPagoID,formaPago,numeroCuotas,estado) values
 		("CON","CONTADO",1,1),
-		("CRE","CREDITO",2,1);
+		("CRE","CREDITO",2,1),
+		("CR1","CREDITO 7 DIAS",1,1),
+		("CR2","CREDITO 15 DIAS",1,1),
+		("CR3","CREDITO 30 DIAS",1,1),
+		("CR4","CREDITO 60 DIAS",1,1),
+		("CR5","50% CONTADO Y 50% CONTRAENTREGA",1,1);
 insert into procedencia(procedencia,estado) values
 	('B - LAREDO' ,1),
 	('B - EL PORVENIR' ,1),
