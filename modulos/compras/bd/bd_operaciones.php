@@ -161,7 +161,7 @@
 
 	//SELECTOR PROVEEDOR
 	if($opc=='CC_06'){
-		$consulta = "SELECT proveedorID,IF(tipoEntidad=1,concat(nombres,' ',apellidoPat,' ',apellidoMat),razonSocial),telefono FROM `proveedor` where estado='A'";
+		$consulta = "SELECT proveedorID,IF(razonSocial='',UPPER(concat(nombres,' ',apellidoPat,' ',apellidoMat)),UPPER(razonSocial)),telefono FROM `proveedor` where estado='A'";
 		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
 		while($row = mysqli_fetch_row($res)){	
 			

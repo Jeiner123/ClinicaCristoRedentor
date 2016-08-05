@@ -7,7 +7,7 @@
   <?php include '../general/header.php';?>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-  <input type='hidden' value='m_para_proveedores' id='menuPrincipal'>
+  <input type='hidden' value='menu_compras' id='menuPrincipal'>
   <input type='hidden' value='orden_compra' id='menuIzquierda'>
   <?php include '../general/menu_principal.php';?>
 
@@ -40,7 +40,7 @@
       <div class="box box-solid color-palette-box">
         <div class="box-header bg-blue" >
           <div>
-            <h3 class="box-title" id="subtitulo">Listado de órdenes de compra</h3>
+            <h3 class="box-title" id="subtitulo">Registro de orden de compra</h3>
           </div>
           <div class="box-tools pull-right">
             <button style='color:#fff;' type="button" class="btn btn-box-tool" data-widget="collapse">
@@ -51,197 +51,232 @@
         <div class="box-body" style='overflow-x:scroll;overflow-y:hidden' align="center">
           <!--registro de orden de compra-->
           <form>
-          <div id="RegOCompra" hidden>
-          <!-- COL-MD-6 -->
-              <div class="col-md-12">
-                <div class="box-header"  style="margin: -30px 0px -15px -10px">
-                    <br><h1 class="box-title">DATOS GENERALES</h1>
-                </div>
-                <hr>
-              </div>
-            <div class="col-md-3">
-              <div class="row">
-                <div class="col-md-3">
-                    <label for="txtNumero">Número</label>
-                </div>
-                <div class="col-md-9">
-                  <div class="form-group">
-                    <input id="txtNumero" name="txtNumero"class="form-control input-sm" readonly="">
+            <div id="RegOCompra">
+            <!-- COL-MD-6 -->
+                <div class="col-md-12">
+                  <div class="box-header"  style="margin: -30px 0px -15px -10px">
+                      <br><h1 class="box-title">DATOS GENERALES</h1>
                   </div>
+                  <hr>
                 </div>
-                <div class="col-md-3">
-                    <label for="txtFecha">Fecha</label>
-                </div>
-                <div class="col-md-9">
-                  <div class="input-group">
-                    <input id="txtFechaCita" name="txtFechaCita"class="form-control date-picker input-sm" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" onchange="validarFechaMayor(this);" value="<?php echo $fechaHoyDMA;?>" readonly>
-                    <span class="input-group-addon">
-                      <i class="fa fa-calendar bigger-110"></i>
-                    </span>
-                  </div>
-                </div>
-
-              </div>
               
-            </div>
-            <div class="col-md-9">
-              <div class="col-md-2">
-                  <label for="txtProveedor">Proveedor</label>
-              </div>
-              <div class="input-group">
-                  <div class="input-group-btn">
-                    <button onclick="abrirModal('#modalListaProveedor');" type="button" class="btn btn-secundary" title="Buscar proveedor">
-                      <strong>...</strong>
-                    </button>
+                <div class="row" style="margin-left:5px;">
+                  <div class="col-md-2">
+                    <label class="control-label">Periódo</label>
+                    <input type="text" id="txtPeriodo" name="txtPeriodo"class="form-control input-sm" readonly="" value="">
                   </div>
-                  <input onclick="abrirModal('#modalListaProveedor');" id="txtDocumento" name="txtDocumento"class="form-control" readonly="true" type="hidden">
-                  <input onclick="abrirModal('#modalListaProveedor');" id="txtProveedor" name="txtProveedor"class="form-control" placeholder="RAZÓN SOCIAL/CONTACTO - PROVEEDOR" readonly="true">
-              </div>
-              <br>
-              <div class="col-md-2">
-                  <label for="txtProveedor">Moneda</label>
-              </div>
-              <div class="col-md-3">
-                <select class="form-control input-sm">
-                  <option value="1">SOLES</option>
-                  <option value="1">DOLARES AMERICANOS</option>
-                </select>
-              </div>
-              <div class="col-md-2">
-                <input id="chkContado" type="checkbox" checked>Contado
-              </div>
-              <div class="col-md-5">
-                  <input id="txtPlazo" type="text" class="form-control input-sm" placeholder="CONDICIÓN DE PAGO" readonly>
-                </div>
-            </div>
+                  <div class="col-md-2">
+                    <label class="control-label">Serie</label>
+                    <input type="text" id="txtSerie" name="txtSerie"class="form-control input-sm">
+                  </div>
+                  <div class="col-md-2">
+                    <label class="control-label">Número</label>
+                    <input type="text" id="txtNumero" name="txtNumero"class="form-control input-sm" readonly="">
+                  </div>
+                  <div class="col-md-3">
+                    <label class="control-label">Fecha</label>
+                    <div class="input-group">
+                      <input id="txtFechaCita" name="txtFechaCita"class="form-control date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" onchange="validarFechaMayor(this);" value="<?php echo $fechaHoyDMA;?>">
+                      <span class="input-group-addon">
+                        <i class="fa fa-calendar bigger-110"></i>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <label for="txtPuntoEmision">Pto. Emisión</label>
+                    <div class="input-group">
+                      <div class="input-group-btn">
+                        <button onclick="abrirModal('#modalListaProveedor');" type="button"class="btn btn-secundary" title="Buscar área">
+                          <strong>...</strong>
+                        </button>
+                      </div>
+                      <input onclick="abrirModal('#modalListaProveedor');" id="txtCodPEmision" name="txtCodPEmision"class="form-control" readonly="true" type="hidden">
+                      <input onclick="abrirModal('#modalListaProveedor');" id="txtPtoEmision" name="txtPtoEmision"class="form-control" placeholder="ÁREA" readonly="true">
+                    </div>
+                  </div>
+                </div><br>
 
-            <div class="col-md-3">
-              <div class="row">
-                <div class="col-md-3">
-                    <label for="txtFecha">Fecha de entrega</label>
-                </div>
                 <div class="col-md-9">
-                  <div class="input-group">
-                    <input id="txtFechaCita" name="txtFechaCita"class="form-control date-picker input-sm" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" onchange="validarFechaMayor(this);" value="<?php echo $fechaHoyDMA;?>" readonly>
-                    <span class="input-group-addon">
-                      <i class="fa fa-calendar bigger-110"></i>
-                    </span>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="box-header"  style="margin: -30px 0px -15px -10px">
+                          <br><h1 class="box-title">DATOS DEL PROVEEDOR</h1>
+                      </div>
+                      <hr>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-8">
+                      <label for="txtProveedor">Proveedor</label>
+                      <div class="input-group">
+                        <div class="input-group-btn">
+                          <button onclick="abrirModal('#modalListaProveedor');" type="button"class="btn btn-secundary" title="Buscar paciente">
+                            <strong>...</strong>
+                          </button>
+                        </div>
+                        <input onclick="abrirModal('#modalListaProveedor');" id="txtDocumento" name="txtDocumento"class="form-control" readonly="true" type="hidden">
+                        <input onclick="abrirModal('#modalListaProveedor');" id="txtProveedor" name="txtProveedor"class="form-control" placeholder="PROVEEDOR" readonly="true">
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <label for="cboTipoCompra">Tipo</label>
+                      <select class="form-control input-sm" name="cboTipoCompra" id="cboTipoCompra">
+                        <option value="0">--Seleccionar--</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-8">
+                      <label for="txtProveedor">Condición de pago</label>
+                      <div class="input-group">
+                        <div class="input-group-btn">
+                          <button onclick="abrirModal('#modalListaProveedor');" type="button"class="btn btn-secundary" title="Buscar paciente">
+                            <strong>...</strong>
+                          </button>
+                        </div>
+                        <input onclick="abrirModal('#modalListaProveedor');" id="txtDocumento" name="txtDocumento"class="form-control" readonly="true" type="hidden">
+                        <input onclick="abrirModal('#modalListaProveedor');" id="txtCondPago" name="txtCondPago"class="form-control" placeholder="Cod-Modalidad de pago" readonly="true">
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <label for="cboTipoCompra">Moneda</label>
+                      <select class="form-control input-sm">
+                        <option value="1">SOLES</option>
+                        <option value="2">DOLARES AMERICANOS</option>
+                      </select>
+                    </div>
+                    <div class="col-md-12">
+                      <label class="control-label">Observaciones</label>
+                      <textarea class="form-control" id="txtObservaciones" name="txtObservaciones"></textarea>
+                    </div>
                   </div>
                 </div>
-              </div>
-            
-            </div>
-          
-            <div class="col-md-12">
-              <div class="box-header"  style="margin: 0px 0px -15px -10px">
-                  <br><h1 class="box-title">PRODUCTOS</h1>
-              </div>
-            <hr>
-            </div>
-
-              <div class="row">
-                <div class="col-md-10">
-                  <table id="tablaProducto" class="table table-bordered table-hover">
-                    <thead>
-                      <tr>
-                        <th>Códigoo</th>
-                        <th>Descripción</th>
-                        <th>Cant.</th>
-                        <th style="text-align:right;">Precio</th>
-                        <th style="text-align:right;">Descuento</th>
-                        <th style="text-align:right;">Total</th>
-                      </tr>
-                    </thead>
-                    <tbody class="cuerpoTabla" id="cuerpoTablapRODUCTO">
-                       <tr><td colspan="6" style="text-align: center">No hay productos agregados</td></tr>
-                    </tbody>
-                  </table>
+                <div class="col-md-3">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="box-header"  style="margin: -30px 0px -15px -10px">
+                          <br><h1 class="box-title">TRIBUTOS</h1>
+                      </div>
+                      <hr>
+                    </div>
+                    <div class="col-md-12">
+                      <label for="cboIGV">I.G.V</label>
+                      <select class="form-control input-sm" name="cboIGV" id="cboIGV">
+                        <option value="0">--Seleccionar--</option>
+                      </select>
+                    </div>
+                    <div class="col-md-12">
+                      <label for="cboPercepcion">Percepción</label>
+                      <select class="form-control input-sm" name="cboPercepcion" id="cboPercepcion">
+                        <option value="0">--Seleccionar--</option>
+                      </select>
+                    </div>
+                  </div>
+                </div><br>
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="box-header"  style="margin: -10px 0px -15px -10px">
+                          <br><h1 class="box-title">PRODUCTOS</h1>
+                      </div>
+                      <hr>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="col-md-2 col-md-offset-2">
+                        <label for="txtAfecto">Afecto</label>
+                        <input class="form-control input-sm" name="txtAfecto" id="txtAfecto"></input>
+                      </div>
+                      <div class="col-md-2">
+                         <label for="txtInafecto">Inafecto</label>
+                        <input class="form-control input-sm" name="txtInafecto" id="txtInafecto"></input>
+                      </div>
+                      <div class="col-md-2">
+                        <label for="txtIGV">I.G.V</label>
+                        <input class="form-control input-sm" name="txtIGV" id="txtIGV"></input>
+                      </div>
+                      <div class="col-md-2">
+                        <label for="txtPercepcion">Percepción</label>
+                        <input class="form-control input-sm" name="txtPercepcion" id="txtPercepcion"></input>
+                      </div>
+                      <div class="col-md-2">
+                        <label for="txtTotal">Total</label>
+                        <input class="form-control input-sm" name="txtTotal" id="txtTotal"></input>
+                      </div>
+                    </div>
+                    <div class="col-md-12"><br>
+                      <table id="tablaProducto" class="tablaProducto">
+                        <thead>
+                          <tr>
+                            <th width="10%" style='text-align:center;'>&nbsp;Item</th>
+                            <th width="15%" style='text-align:center;'>&nbsp;Codigo</th>
+                            <th>&nbsp;Descripción</th>
+                            <th width="10%" style='text-align:center;'>U.M</th>
+                            <th width="15%" style='text-align:center;'>Cantidad</th>
+                            <th width="15%" style='text-align:center;'>Costo Unit.</th>
+                            <th width="15%" style='text-align:center;'>Descuento</th>
+                            <th width="15%" style='text-align:center;'>Importe</th>
+                          </tr>
+                        </thead>
+                        <tbody class="cuerpoTabla" id="cuerpoTablaProducto">
+                          <tr>
+                            <td><input class="form-control input-sm" style='text-align:right;'></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                          </tr>
+                          <tr>
+                            <td><input class="form-control input-sm" style='text-align:right;'></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                          </tr>
+                          <tr>
+                            <td><input class="form-control input-sm" style='text-align:right;'></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                          </tr>
+                          <tr>
+                            <td><input class="form-control input-sm" style='text-align:right;'></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                          </tr>
+                          <tr>
+                            <td><input class="form-control input-sm" style='text-align:right;'></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                            <td><input class="form-control input-sm"></input></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  </div>
                 </div>
-                <div class="col-md-1 col-md-offset-1">
-                  <a href="#" class="btn btn-block btn-success btn-sm btn-flat" onclick="abrirModal('#modalListaProducto');">
-                    <i class='fa fa-plus' title='Agregar'></i>
-                  </a>
-                   <a href="#" class="btn btn-block btn-danger btn-sm btn-flat" onclick=";">
-                    <i class='fa fa-remove' title='Agregar'></i>
-                  </a>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-1">
-                  <label for="txtSTotal">Subtotal</label>
-                </div>
-                <div class="col-md-2">
-                  <input class="form-control" readonly="" placeholder="0.0" style="text-align: right;"  onkeypress="return soloNumeroDecimal(event);"></input>
-                </div>
-                <div class="col-md-1">
-                  <label for="txtSTotal">Descuento</label>
-                </div>
-                <div class="col-md-2">
-                  <input class="form-control" style="text-align: right;" placeholder="%" onkeypress="return soloNumeroDecimal(event);"></input>
-                </div>
-                <div class="col-md-1">
-                  <label for="txtSTotal" >Base gravable</label>
-                </div>
-                <div class="col-md-2">
-                  <input class="form-control" style="text-align: right;"  onkeypress="return soloNumeroDecimal(event);"></input>
-                </div>
-                <div class="col-md-1">
-                  <label for="txtSTotal">Impuesto</label>
-                </div>
-                <div class="col-md-2">
-                  <input class="form-control" style="text-align: right;"  onkeypress="return soloNumeroDecimal(event);"></input>
-                </div>
-                <div class="col-md-1 col-md-offset-9">
-                  <label for="txtSTotal">Total</label>
-                </div>
-                <div class="col-md-2">
-                  <input class="form-control" style="text-align: right;"  onkeypress="return soloNumeroDecimal(event);" readonly=""></input>
-                </div>
-              </div>
-
-               <div class="box-footer" align="ceter">
-                <div class="form-group" align="center">
-                  <input  onClick="guardarPaciente(this.form);" id="btnGuardar" value="Guardar" style="margin-right:20px;" type="button" class="btn btn-success btn-flat" />
-                  <a class="btn btn-primary btn-flat" data-dismiss="modal" onClick="mostrarListaOrden();">Salir</a>
-                </div>
-              </div>
-
-
             </div>
           </form>
-          <br><br>
-          <!--registro de orden de compra-->
-          <div id="listaOrden">
-          <div class="row">
-            <div class="col-md-2 col-xs-6 col-md-offset-5">
-              <a href="#" class="btn btn-block btn-primary btn-sm btn-flat" id="btnNCompra" onclick="crearOrden();">
-                Nueva orden
-              </a>
-            </div>
-          </div>
-          <br>
-        
-          <div class="row">
-            <div class="col-md-12">
-              <table id="tablaOCompra" class="table table-bordered table-hover tablaDatos">
-                <thead>
-                  <tr>
-                    <th>Número</th>
-                    <th>Fecha de creación</th>
-                    <th>Proveedor</th>
-                    <th>Fecha de entrega</th>
-                    <th style="text-align:center">Total</th>
-                    <th style="text-align:center">Estado</th>
-                    <th style="text-align:center">Opciones</th>
-                  </tr>
-                </thead>
-                <tbody class="cuerpoTabla" id="cuerpoTablaOCompra">
-                 
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+          
         </div>
         <!-- /.box-body -->
       </div>
