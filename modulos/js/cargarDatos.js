@@ -143,6 +143,25 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			}
 		});
 	}
+
+	function cargarCboExistencias(){
+	abrirCargando();
+	var opc = 'CC_07';
+	$.ajax({
+			type: 'POST',
+			data:'opc='+opc,
+			url: 'bd/bd_operaciones.php',
+			success: function(rpta){				
+				$('#cboTipoExistencia').html(rpta);
+				cerrarCargando();
+				return true;		
+			},
+			error: function(rpta){
+				alert(rpta);
+				cerrarCargando();
+			}
+		});
+}
 // --- CARGAR TABLAS --
 
 	function cargarListaPersonalSalud(){		

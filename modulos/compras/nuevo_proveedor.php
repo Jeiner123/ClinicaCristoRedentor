@@ -209,6 +209,5 @@
 </html>
 <script src="js/script.js"></script>
 <script type="text/javascript">
-  opcionProveedor(<?php echo $proveedorID ?>);
-  cargarCboTipoTelefono();
+  datosProveedor(<?php echo $proveedorID ?>);
 </script>

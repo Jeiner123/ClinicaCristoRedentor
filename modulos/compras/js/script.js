@@ -134,36 +134,7 @@ function cargarTablaOCompra(){
 				}
 			);
 }
-function crearProveedor(){
-	$("#txtFlag").val("N");
-	$("#btnGuardar").removeClass("hidden");
-	abrirModal('#modalRegProveedor');
-	$('#cboDocumento').prop("disabled", false);
-	$("#txtDocumento").prop("readonly", false);
-	$("#titulo").text("Registrar nuevo proveedor");
-}
 
-function opcionProveedor(documento){
-	opcion=$("#txtFlag").val();
-	if(opcion=='V'){
-		verProveedor(documento);
-	}
-	if(opcion=='M'){
-		modificarProveedor(documento);
-	}
-}
-
-function verProveedor(documento){
-	 datosProveedor(documento);
-	 $("#btnGuardar").addClass("hidden");
-	 bloqueoTotalForm('#formProveedor',true);
-}
-
-function modificarProveedor(documento){
-	datosProveedor(documento);
-	$("#btnGuardar").removeClass("hidden");
-	bloqueoTotalForm('#formProveedor',false);
-}
 
 function eliminarProveedor(documento){
 	r = confirm("Seguro que desea eliminar al proveedor");
@@ -186,6 +157,9 @@ function eliminarProveedor(documento){
 }
 
 function datosProveedor(documento){
+	if($("#txtFlag").val()=='N'){
+		return;
+	}
 	abrirCargando();
 	var opc = 'CC_03';
 	$.ajax({
@@ -194,14 +168,12 @@ function datosProveedor(documento){
 		url: url,
 		success: function(data){
 			var datos= JSON.parse(data);
-			cargarCboTipoTelefono();
-			abrirModal('#modalRegProveedor');
 			$('#cboDocumento').prop("disabled", true);
 			$("#txtDocumento").prop("readonly", true);
 			for(var i in datos){
                 	$("#cboDocumento").val(datos[i].tipoDocumento);
                 	$("#cboModalidadPago").val(datos[i].condPago);
-                	$("#cboTipoTelefono1").val(datos[i].tipoTelefono);
+                	operador=datos[i].tipoTelefono;
                 	$("#txtDocumento").val(datos[i].proveedorID);
                 	$("#txtRazonSocial").val(datos[i].razonSocial);
                 	$("#txtDireccion").val(datos[i].direccion);
@@ -217,8 +189,26 @@ function datosProveedor(documento){
                 	$("#txtObservaciones").val(datos[i].observaciones);
               
                 }
-			$("#titulo").text("Editar proveedor");
-			$("#txtFlag").val("M");
+            opc = 'CC_TT_01';
+			$.ajax({
+				type: 'POST',
+				data:'opc='+opc,
+				url: urlGeneral,
+				success: function(rpta){
+					$('#cboTipoTelefono1').html(rpta);
+					$('#cboTipoTelefono2').html(rpta);
+					$("#cboTipoTelefono1").val(operador);
+					cerrarCargando();
+					return true;		
+				},
+				error: function(rpta){
+					alert(rpta);
+				}
+			});
+			if($("#txtFlag").val()=='V'){
+				bloqueoTotalForm('#formProveedor',true);
+				$("#btnGuardar").addClass("hidden");
+			}
 			cerrarCargando();
 		},
 		error: function(rpta){
@@ -293,34 +283,7 @@ function cargarListaProductos()
 		}
 	});	
 }
-function cargarListaTCompra(){
-	abrirCargando();
-	var opc = 'CC_07';
-	$.ajax({
-		type: 'POST',
-		data:'opc='+opc,
-		url: url,
-		success: function(rpta){
-			$('.tablaTCompra').DataTable().destroy();
-			$('#cuerpoTablaTCompra').html(rpta);
-			$('.tablaTCompra').DataTable(
-				{
-			   	"columnDefs": [
-		            { "targets": [ 0 ],"width": "15%"}, 
-		            { "targets": [ 1 ],"width": "25%"},										 
-		            { "targets": [ 2 ],"width": "20%"},											 
-				      ]
-	
-				}
-			);
-			cerrarCargando();
-		},
-		error: function(rpta){
-			alert(rpta);
-			cerrarCargando();
-		}
-	});	
-}
+
 
 function cargarListaTComprobante(){
 	abrirCargando();
@@ -375,3 +338,16 @@ function mostrarListaOrden(){
 	$("#listaOrden").show();
 }
 
+function crearfila(){
+	fila=1;
+	$("#tablaProducto tbody tr").each(function (index) {
+		fila++;
+    })
+    
+	$("#tablaProducto")
+	.append
+	(
+		'<tr><td><input class="form-control input-sm" value="'+fila+'" id="txtItem'+fila+'" name="txtItem'+fila+'" style="text-align:right"; readonly value=""/></td><td><input class="form-control input-sm" id="txtCodigo'+fila+'" name="txtCodigo'+fila+'"></td><td><input class="form-control input-sm" name="txtDescripcion'+fila+'" id="txtDescripcion'+fila+'"></td><td><input class="form-control input-sm" name="txtUnidad'+fila+'" id="txtUnidad'+fila+'"></td><td><input class="form-control input-sm" id="txtCantidad'+fila+'" name="txtCantidad'+fila+'"  onkeypress="return soloNumeroEntero(event);"></td><td><input class="form-control input-sm" id="txtCosto'+fila+'" name="txtCosto'+fila+'" onkeypress="return soloNumeroDecimal(event);"></td><td><input class="form-control input-sm" id="txtDescuento'+fila+'" name="txtDescuento'+fila+'" onkeypress="return soloNumeroDecimal(event);"></td><td><input class="form-control input-sm" id="txtImporte'+fila+'" name="txtImporte'+fila+'" onkeypress="return soloNumeroDecimal(event);" readonly></td></tr>'
+	);
+}
+ 

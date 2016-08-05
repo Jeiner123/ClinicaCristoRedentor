@@ -83,16 +83,10 @@
                     </div>
                   </div>
                   <div class="col-md-3">
-                    <label for="txtPuntoEmision">Pto. Emisión</label>
-                    <div class="input-group">
-                      <div class="input-group-btn">
-                        <button onclick="abrirModal('#modalListaProveedor');" type="button"class="btn btn-secundary" title="Buscar área">
-                          <strong>...</strong>
-                        </button>
-                      </div>
-                      <input onclick="abrirModal('#modalListaProveedor');" id="txtCodPEmision" name="txtCodPEmision"class="form-control" readonly="true" type="hidden">
-                      <input onclick="abrirModal('#modalListaProveedor');" id="txtPtoEmision" name="txtPtoEmision"class="form-control" placeholder="ÁREA" readonly="true">
-                    </div>
+                    <label for="cboArea">Pto. Emisión</label>
+                      <select class="form-control input-sm" name="cboArea" id="cboArea">
+                        <option value="0">--Seleccionar--</option>
+                      </select>
                   </div>
                 </div><br>
 
@@ -119,9 +113,8 @@
                       </div>
                     </div>
                     <div class="col-md-4">
-                      <label for="cboTipoCompra">Tipo</label>
-                      <select class="form-control input-sm" name="cboTipoCompra" id="cboTipoCompra">
-                        <option value="0">--Seleccionar--</option>
+                      <label for="cboTipoExistencia">Tipo</label>
+                      <select class="form-control input-sm" name="cboTipoExistencia" id="cboTipoExistencia">
                       </select>
                     </div>
                   </div>
@@ -147,7 +140,7 @@
                     </div>
                     <div class="col-md-12">
                       <label class="control-label">Observaciones</label>
-                      <textarea class="form-control" id="txtObservaciones" name="txtObservaciones"></textarea>
+                      <textarea class="form-control" id="txtObservaciones" name="txtObservaciones" rows="3"></textarea>
                     </div>
                   </div>
                 </div>
@@ -162,13 +155,16 @@
                     <div class="col-md-12">
                       <label for="cboIGV">I.G.V</label>
                       <select class="form-control input-sm" name="cboIGV" id="cboIGV">
-                        <option value="0">--Seleccionar--</option>
+                        <option value="1">No aplica</option>
+                        <option value="2">I.G.V 18%</option>
                       </select>
                     </div>
                     <div class="col-md-12">
                       <label for="cboPercepcion">Percepción</label>
                       <select class="form-control input-sm" name="cboPercepcion" id="cboPercepcion">
-                        <option value="0">--Seleccionar--</option>
+                        <option value="1">No aplica</option>
+                        <option value="2">Percep.2%</option>
+                        <option value="3">Serv.6.5%</option>
                       </select>
                     </div>
                   </div>
@@ -182,98 +178,85 @@
                       <hr>
                     </div>
                     <div class="col-md-12">
-                      <div class="col-md-2 col-md-offset-2">
-                        <label for="txtAfecto">Afecto</label>
-                        <input class="form-control input-sm" name="txtAfecto" id="txtAfecto"></input>
+                      <div class="col-md-2">
+                        <input type="checkbox" name="vehicle" value="Bike">Incluye impuestos<br>
                       </div>
                       <div class="col-md-2">
-                         <label for="txtInafecto">Inafecto</label>
-                        <input class="form-control input-sm" name="txtInafecto" id="txtInafecto"></input>
+                        <label for="txtSubTotal">SubTotal</label>
+                        <input class="form-control input-sm" name="txtSubTotal" id="txtSubTotal" onkeypress="return soloNumeroDecimal(event);" readonly=""></input>
                       </div>
                       <div class="col-md-2">
-                        <label for="txtIGV">I.G.V</label>
-                        <input class="form-control input-sm" name="txtIGV" id="txtIGV"></input>
+                         <label for="txtDescuento">Descuento</label>
+                        <input class="form-control input-sm" name="txtDescuento" id="txtDescuento" onkeypress="return soloNumeroDecimal(event);"></input>
                       </div>
                       <div class="col-md-2">
-                        <label for="txtPercepcion">Percepción</label>
-                        <input class="form-control input-sm" name="txtPercepcion" id="txtPercepcion"></input>
+                        <label for="txtBaseGravable">Base gravable</label>
+                        <input class="form-control input-sm" name="txtBaseGravable" id="txtBaseGravable" onkeypress="return soloNumeroDecimal(event);"></input>
+                      </div>
+                      <div class="col-md-2">
+                        <label for="txtImpuesto">Impuesto</label>
+                        <input class="form-control input-sm" name="txtImpuesto" id="txtImpuesto" onkeypress="return soloNumeroDecimal(event);"></input>
                       </div>
                       <div class="col-md-2">
                         <label for="txtTotal">Total</label>
-                        <input class="form-control input-sm" name="txtTotal" id="txtTotal"></input>
+                        <input class="form-control input-sm" name="txtTotal" id="txtTotal" onkeypress="return soloNumeroDecimal(event);" readonly=""></input>
                       </div>
                     </div>
-                    <div class="col-md-12"><br>
+                    <div class="col-md-12">
+                      <div class="input-group"><br><hr>
+                        <div class="input-group-btn">
+                          <button onclick="crearfila();" type="button"class="btn btn-success" title="Agregar fila">
+                            <strong><i class='fa fa-plus'></i></strong>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                       <table id="tablaProducto" class="tablaProducto">
                         <thead>
                           <tr>
-                            <th width="10%" style='text-align:center;'>&nbsp;Item</th>
-                            <th width="15%" style='text-align:center;'>&nbsp;Codigo</th>
+                            <th width="5%" style='text-align:center;'>&nbsp;Item
+                            </th>
+                            <th width="10%" style='text-align:center;'>&nbsp;Codigo</th>
                             <th>&nbsp;Descripción</th>
-                            <th width="10%" style='text-align:center;'>U.M</th>
-                            <th width="15%" style='text-align:center;'>Cantidad</th>
-                            <th width="15%" style='text-align:center;'>Costo Unit.</th>
-                            <th width="15%" style='text-align:center;'>Descuento</th>
-                            <th width="15%" style='text-align:center;'>Importe</th>
+                            <th width="15%" style='text-align:center;'>Unidad</th>
+                            <th width="10%" style='text-align:center;'>Cantidad</th>
+                            <th width="10%" style='text-align:center;'>Costo Unit.</th>
+                            <th width="10%" style='text-align:center;'>Descuento</th>
+                            <th width="10%" style='text-align:center;'>Importe</th>
                           </tr>
                         </thead>
                         <tbody class="cuerpoTabla" id="cuerpoTablaProducto">
+                        <?php for ($i=1;$i<=3;++$i): ?>
                           <tr>
-                            <td><input class="form-control input-sm" style='text-align:right;'></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                            <td><input class="form-control input-sm"></input></td>
+                            <td><input class="form-control input-sm" id="txtItem<?php echo $i;?>" name="txtItem<?php echo $i;?>" style='text-align:right;' readonly value="<?php echo $i;?>"></input></td>
+                            <td><input class="form-control input-sm" id="txtCodigo<?php echo $i;?>" name="txtCodigo<?php echo $i;?>"></input></td>
+                            <td><input class="form-control input-sm" id="txtDescripcion<?php echo $i;?>" name="txtDescripcion<?php echo $i;?>"></input></td>
+                            <td><input class="form-control input-sm" id="txtUnidad<?php echo $i;?>" name="txtUnidad<?php echo $i;?>"></input></td>
+                            <td><input class="form-control input-sm" id="txtCantidad<?php echo $i;?>" name="txtCantidad<?php echo $i;?>"  onkeypress="return soloNumeroEntero(event);"></input></td>
+                            <td><input class="form-control input-sm" id="txtCosto<?php echo $i;?>" name="txtCosto<?php echo $i;?>" onkeypress="return soloNumeroDecimal(event);"></input></td>
+                            <td><input class="form-control input-sm" id="txtDescuento<?php echo $i;?>" name="txtDescuento<?php echo $i;?>" onkeypress="return soloNumeroDecimal(event);"></input></td>
+                            <td><input class="form-control input-sm" id="txtImporte<?php echo $i;?>" name="txtImporte<?php echo $i;?>" onkeypress="return soloNumeroDecimal(event);" readonly></input></td>
                           </tr>
-                          <tr>
-                            <td><input class="form-control input-sm" style='text-align:right;'></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                          </tr>
-                          <tr>
-                            <td><input class="form-control input-sm" style='text-align:right;'></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                          </tr>
-                          <tr>
-                            <td><input class="form-control input-sm" style='text-align:right;'></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                          </tr>
-                          <tr>
-                            <td><input class="form-control input-sm" style='text-align:right;'></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                            <td><input class="form-control input-sm"></input></td>
-                          </tr>
+                        <?php endfor; ?>
                         </tbody>
                       </table>
                     </div>
                   </div>
                   </div>
+
+                  <div class="row">
+                    <div class="col-md-6" style="top:20px!important;">
+                          <a href="#" class="btn btn-default btn-block">Cancelar registro</a>
+                      </div>
+                      <div class="col-md-6" style="top:20px!important;">
+                          <button type="submit" class="btn btn-primary btn-block">Registrar nueva orden</button>
+                      </div>
+                  </div>
+                  <br><br>
                 </div>
+                
+                
+                
             </div>
           </form>
           
@@ -321,55 +304,6 @@
       </div>
       <!-- /.modalListapROVEEDOR -->
 
-<!-- /.modalListaProducto -->
-      <div class="modal fade" id="modalListaProducto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" align="center">
-        <div class="modal-dialog modal-md">
-          <div class="modal-content">
-             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                  <h4 id="titulo" class="modal-title subfuente text-center">
-                    GESTIÓN DE PRODUCTOS
-                  </h4>
-              </div>
-              <!-- /.modal-header -->
-              <div class="modal-body">
-                <div class="row">
-                  <div class="col-md-1">
-                    <label for="txtCodigo">Código</label>
-                  </div>
-                  <div class="col-md-2">
-                    <input class="form-control input-sm" disabled=""></input>
-                  </div>
-                  <div class="col-md-7">
-                    <input id="txtProducto" class="form-control input-sm" placeholder="Ingrese la descripción del producto"></input>
-                  </div>
-                   <div class="col-md-2">
-                    <a href="#" class="btn btn-block btn-primary btn-sm btn-flat" onclick="RegistrarProducto();">
-                      <i class='fa fa-plus' title='Agregar'></i>
-                    </a>
-    
-                  </div>
-                </div>
-                <hr>
-                <table id="tablaMProducto" class="table table-bordered table-hover tablaMProducto">
-                  <thead>
-                    <tr>
-                      <th>Código</th>
-                      <th>Descripción del producto</th>
-                      <th style='text-align:center;'>Opciones</th>
-                    </tr>
-                  </thead>
-                  <tbody class="cuerpoTabla" id="cuerpoTablaMProducto">
-                    <!-- Aqui irán los elementos de la tabla -->
-                  </tbody>
-                </table>
-              </div>
-          </div>
-          <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-Dialog -->
-      </div>
-      <!-- /.modalListaProducto -->
 
 <!-- ./wrapper -->
   <?php include '../general/pie_pagina.php';?>  
@@ -379,7 +313,8 @@
 <script type="text/javascript">
   cargarListaProveedor();
   cargarListaProductos();
-  cargarTablaOCompra();
+  cargarCboAreas();
+  cargarCboExistencias();
   $('#tablaOCompra tbody').on('click','tr',function(){seleccionSimple(this);});  
    $('.date-picker').datepicker({
     autoclose: true,
