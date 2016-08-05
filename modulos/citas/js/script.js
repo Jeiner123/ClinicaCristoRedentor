@@ -310,22 +310,18 @@ function cargarTablaReferencias(){
 			$('#tablaReferencias').DataTable().destroy();
 			$('#cuerpoTablaReferencias').html(rpta);
 			$('#tablaReferencias').DataTable(
-				// {
-			 //   	"columnDefs": [
-    //         { "targets": [ 0 ],"width": "19%",},						//Paciente
-    //         { "targets": [ 1 ],"width": "10%", },						//Espcialidad
-    //         { "targets": [ 2 ],"width": "21%",  "searchable": false , },	//Servicio
-    //         { "targets": [ 3 ],"width": "8%",  "searchable": false ,},		//Fecha
-
-    //         { "targets": [ 4 ],"width": "7%","searchable": false ,},	//Hora
-    //         { "targets": [ 5 ],"width": "15%","searchable": false ,},	//Medico
-    //         { "targets": [ 6 ],"width": "8%","searchable": false ,},	//Estado
-    //         { "targets": [ 7 ],"width": "8%","searchable": false ,},  //Pago
-    //         { "targets": [ 8 ],"width": "4%", "orderable": false,"searchable": false ,}
-		  //     ],
-		  //     "order": [[ 3, "asc" ]],
-		  //     "iDisplayLength": 25
-				// }
+					{
+				   	"columnDefs": [
+	            { "targets": [ 0 ],"width": "27%",},						//Medico
+	            { "targets": [ 1 ],"width": "27%", },						//Servicio
+	            { "targets": [ 2 ],"width": "16%",  "searchable": false , },	//Especialidad
+	            { "targets": [ 3 ],"width": "10%",  "searchable": false ,},		//Estado cita 
+	            { "targets": [ 4 ],"width": "10%","searchable": false ,},	//Estado pago 
+	            { "targets": [ 5 ],"width": "10%","searchable": false ,}	//Estado pago 
+			      ],
+			      "order": [[ 0, "asc" ]]
+			      
+					}
 			);
 			cerrarCargando();
 		},

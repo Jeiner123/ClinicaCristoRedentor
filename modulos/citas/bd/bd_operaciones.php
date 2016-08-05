@@ -192,6 +192,7 @@
 		$pacienteID = $_POST['txtPacienteID'];
 		$medicoRef = $_POST['txtCodigoMedicoRef'];
 		$listaServicios = $_POST['listaServicios'];
+		$especialidadID = '25';
 		$via = $_POST['cboVia'];
 		$estado = "R";	//Reservado
 		$tipo = "L";  	//L: Laboratorio
@@ -246,9 +247,9 @@
 				$hora = $fila[3];
 				$obs = $fila[4];
 				$precio = $fila[5];
-				$consulta = "insert into cita(pedidoServicioID,pacienteID,servicioID,
+				$consulta = "insert into cita(pedidoServicioID,pacienteID,especialidadID,servicioID,
 										tipo,fecha,hora,observaciones,estado,precio,cantidad) values
-										('".$pedidoServicioID."','".$pacienteID."',
+										('".$pedidoServicioID."','".$pacienteID."','".$especialidadID."',
 											'".$servicioID."','".$tipo."','".$fecha."','".$hora."','".$obs."','".$estado."',
 											'".$precio."','".$cantidad."');";
 				$res = mysqli_query($con,$consulta)or  die (mysqli_error($con));				
@@ -256,7 +257,8 @@
 		}
 		echo 1;
 		exit();	
-	}	
+	}
+	//CARGAR TABLA DE REFERENCIAS
 	if($opc == 'CTR_01'){
 		$fechaCita = $_POST['fecha'];		
 		$fechaCita = str_replace("/","-",$fechaCita);
@@ -271,9 +273,9 @@
 								inner join CITA C ON C.pedidoServicioID = PS.pedidoServicioID
 								left join ESPECIALIDAD E on E.especialidadID = C.especialidadID
 								inner join SERVICIO S on S.servicioID = C.servicioID
-								";		
+								";
 		$res = mysqli_query($con,$consulta) or die(mysqli_error($con));
-
+		$numReferencias = mysqli_num_rows($res);
 		while($row = mysqli_fetch_row($res)){
 			$nombresM = explode(" ", $row[1]);
 			$medico = $nombresM[0].' '.$row[2].' '.$row[3];
@@ -300,7 +302,7 @@
 							<td>".$especialidad."</td>
 							<td>".$fecha."</td>
 							<td>".$estadoCita."</td>
-							<td>".$estadoPago."</td>							
+							<td>".$estadoPago."</td>
 						</tr>";
 		}
 		exit();
