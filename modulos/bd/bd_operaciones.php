@@ -159,7 +159,7 @@
 	}
 	// Areas
 	if($opc=='CC_AR_01'){
-		$consulta = "select areaID,area from area where estado=1";
+		$consulta = "select areaID,area from area where estado=1 order by area asc";
 		$res = mysqli_query($con,$consulta) or die(mysqli_error($con));
 			echo "<option value='"."0"."'>-- Seleccionar --</option>";
 		while($row = mysqli_fetch_row($res)){
@@ -170,7 +170,7 @@
 	// Cargo
 	if($opc=='CC_CARG_01'){
 		$areaID = $_POST['areaID'];
-		$consulta = "select cargoID,cargo from cargo where estado=1 and areaID='".$areaID."'";
+		$consulta = "select cargoID,cargo from cargo where estado=1 and areaID='".$areaID."' order by cargo asc";
 		$res = mysqli_query($con,$consulta) or die(mysqli_error($con));
 			echo "<option value='"."0"."'>-- Seleccionar --</option>";
 		while($row = mysqli_fetch_row($res)){
@@ -180,7 +180,7 @@
 	}
 	// Especialidades
 	if($opc=='CC_E_05'){
-		$consulta = "select especialidadID,especialidad from especialidad where estado=1";
+		$consulta = "select especialidadID,especialidad from especialidad where estado=1 order by especialidad asc";
 		$res = mysqli_query($con,$consulta) or die(mysqli_error($con));
 			echo "<option value='"."0"."'>-- Especialidad --</option>";
 		while($row = mysqli_fetch_row($res)){
@@ -190,7 +190,7 @@
 	}
 	// Tipo de servicio
 	if($opc=='TS_01'){
-		$consulta = "select tipoServicioID,tipoServicio from tipo_servicio where estado=1";
+		$consulta = "select tipoServicioID,tipoServicio from tipo_servicio where estado=1 order by tipoServicio asc";
 		$res = mysqli_query($con,$consulta) or die(mysqli_error($con));
 			echo "<option value='"."0"."'>-- Tipo de servicio --</option>";
 		while($row = mysqli_fetch_row($res)){
@@ -200,7 +200,7 @@
 	}
 	//Tipo telefono
 	if($opc=='CC_TT_01'){
-		$consulta = "select tipoTelefonoID,tipoTelefono from tipo_telefono where estado=1";
+		$consulta = "select tipoTelefonoID,tipoTelefono from tipo_telefono where estado=1 order by tipoTelefono asc";
 		$res = mysqli_query($con,$consulta) or die(mysqli_error($con));
 			echo "<option value='"."0"."'>-- Seleccionar --</option>";
 		while($row = mysqli_fetch_row($res)){
@@ -210,7 +210,7 @@
 	}
 	//Tipo Pesonal 
 	if($opc=='CC_TP_01'){
-		$consulta = "select tipoPersonalID,tipoPersonal from tipo_personal where estado=1";
+		$consulta = "select tipoPersonalID,tipoPersonal from tipo_personal where estado=1 order by tipoPersonal asc";
 		$res = mysqli_query($con,$consulta) or die(mysqli_error($con));
 			echo "<option value='"."0"."'>-- Seleccionar --</option>";
 		while($row = mysqli_fetch_row($res)){
@@ -220,7 +220,7 @@
 	}
 	//Procedencias 
 	if($opc=='CC_P_01'){
-		$consulta = "select procedenciaID,procedencia from PROCEDENCIA where estado=1";
+		$consulta = "select procedenciaID,procedencia from PROCEDENCIA where estado=1 order by procedencia asc";
 		$res = mysqli_query($con,$consulta) or die(mysqli_error($con));
 			echo "<option value='"."0"."'>-- Seleccionar --</option>";
 		while($row = mysqli_fetch_row($res)){
