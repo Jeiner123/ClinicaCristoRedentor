@@ -196,18 +196,23 @@
               <span>Nuevo proveedor</span>
             </a>
           </li>
-					<li class="treeview" id="orden_compra">
-						<a href="../compras/orden_compra.php">
-							<span>Orden de compra</span>
-						</a>
-					</li>
-					<li class="treeview" id="compras">
-						<a href="../compras/compras.php">
-							<span>Nota de ingreso</span>
-						</a>
-					</li>
-				</ul>
-			</a>
+			<li class="treeview" id="orden_compra">
+				<a href="../compras/orden_compra.php">
+					<span>Orden de compra</span>
+				</a>
+			</li>
+			<li class="treeview" id="compras">
+				<a href="../compras/compras.php">
+					<span>Nota de ingreso</span>
+				</a>
+			</li>
+			<li class="treeview" id="facturas">
+				<a href="../compras/facturas.php">
+					<span>Provisiones por pagar</span>
+				</a>
+			</li>
+		</ul>
+		</a>
 		</li>
 		<li class="treeview" id="menu_parametros">
 			<a href="#">

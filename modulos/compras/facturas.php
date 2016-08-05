@@ -3,12 +3,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Gestión de órdenes de compra | CLÍNICA CRISTO REDENTOR</title>
+  <title>Gestión de facturas | CLÍNICA CRISTO REDENTOR</title>
   <?php include '../general/header.php';?>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
   <input type='hidden' value='menu_compras' id='menuPrincipal'>
-  <input type='hidden' value='orden_compra' id='menuIzquierda'>
+  <input type='hidden' value='facturas' id='menuIzquierda'>
   <?php include '../general/menu_principal.php';?>
 
 <div class="wrapper">
@@ -19,7 +19,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Orden de compra
+        Provisiones por pagar
         <!-- <small>Lista - Registro - Actualización</small> -->
       </h1>
       <ol class="breadcrumb">
@@ -30,7 +30,7 @@
           <a href="listado_pacientes.php">Compras</a>
         </li>
         <li class="active">
-          Orden de compra
+          Provisiones por pagar
         </li>
       </ol>
     </section>
@@ -40,7 +40,7 @@
       <div class="box box-solid color-palette-box">
         <div class="box-header bg-blue" >
           <div>
-            <h3 class="box-title" id="subtitulo">Registro de orden de compra</h3>
+            <h3 class="box-title" id="subtitulo">Registro de provisión</h3>
           </div>
           <div class="box-tools pull-right">
             <button style='color:#fff;' type="button" class="btn btn-box-tool" data-widget="collapse">
@@ -137,6 +137,10 @@
                         <option value="1">SOLES</option>
                         <option value="2">DOLARES AMERICANOS</option>
                       </select>
+                    </div>
+                    <div class="col-md-12">
+                      <label class="control-label">Observaciones</label>
+                      <textarea class="form-control" id="txtObservaciones" name="txtObservaciones" rows="3"></textarea>
                     </div>
                   </div>
                 </div>
@@ -300,6 +304,55 @@
       </div>
       <!-- /.modalListapROVEEDOR -->
 
+<!-- /.modalPeriodo -->
+      <div class="modal fade" id="modalPeriodo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" align="center">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+             <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                  <h4 id="titulo" class="modal-title subfuente text-center">
+                    Seleccionar periódo
+                  </h4>
+              </div>
+              <!-- /.modal-header -->
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-md-3">
+                    <label for="cboMes">Periódo</label>
+                  </div>
+                   <div class="col-md-9">
+                    <select class="form-control input-sm" name="cboMes" id="cboMes">
+                      <option value="0">--Seleccionar--</option>
+                      <option value="01">Enero</option>
+                      <option value="02">Febrero</option>
+                      <option value="03">Marzo</option>
+                      <option value="04">Abril</option>
+                      <option value="05">Mayo</option>
+                      <option value="06">Junio</option>
+                      <option value="07">Julio</option>
+                      <option value="8">Agosto</option>
+                      <option value="09">Setiembre</option>
+                      <option value="10">Octubre</option>
+                      <option value="11">Noviembre</option>
+                      <option value="12">Diciembre</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <!-- /.modal-footer -->
+              <div class="modal-footer">                  
+                <div class="row" align="center">
+                  <input  onClick="generarPeriodo(this.form);" value="Aceptar" style="margin-right:20px;" type="button" class="btn btn-secundary btn-flat" id="btnGuardar"/>                  
+                </div>
+              </div>
+              <!-- /.modal-footer -->
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-Dialog -->
+      </div>
+      <!-- /.modalPeriodo -->
+
 
 <!-- ./wrapper -->
   <?php include '../general/pie_pagina.php';?>  
@@ -307,10 +360,12 @@
 </html>
 <script src="js/script.js"></script>
 <script type="text/javascript">
-  cargarListaProveedor();
-  cargarListaProductos();
-  cargarCboAreas();
-  cargarCboExistencias();
+  // cargarListaProveedor();
+  // cargarListaProductos();
+  // cargarCboAreas();
+  // cargarCboExistencias();
+  
+  SeleccionarPeriodo('<?php echo date('m');?>');
   $('#tablaOCompra tbody').on('click','tr',function(){seleccionSimple(this);});  
    $('.date-picker').datepicker({
     autoclose: true,

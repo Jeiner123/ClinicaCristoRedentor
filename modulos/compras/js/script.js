@@ -351,3 +351,9 @@ function crearfila(){
 	);
 }
  
+//======================GESTIÓN DE FACTURA=======================================
+function SeleccionarPeriodo(mes){
+	mes=parseInt(mes)
+	abrirModal("#modalPeriodo");
+	$("#cboMes").val(mes);
+}
