@@ -1,9 +1,12 @@
 url = 'bd/bd_operaciones.php';
 
 //============MANTENEDOR PROVEEDORES=============================================
+
 function mantenerProveedor(form){
-	comboObligatorio('#cboEntidad',0);
 	comboObligatorio('#cboDocumento',0);
+	if($("#cboDocumento").val()==0){
+		inputObligatorio('#txtDocumento',4);
+	}
 
 	if($("#cboDocumento").val()==1){
 		inputMismoValor('#txtDocumento',8);	
@@ -17,7 +20,8 @@ function mantenerProveedor(form){
 	inputObligatorio('#txtNombre',2);
 	inputObligatorio('#txtApellidoPat',4);
 	inputObligatorio('#txtApellidoMat',4);
-	inputObligatorio('#txtTelefono',9);
+	inputObligatorio('#txtTelefono',6);
+	comboObligatorio('#cboTipoTelefono1',0);
 
 	if(document.getElementsByClassName("has-error").length > 0){
 		alert("Verifique los datos ingresados");
@@ -32,7 +36,7 @@ function mantenerProveedor(form){
 	}
 }
 function guardarProveedor(form){
-	var formData = new FormData($('#formPersonal')[0]);
+	var formData = new FormData($('#formProveedor')[0]);
 	formData.append("opc", "CC_01");
 	$.ajax({
 		type: 'POST',
@@ -42,7 +46,6 @@ function guardarProveedor(form){
 		processData: false,
 		success: function(rpta){
 			alert(rpta);
-			cargarTablaProveedor();
 		},
 		error: function(rpta){
 			alert(rpta);
@@ -53,7 +56,7 @@ function guardarProveedor(form){
 }
 
 function updateProveedor(){
-	var formData = new FormData($('#formPersonal')[0]);
+	var formData = new FormData($('#formProveedor')[0]);
 	formData.append("opc", "CC_04");
 	$.ajax({
 		type: 'POST',
@@ -97,12 +100,11 @@ function cargarTablaProveedor(){
 			$('.tablaDatos').DataTable(
 				{
 			   	"columnDefs": [
-		            { "targets": [ 0 ],"width": "10%"}, 
-		            { "targets": [ 1 ],"width": "20%"},										 		//DNI
-		            { "targets": [ 2 ],"width": "20%"},											 //nomresb
-		            { "targets": [ 3 ],"width": "15%"},	
-		            { "targets": [ 4 ],"width": "5%"},
-		            { "targets": [ 5 ],"width": "15%"},	
+		            { "targets": [ 0 ],"width": "15%"}, 
+		            { "targets": [ 1 ],"width": "25%"},										 		//DNI
+		            { "targets": [ 2 ],"width": "15%"},											 //nomresb
+		            { "targets": [ 3 ],"width": "10%"},	
+		            { "targets": [ 4 ],"width": "15%"},
 				      ]
 	
 				}
@@ -136,10 +138,19 @@ function crearProveedor(){
 	$("#txtFlag").val("N");
 	$("#btnGuardar").removeClass("hidden");
 	abrirModal('#modalRegProveedor');
-	$('#cboEntidad').prop("disabled", false);
 	$('#cboDocumento').prop("disabled", false);
 	$("#txtDocumento").prop("readonly", false);
 	$("#titulo").text("Registrar nuevo proveedor");
+}
+
+function opcionProveedor(documento){
+	opcion=$("#txtFlag").val();
+	if(opcion=='V'){
+		verProveedor(documento);
+	}
+	if(opcion=='M'){
+		modificarProveedor(documento);
+	}
 }
 
 function verProveedor(documento){
@@ -175,6 +186,7 @@ function eliminarProveedor(documento){
 }
 
 function datosProveedor(documento){
+	abrirCargando();
 	var opc = 'CC_03';
 	$.ajax({
 		type: 'POST',
@@ -182,20 +194,21 @@ function datosProveedor(documento){
 		url: url,
 		success: function(data){
 			var datos= JSON.parse(data);
-
+			cargarCboTipoTelefono();
 			abrirModal('#modalRegProveedor');
-			$('#cboEntidad').prop("disabled", true);
 			$('#cboDocumento').prop("disabled", true);
 			$("#txtDocumento").prop("readonly", true);
 			for(var i in datos){
-                	$("#cboEntidad").val(datos[i].tipoEntidad);
                 	$("#cboDocumento").val(datos[i].tipoDocumento);
+                	$("#cboModalidadPago").val(datos[i].condPago);
+                	$("#cboTipoTelefono1").val(datos[i].tipoTelefono);
                 	$("#txtDocumento").val(datos[i].proveedorID);
                 	$("#txtRazonSocial").val(datos[i].razonSocial);
                 	$("#txtDireccion").val(datos[i].direccion);
                 	$("#txtEmailE").val(datos[i].emailEmpresa);
                 	$("#cboBanco").val(datos[i].banco);
-                	$("#txtDetraccion").val(datos[i].cuentaBanco);
+                	$("#txtDetraccion").val(datos[i].cuentaDetraccion);
+                	$("#txtCuenta").val(datos[i].cuentaBanco);
                 	$("#txtNombre").val(datos[i].nombres);
                 	$("#txtApellidoPat").val(datos[i].apellidoPat);
                 	$("#txtApellidoMat").val(datos[i].apellidoMat);
@@ -206,9 +219,11 @@ function datosProveedor(documento){
                 }
 			$("#titulo").text("Editar proveedor");
 			$("#txtFlag").val("M");
+			cerrarCargando();
 		},
 		error: function(rpta){
 			alert(rpta);
+			cerrarCargando();
 		}
 	});
 
@@ -315,18 +330,7 @@ function cargarListaTComprobante(){
 		data:'opc='+opc,
 		url: url,
 		success: function(rpta){
-			$('.tablaTComprobante').DataTable().destroy();
-			$('#cuerpoTablaTComprobante').html(rpta);
-			$('.tablaTComprobante').DataTable(
-				{
-			   	"columnDefs": [
-		            { "targets": [ 0 ],"width": "15%"}, 
-		            { "targets": [ 1 ],"width": "25%"},										 
-		            { "targets": [ 2 ],"width": "20%"},											 
-				      ]
-	
-				}
-			);
+			$('#cboDocumento').html(rpta);
 			cerrarCargando();
 		},
 		error: function(rpta){
@@ -370,3 +374,4 @@ function mostrarListaOrden(){
 	$("#RegOCompra").hide();
 	$("#listaOrden").show();
 }
+

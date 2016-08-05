@@ -49,22 +49,14 @@
           </div>
         </div>        
         <div class="box-body" style='overflow-x:scroll;overflow-y:hidden' align="center">
-          <div class="row">
-            <div class="col-md-2 col-xs-6 col-md-offset-5">
-              <a href="#" class="btn btn-block btn-primary btn-sm btn-flat" onclick="crearProveedor();">
-                Nuevo
-              </a>
-            </div>
-          </div>
-          <br>
+          
           <div class="row">
             <div class="col-md-12">
               <table id="tablaProveedor" class="table table-bordered table-hover tablaDatos">
                 <thead>
                   <tr>
                     <th>RUC/DNI</th>
-                    <th>Razón Social</th>
-                    <th>Contacto</th>
+                    <th>Proveedor</th>
                     <th style="text-align:center">Número de contacto</th>
                     <th style="text-align:center">Estado</th>
                     <th style="text-align:center">Opciones</th>
