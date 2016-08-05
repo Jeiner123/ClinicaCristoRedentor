@@ -46,8 +46,8 @@
         </div>
         <div class="box-body" style='overflow-x:scroll;overflow-y:hidden' align="center">
           <div class="row">
-            <div class="col-md-2 col-md-offset-5 col-xs-6 col-xs-offset-3">
-              <button type="button" class="btn btn-block btn-primary btn-sm btn-flat" onclick="abrirModal('#modalRegServicio');">
+            <div class="col-sm-6 col-sm-offset-3">
+              <button type="button" class="btn btn-block btn-primary btn-sm btn-flat" onclick="abrirModal('#modalRegServicio');bloqueoTotalForm('#formEspecialidad',false);$('#tituloServicio').html('Nuevo servicio');">
                 Nuevo
               </button>
             </div>
@@ -82,7 +82,7 @@
               <form method="post" class="form-horizontal" id="formEspecialidad" enctype="multipart/form-data">
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 id="titulo" class="modal-title subfuente text-center">Registrar nuevo servicio</h4>
+                    <h4 id="tituloServicio" class="modal-title subfuente text-center">Registrar nuevo servicio</h4>
                 </div>
                 <!-- /.modal-header -->
                 <div class="modal-body">
@@ -106,8 +106,7 @@
                   <div class="form-group">
                     <label class="col-md-3 control-label">Estado</label>
                     <div class="col-md-8">
-                      <select class="form-control" id="cboEstado" name="cboEstado">
-                        <option value="0">-- Seleccionar --</option>
+                      <select class="form-control" id="cboEstado" name="cboEstado">                        
                         <option value="1" selected> ACTIVO </option>
                         <option value="2"> INACTIVO </option>
                       </select>                      

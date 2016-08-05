@@ -3,7 +3,7 @@
 	require('../../bd/bd_conexion.php');
 	$opc = $_POST['opc'];
 
-	// LLISTAR CITAS DE CONSULTORIO - LABORATORIO
+	// CARTAR TABLA CITAS DE CONSULTORIO - LABORATORIO
 	if($opc == 'LCC_01'){
 		$fechaCita = $_POST['fecha'];
 		$tipo = $_POST['tipo'];						//C - L
@@ -256,5 +256,53 @@
 		}
 		echo 1;
 		exit();	
+	}	
+	if($opc == 'CTR_01'){
+		$fechaCita = $_POST['fecha'];		
+		$fechaCita = str_replace("/","-",$fechaCita);
+	  $fechaCita = date('Y-m-d',strtotime($fechaCita));
+	  $estadoPago = $_POST['estadoPago'];
+	  
+		$consulta = "select PS.pedidoServicioID,P.nombres,P.apPaterno,P.apMaterno,E.especialidad,S.servicio,
+									substring_index(PS.timestamp,' ',1) as 'fecha',PS.estadoPago,C.estado
+								from PEDIDO_SERVICIO PS
+								inner join PERSONAL PL ON PS.personalReferenciaID = PL.personalID
+								inner join PERSONA P ON P.DNI = PL.DNI
+								inner join CITA C ON C.pedidoServicioID = PS.pedidoServicioID
+								left join ESPECIALIDAD E on E.especialidadID = C.especialidadID
+								inner join SERVICIO S on S.servicioID = C.servicioID
+								";		
+		$res = mysqli_query($con,$consulta) or die(mysqli_error($con));
+
+		while($row = mysqli_fetch_row($res)){
+			$nombresM = explode(" ", $row[1]);
+			$medico = $nombresM[0].' '.$row[2].' '.$row[3];
+			$especialidad = $row[4];
+			$servicio = $row[5];			
+			$fecha = str_replace("/","-",$row[6]);
+	    $fecha = date('d-m-Y',strtotime($fecha));			
+			$estadoPago = $row[7];
+			$estadoCita = $row[8];
+			
+
+			if($estadoCita=='R') $estadoCita = "<span class='label label-warning'>Reservado</span>";
+			else if($estadoCita=='S')	$estadoCita = "<span class='label label-primary'>En Sala</span>";
+			else if($estadoCita=='A')	$estadoCita = "<span class='label label-success'>Atendido</span>";
+			else if($estadoCita=='X') $estadoCita = "<span class='label label-danger'>Anulado</span>";
+
+			if($estadoPago=='PEN') $estadoPago = "<span class='label label-danger'>Pendiente</span>";
+			else if($estadoPago=='PAG')	$estadoPago = "<span class='label label-success'>Pagado</span>";
+			else if($estadoPago == 'PAR')	$estadoPago = "<span class='label label-warning'>Parcial</span>";
+
+			echo "<tr>												
+							<td>".$medico."</td>
+							<td>".$servicio."</td>
+							<td>".$especialidad."</td>
+							<td>".$fecha."</td>
+							<td>".$estadoCita."</td>
+							<td>".$estadoPago."</td>							
+						</tr>";
+		}
+		exit();
 	}
  ?>

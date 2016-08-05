@@ -50,10 +50,15 @@
 				<a href="../citas/registrar_cita_medica.php">
 				  <span>Registrar cita médica</span>
 				</a>
-			  </li>
+			  </li>			  
 			  <li class="treeview" id="m_registrar_lab">
 				<a href="../citas/registrar_cita_laboratorio.php">
 				  <span>Registrar cita laboratorio</span>
+				</a>
+			  </li>
+			  <li class="treeview" id="m_cita_referencias">
+				<a href="../citas/referencias.php">
+				  <span>Referencias</span>
 				</a>
 			  </li>
 			  <li class="treeview" id="m_registrar_lab">
@@ -217,6 +222,36 @@
 					<li class="treeview" id="m_para_tipo_personal">
 						<a href="../parametros/tipo_personal.php">
 							<span>Tipo de personal</span>
+						</a>
+					</li>
+					<li class="treeview" id="m_para_tipo_compra">
+						<a href="../parametros/tipo_compra.php">
+							<span>Tipo de compa</span>
+						</a>
+					</li>
+					<li class="treeview" id="m_para_tipo_venta">
+						<a href="../parametros/tipo_venta.php">
+							<span>Tipo de venta</span>
+						</a>
+					</li>
+					<li class="treeview" id="m_para_tipo_adquisicion">
+						<a href="../parametros/tipo_adquisicion.php">
+							<span>Tipo de adquisición</span>
+						</a>
+					</li>
+					<li class="treeview" id="m_para_tipo_adquisicion">
+						<a href="../parametros/tipo_adquisicion.php">
+							<span>Forma de pago</span>
+						</a>
+					</li>
+					<li class="treeview" id="m_para_tipo_documento">
+						<a href="../parametros/tipo_documento.php">
+							<span>Tipo de documento</span>
+						</a>
+					</li>
+					<li class="treeview" id="m_para_comprobante">
+						<a href="../parametros/comprobante_pago.php">
+							<span>Comprobante de pago</span>
 						</a>
 					</li>
 				</ul>
