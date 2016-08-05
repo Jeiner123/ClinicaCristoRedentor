@@ -160,6 +160,61 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			}
 		});
 }
+
+	function cargarCboCondPago(condicion){
+		opc = 'CC_CP';
+		$.ajax({
+			type: 'POST',
+			data:'opc='+opc,
+			url: urlGeneral,
+			success: function(rpta){
+				$('#cboModalidadPago').html(rpta);
+				$('#cboModalidadPago').val(condicion);
+				cerrarCargando();
+				return true;		
+			},
+			error: function(rpta){
+				alert(rpta);
+			}
+		});
+	}
+
+	function cargarCboTipoDocumento(documento){
+		opc = 'CC_TD';
+		$.ajax({
+			type: 'POST',
+			data:'opc='+opc,
+			url: urlGeneral,
+			success: function(rpta){
+				$('#cboDocumento').html(rpta);
+				$('#cboDocumento').val(documento);
+				cerrarCargando();
+				return true;		
+			},
+			error: function(rpta){
+				alert(rpta);
+			}
+		});
+	}
+
+	function cargarCboEntidadFinanciera(entidad){
+		opc = 'CC_EF';
+		$.ajax({
+			type: 'POST',
+			data:'opc='+opc,
+			url: urlGeneral,
+			success: function(rpta){
+				$('#cboBanco').html(rpta);
+				$('#cboBanco').val(entidad);
+				cerrarCargando();
+				return true;		
+			},
+			error: function(rpta){
+				alert(rpta);
+			}
+		});
+	}
+
 // --- CARGAR TABLAS --
 
 	function cargarListaPersonalSalud(){		

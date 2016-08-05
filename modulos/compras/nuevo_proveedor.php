@@ -62,11 +62,6 @@
                     <label class="control-label">Tipo de documento</label>
                     <label class="control-label" style="color:red;">*</label>
                     <select class="form-control input-sm" id="cboDocumento" name="cboDocumento" onchange="bloquearCampos()">
-                      <option value="0">-- Seleccionar --</option>
-                      <option value="1">DNI</option>
-                      <option value="2">CARNET DE EXTRANJERIA</option>
-                      <option value="3">RUC</option>
-                      <option value="4">OTROS</option>
                     </select> 
                   </div>
                   <div class="col-md-4">
@@ -100,33 +95,11 @@
                     <div class="col-md-3">
                     <label class="control-label">Cond. de Pago</label>
                     <select class="form-control input-sm" id="cboModalidadPago" name="cboModalidadPago">
-                      <option value="0">-- Seleccionar --</option>
-                      <option value="1">Contado</option>
-                      <option value="2">Crédito 07 días</option>
-                      <option value="3">Crédito 15 días</option>
-                      <option value="4">Crédito 30 días</option>
-                      <option value="5">Crédito 60 días</option>
-                      <option value="6">50% contado y 50% contraentrega</option>
                     </select> 
                   </div>
                    <div class="col-md-3">
                     <label class="control-label">Entidad bancaria</label>
                     <select class="form-control input-sm" id="cboBanco" name="cboBanco">
-                      <option value="0">-- Seleccionar --</option>
-                      <option value="1">Banco de Crédito del Perú</option>
-                      <option value="2">Banco de la Nación</option>
-                      <option value="3">Banco Sudamericano</option>
-                      <option value="4">Scotiabank Perú</option>
-                      <option value="5">BCR del Perú</option>
-                      <option value="6">BBVA Banco Continental</option>
-                      <option value="7">Banco Interbank</option>
-                      <option value="8">Banco de Comercio</option>
-                      <option value="9">Mibanco</option>
-                      <option value="10">Banco Financiero</option>
-                      <option value="11">Banco Interamericano BIF</option>
-                      <option value="12">Banco Santander (Chile)</option>
-                      <option value="13">BBVA (España)</option>
-                      <option value="13">Otro</option>
                     </select> 
                   </div>
                   <div class="col-md-3">

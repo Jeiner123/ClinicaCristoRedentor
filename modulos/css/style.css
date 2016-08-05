@@ -590,3 +590,10 @@ h5{
 	background-color: #fff;
 	margin-left: 1%;
 }
+
+.opcion{
+	font-size: 14px;
+	background-color:transparent;
+	color:#000;
+	text-align: left;
+}

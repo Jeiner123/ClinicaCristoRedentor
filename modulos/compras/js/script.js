@@ -11,7 +11,7 @@ function mantenerProveedor(form){
 	if($("#cboDocumento").val()==1){
 		inputMismoValor('#txtDocumento',8);	
 	}
-	if($("#cboDocumento").val()==3){
+	if($("#cboDocumento").val()==6){
 		inputMismoValor('#txtDocumento',11);	
 		inputObligatorio('#txtRazonSocial',4);
 		inputObligatorio('#txtDireccion',4);
@@ -75,7 +75,7 @@ function updateProveedor(){
 }
 
 function bloquearCampos(){
-	if($("#cboDocumento").val()!=3){
+	if($("#cboDocumento").val()!=6){
 		$('#txtRazonSocial').prop("readonly", true);
 		$('#txtDireccion').prop("readonly", true);
 		$('#txtEmailE').prop("readonly", true);
@@ -157,9 +157,7 @@ function eliminarProveedor(documento){
 }
 
 function datosProveedor(documento){
-	if($("#txtFlag").val()=='N'){
-		return;
-	}
+	if($("#txtFlag").val()!='N'){
 	abrirCargando();
 	var opc = 'CC_03';
 	$.ajax({
@@ -171,14 +169,14 @@ function datosProveedor(documento){
 			$('#cboDocumento').prop("disabled", true);
 			$("#txtDocumento").prop("readonly", true);
 			for(var i in datos){
-                	$("#cboDocumento").val(datos[i].tipoDocumento);
-                	$("#cboModalidadPago").val(datos[i].condPago);
+                	documento=datos[i].tipoDocumento;
+                	condicion=datos[i].condPago;
                 	operador=datos[i].tipoTelefono;
                 	$("#txtDocumento").val(datos[i].proveedorID);
                 	$("#txtRazonSocial").val(datos[i].razonSocial);
                 	$("#txtDireccion").val(datos[i].direccion);
                 	$("#txtEmailE").val(datos[i].emailEmpresa);
-                	$("#cboBanco").val(datos[i].banco);
+                	entidad=datos[i].banco;
                 	$("#txtDetraccion").val(datos[i].cuentaDetraccion);
                 	$("#txtCuenta").val(datos[i].cuentaBanco);
                 	$("#txtNombre").val(datos[i].nombres);
@@ -189,22 +187,11 @@ function datosProveedor(documento){
                 	$("#txtObservaciones").val(datos[i].observaciones);
               
                 }
-            opc = 'CC_TT_01';
-			$.ajax({
-				type: 'POST',
-				data:'opc='+opc,
-				url: urlGeneral,
-				success: function(rpta){
-					$('#cboTipoTelefono1').html(rpta);
-					$('#cboTipoTelefono2').html(rpta);
-					$("#cboTipoTelefono1").val(operador);
-					cerrarCargando();
-					return true;		
-				},
-				error: function(rpta){
-					alert(rpta);
-				}
-			});
+             cargaOperador(operador);
+             cargarCboCondPago(condicion);
+             cargarCboTipoDocumento(documento);
+             cargarCboEntidadFinanciera(entidad);
+
 			if($("#txtFlag").val()=='V'){
 				bloqueoTotalForm('#formProveedor',true);
 				$("#btnGuardar").addClass("hidden");
@@ -217,7 +204,32 @@ function datosProveedor(documento){
 		}
 	});
 
+	}else{
+		cargaOperador(0);
+		cargarCboCondPago(0);
+		cargarCboTipoDocumento('');
+		cargarCboEntidadFinanciera('00');
+	}
 	
+}
+
+function cargaOperador(operador){
+	opc = 'CC_TT_01';
+	$.ajax({
+		type: 'POST',
+		data:'opc='+opc,
+		url: urlGeneral,
+		success: function(rpta){
+			$('#cboTipoTelefono1').html(rpta);
+			$('#cboTipoTelefono2').html(rpta);
+			$("#cboTipoTelefono1").val(operador);
+			cerrarCargando();
+			return true;		
+		},
+		error: function(rpta){
+			alert(rpta);
+		}
+	});
 }
 
 
@@ -351,3 +363,29 @@ function crearfila(){
 	);
 }
  
+//======================GESTIÓN DE FACTURA=======================================
+function SeleccionarPeriodo(mes){
+	bloqueoTotalForm('#formFactura',true);
+	if($("#txtFlag").val()=="N"){
+		mes=parseInt(mes)
+		abrirModal("#modalPeriodo");
+		$("#cboMes").val(mes);
+	}
+}
+
+function generarPeriodo(mes,anio){
+	mes=parseInt(mes);
+	if($("#cboMes").val()>mes){
+		comboObligatorio('#cboMes',$("#cboMes").val());
+		$("#lbError").text("Periódo no permitido");
+		return;
+	}
+	bloqueoTotalForm('#formFactura',false);
+	cerrarModal('#modalPeriodo');
+	cargarListaProveedor();
+	cargarCboAreas();
+	cargarCboExistencias();
+	combo=document.getElementById("cboMes");
+	periodo = combo.options[combo.selectedIndex].text;
+	$("#txtPeriodo").val(periodo+"-"+anio);
+}
