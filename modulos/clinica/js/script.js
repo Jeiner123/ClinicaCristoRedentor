@@ -20,7 +20,7 @@ function cargarTablaEspecialidades(){
             { "targets": [ 4 ],"width": "15%", "orderable": false,"searchable": false ,}
             
 		      ],
-		      "order": [[ 3, "asc" ]]
+		      "order": [[ 1, "asc" ]]
 				}
 			);
 			cerrarCargando();
@@ -143,7 +143,7 @@ function cargarTablaServicios(){
             { "targets": [ 7 ],"width": "5%",},
             { "targets": [ 8 ],"width": "10%","orderable": false,}
 		      ],
-		      "order": [[ 3, "asc" ]]
+		      "order": [[ 1, "asc" ]]
 				}
 			);
 			cerrarCargando();

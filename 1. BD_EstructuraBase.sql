@@ -189,71 +189,9 @@ create table forma_pago(
 );
 
 
-insert into tipo_telefono(tipoTelefono,estado) values		
-	('Otro',1),
-	('Fijo',1),
-	('Claro',1),
-	('RPC Claro ',1),
-	('Movistar',1),
-	('RPM Movistar ',1),
-	('Bitel',1),
-	('Entel',1);
-insert into tipo_personal(tipoPersonal,estado) values
-	('MEDICO',1),			
-	('DE SALUD',1),   /* Enfermeras - Laboratoristas */
-	('DE APOYO',1),
-	('ADMINISTRATIVO',1);
-insert into area(area,estado) values
-	/*1*/('GERENCIA',1),
-	/*2*/('DIRECCION DE GESTION',1),
-	/*3*/('TECNOLOGIAS DE LA INFORMACION',1),
-	/*4*/('ADMINISTRACION',1),
-	/*5*/('RECURSOS HUMANOS',1),
-	/*6*/('INFRAESTRUCTURA Y LOGISTICA',1),
-	/*7*/('CONTABILIDAD Y FINANZAS',1),
-	/*8*/('MARKETING Y VENTAS',1),
-	/*9*/('DIRECCION MEDICA',1),
-	/*10*/('ADMINISION Y SERVICIO AL CLIENTE',1),
-	/*11*/('ESPECIALIDADES MEDICAS',1),
-	/*12*/('APOYO DX Y TERAPEUTICO',1),
-	/*13*/('LABORATORIO',1),
-	/*14*/('SALUD OCUPACIONAL',1),
-	/*15*/('HOSPITALIZACION',1);
-insert into cargo(areaID,cargo,estado) values
-	(1,'GERENTE',1),
-	(1,'ASISTENTE',1),
-	(2,'DIRECTOR',1),
-	(2,'ASISTENTE',1),
-	(3,'COORDINADOR',1),
-	(3,'PRACTICANTE',1),
-	(4,'ADMINISTRADOR',1),
-	(5,'JEFE',1),
-	(5,'COORDINADOR',1),
-	(6,'COORDINADOR',1),
-	(6,'ASISTENTE',1),
-	(7,'CONTADOR',1),
-	(7,'ASISTENTE',1),
-	(8,'COORDINADOR',1),
-	(8,'JEFE',1),
-	(9,'DIRECTOR',1),
-	(9,'MEDICO',1),
-	(10,'ENFERMERA',1),
-	(10,'RECEPCIONISTA',1),
-	(11,'MEDICO',1),
-	(11,'ENFERMERA',1),
-	(11,'ASISTENTE',1),
-	(12,'COORDINADOR',1),	
-	(12,'JEFE',1),
-	(13,'COORDINADOR',1),
-	(13,'ASISTENTE',1),
-	(13,'PRACTICANTE',1),
-	(14,'RECEPCIONISTA',1),
-	(14,'MEDICO',1),
-	(14,'ENFERMERA',1),
-	(14,'PSICOLOGA',1),
-	(15,'DIRECTOR',1),
-	(15,'MEDICO',1),
-	(15,'ENFERMERA',1);
+insert into forma_pago(formaPagoID,formaPago,numeroCuotas,estado) values
+		("CON","CONTADO",1,1),
+		("CRE","CREDITO",2,1);
 insert into procedencia(procedencia,estado) values
 	('B - LAREDO' ,1),
 	('B - EL PORVENIR' ,1),
