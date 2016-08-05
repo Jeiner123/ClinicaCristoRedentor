@@ -114,9 +114,9 @@
 					                <input type='hidden' id='txtPedidoID' name='txtPedidoID' value='".$pedidoID."'>
 					                <input type='hidden' id='txtDNI' name='txtDNI' value='".$DNI."'>												  	
                           <button type='submit' class='btn btn-block btn-transparente btn-flat btn-xs'>
-                          	<span class='text-green'>
-	                            <i class='ace-icon fa fa-sign-in bigger-120'></i>
-	                            Atender
+                          	<span class='text-blue'>
+	                            <i class='ace-icon fa fa-search bigger-120'></i>
+	                            Ver detalle
 	                          </span>
 													</button>
 					              </form>
@@ -260,10 +260,9 @@
 	}
 	//CARGAR TABLA DE REFERENCIAS
 	if($opc == 'CTR_01'){
-		$fechaCita = $_POST['fecha'];		
-		$fechaCita = str_replace("/","-",$fechaCita);
-	  $fechaCita = date('Y-m-d',strtotime($fechaCita));
-	  $estadoPago = $_POST['estadoPago'];
+		$mes = $_POST['mes'];
+		$personalID = $_POST['personalID'];
+	  // $estadoPago = $_POST['estadoPago'];
 	  
 		$consulta = "select PS.pedidoServicioID,P.nombres,P.apPaterno,P.apMaterno,E.especialidad,S.servicio,
 									substring_index(PS.timestamp,' ',1) as 'fecha',PS.estadoPago,C.estado
@@ -273,7 +272,9 @@
 								inner join CITA C ON C.pedidoServicioID = PS.pedidoServicioID
 								left join ESPECIALIDAD E on E.especialidadID = C.especialidadID
 								inner join SERVICIO S on S.servicioID = C.servicioID
-								";
+								where MONTH(PS.timestamp) = '".$mes."'";
+		if($personalID != 0){$consulta = $consulta." and PL.personalID = '".$personalID."'";}
+		
 		$res = mysqli_query($con,$consulta) or die(mysqli_error($con));
 		$numReferencias = mysqli_num_rows($res);
 		while($row = mysqli_fetch_row($res)){

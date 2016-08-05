@@ -13,7 +13,24 @@ window.onload = function(){
 	activarMenuIzquierda();
 	// alert(fechaHoyDMA);	
 }
-
+function validarFechaMayor(elemento){
+	var fecha = $(elemento).val();
+  if(fecha.length<1){
+    $(elemento).parent().addClass('has-error');
+    return false;
+  }else{
+    $(elemento).parent().removeClass('has-error');
+  }  
+  var valuesStart= fechaHoyDMA.split("-");
+  var valuesEnd=fecha.split("-");
+  var dateStart = new Date(valuesStart[2],(valuesStart[1]-1),valuesStart[0]);
+  var dateEnd = new Date(valuesEnd[2],(valuesEnd[1]-1),valuesEnd[0]);
+  if(dateStart > dateEnd){
+    $(elemento).parent().addClass('has-error');        
+  }else{
+    $(elemento).parent().removeClass('has-error');
+  }  
+}
 function abrirCargando(){
 	numeroCargas++;
 	$("#modalCargando").modal({

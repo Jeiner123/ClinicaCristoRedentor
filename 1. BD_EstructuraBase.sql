@@ -188,7 +188,7 @@ create table forma_pago(
 	primary key(formaPagoID)
 );
 CREATE TABLE comprobante_pago (
-  comprobanteID char(3) NOT NULL,
+  comprobanteID char(2) NOT NULL,
   descripcion varchar (100) NOT NULL,
   estado int NOT NULL,
   compras boolean NOT NULL,

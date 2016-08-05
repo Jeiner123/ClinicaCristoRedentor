@@ -52,48 +52,7 @@
             </button>
           </div>
         </div>
-        <div class="box-body" style='overflow-x:scroll;overflow-y:hidden' align="center">
-          <div class="row">
-            <div class="col-md-12" align="center" style="display:true">
-              <div class="control-group ">
-                <label style="cursor: pointer">
-                  <input checked name="rbListaCitas" id="rbListaCitasC" type="radio"  value="C" onchange="cargarTablaCitas();" style="cursor: pointer">
-                  <span class="lbl">Consultorio</span>
-                </label>
-                <!-- Radio -->
-                <label style="margin-left:10px;cursor: pointer; ">
-                  <input name="rbListaCitas" id="rbListaCitasL" type="radio"  value="L" onchange="cargarTablaCitas();" style="cursor: pointer">
-                  <span class="lbl">Laboratorio</span>
-                </label>                
-                <!-- Radio -->
-              </div>
-            </div>
-          </div>
-          <br>
-          <div class="row">            
-            <div class="col-md-2">
-              <label class="form-label">Fecha</label>
-              <div class="input-group">
-                <input id="txtFechaCita" name="txtFechaCita" class="form-control date-picker input-sm" placeholder="dd-mm-aaaa" type="text" data-date-format="dd-mm-yyyy" value="<?php echo $fechaHoyDMA?>" onchange="cargarTablaCitas();">
-                <span class="input-group-addon">
-                  <i class="fa fa-calendar bigger-110"></i>
-                </span>
-              </div>
-            </div>
-            <div class="col-md-2">
-              <label class="form-label">Estado</label>
-              <select class="form-control input-sm" id="cboEstado" name="cboEstado" onchange="cargarTablaCitas();">
-                <option value="T" selected>Todos</option>
-                <option value="R" class="label-warning">Reservado</option>
-                <option value="C" class="label-info">Confirmada</option>
-                <option value="S" class="label-primary">En Sala</option>
-                <option value="A" class="label-success">Atendido</option>
-                <option value="X" class="label-danger">Anulado</option>
-              </select>
-            </div>
-          </div>
-          <!-- ROW -->
-          <hr>
+        <div class="box-body" style='overflow-x:scroll;overflow-y:hidden' align="center">          
           <table id="tablaPedidoPendiente" width="100%" class="table table-bordered table-hover tablaDatos">
             <thead>
               <tr>                

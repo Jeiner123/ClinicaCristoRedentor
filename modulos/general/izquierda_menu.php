@@ -81,7 +81,7 @@
 			<ul class="treeview-menu">
 			  <li class="treeview" id="m_listado_facturas">
 				<a href="../facturacion/listado_facturas.php">
-				  <span>Listado de facturas / recibos</span>
+				  <span>Listado de pagos</span>
 				</a>
 			  </li>
 			  <li class="treeview" id="m_pendiente_facturar">
@@ -157,15 +157,15 @@
 			<a href="#">
 				<i class="fa fa-chevron-down"></i>
 				<span>Ventas</span>
-				<ul class="treeview-menu">
-					<li class="treeview" id="m_nuevo_venta">
-						<a href="../ventas/nuevo_venta.php">
-							<span>Nueva venta</span>
-						</a>
-					</li>
+				<ul class="treeview-menu">					
 					<li class="treeview" id="m_listado_ventas">
 						<a href="../ventas/listado_ventas.php">
 							<span>Listado de  ventas</span>
+						</a>
+					</li>
+					<li class="treeview" id="m_nuevo_venta">
+						<a href="../ventas/nuevo_venta.php">
+							<span>Nueva venta</span>
 						</a>
 					</li>
 					<li class="treeview" id="m_nuevo_cliente">

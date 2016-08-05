@@ -20,7 +20,7 @@
 
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-  <input type='hidden' value='menu_facturacion_cobranzas' id='menuPrincipal'>
+  <input type='hidden' value='menu_facturacion' id='menuPrincipal'>
   <input type='hidden' value='m_deuda_citas' id='menuIzquierda'>
   <?php include '../general/menu_principal.php';?>
 
