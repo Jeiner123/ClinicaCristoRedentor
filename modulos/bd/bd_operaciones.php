@@ -366,4 +366,39 @@ if($opc=="PL_10"){
 			}
 			exit();
 		}
+
+
+	//CARGAR COMBO CONDICIÓN DE PAGO
+	if($opc=='CC_CP'){
+		$consulta = "SELECT formaPagoID,formaPago FROM forma_pago where estado='1'";
+		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
+		echo "<option value='0'>--Seleccionar--</option>";
+		while($row = mysqli_fetch_row($res)){	
+			echo "<option value='".$row[0]."'>".$row[0]."-".$row[1]."</option>";
+		}
+		exit();
+	}
+
+	//CARGAR COMBO TIPO DE DOCUMENTO
+	if($opc=='CC_TD'){
+		$consulta = "SELECT tipoDocumentoID,tipoDocumento FROM tipo_documento where estado='A'";
+		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
+		echo "<option value=''>--Seleccionar--</option>";
+		while($row = mysqli_fetch_row($res)){	
+			echo "<option value='".$row[0]."'>".$row[0]."-".$row[1]."</option>";
+		}
+		exit();
+	}
+
+	//CARGAR COMBO ENTIDADES FINANCIERAS
+	if($opc=='CC_EF'){
+		$consulta = "SELECT entidadFinancieraID,entidadFinanciera FROM entidad_financiera where estado='A'";
+		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
+		echo "<option value='00'>--Seleccionar--</option>";
+		while($row = mysqli_fetch_row($res)){	
+			echo "<option value='".$row[0]."'>".$row[0]."-".$row[1]."</option>";
+		}
+		exit();
+	}
+
  ?>

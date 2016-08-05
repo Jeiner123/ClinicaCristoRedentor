@@ -71,7 +71,7 @@
 								<form method='post' action='../compras/nuevo_proveedor.php'>
 	                <input type='hidden' id='txtProveedorID' name='txtProveedorID' value='".$row[0]."'>
 	                <input type='hidden' id='txtOpcion' name='txtOpcion' value='V'>						
-	                <button type='submit' class='btn btn-block btn-transparente btn-flat btn-xs'>
+	                <button type='submit' class='btn btn-block opcion btn-flat btn-xs'>
                   	<span class='text-blue'>
                       <i class='fa fa-search' title='Ver'></i>
                     </span>
@@ -82,7 +82,7 @@
 	              <form method='post' action='../compras/nuevo_proveedor.php'>
 	                <input type='hidden' id='txtProveedorID' name='txtProveedorID' value='".$row[0]."'>	
 	                <input type='hidden' id='txtOpcion' name='txtOpcion' value='M'>					
-	                <button type='submit' class='btn btn-block btn-transparente btn-flat btn-xs'>
+	                <button type='submit' class='btn btn-block opcion btn-flat btn-xs'>
                   	<span class='text-yellow'>
                       <i class='fa fa-pencil' title='Modificar'></i>
                     </span>
@@ -225,16 +225,7 @@
 		exit();
 	}
 
-	//CARGAR COMBO CONDICIÓN DE PAGO
-	if($opc=='CC_10'){
-		$consulta = "SELECT formaPagoID,formaPago FROM forma_pago where estado='1'";
-		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
-		echo "<option value='0'>--Seleccionar--</option>";
-		while($row = mysqli_fetch_row($res)){	
-			echo "<option value='".$row[0]."'>".$row[0]."-".$row[1]."</option>";
-		}
-		exit();
-	}
+	
 ?>
 
 
