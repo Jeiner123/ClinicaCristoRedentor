@@ -790,7 +790,24 @@ insert into cargo(cargoID,areaID,cargo,estado) values
 	(33,15,'MEDICO',1),
 	(34,15,'ENFERMERA',1);
 
+insert into forma_pago(formaPagoID,formaPago,numeroCuotas,estado) values
+		("CON","CONTADO",1,1),
+		("CRE","CREDITO",2,1);
+insert into procedencia(procedencia,estado) values
+	('B - LAREDO' ,1),
+	('B - EL PORVENIR' ,1),
+	('B - FLORENCIA DE MORA' ,1),
+	('B - LA ESPERANZA' ,1),
+	('B - TRUJILLO' ,1);
 
+INSERT INTO persona (DNI, nombres, apPaterno, apMaterno, fechaNacimiento, sexo, telefono1, tipoTelefono1, telefono2, tipoTelefono2, correoPersonal, RUC, direccion, foto, timestamp) VALUES
+('47790815', 'JUAN JEINY', 'HARO', 'GUTIERREZ', '1993-05-24', 'M', '987050724', 4, NULL, NULL, 'jeiner.24@gmail.com', NULL, 'HUERTA BELLA MZ. F LT. 05 - LA RINCONADA', NULL, '2016-07-29 15:31:43');
+
+INSERT INTO personal (personalID, DNI, tipoPersonalID, cargoID, fechaIngreso, correoCorporativo, sueldoMensual, estado, observaciones) VALUES
+(1001, '47790815', 3, 5, '2016-03-01', 'soporteti@clinicacristoredentor.com', '0.00', 1, '');
+
+INSERT INTO usuario (usuario, clave, DNI, permisoID, estado) VALUES
+('admin', '21232f297a57a5a743894a0e4a801fc3', '47790815', 3, 1);
 
 
 

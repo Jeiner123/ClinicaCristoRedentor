@@ -131,8 +131,7 @@ function guardarCitaLaboratorio(){
 	// var 
 }
 function cargarTablaCitas(tipo){	
-	numeroCargas++;	
-	abrirModal("#modalCargando");
+	abrirCargando();
 	fecha = $("#txtFechaCita").val();
 	estado = $("#cboEstado").val();	
 	tipo = $("input[name=rbListaCitas]:checked").val();	
@@ -294,6 +293,46 @@ function recorrerCeldas(){
     })
     alert(campo1 + ' - ' + campo2 + ' - ' + campo3);
   })
+}
+
+//Cargar tabla de referencias médicas
+function cargarTablaReferencias(){
+	abrirCargando();
+	fecha = $("#txtFechaCita").val();
+	estadoPago = $("#cboEstadoPago").val();
+
+	var opc = 'CTR_01';
+	$.ajax({
+		type: 'POST',
+		data:'opc='+opc+'&fecha='+fecha+'&estadoPago='+estadoPago,
+		url: 'bd/bd_operaciones.php',
+		success: function(rpta){
+			$('#tablaReferencias').DataTable().destroy();
+			$('#cuerpoTablaReferencias').html(rpta);
+			$('#tablaReferencias').DataTable(
+				// {
+			 //   	"columnDefs": [
+    //         { "targets": [ 0 ],"width": "19%",},						//Paciente
+    //         { "targets": [ 1 ],"width": "10%", },						//Espcialidad
+    //         { "targets": [ 2 ],"width": "21%",  "searchable": false , },	//Servicio
+    //         { "targets": [ 3 ],"width": "8%",  "searchable": false ,},		//Fecha
+
+    //         { "targets": [ 4 ],"width": "7%","searchable": false ,},	//Hora
+    //         { "targets": [ 5 ],"width": "15%","searchable": false ,},	//Medico
+    //         { "targets": [ 6 ],"width": "8%","searchable": false ,},	//Estado
+    //         { "targets": [ 7 ],"width": "8%","searchable": false ,},  //Pago
+    //         { "targets": [ 8 ],"width": "4%", "orderable": false,"searchable": false ,}
+		  //     ],
+		  //     "order": [[ 3, "asc" ]],
+		  //     "iDisplayLength": 25
+				// }
+			);
+			cerrarCargando();
+		},
+		error: function(rpta){
+			alert(rpta);
+		}
+	});
 }
 
 // function guardarServicioDetalle(){

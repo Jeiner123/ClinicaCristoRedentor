@@ -50,10 +50,15 @@
 				<a href="../citas/registrar_cita_medica.php">
 				  <span>Registrar cita médica</span>
 				</a>
-			  </li>
+			  </li>			  
 			  <li class="treeview" id="m_registrar_lab">
 				<a href="../citas/registrar_cita_laboratorio.php">
 				  <span>Registrar cita laboratorio</span>
+				</a>
+			  </li>
+			  <li class="treeview" id="m_cita_referencias">
+				<a href="../citas/referencias.php">
+				  <span>Referencias</span>
 				</a>
 			  </li>
 			  <li class="treeview" id="m_registrar_lab">
