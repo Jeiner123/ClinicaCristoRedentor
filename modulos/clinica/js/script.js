@@ -143,7 +143,7 @@ function cargarTablaServicios(){
             { "targets": [ 7 ],"width": "5%",},
             { "targets": [ 8 ],"width": "10%","orderable": false,}
 		      ],
-		      "order": [[ 1, "asc" ]]
+		      "order": [[ 0, "asc" ]]
 				}
 			);
 			cerrarCargando();
@@ -161,9 +161,8 @@ function guardarServicio(form){
 		alert("Hay problemas con el formulario");
 		return false;
 	}
-	inputObligatorio('#txtServicio',4)
+	inputObligatorio('#txtServicio',2)
 	inputObligatorio('#txtPrecio',2)
-	inputObligatorio('#txtServicio',4)
 	comboObligatorio('#cboEspecialidad',0);
 	comboObligatorio('#cboTipoServicio',0);
 	comboObligatorio('#cboEstado',0);
@@ -192,10 +191,9 @@ function guardarServicio(form){
 				limpiarForm(form);
 				cerrarModal('#modalRegServicio');
 				cargarTablaServicios();
-				cerrarCargando();
-				return true;
+			}else{
+				alert(rpta);	
 			}
-			alert(rpta);
 			cerrarCargando();
 		},
 		error: function(rpta){
@@ -204,8 +202,9 @@ function guardarServicio(form){
 		}
 	});
 }
-function mostrarServicio(servicioID){
+function mostrarServicio(servicioID){		
 	abrirModal("#modalRegServicio");
+	bloqueoTotalForm('#formEspecialidad',true);
 	$('#btnGuardar').hide();
 	opc = 'S_05';
 	abrirCargando();
@@ -213,7 +212,7 @@ function mostrarServicio(servicioID){
 		type: 'POST',
 		data:'opc='+opc+'&servicioID='+servicioID,
 		url: url,
-		success: function(rpta){			
+		success: function(rpta){
 			objeto = JSON.parse(rpta);
 			$('#txtServicioID').val(objeto[0]);
 			$('#txtServicio').val(objeto[1]);
@@ -221,6 +220,8 @@ function mostrarServicio(servicioID){
 			$('#cboEstado').val(objeto[3]);
 			$('#cboEspecialidad').val(objeto[5]);
 			$('#cboTipoServicio').val(objeto[4]);
+			
+			$('#tituloServicio').html(objeto[1]);
 			cerrarCargando();
 		},
 		error: function(rpta){
@@ -230,9 +231,13 @@ function mostrarServicio(servicioID){
 	});
 }
 function modificarServicio(servicioID){
-	mostrarServicio(servicioID);	
+	mostrarServicio(servicioID);
 	$('#txtFlag').val('M');	
-	$('#btnGuardar').show();	
+	$('#btnGuardar').show();
+	$('#cboEspecialidad').attr('disabled',false);
+	$('#cboTipoServicio').attr('disabled',false);
+	$('#cboEstado').attr('disabled',false);	
+	// bloqueoTotalForm('#formEspecialidad',false);
 }
 function eliminarServicio(servicioID){
 	r = confirm("¿Seguro que desea eliminar el servicio?");

@@ -1,4 +1,16 @@
 USE clinica;
+
+insert into COMPROBANTE_PAGO(comprobanteID,descripcion,estado,compras,ventas,ingresos,egresos,honorarios,diario) values
+	('000','OTRO',1,1,1,0,0,0,1),
+	('001','FACTURA',1,1,1,0,0,0,1),
+	('002','RECIBO POR NONORARIOS',1,1,0,0,0,1,1),
+	('003','BOLETA DE VENTA',1,1,1,1,1,0,1),
+	('004','LIQUIDACION DE COMPRA',1,1,0,0,0,0,0),
+	('005','BOLETO DE COMPAÑIA DE AVIACION COMERCIAL POR EL SERVICIO DE TRANSPORTE AEREO DE PASAJEROS',1,0,0,0,0,0,0),
+	('006','CARTA DE PORTE AEREO POR EL SERVICIO DE TRANSPORTE DE CARGA AEREA',1,0,0,0,0,0,0),
+	('007','NOTA DE CREDITO',1,1,1,0,0,0,0),
+	('008','NOTA DE DEBITO',1,1,1,0,0,0,0);
+
 insert into especialidad(especialidadID,especialidad,estado) values
 	(0,'(NINGUNO)',1),
 	(1,'PEDIATRIA',1),
