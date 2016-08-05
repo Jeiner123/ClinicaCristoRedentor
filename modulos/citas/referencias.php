@@ -36,13 +36,11 @@
     </section>
     <!-- Main content -->
     <section class="content">
-      <!-- Box seleccionar menú y submenu-->     
-
-
+      <!-- Box seleccionar menú y submenu-->
       <div class="box box-solid color-palette-box">
         <div class="box-header bg-blue">
           <div>
-            <h3 class="box-title">Listado de citas</h3>
+            <h3 class="box-title">Listado de referencias</h3>
           </div>
           <div class="box-tools pull-right">
             <button style='color:#fff;' type="button" class="btn btn-box-tool" data-widget="collapse">
@@ -51,7 +49,18 @@
           </div>
         </div>
         <div class="box-body" style='overflow-x:scroll;overflow-y:hidden' align="center">
-          <div class="row">            
+          <div class="row">
+            <div class="col-md-2">
+              <label for="txtMes">Mes</label>
+              <select class="form-control input-sm" id="cboMes" name="cboMes">
+                <?php 
+                  foreach ($meses as $id => $value) {
+                    echo "<option value='".$id."'>".$value."</option>";
+                  }
+                 ?>
+              </select>
+            </div>
+
             <div class="col-md-2">
               <label for="txtFechaCita">Fecha</label>
               <div class="input-group">
@@ -80,9 +89,8 @@
                 <th>Servicio</th>
                 <th>Especialidad</th>
                 <th>Fecha</th>
-                <th>Estado cita</th>
-                <th>Estado pago</th>
-                <th></th>
+                <th>Cita</th>
+                <th>Pago</th>                
               </tr>
             </thead>
             <tbody class="cuerpoTabla" id="cuerpoTablaReferencias">
