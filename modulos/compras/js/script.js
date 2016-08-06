@@ -400,6 +400,7 @@ function generarPeriodo(mes,anio){
 	cargarCboAreas();
 	cargarCboExistencias();
 	cargarCboTipoAdquision(0);
+	cargarCboComprobante('01');
 	combo=document.getElementById("cboMes");
 	periodo = combo.options[combo.selectedIndex].text;
 	$("#txtPeriodo").val(periodo+"-"+anio);

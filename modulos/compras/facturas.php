@@ -126,7 +126,7 @@
                   </div>
                     <div class="col-md-3">
                     <label for="cboTipoOperacion">Tipo de documento</label>
-                    <select class="form-control input-sm" name="cboTipoOperacion" id="cboTipoOperacion">
+                    <select class="form-control input-sm" name="cboComprobante" id="cboComprobante">
                       </select>
                   </div>
                   <div class="col-md-3">
@@ -210,14 +210,32 @@
                       <hr>
                     </div>
                     <div class="col-md-6">
-                      <label for="cboTasa">Tasa</label>
-                      <select class="form-control input-sm" name="cboTasa" id="cboTasa">
-                        
-                      </select>
+                      <label for="chkTasaRetencion">¿Retención?</label>
+                      <input type="checkbox" name="chkTasaRetencion" id="chkTasaRetencion">
                     </div>
                     <div class="col-md-6">
                       <label for="txtImporte">Importe</label>
                       <input class="form-control input-sm" name="txtImporte" id="txtImporte" onkeypress="return soloNumeroDecimal(event);" readonly="" placeholder="S/."></input>
+                    </div>
+                     
+                  </div></div>
+
+                  <div class="col-md-3">
+                  <br>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="box-header"  style="margin: -30px 0px -15px -10px">
+                          <br><h1 class="box-title">DETRACCIÓN</h1>
+                      </div>
+                      <hr>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="cboTasa">¿Detracción?</label>
+                      <input type="checkbox" name="chkDetraccion" id="chkDetraccion">
+                    </div>
+                    <div class="col-md-6">
+                      <label for="txtImporte">Total</label>
+                      <input class="form-control input-sm" name="txtDetraccion" id="txtDetraccion" onkeypress="return soloNumeroDecimal(event);" readonly="" placeholder="S/."></input>
                     </div>
                      
                   </div></div>

@@ -180,7 +180,7 @@ var urlGeneral = '../bd/bd_operaciones.php';
 		});
 	}
 	//Formas de pago : Contado - Credito Credito 7 dias..
-	function cargarCboFormaPago(valorDefecto){
+	function cargarCboCondPago(valorDefecto){
 		opc = 'CC_FP';
 		$.ajax({
 			type: 'POST',
