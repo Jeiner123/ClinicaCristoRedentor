@@ -126,7 +126,7 @@
                   </div>
                     <div class="col-md-3">
                     <label for="cboTipoOperacion">Tipo de documento</label>
-                    <select class="form-control input-sm" name="cboComprobante" id="cboComprobante">
+                    <select class="chosen-select form-control input-sm" name="cboComprobante" id="cboComprobante">
                       </select>
                   </div>
                   <div class="col-md-3">

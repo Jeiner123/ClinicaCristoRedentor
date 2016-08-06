@@ -12,6 +12,7 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			success: function(rpta){			
 				$('#cboComprobante').html(rpta);
 				$('#cboComprobante').val(valorDefecto);
+				funcionSelect();
 				cerrarCargando();
 				return true;
 			},
