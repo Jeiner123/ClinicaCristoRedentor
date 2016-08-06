@@ -143,7 +143,7 @@
 
 			$saldo = $importeTotal - $importePagado;
 			$nuevoSaldo = $saldo - $importe;
-			
+		
 
 		// echo $row[1].'-'.$row[2].'-'.$row[3].'-'.$row[4];
 		if($estadoPago == 'PAG'){
@@ -157,19 +157,26 @@
 			}
 		}
 		// INSERTAR PAGO
+		$consulta = "SELECT valor FROM PARAMETRO WHERE parametroID = 1 and parametro = 'IGV'";
+		$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
+		$row = mysqli_fetch_row($res);
+		$IGV = $row[0];
+
 		$consulta = "insert into PAGO (pedidoServicioID,comprobanteID,numeroSerie,numeroComprobante,
 									IGV,importeSinIGV,importeIGV,importeTotal,
-									fechaPago,estado) values
+									fechaPago,estado,timestamp) values
 							('".$pedidoID."','".$comprobante."',
 							".(($comprobante == '000')?'NULL':("'".$nroSerie."'")).",								
 							".(($nroComprobante == '')?'NULL':("'".$nroComprobante."'")).",
-								'".$importe."','".$fechaHoyAMD."',1)
+							".$IGV.",".$importe/(1+$IGV).",".$importe*($IGV/(1+$IGV)).",
+							".$importe.",'".$fechaHoyAMD."',1,'".$timestamp."')
 							";
+
 		$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
 		if(!$res){
 			echo "No se pudo registrar el pago";
 			exit();
-		}		
+		}
 		if($nuevoSaldo==0)$estadoPago = 'PAG';
 		else if($nuevoSaldo>0 && $nuevoSaldo < $importeTotal) //importeTotal
 				$estadoPago = 'PAR';
@@ -205,9 +212,10 @@
 								";
 		$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
 		while($row = mysqli_fetch_row($res)){
+			$pedidoID =  $row[1];
 			$fechaPago = str_replace("/","-",$row[6]);
 	    $fechaPago = date('d-m-Y',strtotime($fechaPago));
-	    $paciente = $row[8].' '.$row[9];
+	    $paciente = $row[8].' '.$row[9].' '.$row[10];
 	    $telefono = $row[12];
 			$comprobante = $row[13]; //N-B-F : Ninguno - Boleta - Factura
 			$nroSerie = $row[3]; 
@@ -215,13 +223,29 @@
 			$importe = $row[5];
 			if($nroDoc == '')$nroDoc = '---';
 			echo "
-						<tr>												
+						<tr>
+							<td style='text-align:center;'>".$pedidoID."</td>
 							<td style='text-align:center;'>".$fechaPago."</td>
 							<td >".$paciente."</td>
 							<td>".$telefono."</td>
-							<td>".$comprobante."</td>
+							<td style='text-align:center;'>".$comprobante."</td>
 							<td>".$nroSerie.' - '.$nroDoc."</td>
-							<td style='text-align:right;'>".$importe."</td>
+							<td style='text-align:right; padding-right:20px;'>".$importe."</td>
+							<td>
+									<div class='row'>
+										<div class='col-md-8'>
+											<form method='post' action='../facturacion/facturar.php'>
+				                <input type='hidden' id='txtPedidoID' name='txtPedidoID' value='".$pedidoID."'>
+				                <input type='hidden' id='txtDNI' name='txtDNI' value='".$row[11]."'>
+	                      <button type='submit' class='btn btn-block btn-transparente btn-flat btn-xs'>
+	                      	<span class='text-green'>
+	                          <i class='ace-icon fa fa-search bigger-120'></i>                          
+	                        </span>
+												</button>
+				              </form>
+										</div>
+									</div>
+							</td>
 						</tr>
 				";
 		}
@@ -240,6 +264,7 @@
 								inner join PACIENTE PA ON PS.pacienteID = PA.pacienteID
 								inner join PERSONA PE ON PE.DNI = PA.DNI
 								left join FORMA_PAGO FP ON FP.formaPagoID = PS.formaPagoID
+								where PS.estadoPago<>'PAG'
 								";
 		$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
 		while($row = mysqli_fetch_row($res)){
@@ -276,7 +301,21 @@
 							<td style='text-align:right; padding-right:20px;'>".$importePagado."</td>
 							<td>".$formaPago."</td>
 							<td>".$estadoPago."</td>
-							<td>".$estadoPago."</td>
+							<td>
+									<div class='row'>
+										<div class='col-md-8'>
+											<form method='post' action='../facturacion/facturar.php'>
+				                <input type='hidden' id='txtPedidoID' name='txtPedidoID' value='".$pedidoID."'>
+				                <input type='hidden' id='txtDNI' name='txtDNI' value='".$row[12]."'>
+	                      <button type='submit' class='btn btn-block btn-transparente btn-flat btn-xs'>
+	                      	<span class='text-green'>
+	                          <i class='ace-icon fa fa-search bigger-120'></i>                          
+	                        </span>
+												</button>
+				              </form>
+										</div>
+									</div>
+							</td>
 						</tr>
 				";
 		}

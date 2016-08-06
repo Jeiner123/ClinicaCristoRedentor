@@ -3,6 +3,24 @@
 	require('../../bd/bd_conexion.php');
 	$opc = $_POST['opc'];
 
+	//CAGAR COMBO PACIENTES
+	if($opc == 'CC_PAC_01'){
+		$consulta = "select P.DNI, PA.pacienteID, P.nombres,P.apPaterno,P.apMaterno
+								  from PACIENTE PA
+								  inner join PERSONA P ON PA.DNI = P.DNI
+								  where PA.estado = 1
+								  ";
+		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
+		echo "<option value=''>-- Paciente--</option>";
+		while($row = mysqli_fetch_row($res)){
+			$pacienteID = $row[1];
+			$DNI = $row[0];
+			$nombresP = explode(" ", $row[2]);
+			$paciente = $nombresP[0].' '.$row[3].' '.$row[4];
+			echo "<option value='".$pacienteID."'>".$DNI.' - '.$paciente."</option>";
+		}
+		exit();
+	}
 	// CARTAR TABLA CITAS DE CONSULTORIO - LABORATORIO
 	if($opc == 'LCC_01'){
 		$fechaCita = $_POST['fecha'];

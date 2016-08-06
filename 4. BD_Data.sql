@@ -1,4 +1,6 @@
 USE clinica;
+insert into PARAMETRO(parametroID,parametro,valor,estado) values
+	(1,"IGV",0.18,1);
 
 insert into COMPROBANTE_PAGO(comprobanteID,descripcion,estado,compras,ventas,ingresos,egresos,honorarios,diario) values
 	('00','OTRO',1,1,1,0,0,0,1),

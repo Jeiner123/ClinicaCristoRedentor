@@ -53,6 +53,16 @@
             <input id="txtFlag" name="txtFlag" class="form-control" value="N" type="hidden">
             <div class="box-body">
               <div class="row">
+                <div class="col-sm-5 col-md-offset-1">
+                  <div class="form-group">
+                    <br>
+                    <select class="chosen-select form-control" id="cboPacientes" name="cboPacientes" data-placeholder="-- Paciente --" >
+                      <!-- Lista de diagnósticos -->
+                    </select> 
+                  </div>
+                </div>
+              </div>
+              <div class="row">
                 <div class="col-md-5 col-md-offset-1">
                   <div class="form-group">
                     <label class="control-label">Paciente</label>
@@ -423,6 +433,7 @@
 </html>
 <script src="js/script.js"></script>
 <script type="text/javascript">
+  cargarCboPacientes();
   
   $('#tablaServiciosLab tbody').on( 'click', 'a.eliminarServicioDetalle', function () {
     fila = $(this).parents('tr');

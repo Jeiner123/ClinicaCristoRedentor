@@ -8,7 +8,7 @@
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
   <input type='hidden' value='menu_facturacion' id='menuPrincipal'>
-  <input type='hidden' value='m_listado_facturas' id='menuIzquierda'>
+  <input type='hidden' value='m_listado_pagos' id='menuIzquierda'>
   <?php include '../general/menu_principal.php';?>
 <div class="wrapper">
   <?php include '../general/izquierda_menu.php';?>
@@ -64,13 +64,15 @@
             <div class="col-md-12">
               <table id="tablaPagos" class="table table-bordered table-hover tablaDatos">
                 <thead>
-                  <tr>                    
+                  <tr>
+                    <th style='text-align:center;'>Ped.</th>
                     <th style='text-align:center;'>Fecha</th>
                     <th>Paciente</th>
                     <th>Telefono</th>
                     <th>Comprobante</th>
                     <th>Número Comprob.</th>                    
                     <th>Importe</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody class="cuerpoTabla" id="cuerpoTablaPagos">

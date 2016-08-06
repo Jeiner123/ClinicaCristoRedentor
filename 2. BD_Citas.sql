@@ -26,13 +26,12 @@ create table PEDIDO_SERVICIO(
 	foreign key(formaPagoID) references forma_pago(formaPagoID),
 	foreign key(personalReferenciaID) references personal(personalID)
 );
-
 create table PAGO(
 	pagoID int not null auto_increment,
 	pedidoServicioID int not null,
 	comprobanteID char(3) null,    		/* B: Boleta | F: Factura */
 	numeroSerie varchar(5) null,
-	numeroComprobante varchar(20) null,
+	numeroComprobante varchar(9) null,
 	IGV decimal(9,2) not null,
 	importeSinIGV decimal(9,2) not null,
 	importeIGV decimal(9,2) not null,
@@ -40,11 +39,11 @@ create table PAGO(
 	fechaPago date not null,
 	fechaVence date null,
 	estado int not null,
+	timestamp timestamp not null,
 	primary key(pagoID),
 	foreign key(pedidoServicioID) references PEDIDO_SERVICIO(pedidoServicioID),
 	foreign key(comprobanteID) references COMPROBANTE_PAGO(comprobanteID)
 );
-
 create table CITA(
 	citaID int not null auto_increment,
 	pedidoServicioID int not null,
@@ -69,5 +68,3 @@ create table CITA(
 	foreign key(especialidadID) references especialidad(especialidadID),
 	foreign key(servicioID) references servicio(servicioID)
 );
-
-
