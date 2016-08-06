@@ -61,7 +61,7 @@
                   <div class="col-md-4">
                     <label class="control-label">Tipo de documento</label>
                     <label class="control-label" style="color:red;">*</label>
-                    <select class="form-control input-sm" id="cboDocumento" name="cboDocumento" onchange="bloquearCampos()">
+                    <select class="chosen-select form-control input-sm" id="cboDocumento" name="cboDocumento" onchange="bloquearCampos()">
                     </select> 
                   </div>
                   <div class="col-md-4">

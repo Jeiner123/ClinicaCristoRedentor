@@ -208,6 +208,7 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			success: function(rpta){
 				$('#cboDocumento').html(rpta);
 				$('#cboDocumento').val(valorDefecto);
+				funcionSelect();
 				cerrarCargando();
 				return true;		
 			},
