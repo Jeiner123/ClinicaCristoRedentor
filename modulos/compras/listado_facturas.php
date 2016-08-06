@@ -52,17 +52,19 @@
           
           <div class="row">
             <div class="col-md-12">
-              <table id="tablaProveedor" class="table table-bordered table-hover tablaDatos">
+              <table id="tablaFactura" class="table table-bordered table-hover tablaDatos">
                 <thead>
                   <tr>
-                    <th>RUC/DNI</th>
-                    <th>Proveedor</th>
-                    <th style="text-align:center">Número de contacto</th>
-                    <th style="text-align:center">Estado</th>
+                    <th>Periódo</th>
+                    <th>Correlativo</th>
+                    <th>Serie</th>
+                    <th>Número</th>
+                    <th style="text-align:center">Fecha de factura</th>
+                    <th style="text-align:center">Fecha de vcto.</th>
                     <th style="text-align:center">Opciones</th>
                   </tr>
                 </thead>
-                <tbody class="cuerpoTabla" id="cuerpoTablaProveedor">
+                <tbody class="cuerpoTabla" id="cuerpoTablaFactura">
                   <!-- Aqui irán los elementos de la tabla -->
                 </tbody>
               </table>
@@ -86,7 +88,7 @@
 </html>
 <script src="js/script.js"></script>
 <script type="text/javascript">
-  cargarTablaProveedor();
+  cargarTablaFactura();
   $('#tablaProveedor tbody').on('click','tr',function(){seleccionSimple(this);});  
   
 </script>
