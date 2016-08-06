@@ -61,7 +61,7 @@
                   <div class="col-md-4">
                     <label class="control-label">Tipo de documento</label>
                     <label class="control-label" style="color:red;">*</label>
-                    <select class="chosen-select form-control input-sm" id="cboDocumento" name="cboDocumento" onchange="bloquearCampos()">
+                    <select class="form-control input-sm" id="cboDocumento" name="cboDocumento" onchange="bloquearCampos()">
                     </select> 
                   </div>
                   <div class="col-md-4">
@@ -94,12 +94,12 @@
                 <div class="row">
                     <div class="col-md-3">
                     <label class="control-label">Cond. de Pago</label>
-                    <select class="form-control input-sm" id="cboModalidadPago" name="cboModalidadPago">
+                    <select class="form-control" id="cboModalidadPago" name="cboModalidadPago">
                     </select> 
                   </div>
                    <div class="col-md-3">
                     <label class="control-label">Entidad bancaria</label>
-                    <select class="form-control input-sm" id="cboBanco" name="cboBanco">
+                    <select class="form-control" id="cboBanco" name="cboBanco">
                     </select> 
                   </div>
                   <div class="col-md-3">
