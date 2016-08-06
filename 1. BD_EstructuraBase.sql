@@ -212,16 +212,16 @@ CREATE TABLE comprobante_pago (
   PRIMARY KEY (comprobanteID)
 );
 
-CREATE TABLE modulos (
-  id int NOT NULL,
+CREATE TABLE modules (
+  id int NOT NULL PRIMARY KEY,
   nombre VARCHAR(35) NOT NULL,
   folder VARCHAR(35) NOT NULL
 );
 
 CREATE TABLE items (
-  id int AUTO_INCREMENT,
-  modulo_id int NOT NULL,
+  id int AUTO_INCREMENT PRIMARY KEY,
+  module_id int NOT NULL,
   nombre VARCHAR(55) NOT NULL,
   file VARCHAR(55) NOT NULL,
-  FOREIGN KEY (modulo_id) REFERENCES modulos(modulo_id)
+  FOREIGN KEY (module_id) REFERENCES modules(id)
 );

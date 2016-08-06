@@ -202,11 +202,11 @@
                       </select>
                     </div>
                   </div></div>
-                                
+
                 <div class="col-md-12">
                   <div class="row">
                     <div class="col-md-12">
-                      <div class="box-header"  style="margin: -10px 0px -15px -10px">
+                      <div class="box-header" style="margin: -10px 0px -15px -10px">
                           <br><h1 class="box-title">DETALLE DEL DOCUMENTO</h1>
                       </div>
                       <hr>

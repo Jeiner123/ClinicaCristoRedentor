@@ -823,7 +823,7 @@ INSERT INTO usuario (usuario, clave, DNI, permisoID, estado) VALUES
   ('admin', '21232f297a57a5a743894a0e4a801fc3', '47790815', 3, 1);
 
 -- Menu data
-INSERT INTO modulos (id, nombre, folder) VALUES
+INSERT INTO modules (id, nombre, folder) VALUES
   (1, 'Documentos', 'documentos'),
   (2, 'Gestión de citas', 'citas'),
   (3, 'Facturación', 'facturacion'),
@@ -833,30 +833,51 @@ INSERT INTO modulos (id, nombre, folder) VALUES
   (7, 'Ventas', 'ventas'),
   (8, 'Gestión de compras', 'compras'),
   (9, 'Parámetros', 'parametros');
-INSERT INTO items (modulo_id, nombre, file) VALUES
+
+INSERT INTO items (module_id, nombre, file) VALUES
   (1, 'Control de documentos', 'control_documentos'),
   (1, 'Formatos del SG', 'registro_requerido'),
   (1, 'Registros generados', 'control_registros'),
 
-  (2, '', ''),
-  (2, '', ''),
-  (2, '', ''),
-  (2, '', ''),
-  (2, '', ''),
-  (2, '', ''),
+  (2, 'Listar citas', 'listar_citas'),
+  (2, 'Registrar cita médica', 'registrar_cita_medica'),
+  (2, 'Registrar cita laboratorio', 'registrar_cita_laboratorio'),
+  (2, 'Referencias', 'referencias'),
+  (2, 'Atender cita médica', 'atender_cita_medica'),
+  (2, 'Atender cita laboratorio', 'atender_cita_laboratorio'),
 
-  (1, '', ''),
-  (1, '', ''),
-  (1, '', ''),
-  (1, '', ''),
-  (1, '', ''),
-  (1, '', ''),
-  (1, '', ''),
-  (1, '', ''),
-  (1, '', ''),
-  (1, '', ''),
-  (1, '', ''),
-  (1, '', ''),
-  (1, '', '');
+  (3, 'Listado de pagos', 'listado_pagos'),
+  (3, 'Pendientes de facturar', 'pendiente_facturar'),
+
+  (4, 'Especialidades médicas', 'especialidades'),
+  (4, 'Servicios médicos', 'servicios'),
+
+  (5, 'Listado de Pacientes', 'listado_pacientes'),
+  (5, 'Nuevo Paciente', 'nuevo_paciente'),
+
+  (6, 'Gestión del personal', 'personal'),
+  (6, 'Asignar especialidades', 'asignar_especialidades'),
+  (6, 'Recibos por honorario', 'recibos_por_honorario'),
+
+  (7, 'Listado de ventas', 'listado_ventas'),
+  (7, 'Nueva venta', 'nueva_venta'),
+  (7, 'Nuevo Cliente', 'nuevo_cliente'),
+  (7, 'Listado de  clientes', 'listado_clientes'),
+
+  (8, 'Listado de proveedores', 'listado_proveedores'),
+  (8, 'Nuevo proveedor', 'nuevo_proveedor'),
+  (8, 'Orden de compra', 'orden_compra'),
+  (8, 'Nota de ingreso', 'compras'),
+  (8, 'Cuenta corriente por pagar', 'listado_facturas'),
+  (8, 'Provisiones por pagar', 'facturas'),
+
+  (9, 'Tipo de servicio', 'tipo_servicio'),
+  (9, 'Tipo de personal', 'tipo_personal'),
+  (9, 'Tipo de compra', 'tipo_compra'),
+  (9, 'Tipo de venta', 'tipo_venta'),
+  (9, 'Tipo de adquisición', 'tipo_adquisicion'),
+  (9, 'Forma de pago', 'forma_pago'),
+  (9, 'Tipo de documento', 'tipo_documento'),
+  (9, 'Comprobante de pago', 'comprobante_pago');
 
 

@@ -14,22 +14,51 @@
 	  <ul class="sidebar-menu">
 		<li class="header">Menú principal</li>
 
-          <li class="treeview" id="menu_documentos">
+      <?php
+        require '../bd/bd_conexion.php';
+
+        $query = 'SELECT id, nombre, folder FROM modules';
+        $result_set = mysqli_query($con, $query);
+        $modules = $result_set->fetch_all();
+
+        foreach ($modules as $module):
+            $query = 'SELECT nombre, file FROM items WHERE module_id = '.$module[0];
+            $result_set_items = mysqli_query($con, $query);
+            $items = $result_set_items->fetch_all();
+      ?>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-chevron-down"></i>
+                    <?= $module[1] ?>
+                    <ul class="treeview-menu">
+                        <?php foreach ($items as $item): ?>
+                        <li class="treeview">
+                            <a href="../<?= $module[2] ?>/<?= $item[1] ?>.php">
+                                <?= $item[0] ?>
+                            </a>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </a>
+            </li>
+      <?php endforeach; ?>
+          <!--
+          <li class="treeview">
               <a href="#">
                   <i class="fa fa-chevron-down"></i>
                   Documentos
                   <ul class="treeview-menu">
-                      <li class="treeview" id="m_doc_control">
+                      <li class="treeview">
                           <a href="../documentos/control_documentos.php">
                               Control de documentos
                           </a>
                       </li>
-                      <li class="treeview" id="m_registro_requerido">
+                      <li class="treeview">
                           <a href="../documentos/registro_requerido.php">
                               Formatos del SG
                           </a>
                       </li>
-                      <li class="treeview" id="m_doc_registros">
+                      <li class="treeview">
                           <a href="../documentos/control_registros.php">
                               Registros generados
                           </a>
@@ -38,37 +67,37 @@
               </a>
           </li>
 
-          <li class="treeview" id="menu_citas">
+          <li class="treeview">
               <a href="#">
                   <i class="fa fa-chevron-down"></i>
                   Gestión de citas
                   <ul class="treeview-menu">
-                      <li class="treeview" id="m_listar_citas">
+                      <li class="treeview">
                           <a href="../citas/listar_citas.php">
                               Listar citas
                           </a>
                       </li>
-                      <li class="treeview" id="m_registrar_cita">
+                      <li class="treeview">
                           <a href="../citas/registrar_cita_medica.php">
                               Registrar cita médica
                           </a>
                       </li>
-                      <li class="treeview" id="m_registrar_lab">
+                      <li class="treeview">
                           <a href="../citas/registrar_cita_laboratorio.php">
                               Registrar cita laboratorio
                           </a>
                       </li>
-                      <li class="treeview" id="m_cita_referencias">
+                      <li class="treeview">
                           <a href="../citas/referencias.php">
                               Referencias
                           </a>
                       </li>
-                      <li class="treeview" id="m_registrar_lab">
+                      <li class="treeview">
                           <a href="../citas/atender_cita_medica.php">
                               Atender cita médica
                           </a>
                       </li>
-                      <li class="treeview" id="m_registrar_lab">
+                      <li class="treeview">
                           <a href="../citas/atender_cita_laboratorio.php">
                               Atender cita laboratorio
                           </a>
@@ -77,17 +106,17 @@
               </a>
           </li>
 
-          <li class="treeview" id="menu_facturacion">
+          <li class="treeview">
               <a href="#">
                   <i class="fa fa-chevron-down"></i>
                   Facturación
                   <ul class="treeview-menu">
-                      <li class="treeview" id="m_listado_pagos">
+                      <li class="treeview">
                           <a href="../facturacion/listado_pagos.php">
                               Listado de pagos
                           </a>
                       </li>
-                      <li class="treeview" id="m_pendiente_facturar">
+                      <li class="treeview">
                           <a href="../facturacion/pendiente_facturar.php">
                               Pendientes de facturar
                           </a>
@@ -96,17 +125,17 @@
               </a>
           </li>
 
-          <li class="treeview" id="menu_clinica">
+          <li class="treeview">
               <a href="#">
                   <i class="fa fa-chevron-down"></i>
                   Clínica
                   <ul class="treeview-menu">
-                      <li class="treeview" id="m_clinica_especialidades">
+                      <li class="treeview">
                           <a href="../clinica/especialidades.php">
                               Especialidades médicas
                           </a>
                       </li>
-                      <li class="treeview" id="m_clinica_servicios">
+                      <li class="treeview">
                           <a href="../clinica/servicios.php">
                               Servicios médicos
                           </a>
@@ -115,17 +144,17 @@
               </a>
           </li>
 
-          <li class="treeview" id="menu_pacientes">
+          <li class="treeview">
               <a href="#">
                   <i class="fa fa-chevron-down"></i>
                   Pacientes
                   <ul class="treeview-menu">
-                      <li class="treeview" id="m_listado_pacientes">
+                      <li class="treeview">
                           <a href="../pacientes/listado_pacientes.php">
                               Listado de Pacientes
                           </a>
                       </li>
-                      <li class="treeview" id="m_nuevo_paciente">
+                      <li class="treeview">
                           <a href="../pacientes/nuevo_paciente.php">
                               Nuevo Paciente
                           </a>
@@ -134,22 +163,22 @@
               </a>
           </li>
 
-          <li class="treeview" id="menu_planilla">
+          <li class="treeview">
               <a href="#">
                   <i class="fa fa-chevron-down"></i>
                   Personal
                   <ul class="treeview-menu">
-                      <li class="treeview" id="m_planilla_personal">
+                      <li class="treeview">
                           <a href="../planilla/personal.php">
                               Gestión del personal
                           </a>
                       </li>
-                      <li class="treeview" id="m_asignar_especialidades">
+                      <li class="treeview">
                           <a href="../planilla/asignar_especialidades.php">
                               Asignar especialidades
                           </a>
                       </li>
-                      <li class="treeview" id="m_recibos_honorario">
+                      <li class="treeview">
                           <a href="../planilla/recibos_por_honorario.php">
                               Recibos por honorario
                           </a>
@@ -158,27 +187,27 @@
               </a>
           </li>
 
-          <li class="treeview" id="menu_ventas">
+          <li class="treeview">
               <a href="#">
                   <i class="fa fa-chevron-down"></i>
                   Ventas
                   <ul class="treeview-menu">
-                      <li class="treeview" id="m_listado_ventas">
+                      <li class="treeview">
                           <a href="../ventas/listado_ventas.php">
-                              Listado de  ventas
+                              Listado de ventas
                           </a>
                       </li>
-                      <li class="treeview" id="m_nuevo_venta">
-                          <a href="../ventas/nuevo_venta.php">
+                      <li class="treeview">
+                          <a href="../ventas/nueva_venta.php">
                               Nueva venta
                           </a>
                       </li>
-                      <li class="treeview" id="m_nuevo_cliente">
+                      <li class="treeview">
                           <a href="../ventas/nuevo_cliente.php">
                               Nuevo Cliente
                           </a>
                       </li>
-                      <li class="treeview" id="m_listado_clientes">
+                      <li class="treeview">
                           <a href="../ventas/listado_clientes.php">
                               Listado de  clientes
                           </a>
@@ -187,37 +216,37 @@
               </a>
           </li>
 
-          <li class="treeview" id="menu_compras">
+          <li class="treeview">
               <a href="#">
                   <i class="fa fa-chevron-down"></i>
                   Gestión de compras
                   <ul class="treeview-menu">
-                      <li class="treeview" id="m_para_proveedores">
+                      <li class="treeview">
                           <a href="../compras/listado_proveedores.php">
                               Listado de proveedores
                           </a>
                       </li>
-                      <li class="treeview" id="m_nuevo_proveedor">
+                      <li class="treeview">
                           <a href="../compras/nuevo_proveedor.php">
                               Nuevo proveedor
                           </a>
                       </li>
-                      <li class="treeview" id="orden_compra">
+                      <li class="treeview">
                           <a href="../compras/orden_compra.php">
                               Orden de compra
                           </a>
                       </li>
-                      <li class="treeview" id="compras">
+                      <li class="treeview">
                           <a href="../compras/compras.php">
                               Nota de ingreso
                           </a>
                       </li>
-                      <li class="treeview" id="listado_facturas">
+                      <li class="treeview">
                           <a href="../compras/listado_facturas.php">
                               Cuenta corriente por pagar
                           </a>
                       </li>
-                      <li class="treeview" id="facturas">
+                      <li class="treeview">
                           <a href="../compras/facturas.php">
                               Provisiones por pagar
                           </a>
@@ -226,54 +255,54 @@
               </a>
           </li>
 
-		<li class="treeview" id="menu_parametros">
+		<li class="treeview">
 			<a href="#">
 				<i class="fa fa-chevron-down"></i>
 				Parámetros
 				<ul class="treeview-menu">
-					<li class="treeview" id="m_para_tipo_servicio">
+					<li class="treeview">
 						<a href="../parametros/tipo_servicio.php">
 							Tipo de servicio
 						</a>
 					</li>
-					<li class="treeview" id="m_para_tipo_personal">
+					<li class="treeview">
 						<a href="../parametros/tipo_personal.php">
 							Tipo de personal
 						</a>
 					</li>
-					<li class="treeview" id="m_para_tipo_compra">
+					<li class="treeview">
 						<a href="../parametros/tipo_compra.php">
 							Tipo de compa
 						</a>
 					</li>
-					<li class="treeview" id="m_para_tipo_venta">
+					<li class="treeview">
 						<a href="../parametros/tipo_venta.php">
 							Tipo de venta
 						</a>
 					</li>
-					<li class="treeview" id="m_para_tipo_adquisicion">
+					<li class="treeview">
 						<a href="../parametros/tipo_adquisicion.php">
 							Tipo de adquisición
 						</a>
 					</li>
-					<li class="treeview" id="m_para_tipo_adquisicion">
+					<li class="treeview">
 						<a href="#">
 							Forma de pago
 						</a>
 					</li>
-					<li class="treeview" id="m_para_tipo_documento">
+					<li class="treeview">
 						<a href="../parametros/tipo_documento.php">
 							Tipo de documento
 						</a>
 					</li>
-					<li class="treeview" id="m_para_comprobante">
+					<li class="treeview">
 						<a href="../parametros/comprobante_pago.php">
 							Comprobante de pago
 						</a>
 					</li>
 				</ul>
 			</a>
-		</li>
+		</li>-->
 
 		<?php include 'izquierda_redes.php' ?>
 	  </ul>
