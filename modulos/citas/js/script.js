@@ -1,3 +1,4 @@
+var url = 'bd/bd_operaciones.php';
 var importeSinIGV = 0.0;
 var importeIGV = 0.0;
 var importeTotal = 0.0;
@@ -7,7 +8,7 @@ function cargarCboPacientes(){
 	$.ajax({
 		type: 'POST',
 		data:'opc='+opc,
-		url: 'bd/bd_operaciones.php',
+		url: url,
 		success: function(rpta){			
 			$('#cboPacientes').html(rpta);
 			funcionSelect();
@@ -41,7 +42,7 @@ function guardarCita(form){
 	$.ajax({
 		type: 'POST',
 		data: formData,
-		url: 'bd/bd_operaciones.php',
+		url: url,
 		contentType :false,
 		processData: false,
 		success: function(rpta){
@@ -110,7 +111,7 @@ function guardarCitaLaboratorio(){
 	$.ajax({
 		type: 'POST',
 		data: formData,
-		url: 'bd/bd_operaciones.php',
+		url: url,
 		contentType :false,
 		processData: false,
 		success: function(rpta){
@@ -144,7 +145,7 @@ function cargarTablaCitas(tipo){
 	$.ajax({
 		type: 'POST',
 		data:'opc='+opc+'&fecha='+fecha+'&estado='+estado+'&tipo='+tipo,
-		url: 'bd/bd_operaciones.php',
+		url: url,
 		success: function(rpta){			
 			$('#tablaCitas').DataTable().destroy();
 			$('#cuerpoTablaCitas').html(rpta);
@@ -296,7 +297,7 @@ function cargarTablaReferencias(){
 	$.ajax({
 		type: 'POST',
 		data:'opc='+opc+'&mes='+mes+'&personalID='+personalID,
-		url: 'bd/bd_operaciones.php',
+		url: url,
 		success: function(rpta){			
 			$('#tablaReferencias').DataTable().destroy();			
 			$('#cuerpoTablaReferencias').html(rpta);
