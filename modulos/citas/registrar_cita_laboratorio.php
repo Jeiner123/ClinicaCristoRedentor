@@ -72,7 +72,7 @@
                           <strong>...</strong>
                         </button>
                       </div>
-                      <input onclick="abrirModal('#modalListaPacientes');" id="txtNombresPaciente" name="txtNombresPaciente"class="form-control" placeholder="Seleccionar paciente" readonly="true">
+                      <input onclick="abrirModal('#modalListaPacientes');" id="txtNombresPaciente" name="txtNombresPaciente"class="form-control input-sm" placeholder="Seleccionar paciente" readonly="true">
                     </div>
                   </div>
                   <!-- form-group -->
