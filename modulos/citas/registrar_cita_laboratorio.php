@@ -434,7 +434,9 @@
 <script src="js/script.js"></script>
 <script type="text/javascript">
   cargarCboPacientes();
-  
+  $( document ).ajaxStop(function() {
+    $( "p" ).click("");
+  });
   $('#tablaServiciosLab tbody').on( 'click', 'a.eliminarServicioDetalle', function () {
     fila = $(this).parents('tr');
     precio = fila.find("td").eq(2).html();
