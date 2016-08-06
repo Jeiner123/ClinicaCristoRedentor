@@ -143,7 +143,7 @@ function cargarTablaServicios(){
             { "targets": [ 7 ],"width": "5%",},
             { "targets": [ 8 ],"width": "10%","orderable": false,}
 		      ],
-		      "order": [[ 0, "asc" ]]
+		      "order": [[ 0, "asc" ]],"iDisplayLength": 700
 				}
 			);
 			cerrarCargando();
@@ -161,8 +161,8 @@ function guardarServicio(form){
 		alert("Hay problemas con el formulario");
 		return false;
 	}
-	inputObligatorio('#txtServicio',2)
-	inputObligatorio('#txtPrecio',2)
+	inputObligatorio('#txtServicio',2);
+	inputObligatorio('#txtPrecio',2);
 	comboObligatorio('#cboEspecialidad',0);
 	comboObligatorio('#cboTipoServicio',0);
 	comboObligatorio('#cboEstado',0);

@@ -1,6 +1,25 @@
 var urlGeneral = '../bd/bd_operaciones.php';
 // Cargar Combos
 	
+	// Cargar combo comprobante de pago (Documento)
+	function cargarCboComprobante(valorDefecto){
+		abrirCargando();
+		opc = 'CC_CV_01';
+		$.ajax({
+			type: 'POST',
+			data:'opc='+opc,
+			url: urlGeneral,
+			success: function(rpta){			
+				$('#cboComprobante').html(rpta);
+				$('#cboComprobante').val(valorDefecto);
+				cerrarCargando();
+				return true;
+			},
+			error: function(rpta){
+				alert(rpta);
+			}
+		});
+	}
 	function cargarCboPersonalSalud(){
 		abrirCargando();
 		especialidadID = $('#cboEspecialidad').val();
@@ -141,11 +160,11 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			}
 		});
 	}
-
+	//Tipo de compras  o tipo de productos
 	function cargarCboExistencias(){
-	abrirCargando();
-	var opc = 'CC_07';
-	$.ajax({
+		abrirCargando();
+		var opc = 'CC_07';
+		$.ajax({
 			type: 'POST',
 			data:'opc='+opc,
 			url: 'bd/bd_operaciones.php',
@@ -159,17 +178,17 @@ var urlGeneral = '../bd/bd_operaciones.php';
 				cerrarCargando();
 			}
 		});
-}
-
-	function cargarCboCondPago(condicion){
-		opc = 'CC_CP';
+	}
+	//Formas de pago : Contado - Credito Credito 7 dias..
+	function cargarCboFormaPago(valorDefecto){
+		opc = 'CC_FP';
 		$.ajax({
 			type: 'POST',
 			data:'opc='+opc,
 			url: urlGeneral,
 			success: function(rpta){
 				$('#cboModalidadPago').html(rpta);
-				$('#cboModalidadPago').val(condicion);
+				$('#cboModalidadPago').val(valorDefecto);
 				cerrarCargando();
 				return true;		
 			},
@@ -178,8 +197,8 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			}
 		});
 	}
-
-	function cargarCboTipoDocumento(documento){
+	// RUC - DNI - Carnet de extranjeria
+	function cargarCboTipoDocumento(valorDefecto){
 		opc = 'CC_TD';
 		$.ajax({
 			type: 'POST',
@@ -187,7 +206,7 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			url: urlGeneral,
 			success: function(rpta){
 				$('#cboDocumento').html(rpta);
-				$('#cboDocumento').val(documento);
+				$('#cboDocumento').val(valorDefecto);
 				cerrarCargando();
 				return true;		
 			},
@@ -196,8 +215,8 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			}
 		});
 	}
-
-	function cargarCboEntidadFinanciera(entidad){
+	// Bancos
+	function cargarCboEntidadFinanciera(valorDefecto){
 		opc = 'CC_EF';
 		$.ajax({
 			type: 'POST',
@@ -205,7 +224,7 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			url: urlGeneral,
 			success: function(rpta){
 				$('#cboBanco').html(rpta);
-				$('#cboBanco').val(entidad);
+				$('#cboBanco').val(valorDefecto);
 				cerrarCargando();
 				return true;		
 			},

@@ -428,7 +428,7 @@
 <script src="js/script.js"></script>
 <script type="text/javascript">
   // abrirModal("#modalListaServicios");  
-  cargarCboComprobante();
+  cargarCboComprobante('03');
   cargarPedido(<?php echo $DNI ?>,<?php echo $pedidoID ?>);
   traerPagos(<?php echo $pedidoID; ?>);
   traerServicios(<?php echo $pedidoID; ?>);

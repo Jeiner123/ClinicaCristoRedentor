@@ -33,7 +33,10 @@ create table PAGO(
 	comprobanteID char(3) null,    		/* B: Boleta | F: Factura */
 	numeroSerie varchar(5) null,
 	numeroComprobante varchar(20) null,
-	importe decimal(9,2) not null,
+	IGV decimal(9,2) not null,
+	importeSinIGV decimal(9,2) not null,
+	importeIGV decimal(9,2) not null,
+	importeTotal decimal(9,2) not null,
 	fechaPago date not null,
 	fechaVence date null,
 	estado int not null,
