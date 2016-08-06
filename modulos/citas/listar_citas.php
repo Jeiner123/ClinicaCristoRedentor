@@ -6,12 +6,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title> Lista de citas| CLÍNICA CRISTO REDENTOR</title>
+	<title>Lista de citas| CLÍNICA CRISTO REDENTOR</title>
 	<?php include '../general/header.php';?>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-  <input type='hidden' value='m_listar_citas' id='menuPrincipal'>
-  <input type='hidden' value='listar_citas' id='menuIzquierda'>
 	<?php include '../general/menu_principal.php';?>
 <div class="wrapper">
   <?php include '../general/izquierda_menu.php';?>

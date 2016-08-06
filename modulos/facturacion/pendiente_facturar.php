@@ -3,12 +3,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title> Pendientes de pago | CLÍNICA CRISTO REDENTOR</title>
+	<title>Pendientes de pago | CLÍNICA CRISTO REDENTOR</title>
 	<?php include '../general/header.php';?>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-  <input type='hidden' value='menu_facturacion' id='menuPrincipal'>
-  <input type='hidden' value='m_pendiente_facturar' id='menuIzquierda'>
 	<?php include '../general/menu_principal.php';?>
 
 <div class="wrapper">

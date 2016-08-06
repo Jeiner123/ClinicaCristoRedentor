@@ -257,7 +257,7 @@
 						</a>
 					</li>
 					<li class="treeview" id="m_para_tipo_adquisicion">
-						<a href="../parametros/tipo_adquisicion.php">
+						<a href="#">
 							Forma de pago
 						</a>
 					</li>

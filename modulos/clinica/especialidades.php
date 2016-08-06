@@ -3,12 +3,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title> Gestión de especialidades médicas | CLÍNICA CRISTO REDENTOR</title>
+	<title>Especialidades médicas | CLÍNICA CRISTO REDENTOR</title>
 	<?php include '../general/header.php';?>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-  <input type='hidden' value='gestion' id='menuPrincipal'>
-  <input type='hidden' value='m_clinica_especialidades' id='menuIzquierda'>
 	<?php include '../general/menu_principal.php';?>
 
 <div class="wrapper">
