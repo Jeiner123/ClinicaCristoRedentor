@@ -10,9 +10,8 @@
 		</div>
 	</div>
 	<section class="sidebar">
-	  <!-- sidebar menu: : style can be found in sidebar.less -->
 	  <ul class="sidebar-menu">
-		<li class="header">Menu principal</li>
+		<li class="header">Menú principal</li>
 		<li class="treeview" id="menu_documentos">
 		  <a href="#">
 			<i class="fa fa-chevron-down"></i>

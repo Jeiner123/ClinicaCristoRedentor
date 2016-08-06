@@ -20,7 +20,6 @@
     <section class="content-header">
       <h1>
         Orden de compra
-        <!-- <small>Lista - Registro - Actualización</small> -->
       </h1>
       <ol class="breadcrumb">
         <li>
@@ -34,6 +33,7 @@
         </li>
       </ol>
     </section>
+
     <!-- Main content -->
     <section class="content">
 
@@ -88,8 +88,8 @@
                         <option value="0">--Seleccionar--</option>
                       </select>
                   </div>
-                </div><br>
-
+                </div>
+                <br>
                 <div class="col-md-9">
                   <div class="row">
                     <div class="col-md-12">
@@ -179,23 +179,23 @@
                       </div>
                       <div class="col-md-2">
                         <label for="txtSubTotal">SubTotal</label>
-                        <input class="form-control input-sm" name="txtSubTotal" id="txtSubTotal" onkeypress="return soloNumeroDecimal(event);" readonly=""></input>
+                        <input class="form-control input-sm" name="txtSubTotal" id="txtSubTotal" onkeypress="return soloNumeroDecimal(event);" readonly="" />
                       </div>
                       <div class="col-md-2">
                          <label for="txtDescuento">Descuento</label>
-                        <input class="form-control input-sm" name="txtDescuento" id="txtDescuento" onkeypress="return soloNumeroDecimal(event);"></input>
+                        <input class="form-control input-sm" name="txtDescuento" id="txtDescuento" onkeypress="return soloNumeroDecimal(event);" />
                       </div>
                       <div class="col-md-2">
                         <label for="txtBaseGravable">Base gravable</label>
-                        <input class="form-control input-sm" name="txtBaseGravable" id="txtBaseGravable" onkeypress="return soloNumeroDecimal(event);"></input>
+                        <input class="form-control input-sm" name="txtBaseGravable" id="txtBaseGravable" onkeypress="return soloNumeroDecimal(event);" />
                       </div>
                       <div class="col-md-2">
                         <label for="txtImpuesto">Impuesto</label>
-                        <input class="form-control input-sm" name="txtImpuesto" id="txtImpuesto" onkeypress="return soloNumeroDecimal(event);"></input>
+                        <input class="form-control input-sm" name="txtImpuesto" id="txtImpuesto" onkeypress="return soloNumeroDecimal(event);" />
                       </div>
                       <div class="col-md-2">
                         <label for="txtTotal">Total</label>
-                        <input class="form-control input-sm" name="txtTotal" id="txtTotal" onkeypress="return soloNumeroDecimal(event);" readonly=""></input>
+                        <input class="form-control input-sm" name="txtTotal" id="txtTotal" onkeypress="return soloNumeroDecimal(event);" readonly="" />
                       </div>
                     </div>
                     <div class="col-md-12">
@@ -224,43 +224,38 @@
                         <tbody class="cuerpoTabla" id="cuerpoTablaProducto">
                         <?php for ($i=1;$i<=3;++$i): ?>
                           <tr>
-                            <td><input class="form-control input-sm" id="txtItem<?php echo $i;?>" name="txtItem<?php echo $i;?>" style='text-align:right;' readonly value="<?php echo $i;?>"></input></td>
-                            <td><input class="form-control input-sm" id="txtCodigo<?php echo $i;?>" name="txtCodigo<?php echo $i;?>"></input></td>
-                            <td><input class="form-control input-sm" id="txtDescripcion<?php echo $i;?>" name="txtDescripcion<?php echo $i;?>"></input></td>
-                            <td><input class="form-control input-sm" id="txtUnidad<?php echo $i;?>" name="txtUnidad<?php echo $i;?>"></input></td>
-                            <td><input class="form-control input-sm" id="txtCantidad<?php echo $i;?>" name="txtCantidad<?php echo $i;?>"  onkeypress="return soloNumeroEntero(event);"></input></td>
-                            <td><input class="form-control input-sm" id="txtCosto<?php echo $i;?>" name="txtCosto<?php echo $i;?>" onkeypress="return soloNumeroDecimal(event);"></input></td>
-                            <td><input class="form-control input-sm" id="txtDescuento<?php echo $i;?>" name="txtDescuento<?php echo $i;?>" onkeypress="return soloNumeroDecimal(event);"></input></td>
-                            <td><input class="form-control input-sm" id="txtImporte<?php echo $i;?>" name="txtImporte<?php echo $i;?>" onkeypress="return soloNumeroDecimal(event);" readonly></input></td>
+                            <td><input class="form-control input-sm" id="txtItem<?php echo $i;?>" name="txtItem<?php echo $i;?>" style='text-align:right;' readonly value="<?php echo $i;?>" /></td>
+                            <td><input class="form-control input-sm" id="txtCodigo<?php echo $i;?>" name="txtCodigo<?php echo $i;?>" /></td>
+                            <td><input class="form-control input-sm" id="txtDescripcion<?php echo $i;?>" name="txtDescripcion<?php echo $i;?>" /></td>
+                            <td><input class="form-control input-sm" id="txtUnidad<?php echo $i;?>" name="txtUnidad<?php echo $i;?>" /></td>
+                            <td><input class="form-control input-sm" id="txtCantidad<?php echo $i;?>" name="txtCantidad<?php echo $i;?>"  onkeypress="return soloNumeroEntero(event);" /></td>
+                            <td><input class="form-control input-sm" id="txtCosto<?php echo $i;?>" name="txtCosto<?php echo $i;?>" onkeypress="return soloNumeroDecimal(event);" /></td>
+                            <td><input class="form-control input-sm" id="txtDescuento<?php echo $i;?>" name="txtDescuento<?php echo $i;?>" onkeypress="return soloNumeroDecimal(event);" /></td>
+                            <td><input class="form-control input-sm" id="txtImporte<?php echo $i;?>" name="txtImporte<?php echo $i;?>" onkeypress="return soloNumeroDecimal(event);" readonly /></td>
                           </tr>
                         <?php endfor; ?>
                         </tbody>
                       </table>
                     </div>
                   </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-md-6" style="top:20px!important;">
-                          <a href="#" class="btn btn-default btn-block">Cancelar registro</a>
-                      </div>
-                      <div class="col-md-6" style="top:20px!important;">
-                          <button type="submit" class="btn btn-primary btn-block">Registrar nueva orden</button>
-                      </div>
-                  </div>
-                  <br><br>
-                </div>
-                
-                
-                
             </div>
+
+            <div class="row">
+              <div class="col-md-6" style="top:20px!important;">
+                    <a href="#" class="btn btn-default btn-block">Cancelar registro</a>
+                </div>
+                <div class="col-md-6" style="top:20px!important;">
+                    <button type="submit" class="btn btn-primary btn-block">Registrar nueva orden</button>
+                </div>
+            </div>
+            <br><br>
+
           </form>
-          
         </div>
         <!-- /.box-body -->
       </div>
-      <!-- Lista de items -->
     </section>
+
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->

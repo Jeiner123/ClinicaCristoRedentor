@@ -18,7 +18,7 @@
 		$('#txtDNI').val(DNI);
 		$('#txtPacienteID').val(historia);
 		$('#txtNombresPaciente').val(nombres);
-	}	
+	}
 // PERSONA
 // VERIFICA EL DNI, SI EXISTE
 function verificaDNI(form){
