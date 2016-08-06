@@ -11,7 +11,7 @@
 			echo "<option value='".$row[0]."'>".$row[1]."</option>";
 		}
 		exit();
-	}
+	}	
 	//Actualizar campo para el pedido_servicio
 	if($opc == 'ACT_P_S'){
 		$pedidoID = $_POST['pedidoID'];

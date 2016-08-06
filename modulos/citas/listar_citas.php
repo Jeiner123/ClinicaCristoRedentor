@@ -1,5 +1,8 @@
 <?php include '../general/validar_sesion.php';?>
 <?php include '../general/variables.php';?>
+<?php 
+  
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +13,6 @@
   <input type='hidden' value='m_listar_citas' id='menuPrincipal'>
   <input type='hidden' value='listar_citas' id='menuIzquierda'>
 	<?php include '../general/menu_principal.php';?>
-
 <div class="wrapper">
   <?php include '../general/izquierda_menu.php';?>
 
@@ -19,7 +21,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Lista de citas 
+        Lista de citas
         <small>Consultorio - Laboratorio</small>
       </h1>
       <ol class="breadcrumb">

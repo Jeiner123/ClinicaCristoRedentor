@@ -110,7 +110,7 @@
                     <input onclick="abrirModal('#modalListaServicios');" class="form-control" placeholder="SERVICIO" readonly="true" id="txtServicio" name="txtServicio">
                   </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-2" hidden>
                   <input type="text" id="txtServicioID" name="txtServicioID" readonly="true" class="form-control" placeholder="ID servicio">
                 </div>
               </div>
@@ -129,7 +129,7 @@
                     <input onclick="abrirModal('#modalListaPersonalSaludRef');" id="txtNombresMedicoRef" name="txtNombresMedicoRef"class="form-control" placeholder="NOMBRES Y APELLIDOS - PACIENTE" readonly="true">
                   </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-2" hidden>
                    <input type="text" id="txtCodigoMedicoRef" name="txtCodigoMedicoRef"class="form-control" placeholder="Cod. Med. Ref" readonly="true">
                 </div>
               </div>
@@ -148,7 +148,7 @@
                     <input id="txtNombresMedico" name="txtNombresMedico"class="form-control" placeholder="NOMBRES Y APELLIDOS - MÉDICO"  onclick="abrirModal('#modalListaPersonalSalud');cargarListaPersonalSalud();" readonly="true">
                   </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-2" hidden>
                   <div class="input-group">
                     <input type="text" id="txtMedicoCodigo" name="txtMedicoCodigo"class="form-control" placeholder="Cod. Médico" readonly="true"> 
                     <div class="input-group-btn">
@@ -204,9 +204,13 @@
           </div>
           <!-- /.box-body -->
           <div class="box-footer" align="ceter">
-            <div class="form-group" align="center">
-              <input  onClick="guardarCita(this.form);" id="btnGuardar" value="Reservar" style="margin-right:20px;" type="button" class="btn btn-success btn-flat" />
-              <a class="btn btn-primary btn-flat" data-dismiss="modal" onClick="limpiarForm(this.form);">Regresar</a>
+            <div class="row">
+              <div class="col-sm-4 col-sm-offset-2">
+                <input  onClick="guardarCita(this.form);" id="btnGuardar" value="Reservar" type="button" class="btn btn-success  btn-block" />
+              </div>
+              <div class="col-sm-4">
+                <a class="btn btn-primary  btn-block" onClick="limpiarForm(this.form);bloqueoTotalForm(this.form,false);">Nuevo</a>
+              </div>
             </div>
           </div>
         </div>

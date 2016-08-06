@@ -138,14 +138,14 @@
 	// PERSONAL SALUD
 	if($opc=='CC_PS_01'){
 		$especialidadID = $_POST['especialidadID'];
-		$consulta = "select PL.personalID, P.nombres,P.apPaterno,P.apMaterno
+		$consulta = "select PL.personalID,P.nombres,P.apPaterno,P.apMaterno
 								from personal PL
-								inner join persona P
-								where PL.estado=1 and (PL.tipoPersonalID=1 or PL.tipoPersonalID=2)";
+								inner join persona P ON PL.DNI = P.DNI
+								where PL.estado=1 and PL.tipoPersonalID <= 2";
 		if( $especialidadID > 0){
 			$consulta = "select PL.personalID, P.nombres,P.apPaterno,P.apMaterno
 								from personal PL
-								inner join persona P
+								inner join persona P ON PL.DNI = P.DNI
 								where PL.estado=1 and (PL.tipoPersonalID=1 or PL.tipoPersonalID=2) 
 											and PL.especialidadID='".$especialidadID."'";
 		}

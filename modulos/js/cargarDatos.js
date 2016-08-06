@@ -1,8 +1,9 @@
 var urlGeneral = '../bd/bd_operaciones.php';
 // Cargar Combos
+	
 	function cargarCboPersonalSalud(){
 		abrirCargando();
-		especialidadID = $('#cboEspecialidad').val();		
+		especialidadID = $('#cboEspecialidad').val();
 		opc = 'CC_PS_01';
 		$.ajax({
 			type: 'POST',
@@ -10,10 +11,7 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			url: urlGeneral,
 			success: function(rpta){
 				$('#cboPersonalSalud').html(rpta);				
-				numeroCargas--;
-				if(numeroCargas<1){
-					cerrarModal("#modalCargando");
-				}
+				cerrarCargando();
 				return true;
 			},
 			error: function(rpta){

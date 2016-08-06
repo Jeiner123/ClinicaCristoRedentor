@@ -51,34 +51,36 @@
         <div class="box-body" style='overflow-x:scroll;overflow-y:hidden' align="center">
           <div class="row">
             <div class="col-md-2">
-              <label for="txtMes">Mes</label>
-              <select class="form-control input-sm" id="cboMes" name="cboMes">
+              <label for="cboMeses">Mes</label>
+              <select class="form-control input-sm" id="cboMeses" name="cboMeses" onchange="cargarTablaReferencias();">
                 <?php 
                   foreach ($meses as $id => $value) {
-                    echo "<option value='".$id."'>".$value."</option>";
+                    echo "<option ";
+                    if($id == date('m')){
+                      echo "selected ";
+                    }
+                    echo "value='".$id."'>".$value."</option>";
                   }
-                 ?>
+                ?>
               </select>
             </div>
-
-            <div class="col-md-2">
-              <label for="txtFechaCita">Fecha</label>
-              <div class="input-group">
-                <input id="txtFechaCita" name="txtFechaCita" class="form-control date-picker input-sm" placeholder="dd-mm-aaaa" type="text" data-date-format="dd-mm-yyyy" value="<?php echo $fechaHoyDMA?>" onchange="cargarTablaCitas();">
-                <span class="input-group-addon">
-                  <i class="fa fa-calendar bigger-110"></i>
-                </span>
-              </div>
+            <div class="col-md-4">
+              <label for="cboPersonalSalud">Médico</label>
+              <select class="form-control input-sm" id="cboPersonalSalud" name="cboPersonalSalud" onchange="cargarTablaReferencias();">
+                <!--  -->
+              </select>
             </div>
+            
             <div class="col-md-2">
               <label for="cboEstadoPago">Estado pago</label>
-              <select class="form-control input-sm" id="cboEstadoPago" name="cboEstadoPago" onchange="cargarTablaCitas();">
+              <select class="form-control input-sm" id="cboEstadoPago" name="cboEstadoPago" onchange="cargarTablaReferencias();">
                 <option value="T" selected>Todos</option>
-                <option value="R" >Pendiente</option>
-                <option value="C" >Parcial</option>
-                <option value="S" >Pagada</option>
+                <option value="PEN" >Pendiente</option>
+                <option value="PAR" >Parcial</option>
+                <option value="PAG" >Pagada</option>
               </select>
             </div>
+            
           </div>
           <!-- ROW -->
           <hr>
@@ -97,7 +99,14 @@
               <!-- Aqui irán los elementos de la tabla -->        
             </tbody>
           </table>
-        </div>            
+          <hr>
+          <div class="row">
+            <div class="col-md-2">
+              <label for="txtNumeroFilas" class="text-red"><strong>N° de referencias</strong></label>
+              <input class="form-control input-sm" id="txtNumeroFilas" name="txtNumeroFilas" disabled>
+            </div>
+          </div>
+        </div>
         <!-- /.box-body -->
       </div>
       <!-- Lista de referencias -->
@@ -116,8 +125,10 @@
 
 <script src="js/script.js"></script>
 <script src="../../plugins/select2/select2.full.min.js"></script>
-<script type="text/javascript">  
+<script type="text/javascript">
+  cargarCboPersonalSalud();
   cargarTablaReferencias();
+
   $('#tablaReferencias tbody').on('click','tr',function(){seleccionSimple(this);}); 
   //iCheck for checkbox and radio inputs
   $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({    

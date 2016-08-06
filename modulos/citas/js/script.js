@@ -1,30 +1,15 @@
 var importeSinIGV = 0.0;
 var importeIGV = 0.0;
 var importeTotal = 0.0;
-function guardarCita(){
+function guardarCita(form){
 	$('#btnGuardarCita').attr('disabled',true);
 	
-	if($.trim($('#txtPacienteID').val()).length<1){
-		$('#txtNombresPaciente').parent().addClass('has-error');
-	}else{
-		$('#txtNombresPaciente').parent().removeClass('has-error');
-	}		
-	if($.trim($('#txtServicioID').val()).length<1){
-		$('#txtServicio').parent().addClass('has-error');
-	}else{
-		$('#txtServicio').parent().removeClass('has-error');
-	}
-	if($.trim($('#txtMedicoCodigo').val()).length<1){
-		$('#txtNombresMedico').parent().addClass('has-error');
-	}else{
-		$('#txtNombresMedico').parent().removeClass('has-error');
-	}	
+	inputObligatorio('#txtNombresPaciente',3);
+	inputObligatorio('#txtServicio',3);
+	inputObligatorio('#txtNombresMedico',3);
+	inputObligatorio('#txtHoraCita',1);
 	validarFechaMayor('#txtFechaCita');
-	if($.trim($('#txtHoraCita').val())=='12:00 AM'){
-		$('#txtHoraCita').parent().addClass('has-error');
-	}else{
-		$('#txtHoraCita').parent().removeClass('has-error');
-	}
+
 	var numErrores = document.getElementsByClassName("has-error").length;
 	if(numErrores>0){
 		alert("Verifique los datos ingresados");
@@ -42,6 +27,7 @@ function guardarCita(){
 		processData: false,
 		success: function(rpta){
 			if(rpta==1){
+				bloqueoTotalForm(form,true);
 				alert("Registro exitoso");
 				cerrarCargando();
 				// window.location.replace("listar_citas.php");
@@ -173,24 +159,7 @@ function cargarTablaCitas(tipo){
 }
 
 //Validar fecha mayor a la de hoy  //'#txtFecha'
-function validarFechaMayor(elemento){
-	var fecha = $(elemento).val();
-  if(fecha.length<1){
-    $(elemento).parent().addClass('has-error');
-    return false;
-  }else{
-    $(elemento).parent().removeClass('has-error');
-  }  
-  var valuesStart= fechaHoyDMA.split("-");
-  var valuesEnd=fecha.split("-");
-  var dateStart = new Date(valuesStart[2],(valuesStart[1]-1),valuesStart[0]);
-  var dateEnd = new Date(valuesEnd[2],(valuesEnd[1]-1),valuesEnd[0]);
-  if(dateStart > dateEnd){
-    $(elemento).parent().addClass('has-error');        
-  }else{
-    $(elemento).parent().removeClass('has-error');
-  }  
-}
+
 // Agregar los servicios a la tabla de detalle
 function agregarServicioDetalle(){
 	validarFechaMayor('#txtFechaCita');
@@ -298,17 +267,21 @@ function recorrerCeldas(){
 //Cargar tabla de referencias médicas
 function cargarTablaReferencias(){
 	abrirCargando();
-	fecha = $("#txtFechaCita").val();
-	estadoPago = $("#cboEstadoPago").val();
+	// fecha = $("#txtFechaCita").val();
+	// estadoPago = $("#cboEstadoPago").val();
+	var mes = $("#cboMeses").val();
+	var personalID = $("#cboPersonalSalud").val();
+	if(personalID == null)personalID = 0;	
 
 	var opc = 'CTR_01';
 	$.ajax({
 		type: 'POST',
-		data:'opc='+opc+'&fecha='+fecha+'&estadoPago='+estadoPago,
+		data:'opc='+opc+'&mes='+mes+'&personalID='+personalID,
 		url: 'bd/bd_operaciones.php',
-		success: function(rpta){
-			$('#tablaReferencias').DataTable().destroy();
+		success: function(rpta){			
+			$('#tablaReferencias').DataTable().destroy();			
 			$('#cuerpoTablaReferencias').html(rpta);
+			var numFilas = $('#tablaReferencias >tbody >tr').length;   //Numero de referencias			
 			$('#tablaReferencias').DataTable(
 					{
 				   	"columnDefs": [
@@ -323,6 +296,7 @@ function cargarTablaReferencias(){
 			      
 					}
 			);
+			$('#txtNumeroFilas').val(numFilas);
 			cerrarCargando();
 		},
 		error: function(rpta){
