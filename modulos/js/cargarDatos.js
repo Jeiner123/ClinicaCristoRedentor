@@ -217,6 +217,24 @@ var urlGeneral = '../bd/bd_operaciones.php';
 		});
 	}
 
+	function cargarCboTipoAdquision(adquision){
+		opc = 'CC_TA';
+		$.ajax({
+			type: 'POST',
+			data:'opc='+opc,
+			url: urlGeneral,
+			success: function(rpta){
+				$('#cboAdquisicion').html(rpta);
+				$('#cboAdquisicion').val(adquision);
+				cerrarCargando();
+				return true;		
+			},
+			error: function(rpta){
+				alert(rpta);
+			}
+		});
+	}
+
 // --- CARGAR TABLAS --
 
 	function cargarListaPersonalSalud(){		

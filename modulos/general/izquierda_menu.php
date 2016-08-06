@@ -206,6 +206,11 @@
 					<span>Nota de ingreso</span>
 				</a>
 			</li>
+			<li class="treeview" id="listado_facturas">
+				<a href="../compras/listado_facturas.php">
+					<span>Cuenta corriente por pagar</span>
+				</a>
+			</li>
 			<li class="treeview" id="facturas">
 				<a href="../compras/facturas.php">
 					<span>Provisiones por pagar</span>

@@ -56,12 +56,7 @@
           <form id="formFactura" name="formFactura">
             <div id="RegOCompra">
             <!-- COL-MD-6 -->
-                <div class="col-md-12">
-                  <div class="box-header"  style="margin: -30px 0px -15px -10px">
-                      <br><h1 class="box-title">DATOS GENERALES</h1>
-                  </div>
-                  <hr>
-                </div>
+              
                 <input id="txtFlag" name="txtFlag" class="form-control" type="hidden" value="<?php echo $opcion; ?>">
                 <div class="row" style="margin-left:5px;">
                   <div class="col-md-2">
@@ -81,25 +76,26 @@
                       </span>
                     </div>
                   </div>
-                  <div class="col-md-3">
-                    <label for="cboArea">Pto. Emisión</label>
-                      <select class="form-control input-sm" name="cboArea" id="cboArea">
-                        <option value="0">--Seleccionar--</option>
+                  <div class="col-md-5">
+                    <label for="cboTipoOperacion">Tipo de compra</label>
+                      <select class="form-control input-sm" name="cboTipoOperacion" id="cboTipoOperacion">
+                      <option value="1">COMPRAS NACIONALES</option>
+                      <option value="2">COMPRAS INTERNACIONALES</option>
                       </select>
                   </div>
                 </div><br>
 
-                <div class="col-md-9">
+                <div class="col-md-12">
                   <div class="row">
                     <div class="col-md-12">
                       <div class="box-header"  style="margin: -30px 0px -15px -10px">
-                          <br><h1 class="box-title">DATOS DEL PROVEEDOR</h1>
+                          <br><h1 class="box-title">DOCUMENTO</h1>
                       </div>
                       <hr>
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-5">
                       <label for="txtProveedor">Proveedor</label>
                       <div class="input-group">
                         <div class="input-group-btn">
@@ -111,39 +107,68 @@
                         <input onclick="abrirModal('#modalListaProveedor');" id="txtProveedor" name="txtProveedor"class="form-control" placeholder="PROVEEDOR" readonly="true">
                       </div>
                     </div>
-                    <div class="col-md-4">
-                      <label for="cboTipoExistencia">Tipo</label>
-                      <select class="form-control input-sm" name="cboTipoExistencia" id="cboTipoExistencia">
-                      </select>
+                    <div class="col-md-2">
+                      <label class="control-label">Serie</label>
+                      <input type="text" id="txtSerie" name="txtSerie"class="form-control input-sm">
+                    </div>
+                    <div class="col-md-2">
+                      <label class="control-label">Número</label>
+                      <input type="text" id="txtNumero" name="txtNumero"class="form-control input-sm" readonly="">
+                    </div>
+                    <div class="col-md-3">
+                    <label class="control-label">Fecha</label>
+                    <div class="input-group">
+                      <input id="txtFechaCita" name="txtFechaCita"class="form-control date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" onchange="validarFechaMayor(this);" value="" >
+                      <span class="input-group-addon">
+                        <i class="fa fa-calendar bigger-110"></i>
+                      </span>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-md-8">
-                      <label for="txtProveedor">Condición de pago</label>
-                      <div class="input-group">
-                        <div class="input-group-btn">
-                          <button onclick="abrirModal('#modalListaProveedor');" type="button"class="btn btn-secundary" title="Buscar paciente">
-                            <strong>...</strong>
-                          </button>
-                        </div>
-                        <input onclick="abrirModal('#modalListaProveedor');" id="txtDocumento" name="txtDocumento"class="form-control" readonly="true" type="hidden">
-                        <input onclick="abrirModal('#modalListaProveedor');" id="txtCondPago" name="txtCondPago"class="form-control" placeholder="Cod-Modalidad de pago" readonly="true">
-                      </div>
+                    <div class="col-md-3">
+                    <label for="cboTipoOperacion">Tipo de documento</label>
+                    <select class="form-control input-sm" name="cboTipoOperacion" id="cboTipoOperacion">
+                      </select>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="control-label">Vencimiento</label>
+                    <div class="input-group">
+                      <input id="txtFechaCita" name="txtFechaCita"class="form-control date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" onchange="validarFechaMayor(this);" value="">
+                      <span class="input-group-addon">
+                        <i class="fa fa-calendar bigger-110"></i>
+                      </span>
                     </div>
-                    <div class="col-md-4">
+                  </div>
+                  <div class="col-md-3">
                       <label for="cboTipoCompra">Moneda</label>
                       <select class="form-control input-sm">
                         <option value="1">SOLES</option>
                         <option value="2">DOLARES AMERICANOS</option>
                       </select>
                     </div>
-                    <div class="col-md-12">
-                      <label class="control-label">Observaciones</label>
-                      <textarea class="form-control" id="txtObservaciones" name="txtObservaciones" rows="3"></textarea>
+                    <div class="col-md-3">
+                      <label class="control-label">Cond. de Pago</label>
+                      <select class="form-control input-sm" id="cboModalidadPago" name="cboModalidadPago">
+                      </select> 
+                    </div>
+                    
+
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label for="cboTipoExistencia">Tipo de bien o servicio</label>
+                      <select class="form-control input-sm" name="cboTipoExistencia" id="cboTipoExistencia">
+                      </select>
+                    </div>
+                    <div class="col-md-3">
+                      <label class="control-label">Tipo de adquisición</label>
+                      <select class="form-control input-sm" id="cboAdquisicion" name="cboAdquisicion">
+                      </select> 
                     </div>
                   </div>
                 </div>
-                <div class="col-md-3">
+
+                 <div class="col-md-6">
+                  <br>
                   <div class="row">
                     <div class="col-md-12">
                       <div class="box-header"  style="margin: -30px 0px -15px -10px">
@@ -151,14 +176,14 @@
                       </div>
                       <hr>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-4">
                       <label for="cboIGV">I.G.V</label>
                       <select class="form-control input-sm" name="cboIGV" id="cboIGV">
                         <option value="1">No aplica</option>
                         <option value="2">I.G.V 18%</option>
                       </select>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-4">
                       <label for="cboPercepcion">Percepción</label>
                       <select class="form-control input-sm" name="cboPercepcion" id="cboPercepcion">
                         <option value="1">No aplica</option>
@@ -166,35 +191,65 @@
                         <option value="3">Serv.6.5%</option>
                       </select>
                     </div>
-                  </div>
-                </div><br>
+                     <div class="col-md-4">
+                      <label for="cboRenta">Renta</label>
+                      <select class="form-control input-sm" name="cboRenta" id="cboRenta">
+                        <option value="1">No aplica</option>
+                        <option value="2">Renta 8%</option>
+                      </select>
+                    </div>
+                  </div></div>
+
+                  <div class="col-md-3">
+                  <br>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="box-header"  style="margin: -30px 0px -15px -10px">
+                          <br><h1 class="box-title">RETENCIÓN</h1>
+                      </div>
+                      <hr>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="cboTasa">Tasa</label>
+                      <select class="form-control input-sm" name="cboTasa" id="cboTasa">
+                        
+                      </select>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="txtImporte">Importe</label>
+                      <input class="form-control input-sm" name="txtImporte" id="txtImporte" onkeypress="return soloNumeroDecimal(event);" readonly="" placeholder="S/."></input>
+                    </div>
+                     
+                  </div></div>
+                
                 <div class="col-md-12">
                   <div class="row">
                     <div class="col-md-12">
                       <div class="box-header"  style="margin: -10px 0px -15px -10px">
-                          <br><h1 class="box-title">PRODUCTOS</h1>
+                          <br><h1 class="box-title">DETALLE DEL DOCUMENTO</h1>
                       </div>
                       <hr>
                     </div>
                     <div class="col-md-12">
                       <div class="col-md-2">
-                        <input type="checkbox" name="vehicle" value="Bike">Incluye impuestos<br>
+                        <label for="txtBaseAfecta">Base Afecta</label>
+                        <input class="form-control input-sm" name="txtBaseAfecta" id="txtBaseAfecta" onkeypress="return soloNumeroDecimal(event);"></input>
                       </div>
                       <div class="col-md-2">
-                        <label for="txtSubTotal">SubTotal</label>
-                        <input class="form-control input-sm" name="txtSubTotal" id="txtSubTotal" onkeypress="return soloNumeroDecimal(event);" readonly=""></input>
+                        <label for="txtInafecto">Inafecto</label>
+                        <input class="form-control input-sm" name="txtInafecto" id="txtInafecto" onkeypress="return soloNumeroDecimal(event);" ></input>
                       </div>
                       <div class="col-md-2">
-                         <label for="txtDescuento">Descuento</label>
-                        <input class="form-control input-sm" name="txtDescuento" id="txtDescuento" onkeypress="return soloNumeroDecimal(event);"></input>
+                         <label for="txtIGV">I.G.V</label>
+                        <input class="form-control input-sm" name="txtIGV" id="txtIGV" onkeypress="return soloNumeroDecimal(event);" readonly=""></input>
                       </div>
                       <div class="col-md-2">
-                        <label for="txtBaseGravable">Base gravable</label>
-                        <input class="form-control input-sm" name="txtBaseGravable" id="txtBaseGravable" onkeypress="return soloNumeroDecimal(event);"></input>
+                        <label for="txtPercepcion">Percepción</label>
+                        <input class="form-control input-sm" name="txtPercepcion" id="txtPercepcion" onkeypress="return soloNumeroDecimal(event);" readonly=""></input>
                       </div>
                       <div class="col-md-2">
-                        <label for="txtImpuesto">Impuesto</label>
-                        <input class="form-control input-sm" name="txtImpuesto" id="txtImpuesto" onkeypress="return soloNumeroDecimal(event);"></input>
+                        <label for="txtRenta">Renta</label>
+                        <input class="form-control input-sm" name="txtRenta" id="txtRenta" onkeypress="return soloNumeroDecimal(event);" readonly=""></input>
                       </div>
                       <div class="col-md-2">
                         <label for="txtTotal">Total</label>
@@ -204,7 +259,7 @@
                     <div class="col-md-12">
                       <div class="input-group"><br><hr>
                         <div class="input-group-btn">
-                          <button onclick="crearfila();" type="button"class="btn btn-success" title="Agregar fila">
+                          <button onclick="crearDetalleFactura();" type="button"class="btn btn-success" title="Agregar fila">
                             <strong><i class='fa fa-plus'></i></strong>
                           </button>
                         </div>
@@ -215,12 +270,11 @@
                           <tr>
                             <th width="5%" style='text-align:center;'>&nbsp;Item
                             </th>
-                            <th width="10%" style='text-align:center;'>&nbsp;Codigo</th>
+                            <th width="10%" style='text-align:center;'>&nbsp;Referencia</th>
+                            <th width="10%" style='text-align:center;'>&nbsp;Cuenta</th>
                             <th>&nbsp;Descripción</th>
-                            <th width="15%" style='text-align:center;'>Unidad</th>
                             <th width="10%" style='text-align:center;'>Cantidad</th>
                             <th width="10%" style='text-align:center;'>Costo Unit.</th>
-                            <th width="10%" style='text-align:center;'>Descuento</th>
                             <th width="10%" style='text-align:center;'>Importe</th>
                           </tr>
                         </thead>
@@ -228,12 +282,11 @@
                         <?php for ($i=1;$i<=3;++$i): ?>
                           <tr>
                             <td><input class="form-control input-sm" id="txtItem<?php echo $i;?>" name="txtItem<?php echo $i;?>" style='text-align:right;' readonly value="<?php echo $i;?>"></input></td>
-                            <td><input class="form-control input-sm" id="txtCodigo<?php echo $i;?>" name="txtCodigo<?php echo $i;?>"></input></td>
+                            <td><input class="form-control input-sm" id="txtReferencia<?php echo $i;?>" name="txtReferencia<?php echo $i;?>"></input></td>
+                            <td><input class="form-control input-sm" id="txtCuenta<?php echo $i;?>" name="txtCuenta<?php echo $i;?>"  onkeypress="return soloNumeroEntero(event);"></input></td>
                             <td><input class="form-control input-sm" id="txtDescripcion<?php echo $i;?>" name="txtDescripcion<?php echo $i;?>"></input></td>
-                            <td><input class="form-control input-sm" id="txtUnidad<?php echo $i;?>" name="txtUnidad<?php echo $i;?>"></input></td>
                             <td><input class="form-control input-sm" id="txtCantidad<?php echo $i;?>" name="txtCantidad<?php echo $i;?>"  onkeypress="return soloNumeroEntero(event);"></input></td>
                             <td><input class="form-control input-sm" id="txtCosto<?php echo $i;?>" name="txtCosto<?php echo $i;?>" onkeypress="return soloNumeroDecimal(event);"></input></td>
-                            <td><input class="form-control input-sm" id="txtDescuento<?php echo $i;?>" name="txtDescuento<?php echo $i;?>" onkeypress="return soloNumeroDecimal(event);"></input></td>
                             <td><input class="form-control input-sm" id="txtImporte<?php echo $i;?>" name="txtImporte<?php echo $i;?>" onkeypress="return soloNumeroDecimal(event);" readonly></input></td>
                           </tr>
                         <?php endfor; ?>
@@ -248,7 +301,7 @@
                           <a href="#" class="btn btn-default btn-block">Cancelar registro</a>
                       </div>
                       <div class="col-md-6" style="top:20px!important;">
-                          <button type="submit" class="btn btn-primary btn-block">Registrar nueva orden</button>
+                          <button type="submit" class="btn btn-primary btn-block">Registrar nuevo documento</button>
                       </div>
                   </div>
                   <br><br>
