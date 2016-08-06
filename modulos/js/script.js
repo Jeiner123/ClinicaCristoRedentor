@@ -12,15 +12,14 @@ window.onload = function() {
     activarMenuLateral();
 };
 
-function funcionSelect(){
+function funcionSelect(combo) {
 	if(!ace.vars['touch']) {
-	$('.chosen-select').chosen({allow_single_deselect:true}); 
+	$(combo).chosen({allow_single_deselect:true});
 	//resize the chosen on window resize
-
 	$(window)
 	.off('resize.chosen')
 	.on('resize.chosen', function() {
-		$('.chosen-select').each(function() {
+		$(combo).each(function() {
 			 var $this = $(this);
 			 $this.next().css({'width': $this.parent().width()});
 		})
@@ -28,7 +27,7 @@ function funcionSelect(){
 	//resize chosen on sidebar collapse/expand
 	$(document).on('settings.ace.chosen', function(e, event_name, event_val) {
 		if(event_name != 'sidebar_collapsed') return;
-		$('.chosen-select').each(function() {
+		$(combo).each(function() {
 			 var $this = $(this);
 			 $this.next().css({'width': $this.parent().width()});
 		})

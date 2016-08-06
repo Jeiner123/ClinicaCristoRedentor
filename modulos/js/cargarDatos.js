@@ -1,6 +1,46 @@
 var urlGeneral = '../bd/bd_operaciones.php';
 // Cargar Combos
 	
+	// CARGAR MEDICOS
+	function cargarCboMedicos(combo,especialidadID){
+		abrirCargando();
+		opc = 'CC_MED_01';
+		$.ajax({
+			type: 'POST',
+			data:'opc='+opc+'&especialidadID='+especialidadID,
+			url: urlGeneral,
+			success: function(rpta){				
+				$(combo).html(rpta);
+				funcionSelect(combo);
+				cerrarCargando();
+				return true;
+			},
+			error: function(rpta){
+				alert(rpta);
+				cerrarCargando();
+			}
+		});
+	}
+	// CARGA EL COMBO DE PACIENTE
+	function cargarCboPacientes(){
+		abrirCargando();
+		opc = 'CC_PAC_01';
+		$.ajax({
+			type: 'POST',
+			data:'opc='+opc,
+			url: urlGeneral,
+			success: function(rpta){			
+				$('#cboPacientes').html(rpta);
+				funcionSelect('#cboPacientes');
+				cerrarCargando();
+				return true;
+			},
+			error: function(rpta){
+				alert(rpta);
+				cerrarCargando();
+			}
+		});
+	}
 	// Cargar combo comprobante de pago (Documento)
 	function cargarCboComprobante(valorDefecto){
 		abrirCargando();
@@ -227,6 +267,7 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			success: function(rpta){
 				$('#cboBanco').html(rpta);
 				$('#cboBanco').val(valorDefecto);
+				funcionSelect();
 				cerrarCargando();
 				return true;		
 			},
@@ -319,36 +360,7 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			}
 		});
 	}
-	function cargarListaPacientes(){
-		abrirCargando();		
-		var opc = 'CL_PAC_01';
-		$.ajax({
-			type: 'POST',
-			data:'opc='+opc,
-			url: urlGeneral,
-			success: function(rpta){
-				$('#tablaPacientes').DataTable().destroy();
-				$('#cuerpoTablaPacientes').html(rpta);
-				$('#tablaPacientes').DataTable(
-						// {
-					 //   	"columnDefs": [
-		    //         { "targets": [ 0 ],"width": "10%",  "searchable": false,},
-		    //         { "targets": [ 1 ],"width": "55%", },
-		    //         { "targets": [ 2 ],"width": "15%",  "searchable": false , },
-		    //         { "targets": [ 3 ],"width": "5%",  "searchable": false ,},
-		    //         { "targets": [ 4 ],"width": "15%", "orderable": false,"searchable": false ,}
-		            
-				  //     ],
-				  //     "order": [[ 3, "asc" ]]
-						// }
-				);
-				cerrarCargando();
-			},
-			error: function(rpta){
-				alert(rpta);
-			}
-		});
-	}
+
 	function cargarListaServicios(){				
 		var opc = 'CL_S_01';
 		abrirCargando();
@@ -381,6 +393,36 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			}
 		});		
 	}
-	
+
+		function cargarListaPacientes(){
+		abrirCargando();		
+		var opc = 'CL_PAC_01';
+		$.ajax({
+			type: 'POST',
+			data:'opc='+opc,
+			url: urlGeneral,
+			success: function(rpta){
+				$('#tablaPacientes').DataTable().destroy();
+				$('#cuerpoTablaPacientes').html(rpta);
+				$('#tablaPacientes').DataTable(
+						// {
+					 //   	"columnDefs": [
+		    //         { "targets": [ 0 ],"width": "10%",  "searchable": false,},
+		    //         { "targets": [ 1 ],"width": "55%", },
+		    //         { "targets": [ 2 ],"width": "15%",  "searchable": false , },
+		    //         { "targets": [ 3 ],"width": "5%",  "searchable": false ,},
+		    //         { "targets": [ 4 ],"width": "15%", "orderable": false,"searchable": false ,}
+		            
+				  //     ],
+				  //     "order": [[ 3, "asc" ]]
+						// }
+				);
+				cerrarCargando();
+			},
+			error: function(rpta){
+				alert(rpta);
+			}
+		});
+	}
 	
 	

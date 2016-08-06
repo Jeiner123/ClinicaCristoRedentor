@@ -135,6 +135,44 @@
 		exit();
 	}
 // CARGAR COMBOS
+	// CARGAR COMBO MEDICOS
+	if($opc == 'CC_MED_01'){
+		$especialidadID = $_POST['especialidadID'];
+		$consulta = "select PL.personalID,P.nombres,P.apPaterno,P.apMaterno,E.especialidad
+									from PERSONAL_SALUD PS
+									inner join PERSONAL PL on PL.personalID = PS.personalID
+									inner join PERSONA P on P.DNI = PL.DNI
+									inner join ESPECIALIDAD E on E.especialidadID = PS.especialidadID
+									where PL.estado =1 and PL.tipoPersonalID<=2
+								";
+		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
+		echo "<option value='0'>-- Médico --</option>";
+		while($row = mysqli_fetch_row($res)){
+			$medicoID = $row[0];			
+			$nombresM = explode(" ", $row[1]);
+			$medico = $nombresM[0].' '.$row[2].' '.$row[3];
+			echo "<option value='".$medicoID."'>".$medico."</option>";
+		}
+		exit();
+	}
+	//CAGAR COMBO PACIENTES
+	if($opc == 'CC_PAC_01'){
+		$consulta = "select P.DNI, PA.pacienteID, P.nombres,P.apPaterno,P.apMaterno
+								  from PACIENTE PA
+								  inner join PERSONA P ON PA.DNI = P.DNI
+								  where PA.estado = 1
+								  ";
+		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
+		echo "<option value='0'>-- Paciente --</option>";
+		while($row = mysqli_fetch_row($res)){
+			$pacienteID = $row[1];
+			$DNI = $row[0];
+			$nombresP = explode(" ", $row[2]);
+			$paciente = $nombresP[0].' '.$row[3].' '.$row[4];
+			echo "<option value='".$pacienteID."'>".$DNI.' - '.$paciente."</option>";
+		}
+		exit();
+	}
 	//CARGAR COMBO TIPO DE DOCUMENTO
 	if($opc=='CC_TD'){
 		$consulta = "SELECT tipoDocumentoID,tipoDocumento FROM tipo_documento where estado='A'";
@@ -177,29 +215,7 @@
 		}
 		exit();
 	}
-	// PERSONAL SALUD
-	if($opc=='CC_PS_01'){
-		$especialidadID = $_POST['especialidadID'];
-		$consulta = "select PL.personalID,P.nombres,P.apPaterno,P.apMaterno
-								from personal PL
-								inner join persona P ON PL.DNI = P.DNI
-								where PL.estado=1 and PL.tipoPersonalID <= 2";
-		if( $especialidadID > 0){
-			$consulta = "select PL.personalID, P.nombres,P.apPaterno,P.apMaterno
-								from personal PL
-								inner join persona P ON PL.DNI = P.DNI
-								where PL.estado=1 and (PL.tipoPersonalID=1 or PL.tipoPersonalID=2) 
-											and PL.especialidadID='".$especialidadID."'";
-		}
-		
-		$res = mysqli_query($con,$consulta) or die(mysqli_error($con));
-			echo "<option value='"."0"."'>-- Médico --</option>";
-		while($row = mysqli_fetch_row($res)){
-			echo "<option value='".$row[0]."'>".$row[1].' '.$row[2].' '.$row[3]."</option>";
-		}
-		exit();
-	}
-	// Areas
+	// AREAS
 	if($opc=='CC_AR_01'){
 		$consulta = "select areaID,area from area where estado=1 order by area asc";
 		$res = mysqli_query($con,$consulta) or die(mysqli_error($con));
@@ -250,7 +266,7 @@
 		}
 		exit();
 	}
-	//Tipo Pesonal 
+	//Tipo PERSONAL 
 	if($opc=='CC_TP_01'){
 		$consulta = "select tipoPersonalID,tipoPersonal from tipo_personal where estado=1 order by tipoPersonal asc";
 		$res = mysqli_query($con,$consulta) or die(mysqli_error($con));

@@ -164,7 +164,7 @@
                   </div>
                 </div>
 
-                 <div class="col-md-6">
+                 <div class="col-md-9">
                   <br>
                   <div class="row">
                     <div class="col-md-12">
@@ -173,14 +173,20 @@
                       </div>
                       <hr>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                       <label for="cboIGV">I.G.V</label>
                       <select class="form-control input-sm" name="cboIGV" id="cboIGV">
                         <option value="1">No aplica</option>
                         <option value="2">I.G.V 18%</option>
                       </select>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
+                      <label for="cboDetraccion">Detracción</label>
+                      <select class="form-control input-sm" name="cboDetraccion" id="cboDetraccion">
+                        <option value="1">No aplica</option>
+                      </select>
+                    </div>
+                    <div class="col-md-3">
                       <label for="cboPercepcion">Percepción</label>
                       <select class="form-control input-sm" name="cboPercepcion" id="cboPercepcion">
                         <option value="1">No aplica</option>
@@ -188,7 +194,7 @@
                         <option value="3">Serv.6.5%</option>
                       </select>
                     </div>
-                     <div class="col-md-4">
+                     <div class="col-md-3">
                       <label for="cboRenta">Renta</label>
                       <select class="form-control input-sm" name="cboRenta" id="cboRenta">
                         <option value="1">No aplica</option>
@@ -196,47 +202,7 @@
                       </select>
                     </div>
                   </div></div>
-
-                  <div class="col-md-3">
-                  <br>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="box-header"  style="margin: -30px 0px -15px -10px">
-                          <br><h1 class="box-title">RETENCIÓN</h1>
-                      </div>
-                      <hr>
-                    </div>
-                    <div class="col-md-6">
-                      <label for="chkTasaRetencion">¿Retención?</label>
-                      <input type="checkbox" name="chkTasaRetencion" id="chkTasaRetencion">
-                    </div>
-                    <div class="col-md-6">
-                      <label for="txtImporte">Importe</label>
-                      <input class="form-control input-sm" name="txtImporte" id="txtImporte" onkeypress="return soloNumeroDecimal(event);" readonly="" placeholder="S/."/>
-                    </div>
-                     
-                  </div></div>
-
-                  <div class="col-md-3">
-                  <br>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="box-header"  style="margin: -30px 0px -15px -10px">
-                          <br><h1 class="box-title">DETRACCIÓN</h1>
-                      </div>
-                      <hr>
-                    </div>
-                    <div class="col-md-6">
-                      <label for="cboTasa">¿Detracción?</label>
-                      <input type="checkbox" name="chkDetraccion" id="chkDetraccion">
-                    </div>
-                    <div class="col-md-6">
-                      <label for="txtImporte">Total</label>
-                      <input class="form-control input-sm" name="txtDetraccion" id="txtDetraccion" onkeypress="return soloNumeroDecimal(event);" readonly="" placeholder="S/."/>
-                    </div>
-                     
-                  </div></div>
-                
+                                
                 <div class="col-md-12">
                   <div class="row">
                     <div class="col-md-12">

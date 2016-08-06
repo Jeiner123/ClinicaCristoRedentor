@@ -51,32 +51,15 @@
             <input id="txtFlag" name="txtFlag" class="form-control" value="N" type="hidden">
             <div class="box-body">
               <div class="row">
-                <div class="col-sm-5 col-md-offset-1">
+                <div class="col-sm-5 col-sm-offset-1">
+                   <label class="control-label">Paciente</label>
                   <div class="form-group">
-                    <br>
-                    <select class="chosen-select form-control" id="cboPacientes" name="cboPacientes" data-placeholder="-- Paciente --" >
+                    <select class="chosen-select form-control" id="cboPacientes" name="cboPacientes" data-placeholder="-- Paciente --"  onchange="alert(this.value);">
                       <!-- Lista de diagnósticos -->
                     </select> 
                   </div>
                 </div>
-              </div>
-              <div class="row">
-                <div class="col-md-5 col-md-offset-1">
-                  <div class="form-group">
-                    <label class="control-label">Paciente</label>
-                    <div class="input-group">
-                      <div class="input-group-btn">
-                        <button onclick="abrirModal('#modalListaPacientes');" type="button"class="btn btn-secundary" title="Buscar paciente">
-                          <strong>...</strong>
-                        </button>
-                      </div>
-                      <input onclick="abrirModal('#modalListaPacientes');" id="txtNombresPaciente" name="txtNombresPaciente"class="form-control input-sm" placeholder="Seleccionar paciente" readonly="true">
-                    </div>
-                  </div>
-                  <!-- form-group -->
-                </div>
-                <!-- Col-md-2 -->
-                <div class="col-md-2 col-xs-6">
+                <div class="col-sm-2 col-xs-6">
                   <label class="control-label">DNI</label>
                   <div class="form-group">
                     <input type="text" id="txtDNI" name="txtDNI"class="form-control" placeholder="DNI" readonly="true">                    
@@ -84,7 +67,7 @@
                   <!-- form-group -->
                 </div>
                 <!-- cOL -->
-                <div class="col-md-2 col-xs-6">
+                <div class="col-sm-2 col-xs-6">
                   <label class="control-label">N° Hist.</label>
                   <div class="input-group">
                     <input type="text" id="txtPacienteID" name="txtPacienteID"class="form-control" placeholder="Nro Hist." readonly="true"> 
@@ -98,6 +81,36 @@
                 </div>
               </div>
               <!-- ROW - PACIENTE -->
+              <div class="row">
+                <div class="col-sm-5 col-sm-offset-1">
+                   <label class="control-label">Médico Referencia</label>
+                  <div class="form-group">
+                    <select class="chosen-select form-control" id="cboMedicosRef" name="cboMedicosRef" data-placeholder="-- Médico --"  onchange="alert(this.value);">
+                      <!-- Lista de diagnósticos -->
+                    </select> 
+                  </div>
+                </div>
+              </div>
+              <!-- ROW - MEDICO -->
+                              <div class="row">
+                                <div class="col-md-5 col-md-offset-1">
+                                  <div class="form-group">
+                                    <label class="control-label">Paciente</label>
+                                    <div class="input-group">
+                                      <div class="input-group-btn">
+                                        <button onclick="abrirModal('#modalListaPacientes');" type="button"class="btn btn-secundary" title="Buscar paciente">
+                                          <strong>...</strong>
+                                        </button>
+                                      </div>
+                                      <input onclick="abrirModal('#modalListaPacientes');" id="txtNombresPaciente" name="txtNombresPaciente"class="form-control input-sm" placeholder="Seleccionar paciente" readonly="true">
+                                    </div>
+                                  </div>
+                                  <!-- form-group -->
+                                </div>
+                                <!-- Col-md-2 -->                
+                              </div>
+                              <!-- ROW - PACIENTE -->
+
               <div class="row">
                 <div class="col-md-5 col-md-offset-1">
                   <label class="control-label">Médico Referencia</label>
@@ -432,8 +445,10 @@
 <script src="js/script.js"></script>
 <script type="text/javascript">
   cargarCboPacientes();
-  $( document ).ajaxStop(function() {
-    $( "p" ).click("");
+  cargarCboMedicos('#cboMedicosRef',0);
+
+  $( document ).ajaxStop(function(){
+      
   });
   $('#tablaServiciosLab tbody').on( 'click', 'a.eliminarServicioDetalle', function () {
     fila = $(this).parents('tr');

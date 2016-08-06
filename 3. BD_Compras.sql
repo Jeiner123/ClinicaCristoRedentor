@@ -44,6 +44,15 @@ create table TIPO_DOCUMENTO(
 	primary key(tipoDocumentoID)
 );
 
+create table TIPO_DETRACCION(
+	tipoDetraccionID int not null,
+	tipoDetraccion varchar(200) not null,
+	tipoCompra char(01) not null,
+	porcentaje decimal(6,3) not null,
+	estado char(01) not null,
+	primary key(tipoDetraccionID)
+);
+
 create table ENTIDAD_FINANCIERA(
 	entidadFinancieraID char(02) not null,
 	entidadFinanciera varchar(150) not null,
@@ -107,5 +116,20 @@ insert into TIPO_ADQUISICION values
 	('2','DESTINO MIXTO','A'),
 	('3','DESTINO NO GRAVADO','A'),
 	('4','NO GRAVADA','A');
+
+insert into TIPO_DETRACCIÓN values
+	('1','INTERMEDIACION LABORAL Y TERCERIZACION (Contratos de Gerencia)','S','0.12','A'),
+	('2','ARRENDAMIENTO DE BIENES (muebles e inmuebles)','S','0.12','A'),
+	('3','MANTENIMIENTO Y REPARACIÓN DE BIENE MUEBLES','S','0.12','A'),
+	('4','MOVIMIENTO DE CARGA','S','0.12','A'),
+	('5','OTROS SERVICIOS EMPRESARIALES JURIDICOS,CONTABLES, PUBLICITARIOS, INVESTIGACIÓN Y SEGURIDADA ENTRE OTROS','S','0.12','A'),
+	('6','COMISION MERCANTIL','S','0.12','A'),
+	('7','FABRICACION DE BIENES POR ENCARGO','S','0.12','A'),
+	('8','SERVICIO DE TRANSPORTE DE PERSONAS POR VIA TERRESTRE','S','0.10','A'),
+	('9','CONTRATOS DE CONSTRUCCIÓN','S','0.04','A'),
+	('10','DEMAS SERVICIOS GRAVADOS CON EL IGV (exceptop hospedaje, restaurantes entre otros)','S','0.10','A');
+
+);
+
 
 	
