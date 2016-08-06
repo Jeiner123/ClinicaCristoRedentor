@@ -135,6 +135,38 @@
 		exit();
 	}
 // CARGAR COMBOS
+	//CARGAR COMBO TIPO DE DOCUMENTO
+	if($opc=='CC_TD'){
+		$consulta = "SELECT tipoDocumentoID,tipoDocumento FROM tipo_documento where estado='A'";
+		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
+		echo "<option value=''>--Seleccionar--</option>";
+		while($row = mysqli_fetch_row($res)){
+			echo "<option value='".$row[0]."'>".$row[0]."-".$row[1]."</option>";
+		}
+		exit();
+	}
+
+	//CARGAR COMBO ENTIDADES FINANCIERAS
+	if($opc=='CC_EF'){
+		$consulta = "SELECT entidadFinancieraID,entidadFinanciera FROM entidad_financiera where estado='A'";
+		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
+		echo "<option value='00'>--Seleccionar--</option>";
+		while($row = mysqli_fetch_row($res)){	
+			echo "<option value='".$row[0]."'>".$row[0]."-".$row[1]."</option>";
+		}
+		exit();
+	}
+
+	//CARGAR COMBO TIPO DE ADQUISICION
+	if($opc=='CC_TA'){
+		$consulta = "SELECT tipoAdquisicionID,tipoAdquisicion FROM tipo_adquisicion where estado='A'";
+		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
+		echo "<option value='0'>--Seleccionar--</option>";
+		while($row = mysqli_fetch_row($res)){	
+			echo "<option value='".$row[0]."'>".$row[0]."-".$row[1]."</option>";
+		}
+		exit();
+	}
 	// CCARGAR COMBO COMPROBANTE DE PAGO PARA VENTA	
 	if($opc == 'CC_CV_01'){
 		$consulta = "select comprobanteID,descripcion from comprobante_pago where estado=1 and ventas=1";
@@ -389,37 +421,6 @@ if($opc=="PL_10"){
 		exit();
 	}
 
-	//CARGAR COMBO TIPO DE DOCUMENTO
-	if($opc=='CC_TD'){
-		$consulta = "SELECT tipoDocumentoID,tipoDocumento FROM tipo_documento where estado='A'";
-		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
-		echo "<option value=''>--Seleccionar--</option>";
-		while($row = mysqli_fetch_row($res)){	
-			echo "<option value='".$row[0]."'>".$row[0]."-".$row[1]."</option>";
-		}
-		exit();
-	}
-
-	//CARGAR COMBO ENTIDADES FINANCIERAS
-	if($opc=='CC_EF'){
-		$consulta = "SELECT entidadFinancieraID,entidadFinanciera FROM entidad_financiera where estado='A'";
-		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
-		echo "<option value='00'>--Seleccionar--</option>";
-		while($row = mysqli_fetch_row($res)){	
-			echo "<option value='".$row[0]."'>".$row[0]."-".$row[1]."</option>";
-		}
-		exit();
-	}
-
-	//CARGAR COMBO TIPO DE ADQUISICION
-	if($opc=='CC_TA'){
-		$consulta = "SELECT tipoAdquisicionID,tipoAdquisicion FROM tipo_adquisicion where estado='A'";
-		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
-		echo "<option value='0'>--Seleccionar--</option>";
-		while($row = mysqli_fetch_row($res)){	
-			echo "<option value='".$row[0]."'>".$row[0]."-".$row[1]."</option>";
-		}
-		exit();
-	}
+	
 
  ?>

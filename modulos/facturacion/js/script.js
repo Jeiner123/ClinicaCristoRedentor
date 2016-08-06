@@ -2,14 +2,14 @@ var url = 'bd/bd_operaciones.php';
 
 // Trae los datos generales del pedido
 function cargarPedido(DNI,pedidoID){
-	abrirCargando();	
+	abrirCargando();
 	opc = 'MP_01';
 	$('#btnGuardar').hide();
 	$.ajax({
 		type: 'POST',
 		data:'opc='+opc+'&DNI='+DNI+'&pedidoID='+pedidoID,
 		url: url,
-		success: function(rpta){
+		success: function(rpta){			
 			// alert(rpta);
 			bloqueoTotalForm('#formPedido',true);
 			if(rpta!=0){
@@ -22,14 +22,14 @@ function cargarPedido(DNI,pedidoID){
 				$('#txtTotal').val(datos[5]);
 				$('#txtPagado').val(datos[6]);
 				$('#txtSaldo').val(datos[7]);
-				$('#cboFormaPago').val(datos[8]);
-
+				cargarCboCondPago(datos[8]);
 				$('#txtNuevoSaldo').val(datos[7]);
 			}
-			if(datos[8]==''){
-				$('#cboFormaPago').parent().addClass('has-error');
-				$('#cboFormaPago').val(0);
-				$('#cboFormaPago').attr('disabled',false);
+			// alert(datos[8]);
+			if(datos[8] == ''){
+				$('#cboModalidadPago').parent().addClass('has-error');
+				cargarCboCondPago('0'); //Modalidad de pago
+				$('#cboModalidadPago').attr('disabled',false);				
 			}
 			if(datos[7] != 0){
 				$('#formularioPago').show();
@@ -121,14 +121,14 @@ function traerServicios(pedidoID){
 // Guarda los pagos
 function facturar(form,DNI,pedidoID){
 	$('#btnFacturar').attr('disabled',true);
-	var formaPagoID = $('#cboFormaPago').val();	
+	var formaPagoID = $('#cboModalidadPago').val();	
 	var comprobante = $('#cboComprobante').val();	
 	var nroSerie = $('#txtNroSerie').val();
 	var nroComprobante = $('#txtNroComprobante').val();
 	var importe = $('#txtPagar').val();		
 	comboObligatorio('#cboComprobante',"0");
 	inputObligatorio('#txtNroComprobante',0);
-	if(comprobante!="000"){
+	if(comprobante != "00"){  //Tipo de comprobante
 		inputObligatorio('#txtNroComprobante',4);
 		comboObligatorio('#cboComprobante',"0");
 	}
@@ -193,13 +193,13 @@ function calcularNuevoSaldo(){
 function actualizarCampoPedidoServicio(pedidoID,campo){
 	var pedidoID = pedidoID;
 	var campo = campo;
-	var nuevoValor = $('#cboFormaPago').val();	
+	var nuevoValor = $('#cboModalidadPago').val();	
 	if(nuevoValor == 0){
-		$('#cboFormaPago').parent().addClass('has-error');
+		$('#cboModalidadPago').parent().addClass('has-error');
 		alert('No valido');
 		return false;
 	}else{
-		$('#cboFormaPago').parent().removeClass('has-error');
+		$('#cboModalidadPago').parent().removeClass('has-error');
 	}
 	opc = 'ACT_P_S';
 	abrirCargando();
@@ -209,8 +209,8 @@ function actualizarCampoPedidoServicio(pedidoID,campo){
 		url: url,
 		success: function(rpta){
 			if(rpta ==1 ){
-				$('#cboFormaPago').parent().removeClass('has-error');
-				// $('#cboFormaPago').attr('disabled',true);
+				$('#cboModalidadPago').parent().removeClass('has-error');
+				// $('#cboModalidadPago').attr('disabled',true);
 			}else{
 				alert(rpta);
 			}
@@ -236,15 +236,18 @@ function cargarTablaPagos(){
 			$('#tablaPagos').DataTable().destroy();
 			$('#cuerpoTablaPagos').html(rpta);
 			$('#tablaPagos').DataTable(
-				// {
-    //        "columnDefs": [
-    //         { "targets": [ 0 ],"width": "50%", "orderable": false, "searchable": false,},
-    //         { "targets": [ 1 ],"width": "15%", "orderable": false, },
-    //         { "targets": [ 2 ],"width": "15%", "orderable": false, "searchable": false , },
-    //         { "targets": [ 3 ],"width": "12%", "orderable": false, "searchable": false ,"type": "double"},
-    //         { "targets": [ 4 ],"width": "8%", "orderable": false,"searchable": false ,}
-    //       ]
-    //     }
+				{
+           "columnDefs": [
+            { "targets": [ 0 ],"width": "5", "searchable": false,},	//Peidod
+            { "targets": [ 1 ],"width": "10%", "orderable": false, },		//fecha
+            { "targets": [ 2 ],"width": "30%",  "searchable": false , },	//Pacinete
+            { "targets": [ 3 ],"width": "10%", "orderable": false, "searchable": false ,"type": "double"},	//Teleofno
+            { "targets": [ 4 ],"width": "15%","searchable": false ,},	//Comprobante
+            { "targets": [ 5 ],"width": "15%", "orderable": false,"searchable": false ,},	//numero com
+            { "targets": [ 6 ],"width": "7%","searchable": false ,}, //Importe 
+            { "targets": [ 7 ],"width": "8%", "orderable": false,"searchable": false ,}	//Opciones
+          ]
+        }
 			);
 			cerrarCargando();
 		},

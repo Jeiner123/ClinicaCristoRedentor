@@ -79,8 +79,8 @@
 			<i class="fa fa-chevron-down"></i>
 			<span>Facturación</span>
 			<ul class="treeview-menu">
-			  <li class="treeview" id="m_listado_facturas">
-				<a href="../facturacion/listado_facturas.php">
+			  <li class="treeview" id="m_listado_pagos">
+				<a href="../facturacion/listado_pagos.php">
 				  <span>Listado de pagos</span>
 				</a>
 			  </li>

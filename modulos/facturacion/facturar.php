@@ -33,7 +33,7 @@
     <section class="content-header">
       <h1>
         Facturación
-        <small></small>
+        <small>Pedido: <?php echo $pedidoID; ?></small>
       </h1>
       <ol class="breadcrumb">
         <li>
@@ -122,17 +122,15 @@
             </div>
             <!-- ROW -->
             <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <div class="form-group">
-                  <label  class=""><strong>Forma de pago</strong></label>
-                  <select class="form-control input-sm" id="cboFormaPago" name="cboFormaPago" onchange="actualizarCampoPedidoServicio(<?php echo $pedidoID; ?>,'formaPagoID')">
-                    <option value="0">-- Seleccionar --</option>
-                    <option value="CON">CONTADO</option>
-                    <option value="CRE">CRÉDITO</option>
+                  <label  for="cboModalidadPago"><strong>Forma de pago</strong></label>
+                  <select class="form-control input-sm" id="cboModalidadPago" name="cboModalidadPago" onchange="actualizarCampoPedidoServicio(<?php echo $pedidoID; ?>,'formaPagoID')">
+                    <option value="0">-- Seleccionar --</option>                    
                   </select>
                 </div>
               </div>
-              <div class="col-md-3 col-md-offset-5">
+              <div class="col-md-3 col-md-offset-3">
                 <div class="form-group">
                   <label for="txtSaldo" class="text-red"><strong>Saldo</strong></label>
                   <input class="form-control input-sm" id="txtSaldo" name="txtSaldo" >
@@ -176,13 +174,13 @@
                 <div class="col-sm-2">
                   <div class="form-group">
                     <label for="txtNroSerie">Nro. Serie</label>
-                    <input type="text" id="txtNroSerie" name="txtNroSerie" class="form-control input-sm"  value="0001">
+                    <input type="text" id="txtNroSerie" name="txtNroSerie" class="form-control input-sm"  value="0001" onchange="validarNumeroSerie(this);" maxlength="5" onkeypress="return soloNumeroEntero(event);">
                   </div>
                 </div>
                 <div class="col-sm-2">
                   <div class="form-group">
                     <label for="txtNroComprobante">Nro. Comprobante</label>
-                    <input type="text" id="txtNroComprobante" name="txtNroComprobante" class="form-control input-sm" >
+                    <input type="text" id="txtNroComprobante" name="txtNroComprobante" class="form-control input-sm" onchange="validarNumeroComprobante(this);" maxlength="8" onkeypress="return soloNumeroEntero(event);">
                   </div>
                 </div>
               </div>
@@ -428,11 +426,12 @@
 <script src="js/script.js"></script>
 <script type="text/javascript">
   // abrirModal("#modalListaServicios");  
+  
   cargarCboComprobante('03');
   cargarPedido(<?php echo $DNI ?>,<?php echo $pedidoID ?>);
   traerPagos(<?php echo $pedidoID; ?>);
   traerServicios(<?php echo $pedidoID; ?>);
-  
+  // cargarCboFormaPago('0');
   // cargarCboTipoServicio();
   // cargarCboEspecialidades();
   // cargarListaPacientes();

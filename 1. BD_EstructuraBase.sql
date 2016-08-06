@@ -16,6 +16,16 @@ USE clinica;
 
 -- TABLES WITH DUMMY DATA
 
+	-- LOS PARAMETROS NO SE REFERENCIARÁN NUNCA!!!!!
+	-- SOLO SE UTILIZARÁ SU VALOR 
+	-- ES DECIR SU ID NUNCA ESTARÉ EN OTRA TABLA 
+	create table PARAMETRO(
+		parametroID int not null AUTO_INCREMENT,
+		parametro varchar(50) not null,
+		valor varchar(50) not null,
+		estado int not null,
+		primary key(parametroID)
+	);
 	create table especialidad(
 		especialidadID int  not null auto_increment,
 		especialidad varchar(100)  not null,
@@ -182,7 +192,7 @@ create table usuario(
 );
 create table forma_pago(
 	formaPagoID char(3) not null ,
-	formaPago varchar(25) not null,
+	formaPago varchar(50) not null,
 	numeroCuotas int not null,
 	estado int not null,
 	primary key(formaPagoID)

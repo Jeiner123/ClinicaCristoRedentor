@@ -56,7 +56,7 @@
           <table id="tablaPedidoPendiente" width="100%" class="table table-bordered table-hover tablaDatos">
             <thead>
               <tr>                
-                <th>ID</th>
+                <th>Ped.</th>
                 <th>Paciente</th>
                 <th>Tipo</th>
                 <th>Vía</th>

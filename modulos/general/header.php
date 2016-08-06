@@ -24,12 +24,14 @@
 <!-- Favicon -->
 <link rel="shortcut icon" href="../../img/logo.png">
 <link rel="stylesheet" href="../../plugins/morris/morris.css">
+
  
 
 <link rel="stylesheet" href="../css/style.css">
 <link rel="stylesheet" href="../css/plan.css">
-  
 
+<link rel="stylesheet" href="../../plugins/chosen/chosen.min.css">
+<!-- <link rel="stylesheet" href="../../plugins/ace-master/ace.min.css"> -->
 
   
 
@@ -66,6 +68,8 @@
 
   <script src="../../plugins/datepicker/bootstrap-datepicker.min.js"></script>
   <script src="../../plugins/iCheck/icheck.min.js"></script>
+
+  <script src="../../plugins/chosen/chosen.jquery.min.js"></script>
   <!-- <script src="../../plugins/daterangepicker/daterangepicker.js"></script>-->
   <!-- <script src="../../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>-->
   <!-- <script src="../../dist/js/pages/dashboard.js"></script> -->
