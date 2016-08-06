@@ -113,7 +113,7 @@
                     </div>
                     <div class="col-md-2">
                       <label class="control-label">Número</label>
-                      <input type="text" id="txtNumero" name="txtNumero"class="form-control input-sm" readonly="">
+                      <input type="text" id="txtNumero" name="txtNumero"class="form-control input-sm">
                     </div>
                     <div class="col-md-3">
                     <label class="control-label">Fecha</label>

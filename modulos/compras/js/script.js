@@ -404,3 +404,19 @@ function generarPeriodo(mes,anio){
 	periodo = combo.options[combo.selectedIndex].text;
 	$("#txtPeriodo").val(periodo+"-"+anio);
 }
+
+function cargarTablaFactura(){
+	$('#tablaFactura').DataTable(
+	{
+	   	"columnDefs": [
+	        { "targets": [ 0 ],"width": "10%"}, 
+	        { "targets": [ 1 ],"width": "10%"},										 
+	        { "targets": [ 2 ],"width": "10%"},											 
+	        { "targets": [ 3 ],"width": "15%"},											 
+	        { "targets": [ 4 ],"width": "15%"},											 
+	        { "targets": [ 5 ],"width": "15%"},											 
+	        { "targets": [ 5 ],"width": "25%"},											 
+		  ]
+	}
+);
+}
