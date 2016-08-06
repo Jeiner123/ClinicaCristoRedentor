@@ -364,6 +364,19 @@ function crearfila(){
 }
  
 //======================GESTIÓN DE FACTURA=======================================
+function crearDetalleFactura(){
+	fila=1;
+	$("#tablaProducto tbody tr").each(function (index) {
+		fila++;
+    })
+    
+	$("#tablaProducto")
+	.append
+	(
+		'<tr><td><input class="form-control input-sm" value="'+fila+'" id="txtItem'+fila+'" name="txtItem'+fila+'" style="text-align:right"; readonly value=""/></td><td><input class="form-control input-sm" id="txtReferencia'+fila+'" name="txtReferencia'+fila+'"></td><td><input class="form-control input-sm" name="txtCuenta'+fila+'" id="txtCuenta'+fila+'"></td><td><input class="form-control input-sm" name="txtDescripcion'+fila+'" id="txtDescripcion'+fila+'"></td><td><input class="form-control input-sm" id="txtCantidad'+fila+'" name="txtCantidad'+fila+'"  onkeypress="return soloNumeroEntero(event);"></td><td><input class="form-control input-sm" id="txtCosto'+fila+'" name="txtCosto'+fila+'" onkeypress="return soloNumeroDecimal(event);"></td><td><input class="form-control input-sm" id="txtImporte'+fila+'" name="txtImporte'+fila+'" onkeypress="return soloNumeroDecimal(event);" readonly></td></tr>'
+	);
+}
+
 function SeleccionarPeriodo(mes){
 	bloqueoTotalForm('#formFactura',true);
 	if($("#txtFlag").val()=="N"){
@@ -382,9 +395,11 @@ function generarPeriodo(mes,anio){
 	}
 	bloqueoTotalForm('#formFactura',false);
 	cerrarModal('#modalPeriodo');
+	cargarCboCondPago("CON");
 	cargarListaProveedor();
 	cargarCboAreas();
 	cargarCboExistencias();
+	cargarCboTipoAdquision(0);
 	combo=document.getElementById("cboMes");
 	periodo = combo.options[combo.selectedIndex].text;
 	$("#txtPeriodo").val(periodo+"-"+anio);

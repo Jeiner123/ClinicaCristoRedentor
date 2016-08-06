@@ -7,8 +7,8 @@
   <?php include '../general/header.php';?>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-  <input type='hidden' value='m_para_proveedores' id='menuPrincipal'>
-  <input type='hidden' value='m_para_proveedores' id='menuIzquierda'>
+  <input type='hidden' value='menu_compras' id='menuPrincipal'>
+  <input type='hidden' value='listado_facturas' id='menuIzquierda'>
   <?php include '../general/menu_principal.php';?>
 
 <div class="wrapper">
@@ -19,7 +19,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Proveedores
+        Cuenta corriente por pagar
         <!-- <small>Lista - Registro - Actualización</small> -->
       </h1>
       <ol class="breadcrumb">
@@ -30,7 +30,7 @@
           <a href="listado_pacientes.php">Compras</a>
         </li>
         <li class="active">
-          Proveedores
+          Cuenta corriente por pagar
         </li>
       </ol>
     </section>
@@ -40,7 +40,7 @@
       <div class="box box-solid color-palette-box">
         <div class="box-header bg-blue" >
           <div>
-            <h3 class="box-title">Listado de proveedores</h3>
+            <h3 class="box-title">Listado de documentos de pago</h3>
           </div>
           <div class="box-tools pull-right">
             <button style='color:#fff;' type="button" class="btn btn-box-tool" data-widget="collapse">
@@ -78,7 +78,6 @@
   <!-- /.content-wrapper -->
   <div class="control-sidebar-bg"></div>
 </div>
-
 
 
 <!-- ./wrapper -->

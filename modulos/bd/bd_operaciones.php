@@ -411,4 +411,15 @@ if($opc=="PL_10"){
 		exit();
 	}
 
+	//CARGAR COMBO TIPO DE ADQUISICION
+	if($opc=='CC_TA'){
+		$consulta = "SELECT tipoAdquisicionID,tipoAdquisicion FROM tipo_adquisicion where estado='A'";
+		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
+		echo "<option value='0'>--Seleccionar--</option>";
+		while($row = mysqli_fetch_row($res)){	
+			echo "<option value='".$row[0]."'>".$row[0]."-".$row[1]."</option>";
+		}
+		exit();
+	}
+
  ?>

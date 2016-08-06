@@ -30,6 +30,13 @@ create table TIPO_EXISTENCIA(
 	primary key(codigo)
 );
 
+create table TIPO_ADQUISICION(
+	tipoAdquisicionID int not null,
+	tipoAdquisicion varchar(150) not null,
+	estado char(01) not null,
+	primary key(tipoAdquisicionID)
+);
+
 create table TIPO_DOCUMENTO(
 	tipoDocumentoID int not null,
 	tipoDocumento varchar(150) not null,
@@ -46,17 +53,12 @@ create table ENTIDAD_FINANCIERA(
 
 
 insert into TIPO_EXISTENCIA values
-	('01','MERCADERÍAS','A'),
-	('02','PRODUCTOS TERMINADOS','A'),
-	('03','MATERIAS PRIMAS','A'),
-	('04','ENVASES','A'),
-	('05','MATERIALES AUXILIARES','A'),
-	('06','SUMINISTROS','A'),
-	('07','REPUESTOS','A'),
-	('08','EMBALAJES','A'),
-	('09','SUBPRODUCTOS','A'),
-	('10','DESECHOS Y DESPERDICIOS','A'),
-	('99','OTROS','A');
+	('01','MERCADERÍAS, MATERIAS PRIMAS, SUMINISTROS, ENVASES Y EMBALAJES','A'),
+	('02','ACTIVO FIJO','A'),
+	('03','OTROS ACTIVOS NO CONSIDERADOS EN EL NUMERAL 01 Y 02','A'),
+	('04','GASTOS DE EDUCACIÓN,SALUD, RECREACION, CULTURALES','A'),
+	('05','OTROS GASTOS NO INCLUIDOS EN EL NUMERAL 04','A');
+
 	
 insert into TIPO_DOCUMENTO values
 	('0','OTROS TIPOS DE DOCUMENTOS','A'),
@@ -99,4 +101,11 @@ insert into ENTIDAD_FINANCIERA values
 	('50','BNP PARIBAS','A'),
 	('53','HSBC BANK PERU S.A.','A'),
 	('59','OTROS','A');
+
+insert into TIPO_ADQUISICION values
+	('1','DESTINO GRAVADO','A'),
+	('2','DESTINO MIXTO','A'),
+	('3','DESTINO NO GRAVADO','A'),
+	('4','NO GRAVADA','A');
+
 	
