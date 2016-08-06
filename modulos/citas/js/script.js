@@ -2,25 +2,7 @@ var url = 'bd/bd_operaciones.php';
 var importeSinIGV = 0.0;
 var importeIGV = 0.0;
 var importeTotal = 0.0;
-function cargarCboPacientes(){
-	abrirCargando();
-	opc = 'CC_PAC_01';
-	$.ajax({
-		type: 'POST',
-		data:'opc='+opc,
-		url: url,
-		success: function(rpta){			
-			$('#cboPacientes').html(rpta);
-			funcionSelect();
-			cerrarCargando();
-			return true;
-		},
-		error: function(rpta){
-			alert(rpta);
-			cerrarCargando();
-		}
-	});
-}
+
 function guardarCita(form){
 	$('#btnGuardarCita').attr('disabled',true);
 	
