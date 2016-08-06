@@ -141,7 +141,7 @@
 		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
 		echo "<option value=''>--Seleccionar--</option>";
 		while($row = mysqli_fetch_row($res)){
-			echo "<option value='".$row[0]."'>".$row[0]."-".$row[1]."</option>";
+			echo "<option value='".$row[0]."'>".$row[0]." - ".$row[1]."</option>";
 		}
 		exit();
 	}
@@ -152,7 +152,7 @@
 		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
 		echo "<option value='00'>--Seleccionar--</option>";
 		while($row = mysqli_fetch_row($res)){	
-			echo "<option value='".$row[0]."'>".$row[0]."-".$row[1]."</option>";
+			echo "<option value='".$row[0]."'>".$row[0]." - ".$row[1]."</option>";
 		}
 		exit();
 	}
@@ -163,7 +163,7 @@
 		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
 		echo "<option value='0'>--Seleccionar--</option>";
 		while($row = mysqli_fetch_row($res)){	
-			echo "<option value='".$row[0]."'>".$row[0]."-".$row[1]."</option>";
+			echo "<option value='".$row[0]."'>".$row[0]." - ".$row[1]."</option>";
 		}
 		exit();
 	}
@@ -172,7 +172,7 @@
 		$consulta = "select comprobanteID,descripcion from comprobante_pago where estado=1 and ventas=1";
 		$res = mysqli_query($con,$consulta) or die(mysqli_error($con) );
 			echo "<option value='"."0"."'>-- Seleccionar --</option>";
-		while($row = mysqli_fetch_row($res)){
+		while($row = mysqli_fetch_row($res)){ 
 			echo "<option value='".$row[0]."'>".$row[1]."</option>";
 		}
 		exit();

@@ -126,13 +126,13 @@
                   </div>
                     <div class="col-md-3">
                     <label for="cboTipoOperacion">Tipo de documento</label>
-                    <select class="chosen-select form-control input-sm" name="cboComprobante" id="cboComprobante">
+                    <select class="chosen-select form-control" name="cboComprobante" id="cboComprobante">
                       </select>
                   </div>
                   <div class="col-md-3">
                     <label class="control-label">Vencimiento</label>
                     <div class="input-group">
-                      <input id="txtFechaCita" name="txtFechaCita"class="form-control date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" onchange="validarFechaMayor(this);" value="">
+                      <input id="txtFechaCita" name="txtFechaCita"class="form-control input-sm date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" onchange="validarFechaMayor(this);" value="">
                       <span class="input-group-addon">
                         <i class="fa fa-calendar bigger-110"></i>
                       </span>
