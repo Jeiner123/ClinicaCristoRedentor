@@ -13,6 +13,7 @@ window.onload = function(){
 	activarMenuIzquierda();
 	// alert(fechaHoyDMA);	
 }
+
 function validarFechaMayor(elemento){
 	var fecha = $(elemento).val();
   if(fecha.length<1){

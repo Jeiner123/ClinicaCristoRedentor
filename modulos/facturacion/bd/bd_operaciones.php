@@ -2,16 +2,7 @@
 <?php
 	require('../../bd/bd_conexion.php');
 	$opc = $_POST['opc'];
-	// CCARGAR COMBO COMPROBANTE DE PAGO PARA VENTA	
-	if($opc == 'CC_CV_01'){
-		$consulta = "select comprobanteID,descripcion from comprobante_pago where estado=1 and ventas=1";
-		$res = mysqli_query($con,$consulta) or die(mysqli_error($con) );
-			echo "<option value='"."0"."'>-- Seleccionar --</option>";
-		while($row = mysqli_fetch_row($res)){
-			echo "<option value='".$row[0]."'>".$row[1]."</option>";
-		}
-		exit();
-	}	
+	
 	//Actualizar campo para el pedido_servicio
 	if($opc == 'ACT_P_S'){
 		$pedidoID = $_POST['pedidoID'];
@@ -61,7 +52,7 @@
 	if($opc == 'TP_01'){
 		$pedidoID = $_POST["pedidoID"];
 
-		$consulta = "select P.pagoID,P.pedidoServicioID,CP.descripcion,P.numeroComprobante,P.importe,P.fechaPago,
+		$consulta = "select P.pagoID,P.pedidoServicioID,CP.descripcion,P.numeroComprobante,P.importeTotal,P.fechaPago,
 									P.estado,P.numeroSerie
 									from pago P 
 									inner join COMPROBANTE_PAGO CP ON CP.comprobanteID = P.comprobanteID
@@ -166,7 +157,9 @@
 			}
 		}
 		// INSERTAR PAGO
-		$consulta = "insert into PAGO(pedidoServicioID,comprobanteID,numeroSerie,numeroComprobante,importe,fechaPago,estado) values
+		$consulta = "insert into PAGO (pedidoServicioID,comprobanteID,numeroSerie,numeroComprobante,
+									IGV,importeSinIGV,importeIGV,importeTotal,
+									fechaPago,estado) values
 							('".$pedidoID."','".$comprobante."',
 							".(($comprobante == '000')?'NULL':("'".$nroSerie."'")).",								
 							".(($nroComprobante == '')?'NULL':("'".$nroComprobante."'")).",
@@ -200,7 +193,7 @@
 	  $fechaPago = date('Y-m-d',strtotime($fechaPago));
 	  
 		$consulta = "select P.pagoID,P.pedidoServicioID,P.comprobanteID,P.numeroSerie,
-								P.numeroComprobante,P.importe,P.fechaPago,P.estado,
+								P.numeroComprobante,P.importeTotal,P.fechaPago,P.estado,
 								PE.nombres,PE.apPaterno,PE.apMaterno,PE.DNI,PE.telefono1,
 								CP.descripcion
 								from PAGO P

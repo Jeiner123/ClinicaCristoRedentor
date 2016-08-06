@@ -1,24 +1,5 @@
 var url = 'bd/bd_operaciones.php';
-//Cargar combo de comprobante de pago
-function cargarCboComprobante(){
-	abrirCargando();
-	opc = 'CC_CV_01';
-	$.ajax({
-		type: 'POST',
-		data:'opc='+opc,
-		url: url,
-		success: function(rpta){			
-			$('#cboComprobante').html(rpta);
-			$('#cboComprobante').val('003');
-			cerrarCargando();
 
-			return true;
-		},
-		error: function(rpta){
-			alert(rpta);
-		}
-	});
-}
 // Trae los datos generales del pedido
 function cargarPedido(DNI,pedidoID){
 	abrirCargando();	

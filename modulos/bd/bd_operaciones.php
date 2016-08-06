@@ -134,7 +134,17 @@
 		}
 		exit();
 	}
-// CARGAR COMBOS	
+// CARGAR COMBOS
+	// CCARGAR COMBO COMPROBANTE DE PAGO PARA VENTA	
+	if($opc == 'CC_CV_01'){
+		$consulta = "select comprobanteID,descripcion from comprobante_pago where estado=1 and ventas=1";
+		$res = mysqli_query($con,$consulta) or die(mysqli_error($con) );
+			echo "<option value='"."0"."'>-- Seleccionar --</option>";
+		while($row = mysqli_fetch_row($res)){
+			echo "<option value='".$row[0]."'>".$row[1]."</option>";
+		}
+		exit();
+	}
 	// PERSONAL SALUD
 	if($opc=='CC_PS_01'){
 		$especialidadID = $_POST['especialidadID'];
@@ -369,7 +379,7 @@ if($opc=="PL_10"){
 
 
 	//CARGAR COMBO CONDICIÓN DE PAGO
-	if($opc=='CC_CP'){
+	if($opc=='CC_FP'){
 		$consulta = "SELECT formaPagoID,formaPago FROM forma_pago where estado='1'";
 		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
 		echo "<option value='0'>--Seleccionar--</option>";
