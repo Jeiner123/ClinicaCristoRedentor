@@ -3,12 +3,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title> Gestión de personal | CLÍNICA CRISTO REDENTOR</title>
+  <title>Gestión de personal | CLÍNICA CRISTO REDENTOR</title>
   <?php include '../general/header.php';?>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-  <input type='hidden' value='menu_pacientes' id='menuPrincipal'>
-  <input type='hidden' value='m_listado_pacientes' id='menuIzquierda'>
   <?php include '../general/menu_principal.php';?>
 <div class="wrapper">
   <?php include '../general/izquierda_menu.php';?>

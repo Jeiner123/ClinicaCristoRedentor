@@ -4,12 +4,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title> Gestión de pacientes| CLÍNICA CRISTO REDENTOR</title>
+  <title>Gestión de pacientes| CLÍNICA CRISTO REDENTOR</title>
   <?php include '../general/header.php';?>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-  <input type='hidden' value='menu_pacientes' id='menuPrincipal'>
-  <input type='hidden' value='m_nuevo_paciente' id='menuIzquierda'>
   <?php include '../general/menu_principal.php';?>
 
 <div class="wrapper">

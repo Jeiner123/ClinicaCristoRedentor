@@ -3,12 +3,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title> Asignación de especialidades | CLÍNICA CRISTO REDENTOR</title>
+  <title>Asignación de especialidades | CLÍNICA CRISTO REDENTOR</title>
   <?php include '../general/header.php';?>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-  <input type='hidden' value='menu_planilla' id='menuPrincipal'>
-  <input type='hidden' value='m_asignar_especialidades' id='menuIzquierda'>
   <?php include '../general/menu_principal.php';?>
 
 <div class="wrapper">

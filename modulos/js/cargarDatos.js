@@ -287,6 +287,7 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			success: function(rpta){
 				$('#cboBanco').html(rpta);
 				$('#cboBanco').val(valorDefecto);
+				funcionSelect();
 				cerrarCargando();
 				return true;		
 			},

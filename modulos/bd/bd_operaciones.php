@@ -4,7 +4,7 @@
 	$ImgPermitidos = array("image/jpg", "image/jpeg", "image/gif", "image/png");
 	$pdfPermitido = array("application/pdf");
 
-	require('bd_conexion.php');
+	require 'bd_conexion.php';
 
 // CARGAR LISTAS
 	// Cargar lista personalSalud
@@ -468,6 +468,6 @@ if($opc=="PL_10"){
 		exit();
 	}
 
-	
+
 
  ?>

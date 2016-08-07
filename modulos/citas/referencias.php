@@ -3,12 +3,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title> Lista de referencias médicas| CLÍNICA CRISTO REDENTOR</title>
+	<title>Lista de referencias médicas| CLÍNICA CRISTO REDENTOR</title>
 	<?php include '../general/header.php';?>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-  <input type='hidden' value='menu_citas' id='menuPrincipal'>
-  <input type='hidden' value='m_cita_referencias' id='menuIzquierda'>
 	<?php include '../general/menu_principal.php';?>
 
 <div class="wrapper">

@@ -8,12 +8,11 @@ var fechaHoyDMA = f.getDate()+'-'+mes+'-'+año;
 var fechaHoyAMD = año+'-'+mes+'-'+f.getDate();
 var numeroCargas = 0;
 
-window.onload = function(){
-	activarMenuPrincipal();
-	activarMenuIzquierda();
-	// alert(fechaHoyDMA);	
-}
-function funcionSelect(combo){
+window.onload = function() {
+    activarMenuLateral();
+};
+
+function funcionSelect(combo) {
 	if(!ace.vars['touch']) {
 	$(combo).chosen({allow_single_deselect:true});
 	//resize the chosen on window resize
@@ -91,7 +90,8 @@ function cerrarCargando(){
 		cerrarModal("#modalCargando");
 	}
 }
-// Validamos que el combo este seleccionado
+
+// Validamos que el combo esté seleccionado
 function comboObligatorio(combo,valor){
 	if($(combo).val() ==valor){
 		$(combo).parent().addClass('has-error');
@@ -107,7 +107,6 @@ function inputObligatorio(input,valor){
 		$(input).parent().removeClass('has-error');
 	}
 }
-
 function inputMismoValor(input,valor){
 	if($.trim($(input).val()).length!=valor){
 		$(input).parent().addClass('has-error');
@@ -115,7 +114,6 @@ function inputMismoValor(input,valor){
 		$(input).parent().removeClass('has-error');
 	}
 }
-
 function seleccionSimple(e){
 	if ($(e).parents("table").find('tbody tr td').length == 1){ //Si no hay datos
  	   return false;
@@ -127,16 +125,18 @@ function seleccionSimple(e){
 		$(e).addClass('active');
     }
 }
-function activarMenuPrincipal(){
-	var idMenu = "#"+$("#menuPrincipal").val();
-	$(idMenu).addClass('active');
-	($(idMenu).parent()).parent().addClass('active');
+
+function activarMenuLateral() {
+    var enlaces = $('.sidebar-menu li a');
+    for (var i=0; i<enlaces.length; ++i) {
+        if (enlaces[i].href == location.href) {
+            $(enlaces[i]).parent().addClass('active');
+            $(enlaces[i]).parent().parent().parent().addClass('active');
+            break;
+        }
+    }
 }
-function activarMenuIzquierda(){
-	var idMenu = "#"+$("#menuIzquierda").val();
-	$(idMenu).addClass('active');
-	($(idMenu).parent()).parent().addClass('active');
-}
+
 function soloNumeroEntero(e){
 	key = e.keycode || e.which;	
 	teclado = String.fromCharCode(key).toLowerCase();	
@@ -228,7 +228,8 @@ function enviarCorreo(form){
 	}
 	return true;
 }
-// Funcion para abrir el modal -- manda el ID del modal
+
+// Funcion para abrir modal -- manda el ID del modal
 function abrirModal(modal){
 	limpiarForm(modal);
 	bloquearForm(modal,false);
@@ -252,7 +253,8 @@ function abrirVentana(ventanaID,valor){
     $(ventanaID).hide( "slow");
   }
 }
-//Limpia los campos del formulario
+
+// Limpia los campos del formulario
 function limpiarForm(miForm) {
 	// recorremos todos los campos que tiene el formulario
 	$(':input', miForm).each(function() {
