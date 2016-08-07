@@ -10,12 +10,12 @@
 	// Cargar lista personalSalud
 	if($opc=='CL_PS_01'){
 		$especialidadID = $_POST["especialidadID"];
-		$consulta = "select PL.personalID,P.nombres,P.apPaterno,P.apMaterno,E.especialidad,E.especialidadID
+		$consulta = "SELECT PL.personalID,P.nombres,P.apPaterno,P.apMaterno,E.especialidad,E.especialidadID
 								from personal_salud PS 
-								inner join PERSONAL PL on PL.personalID = PS.personalID
-								inner join PERSONA P on P.DNI = PL.DNI
-								inner join ESPECIALIDAD E on E.especialidadID = PS.especialidadID
-								where PL.estado =1 and PL.tipoPersonalID<=2
+								INNER join PERSONAL PL on PL.personalID = PS.personalID
+								INNER join PERSONA P on P.DNI = PL.DNI
+								INNER join ESPECIALIDAD E on E.especialidadID = PS.especialidadID
+								where PL.estado =1 and PL.tipoPersonalID<=2								
 								";
 		if($especialidadID!=0 && $especialidadID!=1){
 			$consulta = $consulta." and PS.especialidadID='".$especialidadID."'";
@@ -41,11 +41,11 @@
 	//Cargar lista de personal de salud para referencia
 	if($opc=='CL_PSR_01'){
 		$especialidadID = $_POST["especialidadID"];
-		$consulta = "select PL.personalID,P.nombres,P.apPaterno,P.apMaterno,E.especialidad,E.especialidadID
+		$consulta = "SELECT PL.personalID,P.nombres,P.apPaterno,P.apMaterno,E.especialidad,E.especialidadID
 								from personal_salud PS 
-								inner join PERSONAL PL on PL.personalID = PS.personalID
-								inner join PERSONA P on P.DNI = PL.DNI
-								inner join ESPECIALIDAD E on E.especialidadID = PS.especialidadID
+								INNER join PERSONAL PL on PL.personalID = PS.personalID
+								INNER join PERSONA P on P.DNI = PL.DNI
+								INNER join ESPECIALIDAD E on E.especialidadID = PS.especialidadID
 								where PL.estado =1 and PL.tipoPersonalID<=2
 								";
 		if($especialidadID!=0 && $especialidadID!=1){
@@ -71,10 +71,10 @@
 	}
 	// Cargar lista pacientes
 	if($opc=='CL_PAC_01'){
-		$consulta = "select P.DNI,PA.pacienteID,P.nombres,P.apPaterno,P.apMaterno,P.fechaNacimiento,
+		$consulta = "SELECT P.DNI,PA.pacienteID,P.nombres,P.apPaterno,P.apMaterno,P.fechaNacimiento,
 								P.telefono1,TT.tipoTelefono,PRO.procedencia
 								from paciente PA
-								inner join persona P on PA.DNI = P.DNI
+								INNER join persona P on PA.DNI = P.DNI
 								left join tipo_Telefono TT on TT.tipoTelefono = P.tipoTelefono1
 								left join procedencia PRO on PRO.procedenciaID = PA.procedenciaID
 								where PA.estado <=2
@@ -107,11 +107,11 @@
 	}
 	//Cargar Lista servicios sólo activos
 	if($opc=='CL_S_01'){
-		$consulta = "select S.servicioID,S.servicio,S.precioUnitario,S.estado,E.especialidad,
+		$consulta = "SELECT S.servicioID,S.servicio,S.precioUnitario,S.estado,E.especialidad,
 											E.especialidadID,T.tipoServicio,T.tipoServicioID
 									from servicio S
 									left join tipo_servicio T on S.tipoServicioID = T.tipoServicioID
-									inner join especialidad E on E.especialidadID = S.especialidadID
+									INNER join especialidad E on E.especialidadID = S.especialidadID
 									where S.estado=1";
 		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
 		while($row = mysqli_fetch_row($res)){			
@@ -135,41 +135,72 @@
 		exit();
 	}
 // CARGAR COMBOS
+
+	// CARGAR COMBO SERVICIOS
+	if($opc == 'CC_SERV_01'){
+		$especialidadID = $_POST['especialidadID'];
+		$tipoServicioID = $_POST['tipoServicioID'];
+
+		$consulta = "SELECT S.servicioID,S.servicio,S.precioUnitario,S.estado,E.especialidad,
+											E.especialidadID,T.tipoServicio,T.tipoServicioID
+									from servicio S
+									LEFT JOIN tipo_servicio T ON S.tipoServicioID = T.tipoServicioID
+									INNER JOIN especialidad E ON E.especialidadID = S.especialidadID
+									WHERE S.estado=1";
+
+		if($especialidadID > 0) $consulta = $consulta." and PS.especialidadID = '".$especialidadID."'";
+		if($tipoServicioID > 0) $consulta = $consulta." and PS.tipoServicioID = '".$tipoServicioID."'";
+
+		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
+		echo "<option value='0'>-- Seleccionar servicio --</option>";
+		while($row = mysqli_fetch_row($res)){
+			$servicioID = $row[0];
+			$servicio = $row[1];
+			$especialidad = $row[4];
+			$tipoServicio = $row[4];
+			echo "<option value='".$servicioID."'>".$especialidad.' - '.$servicio."</option>";
+		}
+		exit();
+	}
 	// CARGAR COMBO MEDICOS
 	if($opc == 'CC_MED_01'){
 		$especialidadID = $_POST['especialidadID'];
-		$consulta = "select PL.personalID,P.nombres,P.apPaterno,P.apMaterno,E.especialidad
+		$consulta = "SELECT PL.personalID,P.nombres,P.apPaterno,P.apMaterno,E.especialidad
 									from PERSONAL_SALUD PS
-									inner join PERSONAL PL on PL.personalID = PS.personalID
-									inner join PERSONA P on P.DNI = PL.DNI
-									inner join ESPECIALIDAD E on E.especialidadID = PS.especialidadID
+									INNER join PERSONAL PL on PL.personalID = PS.personalID
+									INNER join PERSONA P on P.DNI = PL.DNI
+									INNER join ESPECIALIDAD E on E.especialidadID = PS.especialidadID
 									where PL.estado =1 and PL.tipoPersonalID<=2
+									group by (PL.personalID)
 								";
+		if($especialidadID > 0)
+			$consulta = $consulta." and PS.especialidadID = '".$especialidadID."'";
 		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
-		echo "<option value='0'>-- Médico --</option>";
+		echo "<option value='0'>-- Seleccionar médico --</option>";
 		while($row = mysqli_fetch_row($res)){
 			$medicoID = $row[0];			
 			$nombresM = explode(" ", $row[1]);
 			$medico = $nombresM[0].' '.$row[2].' '.$row[3];
-			echo "<option value='".$medicoID."'>".$medico."</option>";
+			$especialidad = $row[4];
+			echo "<option value='".$medicoID."'>".$medico.' - '.$especialidad."</option>";
 		}
 		exit();
 	}
 	//CAGAR COMBO PACIENTES
 	if($opc == 'CC_PAC_01'){
-		$consulta = "select P.DNI, PA.pacienteID, P.nombres,P.apPaterno,P.apMaterno
+		$consulta = "SELECT P.DNI, PA.pacienteID, P.nombres,P.apPaterno,P.apMaterno
 								  from PACIENTE PA
-								  inner join PERSONA P ON PA.DNI = P.DNI
-								  where PA.estado = 1
+								  INNER join PERSONA P ON PA.DNI = P.DNI
+								  where PA.estado = 1 order by P.nombres
 								  ";
 		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
-		echo "<option value='0'>-- Paciente --</option>";
+		echo "<option value='0'>-- Seleccionar paciente --</option>";
 		while($row = mysqli_fetch_row($res)){
 			$pacienteID = $row[1];
 			$DNI = $row[0];
 			$nombresP = explode(" ", $row[2]);
 			$paciente = $nombresP[0].' '.$row[3].' '.$row[4];
-			echo "<option value='".$pacienteID."'>".$DNI.' - '.$paciente."</option>";
+			echo "<option value='".$pacienteID."'>".$DNI.' - '.$pacienteID.' - '.$paciente."</option>";
 		}
 		exit();
 	}
@@ -207,7 +238,7 @@
 	}
 	// CCARGAR COMBO COMPROBANTE DE PAGO PARA VENTA	
 	if($opc == 'CC_CV_01'){
-		$consulta = "select comprobanteID,descripcion from comprobante_pago where estado=1 and ventas=1";
+		$consulta = "SELECT comprobanteID,descripcion from comprobante_pago where estado=1 and ventas=1";
 		$res = mysqli_query($con,$consulta) or die(mysqli_error($con) );
 			echo "<option value='"."0"."'>-- Seleccionar --</option>";
 		while($row = mysqli_fetch_row($res)){ 
@@ -217,7 +248,7 @@
 	}
 	// AREAS
 	if($opc=='CC_AR_01'){
-		$consulta = "select areaID,area from area where estado=1 order by area asc";
+		$consulta = "SELECT areaID,area from area where estado=1 order by area asc";
 		$res = mysqli_query($con,$consulta) or die(mysqli_error($con));
 			echo "<option value='"."0"."'>-- Seleccionar --</option>";
 		while($row = mysqli_fetch_row($res)){
@@ -228,7 +259,7 @@
 	// Cargo
 	if($opc=='CC_CARG_01'){
 		$areaID = $_POST['areaID'];
-		$consulta = "select cargoID,cargo from cargo where estado=1 and areaID='".$areaID."' order by cargo asc";
+		$consulta = "SELECT cargoID,cargo from cargo where estado=1 and areaID='".$areaID."' order by cargo asc";
 		$res = mysqli_query($con,$consulta) or die(mysqli_error($con));
 			echo "<option value='"."0"."'>-- Seleccionar --</option>";
 		while($row = mysqli_fetch_row($res)){
@@ -238,7 +269,7 @@
 	}
 	// Especialidades
 	if($opc=='CC_E_05'){
-		$consulta = "select especialidadID,especialidad from especialidad where estado=1 order by especialidad asc";
+		$consulta = "SELECT especialidadID,especialidad from especialidad where estado=1 order by especialidad asc";
 		$res = mysqli_query($con,$consulta) or die(mysqli_error($con));
 			echo "<option value='"."0"."'>-- Especialidad --</option>";
 		while($row = mysqli_fetch_row($res)){
@@ -248,7 +279,7 @@
 	}
 	// Tipo de servicio
 	if($opc=='TS_01'){
-		$consulta = "select tipoServicioID,tipoServicio from tipo_servicio where estado=1 order by tipoServicio asc";
+		$consulta = "SELECT tipoServicioID,tipoServicio from tipo_servicio where estado=1 order by tipoServicio asc";
 		$res = mysqli_query($con,$consulta) or die(mysqli_error($con));
 			echo "<option value='"."0"."'>-- Tipo de servicio --</option>";
 		while($row = mysqli_fetch_row($res)){
@@ -258,7 +289,7 @@
 	}
 	//Tipo telefono
 	if($opc=='CC_TT_01'){
-		$consulta = "select tipoTelefonoID,tipoTelefono from tipo_telefono where estado=1 order by tipoTelefono asc";
+		$consulta = "SELECT tipoTelefonoID,tipoTelefono from tipo_telefono where estado=1 order by tipoTelefono asc";
 		$res = mysqli_query($con,$consulta) or die(mysqli_error($con));
 			echo "<option value='"."0"."'>-- Seleccionar --</option>";
 		while($row = mysqli_fetch_row($res)){
@@ -268,7 +299,7 @@
 	}
 	//Tipo PERSONAL 
 	if($opc=='CC_TP_01'){
-		$consulta = "select tipoPersonalID,tipoPersonal from tipo_personal where estado=1 order by tipoPersonal asc";
+		$consulta = "SELECT tipoPersonalID,tipoPersonal from tipo_personal where estado=1 order by tipoPersonal asc";
 		$res = mysqli_query($con,$consulta) or die(mysqli_error($con));
 			echo "<option value='"."0"."'>-- Seleccionar --</option>";
 		while($row = mysqli_fetch_row($res)){
@@ -278,7 +309,7 @@
 	}
 	//Procedencias 
 	if($opc=='CC_P_01'){
-		$consulta = "select procedenciaID,procedencia from PROCEDENCIA where estado=1 order by procedencia asc";
+		$consulta = "SELECT procedenciaID,procedencia from PROCEDENCIA where estado=1 order by procedencia asc";
 		$res = mysqli_query($con,$consulta) or die(mysqli_error($con));
 			echo "<option value='"."0"."'>-- Seleccionar --</option>";
 		while($row = mysqli_fetch_row($res)){
@@ -290,7 +321,7 @@
 //VERIFICA DNI, SI EXISTE
 if($opc=="PL_10"){
 	$DNI = $_POST["DNI"];
-	$consulta = "select DNI,nombres,apPaterno,apMaterno,fechaNacimiento,sexo,telefono1,tipoTelefono1,
+	$consulta = "SELECT DNI,nombres,apPaterno,apMaterno,fechaNacimiento,sexo,telefono1,tipoTelefono1,
 							telefono2,tipoTelefono2,correoPersonal,RUC,direccion
 							 from persona where DNI ='".$DNI."'";
 	$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
@@ -358,7 +389,7 @@ if($opc=="PL_10"){
 		}
 	//Cargar tabla banner
 		if($opc=='B_02'){
-			$consulta = "select bannerID,banner,descripcion,link,prioridad,estado
+			$consulta = "SELECT bannerID,banner,descripcion,link,prioridad,estado
 	              from banner where estado=1 or estado=2 order by prioridad desc ";
 			$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
 			while($row = mysqli_fetch_row($res)){
@@ -406,7 +437,7 @@ if($opc=="PL_10"){
 		}
 	//Mostrar banner
 		if($opc=='B_05'){
-			$consulta = "select bannerID,banner,descripcion,link,prioridad,estado
+			$consulta = "SELECT bannerID,banner,descripcion,link,prioridad,estado
 	              from banner where estado<3 order by prioridad desc ";
 			$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
 			while($row = mysqli_fetch_row($res)){

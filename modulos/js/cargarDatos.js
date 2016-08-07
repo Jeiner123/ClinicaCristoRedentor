@@ -1,7 +1,27 @@
 var urlGeneral = '../bd/bd_operaciones.php';
 // Cargar Combos
 	
-	// CARGAR MEDICOS
+	// CARGAR COMBO SERVICIOS
+	function cargarCboServicios(combo,especialidadID,tipoServicioID){
+		abrirCargando();
+		opc = 'CC_SERV_01';
+		$.ajax({
+			type: 'POST',
+			data:'opc='+opc+'&especialidadID='+especialidadID+'&tipoServicioID='+tipoServicioID,
+			url: urlGeneral,
+			success: function(rpta){				
+				$(combo).html(rpta);
+				funcionSelect(combo);
+				cerrarCargando();
+				return true;
+			},
+			error: function(rpta){
+				alert(rpta);
+				cerrarCargando();
+			}
+		});
+	}
+	// CARGAR EL COMBO MEDICOS
 	function cargarCboMedicos(combo,especialidadID){
 		abrirCargando();
 		opc = 'CC_MED_01';
