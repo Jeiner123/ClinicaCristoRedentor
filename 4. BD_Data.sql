@@ -819,20 +819,21 @@ INSERT INTO personal (personalID, DNI, tipoPersonalID, cargoID, fechaIngreso, co
 VALUES
   (1001, '47790815', 3, 5, '2016-03-01', 'soporteti@clinicacristoredentor.com', '0.00', 1, '');
 
-INSERT INTO usuario (usuario, clave, DNI, permisoID, estado) VALUES
-  ('admin', '21232f297a57a5a743894a0e4a801fc3', '47790815', 3, 1);
+INSERT INTO usuario (usuario, clave, DNI, estado) VALUES
+  ('admin', '21232f297a57a5a743894a0e4a801fc3', '47790815', 1);
 
 -- Menu data
 INSERT INTO modules (id, nombre, folder) VALUES
   (1, 'Documentos', 'documentos'),
-  (2, 'Gestión de citas', 'citas'),
+  (2, 'Citas', 'citas'),
   (3, 'Facturación', 'facturacion'),
   (4, 'Clínica', 'clinica'),
   (5, 'Pacientes', 'pacientes'),
   (6, 'Personal', 'planilla'),
   (7, 'Ventas', 'ventas'),
-  (8, 'Gestión de compras', 'compras'),
-  (9, 'Parámetros', 'parametros');
+  (8, 'Compras', 'compras'),
+  (9, 'Parámetros', 'parametros'),
+  (10, 'Admin', 'admin');
 
 INSERT INTO items (module_id, nombre, file) VALUES
   (1, 'Control de documentos', 'control_documentos'),
@@ -878,6 +879,12 @@ INSERT INTO items (module_id, nombre, file) VALUES
   (9, 'Tipo de adquisición', 'tipo_adquisicion'),
   (9, 'Forma de pago', 'forma_pago'),
   (9, 'Tipo de documento', 'tipo_documento'),
-  (9, 'Comprobante de pago', 'comprobante_pago');
+  (9, 'Comprobante de pago', 'comprobante_pago'),
+
+  (10, 'Asignar permisos', 'asignar_permisos');
+
+-- Set global permissions to the administrator user
+INSERT INTO permissions (username, item_id)
+    SELECT 'admin', id FROM items;
 
 
