@@ -4,6 +4,31 @@
 	$opc = $_POST['opc'];
 
 	
+	// MOSTRAR DATOS DE SERVICIOS
+	if($opc == 'M_SERV_01'){
+		$servicioID = $_POST["servicioID"];
+		$consulta = "SELECT S.servicioID,S.servicio,S.precioUnitario,S.estado,E.especialidad,
+											E.especialidadID,T.tipoServicio,T.tipoServicioID
+									from servicio S
+									left join tipo_servicio T on S.tipoServicioID = T.tipoServicioID
+									INNER join especialidad E on E.especialidadID = S.especialidadID
+									where S.estado=1 and S.servicioID='".$servicioID."'";
+
+		$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
+		$datos = "";
+		if(mysqli_num_rows($res)>0){
+			$datos = mysqli_fetch_array($res);
+			$servicioID = $datos[0];
+			$servicio = $datos[1];
+			$precioUnitario = $datos[2];
+
+			echo $servicioID.",,".$servicio.",,".$precioUnitario;
+
+		}else{
+			echo 0;
+		}
+		exit();
+	}
 	// CARTAR TABLA CITAS DE CONSULTORIO - LABORATORIO
 	if($opc == 'LCC_01'){
 		$fechaCita = $_POST['fecha'];
@@ -133,11 +158,11 @@
 	// REGISTRAR CITA CONSULTORIO -  Guardar cita medica
 	if($opc == 'RC_01'){
 		// $citaID = $_POST[''];
-		$pacienteID = $_POST['txtPacienteID'];
-		$medicoRef = $_POST['txtCodigoMedicoRef'];
-		$medicoID = $_POST['txtMedicoCodigo'];
+		$pacienteID = $_POST['cboPacientes'];
+		$medicoRef = $_POST['cboMedicosRef'];
+		$medicoID = $_POST['cboMedicos'];
 		$especialidadID = $_POST['cboEspecialidad'];
-		$servicioID = $_POST['txtServicioID'];
+		$servicioID = $_POST['cboServicios'];
 		$motivo = $_POST['txtMotivo'];
 		$via = $_POST['cboVia'];
 		$fecha = $_POST['txtFechaCita'];
@@ -162,7 +187,7 @@
 									importeTotal,importePagado,estadoPago,timestamp)values
 									('".$pacienteID."','".$tipo."','".$via."','".$tasaIGV."','".$importeSinIGV."','".$importeIGV."',
 										'".$importeTotal."','".$importePagado."','".$estadoPago."','".$timestamp."');";
-		if($medicoRef!=''){
+		if($medicoRef != 0){
 			$consulta = "insert into PEDIDO_SERVICIO(pacienteID,tipo,via,tasaIGV,importeSinIGV,importeIGV,
 									importeTotal,importePagado,estadoPago,timestamp,personalReferenciaID)values
 									('".$pacienteID."','".$tipo."','".$via."','".$tasaIGV."','".$importeSinIGV."','".$importeIGV."',
@@ -171,7 +196,7 @@
 		$res = mysqli_query($con,$consulta)or  die (mysqli_error($con));
 		$pedidoServicioID = mysqli_insert_id($con);
 		// mysqli_rollback($con);		
-		if($pedidoServicioID>0){
+		if($pedidoServicioID > 0){
 			$consulta = "insert into cita(pedidoServicioID,pacienteID,medicoID,especialidadID,servicioID,
 										tipo,fecha,hora,observaciones,estado,precio,cantidad) values
 										('".$pedidoServicioID."','".$pacienteID."','".$medicoID."','".$especialidadID."',
@@ -190,8 +215,8 @@
 	}
 	// REGISTRAR CITA LABORATORIO - 
 	if($opc == 'RCL_01'){
-		$pacienteID = $_POST['txtPacienteID'];
-		$medicoRef = $_POST['txtCodigoMedicoRef'];
+		$pacienteID = $_POST['cboPacientes'];
+		$medicoRef = $_POST['cboMedicosRef'];
 		$listaServicios = $_POST['listaServicios'];
 		$especialidadID = '25';
 		$via = $_POST['cboVia'];

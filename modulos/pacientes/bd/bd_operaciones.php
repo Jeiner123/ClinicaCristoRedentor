@@ -172,6 +172,7 @@
 		}else{
 			echo 0;
 		}
+		exit();
 	}
 
 

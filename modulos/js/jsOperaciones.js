@@ -8,16 +8,12 @@
 		$('#txtNombresMedico').val(nombresMedico);
 		$('#txtMedicoCodigo').val(personalID);
 	}
-	function seleccionarPersonalSaludRef(personalID,especialidadID,nombresMedico){
-		cerrarModal('#modalListaPersonalSaludRef');
-		$('#txtNombresMedicoRef').val(nombresMedico);
-		$('#txtCodigoMedicoRef').val(personalID);
+
+	function seleccionarCboMedico(combo){
+		$('#txtCodigoMedicoRef').val($(combo).val());
 	}
-	function seleccionarPaciente(DNI,historia,nombres){
-		cerrarModal('#modalListaPacientes');
-		$('#txtDNI').val(DNI);
-		$('#txtPacienteID').val(historia);
-		$('#txtNombresPaciente').val(nombres);
+	function seleccionarCboPaciente(combo){
+		$('#txtPacienteID').val($(combo).val());
 	}
 // PERSONA
 // VERIFICA EL DNI, SI EXISTE
