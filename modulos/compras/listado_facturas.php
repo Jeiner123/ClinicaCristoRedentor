@@ -47,18 +47,18 @@
           </div>
         </div>        
         <div class="box-body" style='overflow-x:scroll;overflow-y:hidden' align="center">
-          <input type="button" value="pagar" onclick="abrirModal('#modalPagos')"></input>
           <div class="row">
             <div class="col-md-12">
               <table id="tablaFactura" class="table table-bordered table-hover tablaDatos">
                 <thead>
                   <tr>
                     <th>Periódo</th>
-                    <th>Correlativo</th>
                     <th>Serie</th>
                     <th>Número</th>
                     <th style="text-align:center">Fecha de factura</th>
                     <th style="text-align:center">Fecha de vcto.</th>
+                    <th style="text-align:center">Total</th>
+                    <th style="text-align:center">Estado</th>
                     <th style="text-align:center">Opciones</th>
                   </tr>
                 </thead>
@@ -109,7 +109,7 @@
                   </div>
                   <div class="col-md-3">
                     <label for="cboTipoOperacion">Tipo de comprobante</label>
-                    <select class="form-control input-sm" name="cboComprobante" id="cboComprobante">
+                    <select class="chosen-select input-sm" name="cboComprobante" id="cboComprobante">
                       </select>
                   </div>
                   <div class="col-md-2">
@@ -154,7 +154,7 @@
                   </div>
                   <div class="col-md-4">
                     <label class="control-label">Entidad bancaria</label>
-                    <select class="form-control input-sm" id="cboBanco" name="cboBanco">
+                    <select class="chosen-select input-sm" id="cboBanco" name="cboBanco">
                     </select> 
                   </div>
                   <div class="col-md-2">

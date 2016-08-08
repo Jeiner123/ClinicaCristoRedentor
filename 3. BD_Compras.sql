@@ -84,6 +84,7 @@ create table COMPRA(
 	valorVenta decimal(9,2) not null,
 	impuesto decimal(9,2) not null,
 	precioVenta decimal(9,2) not null,
+	estado char(01) not null,
 	primary key(mesID,anio,codigo),
 	foreign key(comprobanteID) references comprobante_pago(comprobanteID),
 	foreign key(proveedorID) references PROVEEDOR(proveedorID),
