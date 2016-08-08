@@ -99,7 +99,7 @@
                   </div>
                    <div class="col-md-3">
                     <label class="control-label">Entidad bancaria</label>
-                    <select class="form-control" id="cboBanco" name="cboBanco">
+                    <select class="chosen-select form-control" id="cboBanco" name="cboBanco">
                     </select> 
                   </div>
                   <div class="col-md-3">
