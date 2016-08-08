@@ -8,8 +8,6 @@
 </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-  <input type='hidden' value='gestion' id='menuPrincipal'>
-  <input type='hidden' value='m_doc_control' id='menuIzquierda'>
   <?php include '../general/menu_principal.php';?>
 
 <div class="wrapper">
@@ -21,10 +19,9 @@
     <section class="content-header">
       <h1>
         Documentos de sistema de gestión integrado
-        <!-- <small>Lista</small> -->
       </h1>
       <ol class="breadcrumb">
-        <li><a href="../gestion"><i class="fa fa-dashboard" style="color:#"></i>Inicio</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i>Inicio</a></li>
         <li class="active">Gestión de documentos</li>
       </ol>
     </section>
@@ -233,9 +230,7 @@
 </html>
 <script src="js/script.js"></script>
 <script type="text/javascript">
-  // abrirModal("#modalCargando");
   cargarTablaDocumentos();
   cargarCboAreas();
-  $('#tablaDocumentos tbody').on('click','tr',function(){seleccionSimple(this);});  
-  
+  $('#tablaDocumentos tbody').on('click','tr',function(){seleccionSimple(this);});
 </script>

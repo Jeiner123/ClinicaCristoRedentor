@@ -1,5 +1,5 @@
-drop database if exists clinica;
-create database clinica;
+DROP DATABASE IF EXISTS clinica;
+CREATE DATABASE clinica;
 USE clinica;
 
 -- 	Especialidad
@@ -16,197 +16,218 @@ USE clinica;
 
 -- TABLES WITH DUMMY DATA
 
-	-- LOS PARAMETROS NO SE REFERENCIARÁN NUNCA!!!!!
-	-- SOLO SE UTILIZARÁ SU VALOR 
-	-- ES DECIR SU ID NUNCA ESTARÉ EN OTRA TABLA 
-	create table PARAMETRO(
-		parametroID int not null AUTO_INCREMENT,
-		parametro varchar(50) not null,
-		valor varchar(50) not null,
-		estado int not null,
-		primary key(parametroID)
-	);
-	create table especialidad(
-		especialidadID int  not null auto_increment,
-		especialidad varchar(100)  not null,
-		estado int not null, 								/* 1: Activo | 2: Inactivo | 3: Elimnado */
-		primary key(especialidadID)
-	);
-	create table tipo_servicio(
-		tipoServicioID int not null auto_increment,
-		tipoServicio varchar(150) not null,	
-		estado int not null,
-		primary key(tipoServicioID)
-	);
-	create table servicio(
-		servicioID int not null auto_increment,	
-		servicio varchar(150) not null,
-		precioUnitario decimal(9,2) not null,		
-		tipoServicioID int null,
-		especialidadID int not null,
-		estado int not null,
-		primary key(servicioID),
-		foreign key(tipoServicioID) references tipo_servicio(tipoServicioID),
-		foreign key(especialidadID) references especialidad(especialidadID)
-	);
-	create table tipo_telefono(
-		tipoTelefonoID int not null auto_increment,
-		tipoTelefono varchar(50) not null,
-		estado int not null,
-		primary key(tipoTelefonoID)
-	);
-	create table procedencia(
-		procedenciaID int not null auto_increment,
-		procedencia varchar(50) not null,
-		estado int not null,
-		primary key(procedenciaID)
-	);
-	create table tipo_personal(
-		tipoPersonalID int not null auto_increment,
-		tipoPersonal varchar(50) not null,
-		estado int not null,
-		primary key(tipoPersonalID)
-	);	
-	create table area(
-		areaID int not null auto_increment,
-		area varchar(50) not null,
-		estado int not null,
-		primary	 key(areaID)
-	);
-	create table cargo(
-		cargoID int not null auto_increment,
-		areaID int not null,
-		cargo varchar(50) not null,
-		estado int not null,
-		primary	 key(cargoID),
-		foreign key(areaID) references area(areaID)
-	);
-	create table persona(
-		DNI char(8) not null,
-		nombres varchar(50) not null,
-		apPaterno varchar(50)  not null,
-		apMaterno varchar(50) not null,
-		fechaNacimiento date null,
-		sexo char(1) not null,
-		telefono1 varchar(20)  null,
-		tipoTelefono1 int  null,
-		telefono2 varchar(20) null,
-		tipoTelefono2 int null,
-		correoPersonal varchar(150) null,
-		RUC char(11) null,
-		direccion varchar(255) null,
-		foto varchar(255) null,
-		timestamp timestamp null,
-		primary key(DNI),
-		foreign key(tipoTelefono1) references tipo_telefono(tipoTelefonoID),
-		foreign key(tipoTelefono2) references tipo_telefono(tipoTelefonoID)
-	);
-create table paciente(
-	pacienteID int(6) not null auto_increment, /* Nro de historia clínica */
-	DNI char(8) not null,
-	familiarDNI char(8) null,
-	parentesco varchar(100) null,
-	estado int not null,
-	procedenciaID int null,
-	observaciones varchar(255)	 null,
-	primary key(pacienteID),
-	foreign key(DNI) references persona(DNI),
-	foreign key(familiarDNI) references persona(DNI),
-	foreign key(procedenciaID) references procedencia(procedenciaID)
+-- LOS PARAMETROS NO SE RELACIONAN CON OTRAS TABLAS
+-- SOLO SE UTILIZARÁN SUS VALORES
+CREATE TABLE PARAMETRO (
+  parametroID INT         NOT NULL AUTO_INCREMENT,
+  parametro   VARCHAR(50) NOT NULL,
+  valor       VARCHAR(50) NOT NULL,
+  estado      INT         NOT NULL,
+  PRIMARY KEY (parametroID)
+);
+
+CREATE TABLE especialidad (
+  especialidadID INT          NOT NULL AUTO_INCREMENT,
+  especialidad   VARCHAR(100) NOT NULL,
+  estado         INT          NOT NULL, /* 1: Activo | 2: Inactivo | 3: Elimnado */
+  PRIMARY KEY (especialidadID)
+);
+CREATE TABLE tipo_servicio (
+  tipoServicioID INT          NOT NULL AUTO_INCREMENT,
+  tipoServicio   VARCHAR(150) NOT NULL,
+  estado         INT          NOT NULL,
+  PRIMARY KEY (tipoServicioID)
+);
+CREATE TABLE servicio (
+  servicioID     INT           NOT NULL AUTO_INCREMENT,
+  servicio       VARCHAR(150)  NOT NULL,
+  precioUnitario DECIMAL(9, 2) NOT NULL,
+  tipoServicioID INT           NULL,
+  especialidadID INT           NOT NULL,
+  estado         INT           NOT NULL,
+  PRIMARY KEY (servicioID),
+  FOREIGN KEY (tipoServicioID) REFERENCES tipo_servicio (tipoServicioID),
+  FOREIGN KEY (especialidadID) REFERENCES especialidad (especialidadID)
+);
+CREATE TABLE tipo_telefono (
+  tipoTelefonoID INT         NOT NULL AUTO_INCREMENT,
+  tipoTelefono   VARCHAR(50) NOT NULL,
+  estado         INT         NOT NULL,
+  PRIMARY KEY (tipoTelefonoID)
+);
+CREATE TABLE procedencia (
+  procedenciaID INT         NOT NULL AUTO_INCREMENT,
+  procedencia   VARCHAR(50) NOT NULL,
+  estado        INT         NOT NULL,
+  PRIMARY KEY (procedenciaID)
+);
+CREATE TABLE tipo_personal (
+  tipoPersonalID INT         NOT NULL AUTO_INCREMENT,
+  tipoPersonal   VARCHAR(50) NOT NULL,
+  estado         INT         NOT NULL,
+  PRIMARY KEY (tipoPersonalID)
+);
+CREATE TABLE area (
+  areaID INT         NOT NULL AUTO_INCREMENT,
+  area   VARCHAR(50) NOT NULL,
+  estado INT         NOT NULL,
+  PRIMARY KEY (areaID)
+);
+CREATE TABLE cargo (
+  cargoID INT         NOT NULL AUTO_INCREMENT,
+  areaID  INT         NOT NULL,
+  cargo   VARCHAR(50) NOT NULL,
+  estado  INT         NOT NULL,
+  PRIMARY KEY (cargoID),
+  FOREIGN KEY (areaID) REFERENCES area (areaID)
+);
+CREATE TABLE persona (
+  DNI             CHAR(8)      NOT NULL,
+  nombres         VARCHAR(50)  NOT NULL,
+  apPaterno       VARCHAR(50)  NOT NULL,
+  apMaterno       VARCHAR(50)  NOT NULL,
+  fechaNacimiento DATE         NULL,
+  sexo            CHAR(1)      NOT NULL,
+  telefono1       VARCHAR(20)  NULL,
+  tipoTelefono1   INT          NULL,
+  telefono2       VARCHAR(20)  NULL,
+  tipoTelefono2   INT          NULL,
+  correoPersonal  VARCHAR(150) NULL,
+  RUC             CHAR(11)     NULL,
+  direccion       VARCHAR(255) NULL,
+  foto            VARCHAR(255) NULL,
+  timestamp       TIMESTAMP    NULL,
+  PRIMARY KEY (DNI),
+  FOREIGN KEY (tipoTelefono1) REFERENCES tipo_telefono (tipoTelefonoID),
+  FOREIGN KEY (tipoTelefono2) REFERENCES tipo_telefono (tipoTelefonoID)
+);
+CREATE TABLE paciente (
+  pacienteID    INT(6)       NOT NULL AUTO_INCREMENT, /* Nro de historia clínica */
+  DNI           CHAR(8)      NOT NULL,
+  familiarDNI   CHAR(8)      NULL,
+  parentesco    VARCHAR(100) NULL,
+  estado        INT          NOT NULL,
+  procedenciaID INT          NULL,
+  observaciones VARCHAR(255) NULL,
+  PRIMARY KEY (pacienteID),
+  FOREIGN KEY (DNI) REFERENCES persona (DNI),
+  FOREIGN KEY (familiarDNI) REFERENCES persona (DNI),
+  FOREIGN KEY (procedenciaID) REFERENCES procedencia (procedenciaID)
 );
 ALTER TABLE paciente AUTO_INCREMENT = 1001;
-create table personal(
-	personalID int not null auto_increment,
-	DNI char(8) not null,
-	tipoPersonalID int not null,	
-	cargoID int not null,
-	fechaIngreso date null,
-	correoCorporativo varchar(150) null,
-	sueldoMensual decimal(9,2) null,
-	estado int not null,
-	observaciones varchar(255) null,
-	primary key(personalID),
-	foreign key(DNI) references persona(DNI),
-	foreign key(cargoID) references cargo(cargoID),
-	foreign key(tipoPersonalID) references tipo_personal(tipoPersonalID)
+
+CREATE TABLE personal (
+  personalID        INT           NOT NULL AUTO_INCREMENT,
+  DNI               CHAR(8)       NOT NULL,
+  tipoPersonalID    INT           NOT NULL,
+  cargoID           INT           NOT NULL,
+  fechaIngreso      DATE          NULL,
+  correoCorporativo VARCHAR(150)  NULL,
+  sueldoMensual     DECIMAL(9, 2) NULL,
+  estado            INT           NOT NULL,
+  observaciones     VARCHAR(255)  NULL,
+  PRIMARY KEY (personalID),
+  FOREIGN KEY (DNI) REFERENCES persona (DNI),
+  FOREIGN KEY (cargoID) REFERENCES cargo (cargoID),
+  FOREIGN KEY (tipoPersonalID) REFERENCES tipo_personal (tipoPersonalID)
 );
 ALTER TABLE personal AUTO_INCREMENT = 1001;
 
-create table personal_salud(
-	personalID int not null,
-	especialidadID int  not null,
-	primary key(personalID,especialidadID),
-	foreign key (personalID) references personal(personalID),
-	foreign key (especialidadID) references especialidad(especialidadID)
+CREATE TABLE personal_salud (
+  personalID     INT NOT NULL,
+  especialidadID INT NOT NULL,
+  PRIMARY KEY (personalID, especialidadID),
+  FOREIGN KEY (personalID) REFERENCES personal (personalID),
+  FOREIGN KEY (especialidadID) REFERENCES especialidad (especialidadID)
 );
 
-create table control_documento(
-	controlDocumentoID varchar(10) not null,
-	nroRevision char(2) not null,
-	titulo varchar(200) not null,
-	ruta varchar(255) not null,
-	estado  varchar(20) not null,
-	fechaCreacion date  null,
-	fechaVencimiento date null,
-	fechaActualizacion date null,
-	fechaAprobacion date null,
-	tipoDocumento varchar(50) not null,
-	areaID int not null,
-	acceso varchar(150) null,
-	distribucion varchar(255) null,
-	observaciones varchar(255) null,
-	evidencia varchar(255) null,
-	primary key(controlDocumentoID,nroRevision),
-	foreign key(areaID) references area(areaID)
+CREATE TABLE control_documento (
+  controlDocumentoID VARCHAR(10)  NOT NULL,
+  nroRevision        CHAR(2)      NOT NULL,
+  titulo             VARCHAR(200) NOT NULL,
+  ruta               VARCHAR(255) NOT NULL,
+  estado             VARCHAR(20)  NOT NULL,
+  fechaCreacion      DATE         NULL,
+  fechaVencimiento   DATE         NULL,
+  fechaActualizacion DATE         NULL,
+  fechaAprobacion    DATE         NULL,
+  tipoDocumento      VARCHAR(50)  NOT NULL,
+  areaID             INT          NOT NULL,
+  acceso             VARCHAR(150) NULL,
+  distribucion       VARCHAR(255) NULL,
+  observaciones      VARCHAR(255) NULL,
+  evidencia          VARCHAR(255) NULL,
+  PRIMARY KEY (controlDocumentoID, nroRevision),
+  FOREIGN KEY (areaID) REFERENCES area (areaID)
 );
-	
-create table registro_requerido(
-	registroRequeridoID varchar(10) not null,
-	nroRevision char(2) not null,
-	controlDocumentoID varchar(10) not null,
-	nroRevisionCD char(2) not null,
-	titulo varchar(200) not null,
-	frecuencia varchar(20) not null,
-	formato varchar(255) null,	
-	estado  varchar(20) not null,
-	fechaAprobacion date null,	
-	areaOrigenID int not null,
-	areaResponsable varchar(50) null,
-	soporte varchar(150) null,
-	acceso varchar(150) null,
-	retencionArea varchar(20) null,
-	retencionAlmacen varchar(20) null,
-	observaciones varchar(255) null,
-	primary key(registroRequeridoID,nroRevision),
-	foreign key(controlDocumentoID,nroRevisionCD) references control_documento(controlDocumentoID,nroRevision),
-	foreign key(areaOrigenID) references area(areaID)
+
+CREATE TABLE registro_requerido (
+  registroRequeridoID VARCHAR(10)  NOT NULL,
+  nroRevision         CHAR(2)      NOT NULL,
+  controlDocumentoID  VARCHAR(10)  NOT NULL,
+  nroRevisionCD       CHAR(2)      NOT NULL,
+  titulo              VARCHAR(200) NOT NULL,
+  frecuencia          VARCHAR(20)  NOT NULL,
+  formato             VARCHAR(255) NULL,
+  estado              VARCHAR(20)  NOT NULL,
+  fechaAprobacion     DATE         NULL,
+  areaOrigenID        INT          NOT NULL,
+  areaResponsable     VARCHAR(50)  NULL,
+  soporte             VARCHAR(150) NULL,
+  acceso              VARCHAR(150) NULL,
+  retencionArea       VARCHAR(20)  NULL,
+  retencionAlmacen    VARCHAR(20)  NULL,
+  observaciones       VARCHAR(255) NULL,
+  PRIMARY KEY (registroRequeridoID, nroRevision),
+  FOREIGN KEY (controlDocumentoID, nroRevisionCD) REFERENCES control_documento (controlDocumentoID, nroRevision),
+  FOREIGN KEY (areaOrigenID) REFERENCES area (areaID)
 );
-create table usuario(
-	usuario varchar(100) not null,
-	clave varchar(200) not null,
-	DNI char(8) not null,
-	permisoID int not null,
-	estado int not null,
-	primary key(usuario),
-	foreign key(DNI) references persona(DNI)
+
+CREATE TABLE usuario (
+  usuario   VARCHAR(100) NOT NULL,
+  clave     VARCHAR(200) NOT NULL,
+  DNI       CHAR(8)      NOT NULL,
+  estado    INT          NOT NULL,
+  PRIMARY KEY (usuario),
+  FOREIGN KEY (DNI) REFERENCES persona (DNI)
 );
-create table forma_pago(
-	formaPagoID char(3) not null ,
-	formaPago varchar(50) not null,
-	numeroCuotas int not null,
-	estado int not null,
-	primary key(formaPagoID)
+CREATE TABLE forma_pago (
+  formaPagoID  CHAR(3)     NOT NULL,
+  formaPago    VARCHAR(50) NOT NULL,
+  numeroCuotas INT         NOT NULL,
+  estado       INT         NOT NULL,
+  PRIMARY KEY (formaPagoID)
 );
 CREATE TABLE comprobante_pago (
-  comprobanteID char(2) NOT NULL,
-  descripcion varchar (100) NOT NULL,
-  estado int NOT NULL,
-  compras boolean NOT NULL,
-  ventas boolean NOT NULL,
-  ingresos boolean NOT NULL,
-  egresos boolean NOT NULL,
-  honorarios boolean NOT NULL,
-  diario boolean NOT NULL,
+  comprobanteID CHAR(2)      NOT NULL,
+  descripcion   VARCHAR(100) NOT NULL,
+  estado        INT          NOT NULL,
+  compras       BOOLEAN      NOT NULL,
+  ventas        BOOLEAN      NOT NULL,
+  ingresos      BOOLEAN      NOT NULL,
+  egresos       BOOLEAN      NOT NULL,
+  honorarios    BOOLEAN      NOT NULL,
+  diario        BOOLEAN      NOT NULL,
   PRIMARY KEY (comprobanteID)
 );
 
+CREATE TABLE modules (
+  id int NOT NULL PRIMARY KEY,
+  nombre VARCHAR(35) NOT NULL,
+  folder VARCHAR(35) NOT NULL
+);
+
+CREATE TABLE items (
+  id int AUTO_INCREMENT PRIMARY KEY,
+  module_id int NOT NULL,
+  nombre VARCHAR(55) NOT NULL,
+  file VARCHAR(55) NOT NULL,
+  FOREIGN KEY (module_id) REFERENCES modules(id)
+);
+
+CREATE TABLE permissions (
+  username VARCHAR(100) NOT NULL,
+  item_id int NOT NULL,
+  FOREIGN KEY (username) REFERENCES usuario(usuario),
+  FOREIGN KEY (item_id) REFERENCES items(id)
+);

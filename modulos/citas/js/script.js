@@ -6,16 +6,16 @@ var importeTotal = 0.0;
 function guardarCita(form){
 	$('#btnGuardarCita').attr('disabled',true);
 	
-	inputObligatorio('#txtNombresPaciente',3);
-	inputObligatorio('#txtServicio',3);
-	inputObligatorio('#txtNombresMedico',3);
+	comboObligatorio('#cboPacientes',0);
+	comboObligatorio('#cboServicios',0);
+	comboObligatorio('#cboMedicos',0);	
 	inputObligatorio('#txtHoraCita',1);
-	validarFechaMayor('#txtFechaCita');
+	validarFechaMayor('#txtFechaCita');	
 
 	var numErrores = document.getElementsByClassName("has-error").length;
 	if(numErrores>0){
 		alert("Verifique los datos ingresados");
-		$('#btnGuardarCita').attr('disabled',false);			
+		$('#btnGuardarCita').attr('disabled',false);
 		return false;
 	}
 	abrirCargando();
@@ -49,12 +49,8 @@ function guardarCita(form){
 }
 function guardarCitaLaboratorio(){	
 	$('#btnGuardar').attr('disabled',true);
-	var listaServicios="";
-	if($.trim($('#txtPacienteID').val()).length<1){
-		$('#txtNombresPaciente').parent().addClass('has-error');
-	}else{
-		$('#txtNombresPaciente').parent().removeClass('has-error');
-	}
+	var listaServicios="";	
+	comboObligatorio('#cboPacientes',0);	
 	
 	if ($('#tablaServiciosLab >tbody >tr').length == 1){
 		if($('#tablaServiciosLab >tbody >tr >td').length == 1){
@@ -100,7 +96,7 @@ function guardarCitaLaboratorio(){
 			if(rpta==1){
 				alert("Registro exitoso");
 				cerrarCargando();
-				// window.location.replace("listar_citas.php");
+				bloqueoTotalForm('#formDatosGenerales',true);
 				return true;
 			}
 			cerrarCargando();
@@ -165,8 +161,8 @@ function cargarTablaCitas(tipo){
 // Agregar los servicios a la tabla de detalle
 function agregarServicioDetalle(){
 	validarFechaMayor('#txtFechaCita');
-	var servicioID = $("#txtServicioID").val();	
-	if(servicioID==''){
+	var servicioID = $("#cboServicios").val();
+	if(servicioID == '0'){
 		alert("Seleccione un servicio");
 		return false;
 	}
@@ -205,7 +201,7 @@ function agregarServicioDetalle(){
         fecha,
         hora,
         "<a href='javascript:;' style='font-size:15px;' class='text-red eliminarServicioDetalle' title='Quitar servicio'><i class='ace-icon fa fa-times bigger-120'></i></a>",
-        obs,        
+        obs,
    ])
 	.draw()
 	.node();
@@ -238,16 +234,32 @@ function quitarFila(object,tabla,confirmacion){
   return true;
 }
 
-function seleccionarServicio(id,servicio,precio,tipoServicioID,especialidadID){
-	cerrarModal('#modalListaServicios');
-	$('#txtServicioID').val(id);
-	$('#txtServicio').val(servicio);
-	$('#txtPrecio').val(parseFloat(precio));
-	$('#cboTipoServicio').val(tipoServicioID);
-	$('#cboEspecialidad').val(especialidadID);
-	importe = parseFloat(precio) * parseFloat($('#txtCantidad').val());
-	$('#txtImporte').val(parseFloat(importe));
-	$('#txtCantidad').focus();
+function seleccionarCboServicios(servicioID){	
+	// abrirCargando();	
+	opc = 'M_SERV_01';	
+	$.ajax({
+		type: 'POST',
+		data:'opc='+opc+'&servicioID='+servicioID,
+		url: url,
+		success: function(rpta){
+			// alert(rpta);
+			if(rpta!=0){
+				var datos = rpta.split(",,");
+				var precio = datos[2];
+				var servicio = datos[1];
+				$('#txtPrecio').val(precio);
+				$('#txtServicio').val(servicio);
+				importe = parseFloat(precio) * parseFloat($('#txtCantidad').val());
+				$('#txtImporte').val(parseFloat(importe));				
+				$('#txtCantidad').focus();
+			}
+			// cerrarCargando();
+		},
+		error: function(rpta){
+			alert(rpta);
+			// cerrarCargando();
+		}
+	});
 }
 
 

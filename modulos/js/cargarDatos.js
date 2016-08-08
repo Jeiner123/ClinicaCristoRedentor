@@ -1,5 +1,6 @@
 var urlGeneral = '../bd/bd_operaciones.php';
 // Cargar Combos
+
 	//CARGAR DETRACCIONES
 	function cargarCboDetraccion(valorDefecto){
 		opc = 'CC_TDE';
@@ -20,7 +21,28 @@ var urlGeneral = '../bd/bd_operaciones.php';
 		});
 	}
 
-	// CARGAR MEDICOS
+	// CARGAR COMBO SERVICIOS
+	function cargarCboServicios(combo,especialidadID,tipoServicioID){
+		abrirCargando();
+		opc = 'CC_SERV_01';
+		$.ajax({
+			type: 'POST',
+			data:'opc='+opc+'&especialidadID='+especialidadID+'&tipoServicioID='+tipoServicioID,
+			url: urlGeneral,
+			success: function(rpta){				
+				$(combo).html(rpta);
+				funcionSelect(combo);
+				cerrarCargando();
+				return true;
+			},
+			error: function(rpta){
+				alert(rpta);
+				cerrarCargando();
+			}
+		});
+	}
+
+	// CARGAR EL COMBO MEDICOS
 	function cargarCboMedicos(combo,especialidadID){
 		abrirCargando();
 		opc = 'CC_MED_01';
@@ -40,6 +62,7 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			}
 		});
 	}
+
 	// CARGA EL COMBO DE PACIENTE
 	function cargarCboPacientes(){
 		abrirCargando();

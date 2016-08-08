@@ -10,14 +10,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title> Registros requeridos | CLÍNICA CRISTO REDENTOR</title>
+  <title>Registros requeridos | CLÍNICA CRISTO REDENTOR</title>
   <?php include '../general/header.php';?>
 <style type="text/css">
 </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-  <input type='hidden' value='gestion' id='menuPrincipal'>
-  <input type='hidden' value='m_registro_requerido' id='menuIzquierda'>
   <?php include '../general/menu_principal.php';?>
 
 <div class="wrapper">

@@ -4,12 +4,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title> Gestión de COMPRAS| CLÍNICA CRISTO REDENTOR</title>
+  <title>Gestión de COMPRAS| CLÍNICA CRISTO REDENTOR</title>
   <?php include '../general/header.php';?>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-  <input type='hidden' value='menu_compras' id='menuPrincipal'>
-  <input type='hidden' value='compras' id='menuIzquierda'>
   <?php include '../general/menu_principal.php';?>
 
 <div class="wrapper">

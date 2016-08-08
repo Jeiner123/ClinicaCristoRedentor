@@ -6,12 +6,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Gestión de facturas | CLÍNICA CRISTO REDENTOR</title>
+  <title>Facturas | CLÍNICA CRISTO REDENTOR</title>
   <?php include '../general/header.php';?>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-  <input type='hidden' value='menu_compras' id='menuPrincipal'>
-  <input type='hidden' value='facturas' id='menuIzquierda'>
   <?php include '../general/menu_principal.php';?>
 
 <div class="wrapper">
@@ -56,7 +54,6 @@
           <form id="formFactura" name="formFactura">
             <div id="RegOCompra">
             <!-- COL-MD-6 -->
-              
                 <input id="txtFlag" name="txtFlag" class="form-control" type="hidden" value="<?php echo $opcion; ?>">
                 <div class="row" style="margin-left:5px;">
                   <div class="col-md-2">
@@ -200,12 +197,10 @@
                     </div>
                   </div></div>
 
-                 
-                
                 <div class="col-md-12">
                   <div class="row">
                     <div class="col-md-12">
-                      <div class="box-header"  style="margin: -10px 0px -15px -10px">
+                      <div class="box-header" style="margin: -10px 0px -15px -10px">
                           <br><h1 class="box-title">DETALLE DEL DOCUMENTO</h1>
                       </div>
                       <hr>
@@ -230,6 +225,28 @@
                       <div class="col-md-2">
                         <label for="txtPrecioVenta">Precio de venta</label>
                         <input class="form-control input-sm" name="txtPrecioVenta" id="txtPrecioVenta" onkeypress="return soloNumeroDecimal(event);" readonly="" value="0.0" style="text-align:right;"></input>
+                        <label for="txtBaseAfecta">Base Afecta</label>
+                        <input class="form-control input-sm" name="txtBaseAfecta" id="txtBaseAfecta" onkeypress="return soloNumeroDecimal(event);"/>
+                      </div>
+                      <div class="col-md-2">
+                        <label for="txtInafecto">Inafecto</label>
+                        <input class="form-control input-sm" name="txtInafecto" id="txtInafecto" onkeypress="return soloNumeroDecimal(event);" />
+                      </div>
+                      <div class="col-md-2">
+                         <label for="txtIGV">I.G.V</label>
+                        <input class="form-control input-sm" name="txtIGV" id="txtIGV" onkeypress="return soloNumeroDecimal(event);" readonly=""/>
+                      </div>
+                      <div class="col-md-2">
+                        <label for="txtPercepcion">Percepción</label>
+                        <input class="form-control input-sm" name="txtPercepcion" id="txtPercepcion" onkeypress="return soloNumeroDecimal(event);" readonly=""/>
+                      </div>
+                      <div class="col-md-2">
+                        <label for="txtRenta">Renta</label>
+                        <input class="form-control input-sm" name="txtRenta" id="txtRenta" onkeypress="return soloNumeroDecimal(event);" readonly=""/>
+                      </div>
+                      <div class="col-md-2">
+                        <label for="txtTotal">Total</label>
+                        <input class="form-control input-sm" name="txtTotal" id="txtTotal" onkeypress="return soloNumeroDecimal(event);" readonly=""/>
                       </div>
                     </div>
                     <div class="col-md-12">
@@ -264,6 +281,13 @@
                             <td><input class="form-control input-sm" id="txtCantidad<?php echo $i;?>" name="txtCantidad<?php echo $i;?>"  onkeypress="return soloNumeroEntero(event);" onblur="calcularImporte(event)"></input></td>
                             <td><input class="form-control input-sm" id="txtCosto<?php echo $i;?>" name="txtCosto<?php echo $i;?>" onkeypress="return soloNumeroDecimal(event);" onblur="calcularImporte(event)"></input></td>
                             <td><input class="form-control input-sm importe" id="txtImporte<?php echo $i;?>" name="txtImporte<?php echo $i;?>" onkeypress="return soloNumeroDecimal(event);" readonly value="0.0"></input></td>
+                            <td><input class="form-control input-sm" id="txtItem<?php echo $i;?>" name="txtItem<?php echo $i;?>" style='text-align:right;' readonly value="<?php echo $i;?>"/></td>
+                            <td><input class="form-control input-sm" id="txtReferencia<?php echo $i;?>" name="txtReferencia<?php echo $i;?>"/></td>
+                            <td><input class="form-control input-sm" id="txtCuenta<?php echo $i;?>" name="txtCuenta<?php echo $i;?>"  onkeypress="return soloNumeroEntero(event);"/></td>
+                            <td><input class="form-control input-sm" id="txtDescripcion<?php echo $i;?>" name="txtDescripcion<?php echo $i;?>"/></td>
+                            <td><input class="form-control input-sm" id="txtCantidad<?php echo $i;?>" name="txtCantidad<?php echo $i;?>"  onkeypress="return soloNumeroEntero(event);"/></td>
+                            <td><input class="form-control input-sm" id="txtCosto<?php echo $i;?>" name="txtCosto<?php echo $i;?>" onkeypress="return soloNumeroDecimal(event);"/></td>
+                            <td><input class="form-control input-sm" id="txtImporte<?php echo $i;?>" name="txtImporte<?php echo $i;?>" onkeypress="return soloNumeroDecimal(event);" readonly/></td>
                           </tr>
                         <?php endfor; ?>
                         </tbody>
@@ -272,7 +296,10 @@
                   </div>
                   </div>
 
-                  <div class="row">
+                <div class="row">
+                  <div class="col-md-6" style="top:20px!important;">
+                        <a href="#" class="btn btn-default btn-block">Cancelar registro</a>
+                    </div>
                     <div class="col-md-6" style="top:20px!important;">
                           <a href="#" class="btn btn-default btn-block">Cancelar registro</a>
                       </div>
@@ -281,10 +308,11 @@
                       </div>
                   </div>
                   <br><br>
+                        <button type="submit" class="btn btn-primary btn-block">Registrar nuevo documento</button>
+                    </div>
                 </div>
-                
-                
-                
+                <br><br>
+
             </div>
           </form>
           

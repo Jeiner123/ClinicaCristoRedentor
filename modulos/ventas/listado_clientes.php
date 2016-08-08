@@ -3,12 +3,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title> Gestión de clientes | CLÍNICA CRISTO REDENTOR</title>
+  <title>Gestión de clientes | CLÍNICA CRISTO REDENTOR</title>
   <?php include '../general/header.php';?>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-  <input type='hidden' value='menu_clientes' id='menuPrincipal'>
-  <input type='hidden' value='m_listado_clientes' id='menuIzquierda'>
   <?php include '../general/menu_principal.php';?>
 <div class="wrapper">
   <?php include '../general/izquierda_menu.php';?>

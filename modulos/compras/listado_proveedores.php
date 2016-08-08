@@ -3,12 +3,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title> Gestión de proveedores | CLÍNICA CRISTO REDENTOR</title>
+  <title>Proveedores | CLÍNICA CRISTO REDENTOR</title>
   <?php include '../general/header.php';?>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-  <input type='hidden' value='m_para_proveedores' id='menuPrincipal'>
-  <input type='hidden' value='m_para_proveedores' id='menuIzquierda'>
   <?php include '../general/menu_principal.php';?>
 
 <div class="wrapper">
@@ -20,7 +18,6 @@
     <section class="content-header">
       <h1>
         Proveedores
-        <!-- <small>Lista - Registro - Actualización</small> -->
       </h1>
       <ol class="breadcrumb">
         <li>
