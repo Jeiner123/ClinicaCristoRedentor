@@ -61,12 +61,6 @@
                 </div>
               </div>
               <!-- COL- Paciente -->
-              <div class="col-md-2" hidden>
-                <div class="input-group">
-                  <input type="text" id="txtPacienteID" name="txtPacienteID"class="form-control" placeholder="Nro Hist." readonly="true">                     
-                </div>
-              </div>
-              <!-- COL- PAcienteID -->
               <div class="col-sm-3">
                 <div class="form-group">
                   <label for="cboEspecialidad">Especialidad</label>
@@ -86,13 +80,10 @@
               <div class="col-sm-5">                 
                 <div class="form-group">
                   <label for="cboServicios">Servicio</label>
-                  <select class="chosen-select form-control" id="cboServicios" name="cboServicios" >
+                  <select class="chosen-select form-control" id="cboServicios" name="cboServicios"  onchange="seleccionarCboServicios(this.value);">
                     <!-- Lista de diagnósticos -->
                   </select> 
                 </div>
-              </div>
-              <div class="col-md-2" hidden>
-                <input type="text" id="txtServicioID" name="txtServicioID" readonly="true" class="form-control" placeholder="ID servicio">
               </div>
               <div class="col-sm-5">
                 <div class="form-group">
@@ -103,9 +94,6 @@
                 </div>
               </div>
               <!-- COL Medico referencia -->
-              <div class="col-md-2" hidden>
-                 <input type="text" id="txtCodigoMedicoRef" name="txtCodigoMedicoRef"class="form-control" placeholder="Cod. Med. Ref" readonly="true">
-              </div>
               <div class="col-sm-5">
                 <div class="form-group">
                   <label class="control-label">Médico Referencia</label>                  
@@ -114,15 +102,7 @@
                   </select> 
                 </div>
               </div>
-              <!-- COL Medico -->
-              <div class="col-md-2" hidden>
-                <div class="input-group">
-                  <label>Medico</label>
-                  <input type="text" id="txtMedicoCodigo" name="txtMedicoCodigo"class="form-control" placeholder="Cod. Médico" readonly="true"> 
-                  <div class="input-group-btn">
-                  </div>
-                </div>
-              </div>
+              <!-- COL Medico -->              
               <div class="col-md-3">
                 <div class="form-group">
                   <label for="txtFechaCita">Día</label>
@@ -156,7 +136,7 @@
                   </select> 
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-5">
                 <div for="cboVia">
                   <label for="txtMotivo">Motivo</label>
                   <textarea class="form-control" id="txtMotivo" name="txtMotivo" rows="2"></textarea>
@@ -195,9 +175,7 @@
   cargarCboPacientes();
   cargarCboMedicos('#cboMedicosRef',0);
   cargarCboMedicos('#cboMedicos',0);
-  cargarCboServicios('#cboServicios',0,0);
-
-  
+  cargarCboServicios('#cboServicios',0,0);  
   cargarCboTipoServicio();
   cargarCboEspecialidades();
 

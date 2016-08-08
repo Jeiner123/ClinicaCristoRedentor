@@ -76,12 +76,12 @@
                 </div>
               </div>
               <!-- COL Via -->
-              <div class="col-sm-2 col-xs-6" hidden>
+             <!--  <div class="col-sm-2 col-xs-6" hidden>
                 <div class="form-group">
                   <label class="control-label">N° Hist.</label>
                   <input type="text" id="txtPacienteID" name="txtPacienteID"class="form-control input-sm" placeholder="Nro Hist." readonly="true">
-                </div>                
-              </div>
+                </div>
+              </div> -->
             <!-- COL numero historia-->
             </div>
             <!-- ROW - Datos generales -->
@@ -129,8 +129,8 @@
                   </button>
                 </div>
               </div>
-              <div type="hidden"class="col-md-2 col-xs-4">
-                <input type="hidden" id="txtServicio" name="txtServicio" readonly="true" class="form-control" placeholder="ID">
+              <div class="col-md-2 col-xs-4">
+                <input type="hidden" id="txtServicio" name="txtServicio" readonly="true" class="form-control">
               </div>
               <div class="col-md-3  col-xs-3">
                 <label class="form-label">Fecha</label>
@@ -198,22 +198,22 @@
             <hr>
             <!-- Titulo Importe  -->
             <div class="row">
-              <div class="col-md-2 col-xs-3 col-md-offset-2">
+              <div class="col-sm-2 col-xs-3 col-sm-offset-5">
                 <div class="form-group">
                   <label class="form-label">Sub total</label>
                   <input type="text" id="txtSubTotal" name="txtSubTotal" class="form-control"  value="0" readonly="true">
                 </div>
               </div>
-              <div class="col-md-2 col-xs-3">
+              <div class="col-sm-2 col-xs-3">
                 <div class="form-group">
                   <label class="form-label">IGV</label>
                   <input type="text" id="txtIGV" name="txtIGV" class="form-control" value="0" readonly="true">
                 </div>
               </div>
-              <div class="col-md-2 col-xs-3">
+              <div class="col-sm-2 col-xs-3">
                 <div class="form-group">
-                  <label class="form-label text-red">TOTAL</label>
-                  <input type="text" id="txtTotal" name="txtTotal" class="form-control" value="0" readonly="true">
+                  <label class="form-label text-red"><strong>TOTAL</strong></label>
+                  <input style="font-weight: bold;" type="text" id="txtTotal" name="txtTotal" class="form-control" value="0" readonly="true">
                 </div>
               </div>
             </div>                 
@@ -248,8 +248,10 @@
   cargarCboPacientes();
   cargarCboMedicos('#cboMedicosRef',0);
   cargarCboServicios('#cboServicios',0,0);
+  
+  
   // $( document ).ajaxStop(function(){
-  //   $('#cboPacientes').click();
+  //   openSelect('#cboPacientes_chosen');
   // });
   $('#tablaServiciosLab tbody').on( 'click', 'a.eliminarServicioDetalle', function () {
     fila = $(this).parents('tr');
@@ -311,4 +313,5 @@
     .next().on(ace.click_event, function(){
       $(this).prev().focus();
     });
+
 </script>

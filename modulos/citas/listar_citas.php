@@ -97,8 +97,9 @@
           <hr>
           <table id="tablaCitas" width="100%" class="table table-bordered table-hover tablaDatos">
             <thead>
-              <tr>                
-                <th>Paciente</th>                
+              <tr>
+                <th>P.</th>
+                <th>Paciente</th>
                 <th>Especialidad</th>
                 <th>Servicio</th>
                 <th>Fecha</th>

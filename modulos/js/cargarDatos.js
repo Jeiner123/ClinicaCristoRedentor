@@ -51,8 +51,8 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			url: urlGeneral,
 			success: function(rpta){			
 				$('#cboPacientes').html(rpta);
-				funcionSelect('#cboPacientes');
-				cerrarCargando();
+				funcionSelect('#cboPacientes');				
+				cerrarCargando();				
 				return true;
 			},
 			error: function(rpta){
@@ -135,7 +135,7 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			}
 		});
 	}
-	function cargarCboTipoServicio(){
+	function cargarCboTipoServicio(combo,valorDefecto){
 		abrirCargando();		
 		opc = 'TS_01';
 		$.ajax({
@@ -152,7 +152,8 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			}
 		});
 	}
-	function cargarCboEspecialidades(){
+	// Cargar combo de especialidades
+	function cargarCboEspecialidades(combo,valorDefecto){
 		abrirCargando();		
 		opc = 'CC_E_05';
 		$.ajax({
@@ -160,7 +161,9 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			data:'opc='+opc,
 			url: urlGeneral,
 			success: function(rpta){
-				$('#cboEspecialidad').html(rpta);
+				$(combo).html(rpta);
+				$(combo).val(valorDefecto);
+				funcionSelect(combo);
 				cerrarCargando();
 				return true;		
 			},
