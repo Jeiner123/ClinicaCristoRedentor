@@ -48,19 +48,23 @@
                       <p>Usted puede seleccionar uno de ellos y ver los permisos que presenta actualmente.</p>
                       <p>Así mismo podrá asignar nuevos permisos o removerlos.</p>
 
-                      <table class="table">
+                      <table class="table" id="users_table">
                           <thead>
                           <tr>
                               <th>Nombre de usuario</th>
                               <th>DNI</th>
                               <th>Estado</th>
+                              <th>Opciones</th>
                           </tr>
                           </thead>
                           <tbody>
-                          <tr>
-                              <td></td>
-                              <td></td>
-                              <td></td>
+                          <tr v-for="user in users">
+                              <td>{{ user.usuario }}</td>
+                              <td>{{ user.DNI }}</td>
+                              <td>{{ user.estado }}</td>
+                              <td>
+                                  <a href="./editar_permisos.php?usuario={{ user.usuario }}" class="btn btn-primary">Editar permisos</a>
+                              </td>
                           </tr>
                           </tbody>
                       </table>
@@ -76,9 +80,20 @@
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
-  <?php include '../general/pie_pagina.php';?>  
+  <?php include '../general/pie_pagina.php';?>
+
+  <script src="../js/vue.min.js"></script>
+  <script>
+      var app_data = {
+          users: {}
+      };
+      new Vue({
+          el: '#users_table',
+          data: app_data
+      });
+      $.getJSON('json/users.php', function (data) {
+          app_data.users = data.users;
+      });
+  </script>
 </body>
 </html>
-<script type="text/javascript">
-
-</script>
