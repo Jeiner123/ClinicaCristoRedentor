@@ -10,9 +10,21 @@ var numeroCargas = 0;
 var meses = ["nombre del mes","ENERO", "FEBRERO", "MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SETIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE"];
 
 window.onload = function() {
-    activarMenuLateral();
+    activarMenuLateral();    
 };
-
+var openSelect = function(selector){
+  var element = $(selector)[0], worked = false;
+  if (document.createEvent) { // all browsers
+      var e = document.createEvent("MouseEvents");
+      e.initMouseEvent("mousedown", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+      worked = element.dispatchEvent(e);
+  } else if (element.fireEvent) { // ie
+      worked = element.fireEvent("onmousedown");
+  }
+  // if (!worked) { // unknown browser / error
+  //     alert("It didn't worked in your browser.");
+  // }   
+}
 function funcionSelect(combo) {
 	if(!ace.vars['touch']) {
 	$(combo).chosen({allow_single_deselect:true});

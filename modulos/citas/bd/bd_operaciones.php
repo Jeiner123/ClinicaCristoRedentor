@@ -21,8 +21,10 @@
 			$servicioID = $datos[0];
 			$servicio = $datos[1];
 			$precioUnitario = $datos[2];
+			$especialidadID = $datos[5];
+			$tipoServicioID = $datos[7];			
 
-			echo $servicioID.",,".$servicio.",,".$precioUnitario;
+			echo $servicioID.",,".$servicio.",,".$precioUnitario.",,".$especialidadID.",,".$tipoServicioID;
 
 		}else{
 			echo 0;
@@ -30,7 +32,7 @@
 		exit();
 	}
 	// CARTAR TABLA CITAS DE CONSULTORIO - LABORATORIO
-	if($opc == 'LCC_01'){
+	if($opc == 'CTC_01'){
 		$fechaCita = $_POST['fecha'];
 		$tipo = $_POST['tipo'];						//C - L
 		$fechaCita = str_replace("/","-",$fechaCita);
@@ -53,7 +55,7 @@
 			$consulta = $consulta."and C.estado='".$estado."'";
 		}
 		$res = mysqli_query($con,$consulta) or die(mysqli_error($con));
-		while($row = mysqli_fetch_row($res)){
+		while($row = mysqli_fetch_row($res)){			
 			$nombresP = explode(" ", $row[1]); $nombresM = explode(" ", $row[9]);
 			$nombrePaciente = $nombresP[0].' '.$row[2].' '.$row[3];
 			$especialidad = $row[5];
@@ -106,7 +108,8 @@
 					}
 				}
 			}
-			echo "<tr>												
+			echo "<tr>
+							<td style='text-align:center;'>".$pedidoID."</td>
 							<td>".$nombrePaciente."</td>
 							<td>".$especialidad."</td>
 							<td>".$row[6]."</td>
@@ -253,7 +256,7 @@
 									importeTotal,importePagado,estadoPago,timestamp)values
 									('".$pacienteID."','".$tipo."','".$via."','".$tasaIGV."','".$importeSinIGV."','".$importeIGV."',
 										'".$importeTotal."','".$importePagado."','".$estadoPago."','".$timestamp."');";
-		if($medicoRef!=''){
+		if($medicoRef != 0){
 			$consulta = "insert into PEDIDO_SERVICIO(pacienteID,tipo,via,tasaIGV,importeSinIGV,importeIGV,
 									importeTotal,importePagado,estadoPago,timestamp,personalReferenciaID)values
 									('".$pacienteID."','".$tipo."','".$via."','".$tasaIGV."','".$importeSinIGV."','".$importeIGV."',
@@ -288,7 +291,7 @@
 	if($opc == 'CTR_01'){
 		$mes = $_POST['mes'];
 		$personalID = $_POST['personalID'];
-	  // $estadoPago = $_POST['estadoPago'];
+	  $especialidadID = $_POST['especialidadID'];
 	  
 		$consulta = "select PS.pedidoServicioID,P.nombres,P.apPaterno,P.apMaterno,E.especialidad,S.servicio,
 									substring_index(PS.timestamp,' ',1) as 'fecha',PS.estadoPago,C.estado
@@ -299,11 +302,13 @@
 								left join ESPECIALIDAD E on E.especialidadID = C.especialidadID
 								inner join SERVICIO S on S.servicioID = C.servicioID
 								where MONTH(PS.timestamp) = '".$mes."'";
-		if($personalID != 0){$consulta = $consulta." and PL.personalID = '".$personalID."'";}
+		if($personalID != 0)$consulta = $consulta." and PL.personalID = '".$personalID."'";
+		if($especialidadID != -1 )$consulta = $consulta." and C.especialidadID = '".$especialidadID."'";
 		
 		$res = mysqli_query($con,$consulta) or die(mysqli_error($con));
 		$numReferencias = mysqli_num_rows($res);
 		while($row = mysqli_fetch_row($res)){
+			$pedidoID = $row[0];
 			$nombresM = explode(" ", $row[1]);
 			$medico = $nombresM[0].' '.$row[2].' '.$row[3];
 			$especialidad = $row[4];
@@ -323,7 +328,8 @@
 			else if($estadoPago=='PAG')	$estadoPago = "<span class='label label-success'>Pagado</span>";
 			else if($estadoPago == 'PAR')	$estadoPago = "<span class='label label-warning'>Parcial</span>";
 
-			echo "<tr>												
+			echo "<tr>
+							<td style='text-align:center;'>".$pedidoID."</td>
 							<td>".$medico."</td>
 							<td>".$servicio."</td>
 							<td>".$especialidad."</td>

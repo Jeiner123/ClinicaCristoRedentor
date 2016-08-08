@@ -304,7 +304,7 @@
 	if($opc=='CC_E_05'){
 		$consulta = "SELECT especialidadID,especialidad from especialidad where estado=1 order by especialidad asc";
 		$res = mysqli_query($con,$consulta) or die(mysqli_error($con));
-			echo "<option value='"."0"."'>-- Especialidad --</option>";
+			echo "<option value='"."-1"."'>-- Especialidad --</option>";
 		while($row = mysqli_fetch_row($res)){
 			echo "<option value='".$row[0]."'>".$row[1]."</option>";
 		}
