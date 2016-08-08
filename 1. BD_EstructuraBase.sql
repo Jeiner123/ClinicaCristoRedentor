@@ -187,7 +187,6 @@ CREATE TABLE usuario (
   usuario   VARCHAR(100) NOT NULL,
   clave     VARCHAR(200) NOT NULL,
   DNI       CHAR(8)      NOT NULL,
-  permisoID INT          NOT NULL,
   estado    INT          NOT NULL,
   PRIMARY KEY (usuario),
   FOREIGN KEY (DNI) REFERENCES persona (DNI)
@@ -224,4 +223,11 @@ CREATE TABLE items (
   nombre VARCHAR(55) NOT NULL,
   file VARCHAR(55) NOT NULL,
   FOREIGN KEY (module_id) REFERENCES modules(id)
+);
+
+CREATE TABLE permissions (
+  username VARCHAR(100) NOT NULL,
+  item_id int NOT NULL,
+  FOREIGN KEY (username) REFERENCES usuario(usuario),
+  FOREIGN KEY (item_id) REFERENCES items(id)
 );

@@ -136,6 +136,28 @@
 	}
 // CARGAR COMBOS
 
+	//CARGAR COMBO CONDICIÓN DE PAGO
+	if($opc=='CC_FP'){
+		$consulta = "SELECT formaPagoID,formaPago FROM forma_pago where estado='1'";
+		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
+		echo "<option value='0'>--Seleccionar--</option>";
+		while($row = mysqli_fetch_row($res)){	
+			echo "<option value='".$row[0]."'>".$row[0]."-".$row[1]."</option>";
+		}
+		exit();
+	}
+
+	//CARGAR COMBO DETRACCIONES
+	if($opc=='CC_TDE'){
+		$consulta = "SELECT tipoDetraccionID,tipoDetraccion,porcentaje*100 FROM tipo_detraccion where estado='A' order by tipoDetraccion";
+		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
+		echo "<option value='0'>No aplica</option>";
+		while($row = mysqli_fetch_row($res)){	
+			echo "<option value='".$row[0]."'>".$row[1]." ".intval($row[2])."%</option>";
+		}
+		exit();
+	}
+
 	// CARGAR COMBO SERVICIOS
 	if($opc == 'CC_SERV_01'){
 		$especialidadID = $_POST['especialidadID'];
@@ -162,6 +184,7 @@
 		}
 		exit();
 	}
+
 	// CARGAR COMBO MEDICOS
 	if($opc == 'CC_MED_01'){
 		$especialidadID = $_POST['especialidadID'];
@@ -242,7 +265,17 @@
 		$res = mysqli_query($con,$consulta) or die(mysqli_error($con) );
 			echo "<option value='"."0"."'>-- Seleccionar --</option>";
 		while($row = mysqli_fetch_row($res)){ 
-			echo "<option value='".$row[0]."'>".$row[1]."</option>";
+			echo "<option value='".$row[0]."'>".$row[0]." - ".$row[1]."</option>";
+		}
+		exit();
+	}
+	// CCARGAR COMBO COMPROBANTE DE PAGO PARA COMPRAS
+	if($opc == 'CC_CV_02'){
+		$consulta = "select comprobanteID,descripcion from comprobante_pago where estado=1 and compras=1";
+		$res = mysqli_query($con,$consulta) or die(mysqli_error($con) );
+			echo "<option value='"."0"."'>-- Seleccionar --</option>";
+		while($row = mysqli_fetch_row($res)){ 
+			echo "<option value='".$row[0]."'>".$row[0]." - ".$row[1]."</option>";
 		}
 		exit();
 	}
@@ -467,7 +500,5 @@ if($opc=="PL_10"){
 		}
 		exit();
 	}
-
-
 
  ?>

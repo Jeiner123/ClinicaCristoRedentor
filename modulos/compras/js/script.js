@@ -400,7 +400,9 @@ function generarPeriodo(mes,anio){
 	cargarCboAreas();
 	cargarCboExistencias();
 	cargarCboTipoAdquision(0);
-	cargarCboComprobante('01');
+	cargarCboComprobanteCompra('01');
+	cargarCboDetraccion(0);
+	$("#txtFecha").prop("disabled",true);
 	combo=document.getElementById("cboMes");
 	periodo = combo.options[combo.selectedIndex].text;
 	$("#txtPeriodo").val(periodo+"-"+anio);
@@ -409,15 +411,126 @@ function generarPeriodo(mes,anio){
 function cargarTablaFactura(){
 	$('#tablaFactura').DataTable(
 	{
-	   	"columnDefs": [
-	        { "targets": [ 0 ],"width": "10%"}, 
-	        { "targets": [ 1 ],"width": "10%"},										 
-	        { "targets": [ 2 ],"width": "10%"},											 
-	        { "targets": [ 3 ],"width": "15%"},											 
-	        { "targets": [ 4 ],"width": "15%"},											 
-	        { "targets": [ 5 ],"width": "15%"},											 
-	        { "targets": [ 5 ],"width": "25%"},											 
-		  ]
+		   	"columnDefs": [
+		        { "targets": [ 0 ],"width": "10%"}, 
+		        { "targets": [ 1 ],"width": "10%"},										 
+		        { "targets": [ 2 ],"width": "10%"},											 
+		        { "targets": [ 3 ],"width": "15%"},											 
+		        { "targets": [ 4 ],"width": "15%"},											 
+		        { "targets": [ 5 ],"width": "15%"},											 
+		        { "targets": [ 5 ],"width": "25%"},											 
+			  ]
+		}
+	);
+}
+
+function validarTributos(){
+	if($('#cboComprobante').val()=='01' || $('#cboComprobante').val()=='03'){
+		$("#divRenta").hide();
+	}else{
+		$("#divRenta").show();
 	}
-);
+
+	if($('#cboComprobante').val()=='02'){
+		$(".tributo-comun").hide();
+	}else{
+		$(".tributo-comun").show();
+	}
+}
+
+function RegistrarCompra(){
+	inputObligatorio('#txtPeriodo',1);
+	comboObligatorio('#cboComprobante',0);
+	inputObligatorio('#txtSerie',4);
+	inputObligatorio('#txtNumero',7);
+	inputObligatorio('#txtFechaEmision',10);
+	inputObligatorio('#txtFechaVcto',10);
+	comboObligatorio('#cboModalidadPago',0);
+	comboObligatorio('#cboAdquisicion',0);
+	inputObligatorio('#txtProveedor',1);
+
+
+	if(document.getElementsByClassName("has-error").length > 0){
+		alert("Verifique los datos ingresados");
+		return false;
+	}	
+}
+
+function calcularImporte(e){
+	if (e.srcElement)
+	  tag = e.srcElement.id;
+  	else if (e.target)
+  	  tag = e.target.id;
+  	
+	// var i = respuesta.indexOf('-');
+	var campo = tag.length;
+	if(campo==9){
+		var fila = tag.substr(8);
+	}
+	if(campo==12){
+		var fila = tag.substr(11);	
+	}
+
+	cantidad=$("#txtCantidad"+fila).val();
+	costo=$("#txtCosto"+fila).val();
+	
+	if(cantidad=='' || costo==''){
+		inputObligatorio("#txtDescripcion"+fila,0);
+		$("#txtImporte"+fila).val('0.0');
+	}else{
+		inputObligatorio("#txtDescripcion"+fila,3);
+		importe=parseFloat(cantidad)*parseFloat(costo);
+		$("#txtImporte"+fila).val(importe.toFixed(2));
+	}
+
+	CalcularTotal();
+}
+
+function validarDescripcion(e){
+	if (e.srcElement)
+	  tag = e.srcElement.id;
+  	else if (e.target)
+  	  tag = e.target.id;
+  	
+	// var i = respuesta.indexOf('-');
+	var campo = tag.length;
+	if(campo==9){
+		var fila = tag.substr(8);
+	}
+	if(campo==12){
+		var fila = tag.substr(11);	
+	}
+
+	cantidad=$("#txtCantidad"+fila).val();
+	costo=$("#txtCosto"+fila).val();
+
+	if(cantidad=='' || costo==''){
+		inputObligatorio("#txtDescripcion"+fila,0);
+	}else{
+		inputObligatorio("#txtDescripcion"+fila,3);
+	}
+
+}
+
+function CalcularTotal(){
+	if($("#txtDescuento").val()==""){
+		$("#txtDescuento").val("0.0");
+	}
+	total=0;
+	$(".importe").each(function (index){
+			index=parseInt(index)+1;
+            importe=$("#txtImporte"+index).val();
+            if(importe!="0.0"){
+            	total=parseFloat(total)+parseFloat(importe);
+            }
+    })
+
+    $("#txtTotalBruto").val(total.toFixed(2));
+    descuento=parseFloat($("#txtDescuento").val());
+    valorVenta=total-descuento;
+    igv=parseFloat(valorVenta)*0.18;
+    precioVenta=valorVenta+igv;
+    $("#txtValorVenta").val(valorVenta.toFixed(2));
+    $("#txtIGV").val(igv.toFixed(2));
+    $("#txtPrecioVenta").val(precioVenta.toFixed(2));
 }

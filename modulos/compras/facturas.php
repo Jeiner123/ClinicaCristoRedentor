@@ -61,23 +61,21 @@
                     <input type="text" id="txtPeriodo" name="txtPeriodo"class="form-control input-sm" readonly="" value="">
                   </div>
                   <div class="col-md-2">
-                    <label class="control-label">Número</label>
-                    <input type="text" id="txtNumero" name="txtNumero"class="form-control input-sm" readonly="">
+                    <label class="control-label">Correlativo</label>
+                    <input type="text" id="txtCodigo" name="txtCodigo"class="form-control input-sm" readonly="">
                   </div>
                   <div class="col-md-3">
                     <label class="control-label">Fecha</label>
                     <div class="input-group">
-                      <input id="txtFechaCita" name="txtFechaCita"class="form-control date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" onchange="validarFechaMayor(this);" value="<?php echo $fechaHoyDMA;?>" readonly>
+                      <input id="txtFecha" name="txtFecha"class="form-control date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" onchange="validarFechaMayor(this);" value="<?php echo $fechaHoyDMA;?>" >
                       <span class="input-group-addon">
                         <i class="fa fa-calendar bigger-110"></i>
                       </span>
                     </div>
                   </div>
                   <div class="col-md-5">
-                    <label for="cboTipoOperacion">Tipo de compra</label>
-                      <select class="form-control input-sm" name="cboTipoOperacion" id="cboTipoOperacion">
-                      <option value="1">COMPRAS NACIONALES</option>
-                      <option value="2">COMPRAS INTERNACIONALES</option>
+                    <label for="cboComprobante">Tipo de documento</label>
+                    <select class="chosen-select form-control" name="cboComprobante" id="cboComprobante" onchange="validarTributos()">
                       </select>
                   </div>
                 </div><br>
@@ -100,36 +98,32 @@
                             <strong>...</strong>
                           </button>
                         </div>
-                        <input onclick="abrirModal('#modalListaProveedor');" id="txtDocumento" name="txtDocumento"class="form-control" readonly="true" type="hidden">
+                        <input onclick="abrirModal('#modalListaProveedor');" id="txtProveedorID" name="txtProveedorID"class="form-control" readonly="true" type="hidden">
                         <input onclick="abrirModal('#modalListaProveedor');" id="txtProveedor" name="txtProveedor"class="form-control" placeholder="PROVEEDOR" readonly="true">
                       </div>
                     </div>
                     <div class="col-md-2">
                       <label class="control-label">Serie</label>
-                      <input type="text" id="txtSerie" name="txtSerie"class="form-control input-sm">
+                      <input type="text" id="txtSerie" name="txtSerie"class="form-control input-sm" onchange="validarNumeroSerie(this)">
                     </div>
                     <div class="col-md-2">
                       <label class="control-label">Número</label>
-                      <input type="text" id="txtNumero" name="txtNumero"class="form-control input-sm">
+                      <input type="text" id="txtNumero" name="txtNumero"class="form-control input-sm" onchange="validarNumeroComprobante(this)">
                     </div>
                     <div class="col-md-3">
-                    <label class="control-label">Fecha</label>
+                    <label class="control-label">Fecha de emisión</label>
                     <div class="input-group">
-                      <input id="txtFechaCita" name="txtFechaCita"class="form-control date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" onchange="validarFechaMayor(this);" value="" >
+                      <input id="txtFechaEmision" name="txtFechaEmision"class="form-control date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" onchange="validarFechaMayor(this);" value="" >
                       <span class="input-group-addon">
                         <i class="fa fa-calendar bigger-110"></i>
                       </span>
                     </div>
                   </div>
-                    <div class="col-md-3">
-                    <label for="cboTipoOperacion">Tipo de documento</label>
-                    <select class="chosen-select form-control" name="cboComprobante" id="cboComprobante">
-                      </select>
-                  </div>
+                    
                   <div class="col-md-3">
-                    <label class="control-label">Vencimiento</label>
+                    <label class="control-label">Fecha de vencimiento</label>
                     <div class="input-group">
-                      <input id="txtFechaCita" name="txtFechaCita"class="form-control input-sm date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" onchange="validarFechaMayor(this);" value="">
+                      <input id="txtFechaVcto" name="txtFechaVcto"class="form-control input-sm date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" onchange="validarFechaMayor(this);" value="">
                       <span class="input-group-addon">
                         <i class="fa fa-calendar bigger-110"></i>
                       </span>
@@ -147,7 +141,11 @@
                       <select class="form-control input-sm" id="cboModalidadPago" name="cboModalidadPago">
                       </select> 
                     </div>
-                    
+                     <div class="col-md-3">
+                      <label class="control-label">Tipo de adquisición</label>
+                      <select class="form-control input-sm" id="cboAdquisicion" name="cboAdquisicion">
+                      </select> 
+                    </div>
 
                   </div>
                   <div class="row">
@@ -156,15 +154,11 @@
                       <select class="form-control input-sm" name="cboTipoExistencia" id="cboTipoExistencia">
                       </select>
                     </div>
-                    <div class="col-md-3">
-                      <label class="control-label">Tipo de adquisición</label>
-                      <select class="form-control input-sm" id="cboAdquisicion" name="cboAdquisicion">
-                      </select> 
-                    </div>
+                   
                   </div>
                 </div>
 
-                 <div class="col-md-9">
+                 <div class="col-md-12">
                   <br>
                   <div class="row">
                     <div class="col-md-12">
@@ -173,20 +167,20 @@
                       </div>
                       <hr>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2 tributo-comun">
                       <label for="cboIGV">I.G.V</label>
                       <select class="form-control input-sm" name="cboIGV" id="cboIGV">
                         <option value="1">No aplica</option>
-                        <option value="2">I.G.V 18%</option>
+                        <option value="2" selected>I.G.V 18%</option>
                       </select>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-6 tributo-comun">
                       <label for="cboDetraccion">Detracción</label>
                       <select class="form-control input-sm" name="cboDetraccion" id="cboDetraccion">
                         <option value="1">No aplica</option>
                       </select>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2 tributo-comun">
                       <label for="cboPercepcion">Percepción</label>
                       <select class="form-control input-sm" name="cboPercepcion" id="cboPercepcion">
                         <option value="1">No aplica</option>
@@ -194,7 +188,7 @@
                         <option value="3">Serv.6.5%</option>
                       </select>
                     </div>
-                     <div class="col-md-3">
+                     <div class="col-md-2" hidden id="divRenta">
                       <label for="cboRenta">Renta</label>
                       <select class="form-control input-sm" name="cboRenta" id="cboRenta">
                         <option value="1">No aplica</option>
@@ -213,6 +207,24 @@
                     </div>
                     <div class="col-md-12">
                       <div class="col-md-2">
+                        <label for="txtTotalBruto">Total bruto</label>
+                        <input class="form-control input-sm" name="txtTotalBruto" id="txtTotalBruto" onkeypress="return soloNumeroDecimal(event);" value="0.0" style="text-align:right;" readonly=""></input>
+                      </div>
+                      <div class="col-md-2">
+                        <label for="txtDescuento">Descuento</label>
+                        <input class="form-control input-sm" name="txtDescuento" id="txtDescuento" onkeypress="return soloNumeroDecimal(event);"  value="0.0" style="text-align:right;" onblur="CalcularTotal()"></input>
+                      </div>
+                      <div class="col-md-2">
+                         <label for="txtValorVenta">Valor venta</label>
+                        <input class="form-control input-sm" name="txtValorVenta" id="txtValorVenta" onkeypress="return soloNumeroDecimal(event);" readonly="" value="0.0" style="text-align:right;"></input>
+                      </div>
+                      <div class="col-md-2">
+                        <label for="txtIGV">I.G.V</label>
+                        <input class="form-control input-sm" name="txtIGV" id="txtIGV" onkeypress="return soloNumeroDecimal(event);" readonly="" value="0.0" style="text-align:right;"></input>
+                      </div>
+                      <div class="col-md-2">
+                        <label for="txtPrecioVenta">Precio de venta</label>
+                        <input class="form-control input-sm" name="txtPrecioVenta" id="txtPrecioVenta" onkeypress="return soloNumeroDecimal(event);" readonly="" value="0.0" style="text-align:right;"></input>
                         <label for="txtBaseAfecta">Base Afecta</label>
                         <input class="form-control input-sm" name="txtBaseAfecta" id="txtBaseAfecta" onkeypress="return soloNumeroDecimal(event);"/>
                       </div>
@@ -238,7 +250,7 @@
                       </div>
                     </div>
                     <div class="col-md-12">
-                      <div class="input-group"><br><hr>
+                      <div class="input-group"><hr>
                         <div class="input-group-btn">
                           <button onclick="crearDetalleFactura();" type="button"class="btn btn-success" title="Agregar fila">
                             <strong><i class='fa fa-plus'></i></strong>
@@ -262,6 +274,13 @@
                         <tbody class="cuerpoTabla" id="cuerpoTablaProducto">
                         <?php for ($i=1;$i<=3;++$i): ?>
                           <tr>
+                            <td><input class="form-control input-sm" id="txtItem<?php echo $i;?>" name="txtItem<?php echo $i;?>" style='text-align:right;' readonly value="<?php echo $i;?>"></input></td>
+                            <td><input class="form-control input-sm" id="txtReferencia<?php echo $i;?>" name="txtReferencia<?php echo $i;?>"></input></td>
+                            <td><input class="form-control input-sm" id="txtCuenta<?php echo $i;?>" name="txtCuenta<?php echo $i;?>"  onkeypress="return soloNumeroEntero(event);"></input></td>
+                            <td><input class="form-control input-sm" id="txtDescripcion<?php echo $i;?>" name="txtDescripcion<?php echo $i;?>" onblur="validarDescripcion(event)"></input></td>
+                            <td><input class="form-control input-sm" id="txtCantidad<?php echo $i;?>" name="txtCantidad<?php echo $i;?>"  onkeypress="return soloNumeroEntero(event);" onblur="calcularImporte(event)"></input></td>
+                            <td><input class="form-control input-sm" id="txtCosto<?php echo $i;?>" name="txtCosto<?php echo $i;?>" onkeypress="return soloNumeroDecimal(event);" onblur="calcularImporte(event)"></input></td>
+                            <td><input class="form-control input-sm importe" id="txtImporte<?php echo $i;?>" name="txtImporte<?php echo $i;?>" onkeypress="return soloNumeroDecimal(event);" readonly value="0.0"></input></td>
                             <td><input class="form-control input-sm" id="txtItem<?php echo $i;?>" name="txtItem<?php echo $i;?>" style='text-align:right;' readonly value="<?php echo $i;?>"/></td>
                             <td><input class="form-control input-sm" id="txtReferencia<?php echo $i;?>" name="txtReferencia<?php echo $i;?>"/></td>
                             <td><input class="form-control input-sm" id="txtCuenta<?php echo $i;?>" name="txtCuenta<?php echo $i;?>"  onkeypress="return soloNumeroEntero(event);"/></td>
@@ -282,6 +301,13 @@
                         <a href="#" class="btn btn-default btn-block">Cancelar registro</a>
                     </div>
                     <div class="col-md-6" style="top:20px!important;">
+                          <a href="#" class="btn btn-default btn-block">Cancelar registro</a>
+                      </div>
+                      <div class="col-md-6" style="top:20px!important;">
+                          <button type="button" class="btn btn-primary btn-block" onclick="RegistrarCompra()">Registrar nuevo documento</button>
+                      </div>
+                  </div>
+                  <br><br>
                         <button type="submit" class="btn btn-primary btn-block">Registrar nuevo documento</button>
                     </div>
                 </div>
