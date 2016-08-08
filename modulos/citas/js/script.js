@@ -119,7 +119,7 @@ function cargarTablaCitas(tipo){
 	fecha = $("#txtFechaCita").val();
 	estado = $("#cboEstado").val();	
 	tipo = $("input[name=rbListaCitas]:checked").val();	
-	var opc = 'LCC_01';
+	var opc = 'CTC_01';
 	$.ajax({
 		type: 'POST',
 		data:'opc='+opc+'&fecha='+fecha+'&estado='+estado+'&tipo='+tipo,
@@ -130,16 +130,17 @@ function cargarTablaCitas(tipo){
 			$('#tablaCitas').DataTable(
 				{
 			   	"columnDefs": [
-            { "targets": [ 0 ],"width": "19%",},						//Paciente
-            { "targets": [ 1 ],"width": "10%", },						//Espcialidad
-            { "targets": [ 2 ],"width": "21%",  "searchable": false , },	//Servicio
-            { "targets": [ 3 ],"width": "8%",  "searchable": false ,},		//Fecha
+			   		{ "targets": [ 0 ],"width": "4%",},						//Pedido ID
+            { "targets": [ 1 ],"width": "19%",},						//Paciente
+            { "targets": [ 2 ],"width": "10%", },						//Espcialidad
+            { "targets": [ 3 ],"width": "21%",  "searchable": false , },	//Servicio
+            { "targets": [ 4 ],"width": "8%",  "searchable": false ,},		//Fecha
 
-            { "targets": [ 4 ],"width": "7%","searchable": false ,},	//Hora
-            { "targets": [ 5 ],"width": "15%","searchable": false ,},	//Medico
-            { "targets": [ 6 ],"width": "8%","searchable": false ,},	//Estado
-            { "targets": [ 7 ],"width": "8%","searchable": false ,},  //Pago
-            { "targets": [ 8 ],"width": "4%", "orderable": false,"searchable": false ,}
+            { "targets": [ 5 ],"width": "7%","searchable": false ,},	//Hora
+            { "targets": [ 6 ],"width": "13%","searchable": false ,},	//Medico
+            { "targets": [ 7 ],"width": "7%","searchable": false ,},	//Estado
+            { "targets": [ 8 ],"width": "7%","searchable": false ,},  //Pago
+            { "targets": [ 9 ],"width": "4%", "orderable": false,"searchable": false ,}
 		      ],
 		      "order": [[ 3, "asc" ]],
 		      "iDisplayLength": 25
@@ -247,8 +248,12 @@ function seleccionarCboServicios(servicioID){
 				var datos = rpta.split(",,");
 				var precio = datos[2];
 				var servicio = datos[1];
+				var especialidadID = datos[3];
+				var tipoServicioID = datos[4];
 				$('#txtPrecio').val(precio);
 				$('#txtServicio').val(servicio);
+				$('#cboEspecialidad').val(especialidadID);
+				$('#cboTipoServicio').val(tipoServicioID);
 				importe = parseFloat(precio) * parseFloat($('#txtCantidad').val());
 				$('#txtImporte').val(parseFloat(importe));				
 				$('#txtCantidad').focus();
@@ -284,27 +289,31 @@ function cargarTablaReferencias(){
 	// fecha = $("#txtFechaCita").val();
 	// estadoPago = $("#cboEstadoPago").val();
 	var mes = $("#cboMeses").val();
-	var personalID = $("#cboPersonalSalud").val();
-	if(personalID == null)personalID = 0;	
+	var personalID = $("#cboMedicos").val();
+	var especialidadID = $("#cboEspecialidades").val();
+	if(personalID == null)personalID = 0;
+	if(especialidadID == null)especialidadID = -1;
 
 	var opc = 'CTR_01';
 	$.ajax({
 		type: 'POST',
-		data:'opc='+opc+'&mes='+mes+'&personalID='+personalID,
+		data:'opc='+opc+'&mes='+mes+'&personalID='+personalID+'&especialidadID='+especialidadID,
 		url: url,
-		success: function(rpta){			
+		success: function(rpta){
+			
 			$('#tablaReferencias').DataTable().destroy();			
 			$('#cuerpoTablaReferencias').html(rpta);
 			var numFilas = $('#tablaReferencias >tbody >tr').length;   //Numero de referencias			
 			$('#tablaReferencias').DataTable(
 					{
 				   	"columnDefs": [
-	            { "targets": [ 0 ],"width": "27%",},						//Medico
-	            { "targets": [ 1 ],"width": "27%", },						//Servicio
-	            { "targets": [ 2 ],"width": "16%",  "searchable": false , },	//Especialidad
-	            { "targets": [ 3 ],"width": "10%",  "searchable": false ,},		//Estado cita 
-	            { "targets": [ 4 ],"width": "10%","searchable": false ,},	//Estado pago 
-	            { "targets": [ 5 ],"width": "10%","searchable": false ,}	//Estado pago 
+				   		{ "targets": [ 0 ],"width": "4%",},						//Pedido ID
+	            { "targets": [ 1 ],"width": "27%",},						//Medico
+	            { "targets": [ 2 ],"width": "27%", },						//Servicio
+	            { "targets": [ 3 ],"width": "18%",  "searchable": false , },	//Especialidad
+	            { "targets": [ 4 ],"width": "10%",  "searchable": false ,},		//Estado cita 
+	            { "targets": [ 5 ],"width": "7%","searchable": false ,},	//Estado pago 
+	            { "targets": [ 6 ],"width": "7%","searchable": false ,}	//Estado pago 
 			      ],
 			      "order": [[ 0, "asc" ]]
 			      

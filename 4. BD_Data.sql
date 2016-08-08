@@ -60,7 +60,7 @@ INSERT INTO servicio (servicioID, servicio, precioUnitario, tipoServicioID, espe
   (2, 'ECOGRAFIA ABDOMINAL', 80.00, 1, 0, 1),
   (3, 'ECOGRAFIA DOOPLER VENOSO  (1 PIERNA)', 150.00, 1, 0, 1),
   (5, 'ECOGRAFIAS OBSTETRICAS', 40.00, 1, 0, 1),
-  (6, 'EXTRACCION DE UÃ‘A', 50.00, 1, 0, 1),
+  (6, 'EXTRACCION DE UÑA', 50.00, 1, 0, 1),
   (7, 'INYECTABLE A DOMICILIO', 5.00, 1, 0, 1),
   (8, 'COLOCACION DE VIA A DOMICILIO', 30.00, 1, 0, 1),
   (9, 'PRESION ARTERIAL', 1.00, 1, 0, 1),
@@ -443,7 +443,7 @@ INSERT INTO servicio (servicioID, servicio, precioUnitario, tipoServicioID, espe
   (390, 'ACOGRAFIA DOPPLER', 150.00, 1, 0, 1),
   (391, 'ECOGRAFIA DOPLER GESTANTE', 80.00, 1, 0, 1),
   (392, 'CAUTERIZACION S/.150', 150.00, 1, 0, 1),
-  (393, 'PERFIL LIPIDICO CAMPAÃ‘A', 25.00, 1, 0, 1),
+  (393, 'PERFIL LIPIDICO CAMPAÑA', 25.00, 1, 0, 1),
   (394, 'EXTRACCION DE PUNTOS MAYOR', 40.00, 1, 0, 1),
   (395, 'CAUTERIZACION S/.300', 300.00, 1, 0, 1),
   (396, 'TOMA DE PRESION AMBOS BRAZOS', 1.00, 1, 0, 1),
@@ -474,7 +474,7 @@ INSERT INTO servicio (servicioID, servicio, precioUnitario, tipoServicioID, espe
   (421, 'VACUNA INFLUENZA ADULTO', 70.00, 1, 0, 1),
   (422, 'DOMICILIO GLUCOSA', 12.00, 1, 0, 1),
   (423, '3 NEBULIZACIONES', 30.00, 1, 0, 1),
-  (424, 'EXTRACCION DE UÃ‘A PARCIAL', 20.00, 1, 0, 1),
+  (424, 'EXTRACCION DE UÑA PARCIAL', 20.00, 1, 0, 1),
   (425, 'RADIOGRAFIA DE TORAX', 70.00, 1, 0, 1),
   (426, 'CAUTERIZACION S/200', 200.00, 1, 0, 1),
   (427, 'VACUNA PNEUMO ( 23)', 170.00, 1, 0, 1),
@@ -501,7 +501,7 @@ INSERT INTO servicio (servicioID, servicio, precioUnitario, tipoServicioID, espe
   (448, 'RX.HOMBRO UN LADO', 80.00, 1, 0, 1),
   (449, 'TRATAMIENTO A DOMICILIO DIARIO', 100.00, 1, 0, 1),
   (450, 'DESCUENTO ESPECIAL RADIOGRAFIA DE TORAX', 50.00, 1, 0, 1),
-  (451, 'BIOPSIA PEQUEÃ‘A DERMATOLOGIA', 100.00, 1, 0, 1),
+  (451, 'BIOPSIA PEQUEÑA DERMATOLOGIA', 100.00, 1, 0, 1),
   (452, 'RX RODILLA  COMPARATIVO', 120.00, 1, 0, 1),
   (453, 'RX TORAX PA  ESPECIAL', 50.00, 1, 0, 1),
   (454, 'BK EN ESPUTO 2 MUESTRAS', 40.00, 1, 0, 1),
@@ -529,7 +529,7 @@ INSERT INTO servicio (servicioID, servicio, precioUnitario, tipoServicioID, espe
   (476, 'CONTROL DE PESO', 0.50, 1, 0, 1),
   (477, 'RX TOBILLO ESPECIAL', 60.00, 1, 0, 1),
   (478, 'UROGRAFIA EXCRETORA', 280.00, 1, 0, 1),
-  (479, 'CURACION PEQUEÃ‘A 20.00', 20.00, 1, 0, 1),
+  (479, 'CURACION PEQUEÑA 20.00', 20.00, 1, 0, 1),
   (480, 'PRESION A DOMICILIO CORTESIA', 2.00, 1, 0, 1),
   (481, 'RX. COLUMNA CERVICAL', 90.00, 1, 0, 1),
   (482, 'ABDOMINAL- PELVICA', 100.00, 1, 0, 1),
@@ -595,7 +595,7 @@ INSERT INTO servicio (servicioID, servicio, precioUnitario, tipoServicioID, espe
   (542, 'INFORME RIESGO 50.00', 50.00, 1, 0, 1),
   (543, 'RX CODOS COMPARATIVOS', 120.00, 1, 0, 1),
   (544, 'EXTRACCION DE QUISTE', 150.00, 1, 0, 1),
-  (545, 'CURACION PEQUEÃ‘A 10.00', 10.00, 1, 0, 1),
+  (545, 'CURACION PEQUEÑA 10.00', 10.00, 1, 0, 1),
   (546, 'VASITO COLECTOR 2', 4.00, 1, 0, 1),
   (547, 'BIOPSIA DE CERVIX', 80.00, 1, 0, 1),
   (548, 'COLOCACION DE VIA Y OBSERVACION DIARIO', 80.00, 1, 0, 1),
@@ -613,7 +613,7 @@ INSERT INTO servicio (servicioID, servicio, precioUnitario, tipoServicioID, espe
   (560, 'COLOCACION VIA EV CON OBSERVACION 1 HORA', 50.00, 1, 0, 1),
   (561, 'COLOCACION VIA EV DOMICILIO (CM)', 60.00, 1, 0, 1),
   (562, 'CURACION HERIDAS GRANDES', 40.00, 1, 0, 1),
-  (563, 'CURACION HERIDAS PEQUEÃ‘AS', 20.00, 1, 0, 1),
+  (563, 'CURACION HERIDAS PEQUEÑAS', 20.00, 1, 0, 1),
   (564, 'CURACION HERIDAS MEDIANAS', 30.00, 1, 0, 1),
   (565, 'CONSULTA DE EMERGENCIA CON ATENCION DE MEDICO', 120.00, 1, 0, 1),
   (566, 'OBSERVACION CON ATENCION POR HORAS', 60.00, 1, 0, 1),
@@ -677,7 +677,7 @@ INSERT INTO servicio (servicioID, servicio, precioUnitario, tipoServicioID, espe
   (624, 'PUNZION LUMBAR', 300.00, 1, 0, 1),
   (625, 'RX CUELLO ', 90.00, 1, 0, 1),
   (626, 'colocacion de via', 20.00, 1, 0, 1),
-  (627, 'EXTRACCION DE UÃ‘A - DERMATO', 80.00, 1, 0, 1),
+  (627, 'EXTRACCION DE UÑA - DERMATO', 80.00, 1, 0, 1),
   (628, 'ANTI TIRO PEROXIDASA', 70.00, 1, 0, 1),
   (629, 'LEVANTAMIENTO OBSERVACION MEDICINA', 70.00, 1, 0, 1),
   (630, 'INFILTRACION S/ 80.00', 80.00, 1, 0, 1),
@@ -818,6 +818,75 @@ VALUES
 INSERT INTO personal (personalID, DNI, tipoPersonalID, cargoID, fechaIngreso, correoCorporativo, sueldoMensual, estado, observaciones)
 VALUES
   (1001, '47790815', 3, 5, '2016-03-01', 'soporteti@clinicacristoredentor.com', '0.00', 1, '');
+
+insert into TIPO_EXISTENCIA values
+	('01','MERCADERÍAS, MATERIAS PRIMAS, SUMINISTROS, ENVASES Y EMBALAJES','A'),
+	('02','ACTIVO FIJO','A'),
+	('03','OTROS ACTIVOS NO CONSIDERADOS EN EL NUMERAL 01 Y 02','A'),
+	('04','GASTOS DE EDUCACIÓN,SALUD, RECREACION, CULTURALES','A'),
+	('05','OTROS GASTOS NO INCLUIDOS EN EL NUMERAL 04','A');
+
+	
+insert into TIPO_DOCUMENTO values
+	('0','OTROS TIPOS DE DOCUMENTOS','A'),
+	('1','DOCUMENTO NACIONAL DE IDENTIDAD - DNI','A'),
+	('4','CARNET DE EXTRANJERIA','A'),
+	('6','REGISTRO ÚNICO DE CONTRIBUYENTES - RUC','A'),
+	('7','PASAPORTE','A');
+
+insert into ENTIDAD_FINANCIERA values
+	('01','CENTRAL RESERVA DEL PERU ','A'),
+	('02','DE CREDITO DEL PERU','A'),
+	('03','INTERNACIONAL DEL PERU','A'),
+	('05','LATINO ','A'),
+	('07','CITIBANK DEL PERU S.A.','A'),
+	('08','STANDARD CHARTERED','A'),
+	('09','SCOTIABANK PERU','A'),
+	('11','CONTINENTAL','A'),
+	('12','DE LIMA','A'),
+	('16','MERCANTIL ','A'),
+	('18','NACION ','A'),
+	('22','SANTANDER CENTRAL HISPANO','A'),
+	('23','DE COMERCIO','A'),
+	('25','REPUBLICA','A'),
+	('26','NBK BANK','A'),
+	('29','BANCOSUR','A'),
+	('35','FINANCIERO DEL PERU','A'),
+	('37','DEL PROGRESO','A'),
+	('38','INTERAMERICANO FINANZAS','A'),
+	('39','BANEX','A'),
+	('40','NUEVO MUNDO','A'),
+	('41','SUDAMERICANO','A'),
+	('42','DEL LIBERTADOR','A'),
+	('43','DEL TRABAJO','A'),
+	('44','SOLVENTA','A'),
+	('45','SERBANCO SA.','A'),
+	('46','BANK OF BOSTON','A'),
+	('47','ORION ','A'),
+	('48','DEL PAIS ','A'),
+	('49','MI BANCO','A'),
+	('50','BNP PARIBAS','A'),
+	('53','HSBC BANK PERU S.A.','A'),
+	('59','OTROS','A');
+
+insert into TIPO_ADQUISICION values
+	('1','DESTINO GRAVADO','A'),
+	('2','DESTINO MIXTO','A'),
+	('3','DESTINO NO GRAVADO','A'),
+	('4','NO GRAVADA','A');
+
+insert into TIPO_DETRACCION values
+	('1','INTERMEDIACION LABORAL Y TERCERIZACION (Contratos de Gerencia)','S','0.12','A'),
+	('2','ARRENDAMIENTO DE BIENES (muebles e inmuebles)','S','0.12','A'),
+	('3','MANTENIMIENTO Y REPARACIÓN DE BIENE MUEBLES','S','0.12','A'),
+	('4','MOVIMIENTO DE CARGA','S','0.12','A'),
+	('5','OTROS SERVICIOS EMPRESARIALES JURIDICOS,CONTABLES, PUBLICITARIOS, INVESTIGACIÓN Y SEGURIDADA ENTRE OTROS','S','0.12','A'),
+	('6','COMISION MERCANTIL','S','0.12','A'),
+	('7','FABRICACION DE BIENES POR ENCARGO','S','0.12','A'),
+	('8','SERVICIO DE TRANSPORTE DE PERSONAS POR VIA TERRESTRE','S','0.10','A'),
+	('9','CONTRATOS DE CONSTRUCCIÓN','S','0.04','A'),
+	('10','DEMAS SERVICIOS GRAVADOS CON EL IGV (exceptop hospedaje, restaurantes entre otros)','S','0.10','A');
+
 
 INSERT INTO usuario (usuario, clave, DNI, estado) VALUES
   ('admin', '21232f297a57a5a743894a0e4a801fc3', '47790815', 1);

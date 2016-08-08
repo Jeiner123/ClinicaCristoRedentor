@@ -63,13 +63,19 @@
               </select>
             </div>
             <div class="col-md-4">
-              <label for="cboPersonalSalud">Médico</label>
-              <select class="form-control input-sm" id="cboPersonalSalud" name="cboPersonalSalud" onchange="cargarTablaReferencias();">
+              <label for="cboMedicos">Médico</label>
+              <select class="form-control input-sm" id="cboMedicos" name="cboMedicos" onchange="cargarTablaReferencias();">
+                <!--  -->
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label for="cboEspecialidades">Médico</label>
+              <select class="form-control input-sm" id="cboEspecialidades" name="cboEspecialidades" onchange="cargarTablaReferencias();">
                 <!--  -->
               </select>
             </div>
             
-            <div class="col-md-2">
+            <!-- <div class="col-md-2">
               <label for="cboEstadoPago">Estado pago</label>
               <select class="form-control input-sm" id="cboEstadoPago" name="cboEstadoPago" onchange="cargarTablaReferencias();">
                 <option value="T" selected>Todos</option>
@@ -77,14 +83,15 @@
                 <option value="PAR" >Parcial</option>
                 <option value="PAG" >Pagada</option>
               </select>
-            </div>
+            </div> -->
             
           </div>
           <!-- ROW -->
           <hr>
           <table id="tablaReferencias" width="100%" class="table table-bordered table-hover tablaDatos">
             <thead>
-              <tr>                
+              <tr> 
+                <th>P.</th>
                 <th>Médico</th>
                 <th>Servicio</th>
                 <th>Especialidad</th>
@@ -101,7 +108,7 @@
           <div class="row">
             <div class="col-md-2">
               <label for="txtNumeroFilas" class="text-red"><strong>N° de referencias</strong></label>
-              <input class="form-control input-sm" id="txtNumeroFilas" name="txtNumeroFilas" disabled>
+              <input class="form-control input-sm" id="txtNumeroFilas" name="txtNuMroFilas" disabled>
             </div>
           </div>
         </div>
@@ -126,6 +133,8 @@
 <script type="text/javascript">
   cargarCboPersonalSalud();
   cargarTablaReferencias();
+  cargarCboMedicos('#cboMedicos',0);
+  cargarCboEspecialidades('#cboEspecialidades',-1);
 
   $('#tablaReferencias tbody').on('click','tr',function(){seleccionSimple(this);}); 
   //iCheck for checkbox and radio inputs

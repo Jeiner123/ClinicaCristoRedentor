@@ -1,6 +1,26 @@
 var urlGeneral = '../bd/bd_operaciones.php';
 // Cargar Combos
-	
+
+	//CARGAR DETRACCIONES
+	function cargarCboDetraccion(valorDefecto){
+		opc = 'CC_TDE';
+		$.ajax({
+			type: 'POST',
+			data:'opc='+opc,
+			url: urlGeneral,
+			success: function(rpta){
+				$('#cboDetraccion').html(rpta);
+				$('#cboDetraccion').val(valorDefecto);
+				funcionSelect('#cboDetraccion');
+				cerrarCargando();
+				return true;		
+			},
+			error: function(rpta){
+				alert(rpta);
+			}
+		});
+	}
+
 	// CARGAR COMBO SERVICIOS
 	function cargarCboServicios(combo,especialidadID,tipoServicioID){
 		abrirCargando();
@@ -21,6 +41,7 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			}
 		});
 	}
+
 	// CARGAR EL COMBO MEDICOS
 	function cargarCboMedicos(combo,especialidadID){
 		abrirCargando();
@@ -41,6 +62,7 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			}
 		});
 	}
+
 	// CARGA EL COMBO DE PACIENTE
 	function cargarCboPacientes(){
 		abrirCargando();
@@ -51,8 +73,8 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			url: urlGeneral,
 			success: function(rpta){			
 				$('#cboPacientes').html(rpta);
-				funcionSelect('#cboPacientes');
-				cerrarCargando();
+				funcionSelect('#cboPacientes');				
+				cerrarCargando();				
 				return true;
 			},
 			error: function(rpta){
@@ -61,7 +83,7 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			}
 		});
 	}
-	// Cargar combo comprobante de pago (Documento)
+	// Cargar combo comprobante de pago (Documento) para ventas
 	function cargarCboComprobante(valorDefecto){
 		abrirCargando();
 		opc = 'CC_CV_01';
@@ -72,7 +94,7 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			success: function(rpta){			
 				$('#cboComprobante').html(rpta);
 				$('#cboComprobante').val(valorDefecto);
-				funcionSelect();
+				funcionSelect('#cboComprobante');
 				cerrarCargando();
 				return true;
 			},
@@ -81,6 +103,28 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			}
 		});
 	}
+
+	// Cargar combo comprobante de pago (Documento) para compras
+	function cargarCboComprobanteCompra(valorDefecto){
+		abrirCargando();
+		opc = 'CC_CV_02';
+		$.ajax({
+			type: 'POST',
+			data:'opc='+opc,
+			url: urlGeneral,
+			success: function(rpta){			
+				$('#cboComprobante').html(rpta);
+				$('#cboComprobante').val(valorDefecto);
+				funcionSelect('#cboComprobante');
+				cerrarCargando();
+				return true;
+			},
+			error: function(rpta){
+				alert(rpta);
+			}
+		});
+	}
+
 	function cargarCboPersonalSalud(){
 		abrirCargando();
 		especialidadID = $('#cboEspecialidad').val();
@@ -135,7 +179,7 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			}
 		});
 	}
-	function cargarCboTipoServicio(){
+	function cargarCboTipoServicio(combo,valorDefecto){
 		abrirCargando();		
 		opc = 'TS_01';
 		$.ajax({
@@ -152,7 +196,8 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			}
 		});
 	}
-	function cargarCboEspecialidades(){
+	// Cargar combo de especialidades
+	function cargarCboEspecialidades(combo,valorDefecto){
 		abrirCargando();		
 		opc = 'CC_E_05';
 		$.ajax({
@@ -160,7 +205,9 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			data:'opc='+opc,
 			url: urlGeneral,
 			success: function(rpta){
-				$('#cboEspecialidad').html(rpta);
+				$(combo).html(rpta);
+				$(combo).val(valorDefecto);
+				funcionSelect(combo);
 				cerrarCargando();
 				return true;		
 			},
@@ -268,7 +315,6 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			success: function(rpta){
 				$('#cboDocumento').html(rpta);
 				$('#cboDocumento').val(valorDefecto);
-				funcionSelect();
 				cerrarCargando();
 				return true;		
 			},
@@ -287,7 +333,7 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			success: function(rpta){
 				$('#cboBanco').html(rpta);
 				$('#cboBanco').val(valorDefecto);
-				funcionSelect();
+				funcionSelect('#cboBanco');
 				cerrarCargando();
 				return true;		
 			},
