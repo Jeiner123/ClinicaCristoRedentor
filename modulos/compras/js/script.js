@@ -1,5 +1,13 @@
 url = 'bd/bd_operaciones.php';
 
+function validarCorrelativo(element){
+  var valor = $(element).val();
+  if(valor.length == 1) valor = '00'+valor;
+  else if(valor.length == 2) valor = '00'+valor;
+  return valor;
+}
+
+
 //============MANTENEDOR PROVEEDORES=============================================
 
 function mantenerProveedor(form){
@@ -235,7 +243,7 @@ function cargaOperador(operador){
 
 //============MANTENEDOR COMPRAS=============================================
 
-function cargarListaProveedor(){
+function cargarCboProveedor(valorDefecto){
 	abrirCargando();
 	var opc = 'CC_06';
 	$.ajax({
@@ -243,19 +251,9 @@ function cargarListaProveedor(){
 		data:'opc='+opc,
 		url: url,
 		success: function(rpta){
-			$('.tablaProveedor').DataTable().destroy();
-			$('#cuerpoTablaProveedor').html(rpta);
-			$('.tablaProveedor').DataTable(
-				{
-			   	"columnDefs": [
-		            { "targets": [ 0 ],"width": "15%"}, 
-		            { "targets": [ 1 ],"width": "25%"},										 		//DNI
-		            { "targets": [ 2 ],"width": "20%"},											 //nomresb
-		            { "targets": [ 3 ],"width": "10%"},	
-				      ]
-	
-				}
-			);
+			$('#cboProveedor').html(rpta);
+			$("#cboProveedor").val(valorDefecto);
+			funcionSelect('#cboProveedor');
 			cerrarCargando();
 		},
 		error: function(rpta){
@@ -263,56 +261,6 @@ function cargarListaProveedor(){
 			cerrarCargando();
 		}
 	});
-}
-
-function cargarListaProductos()
-{
-	
-	abrirCargando();
-	var opc = 'CC_09';
-	$.ajax({
-		type: 'POST',
-		data:'opc='+opc,
-		url: url,
-		success: function(rpta){
-			$('#tablaMProducto').DataTable().destroy();
-			$('#cuerpoTablaMProducto').html(rpta);
-			$('#tablaMProducto').DataTable(
-				{
-			   	"columnDefs": [
-		            { "targets": [ 0 ],"width": "5%"}, 
-		            { "targets": [ 1 ],"width": "75%"},										 
-		            { "targets": [ 2 ],"width": "20%"},											 
-				      ]
-	
-				}
-			);
-			cerrarCargando();
-		},
-		error: function(rpta){
-			alert(rpta);
-			cerrarCargando();
-		}
-	});	
-}
-
-
-function cargarListaTComprobante(){
-	abrirCargando();
-	var opc = 'CC_08';
-	$.ajax({
-		type: 'POST',
-		data:'opc='+opc,
-		url: url,
-		success: function(rpta){
-			$('#cboDocumento').html(rpta);
-			cerrarCargando();
-		},
-		error: function(rpta){
-			alert(rpta);
-			cerrarCargando();
-		}
-	});	
 }
 
 function seleccionarProveedor(documento,proveedor){
@@ -373,7 +321,7 @@ function crearDetalleFactura(){
 	$("#tablaProducto")
 	.append
 	(
-		'<tr><td><input class="form-control input-sm" value="'+fila+'" id="txtItem'+fila+'" name="txtItem'+fila+'" style="text-align:right"; readonly value=""/></td><td><input class="form-control input-sm" id="txtReferencia'+fila+'" name="txtReferencia'+fila+'"></td><td><input class="form-control input-sm" name="txtCuenta'+fila+'" id="txtCuenta'+fila+'"></td><td><input class="form-control input-sm" name="txtDescripcion'+fila+'" id="txtDescripcion'+fila+'"></td><td><input class="form-control input-sm" id="txtCantidad'+fila+'" name="txtCantidad'+fila+'"  onkeypress="return soloNumeroEntero(event);"></td><td><input class="form-control input-sm" id="txtCosto'+fila+'" name="txtCosto'+fila+'" onkeypress="return soloNumeroDecimal(event);"></td><td><input class="form-control input-sm" id="txtImporte'+fila+'" name="txtImporte'+fila+'" onkeypress="return soloNumeroDecimal(event);" readonly></td></tr>'
+		'<tr><td><input class="form-control input-sm" value="'+fila+'" id="txtItem'+fila+'" name="txtItem'+fila+'" style="text-align:right"; readonly value=""/></td><td><input class="form-control input-sm" id="txtReferencia'+fila+'" name="txtReferencia'+fila+'"></td><td><input class="form-control input-sm" name="txtCuenta'+fila+'" id="txtCuenta'+fila+'"></td><td><input class="form-control input-sm" name="txtDescripcion'+fila+'" id="txtDescripcion'+fila+'" onblur="validarDescripcion(event)"></td><td><input class="form-control input-sm" id="txtCantidad'+fila+'" name="txtCantidad'+fila+'"  onkeypress="return soloNumeroEntero(event);"  onblur="calcularImporte(event)"></td><td><input class="form-control input-sm" id="txtCosto'+fila+'" name="txtCosto'+fila+'" onkeypress="return soloNumeroDecimal(event);" onblur="calcularImporte(event)"></td><td><input class="form-control input-sm importe" value="0.0" id="txtImporte'+fila+'" name="txtImporte'+fila+'" onkeypress="return soloNumeroDecimal(event);" readonly></td></tr>'
 	);
 }
 
@@ -383,45 +331,73 @@ function SeleccionarPeriodo(mes){
 		mes=parseInt(mes)
 		abrirModal("#modalPeriodo");
 		$("#cboMes").val(mes);
+	}else{
+		mes=$("#txtMes").val();
+		anio=$("#txtAnio").val();
+		correlativo=$("#txtCorrelativo").val();
+		datosFactura(mes,anio,correlativo);
 	}
 }
 
-function generarPeriodo(mes,anio){
+function generarPeriodo(mes){
 	mes=parseInt(mes);
 	if($("#cboMes").val()>mes){
 		comboObligatorio('#cboMes',$("#cboMes").val());
 		$("#lbError").text("Periódo no permitido");
 		return;
 	}
+
+	mesPeriodo=$("#cboMes").val();
+	anioPeriodo=$("#cboAnio").val();
+
 	bloqueoTotalForm('#formFactura',false);
 	cerrarModal('#modalPeriodo');
 	cargarCboCondPago("CON");
-	cargarListaProveedor();
+	cargarCboProveedor(0);
 	cargarCboAreas();
 	cargarCboExistencias();
 	cargarCboTipoAdquision(0);
 	cargarCboComprobanteCompra('01');
 	cargarCboDetraccion(0);
 	$("#txtFecha").prop("disabled",true);
+	$("#txtMes").val(mesPeriodo);
+	$("#txtAnio").val(anioPeriodo);
 	combo=document.getElementById("cboMes");
 	periodo = combo.options[combo.selectedIndex].text;
-	$("#txtPeriodo").val(periodo+"-"+anio);
+	$("#txtPeriodo").val(periodo+"-"+anioPeriodo);
 }
 
 function cargarTablaFactura(){
-	$('#tablaFactura').DataTable(
-	{
-		   	"columnDefs": [
-		        { "targets": [ 0 ],"width": "10%"}, 
-		        { "targets": [ 1 ],"width": "10%"},										 
-		        { "targets": [ 2 ],"width": "10%"},											 
-		        { "targets": [ 3 ],"width": "15%"},											 
-		        { "targets": [ 4 ],"width": "15%"},											 
-		        { "targets": [ 5 ],"width": "15%"},											 
-		        { "targets": [ 5 ],"width": "25%"},											 
-			  ]
+	abrirCargando();
+	var opc = 'CC_10';
+	$.ajax({
+		type: 'POST',
+		data:'opc='+opc,
+		url: url,
+		success: function(rpta){
+			$('.tablaDatos').DataTable().destroy();
+			$('#cuerpoTablaFactura').html(rpta);
+			$('#tablaFactura').DataTable(
+			{
+				   	"columnDefs": [
+				        { "targets": [ 0 ],"width": "15%"}, 									 
+				        { "targets": [ 1 ],"width": "5%"}, 									 
+				        { "targets": [ 2 ],"width": "10%"},											 
+				        { "targets": [ 3 ],"width": "15%"},											 
+				        { "targets": [ 4 ],"width": "15%"},											 
+				        { "targets": [ 5 ],"width": "5%"},											 
+				        { "targets": [ 6 ],"width": "15%"},											 
+				        { "targets": [ 7 ],"width": "10%"},											 
+					  ]
+				}
+			);
+			cerrarCargando();
+		},
+		error: function(rpta){
+			alert(rpta);
+			cerrarCargando();
 		}
-	);
+	});
 }
 
 function validarTributos(){
@@ -436,24 +412,6 @@ function validarTributos(){
 	}else{
 		$(".tributo-comun").show();
 	}
-}
-
-function RegistrarCompra(){
-	inputObligatorio('#txtPeriodo',1);
-	comboObligatorio('#cboComprobante',0);
-	inputObligatorio('#txtSerie',4);
-	inputObligatorio('#txtNumero',7);
-	inputObligatorio('#txtFechaEmision',10);
-	inputObligatorio('#txtFechaVcto',10);
-	comboObligatorio('#cboModalidadPago',0);
-	comboObligatorio('#cboAdquisicion',0);
-	inputObligatorio('#txtProveedor',1);
-
-
-	if(document.getElementsByClassName("has-error").length > 0){
-		alert("Verifique los datos ingresados");
-		return false;
-	}	
 }
 
 function calcularImporte(e){
@@ -534,3 +492,147 @@ function CalcularTotal(){
     $("#txtIGV").val(igv.toFixed(2));
     $("#txtPrecioVenta").val(precioVenta.toFixed(2));
 }
+
+
+function RegistrarCompra(){
+	inputObligatorio('#txtPeriodo',1);
+	comboObligatorio('#cboComprobante',0);
+	inputObligatorio('#txtSerie',4);
+	inputObligatorio('#txtNumero',7);
+	inputObligatorio('#txtFechaEmision',10);
+	inputObligatorio('#txtFechaVcto',10);
+	comboObligatorio('#cboModalidadPago',0);
+	comboObligatorio('#cboAdquisicion',0);
+	comboObligatorio('#cboProveedor',0);
+
+
+	if(document.getElementsByClassName("has-error").length > 0){
+		alert("Verifique los datos ingresados");
+		return false;
+	}	
+
+	if($("#txtFlag").val()=="N"){
+		ajaxSaveFactura();
+	}
+	if($("#txtFlag").val()=="M"){
+		
+	}
+}
+
+function ajaxSaveFactura(){
+	abrirCargando();
+	var formData = new FormData($('#formFactura')[0]);
+	formData.append("opc", "CC_08");
+	$.ajax({
+		type: 'POST',
+		data: formData,
+		url: url,
+		contentType :false,
+		processData: false,
+		success: function(rpta){
+			if(rpta==1){
+				ajaSaveDetalleFactura();
+				alert("Compra registrada");
+    			cerrarCargando();
+    			//bloqueoTotalForm('#formFactura',false);
+			}else{
+				cerrarCargando();
+				alert("Ocurrió un error mientrás se intentaba registrar la compra");
+			}
+			
+		},
+		error: function(rpta){
+			cerrarCargando();
+			alert(rpta);
+		}
+	});	
+}
+
+function ajaSaveDetalleFactura(){
+
+	$(".importe").each(function (index){
+			index=parseInt(index)+1;
+            importe=$("#txtImporte"+index).val();
+            if(importe!="0.0"){
+            	var formData = new FormData($('#formFactura')[0]);
+				formData.append("opc", "CC_09");
+				formData.append("item",index);
+				$.ajax({
+					type: 'POST',
+					data: formData,
+					url: url,
+					contentType :false,
+					processData: false,
+					success: function(rpta){
+					},
+					error: function(rpta){
+						alert(rpta);
+						cerrarCargando();	
+					}
+				});	
+            }
+    })
+}
+
+function RegistrarPagoCompra(mes,anio,codigo){
+	abrirModal('#modalPagos');
+	alert(mes);
+}
+
+function datosFactura(mes,anio,codigo){
+	abrirCargando();
+	var opc = 'CC_11';
+	$.ajax({
+		type: 'POST',
+		data:'opc='+opc+'&mes='+mes+'&anio='+anio+'&codigo='+codigo,
+		url: url,
+		success: function(data){
+			var datos= JSON.parse(data);
+			// $('#cboDocumento').prop("disabled", true);
+			// $("#txtDocumento").prop("readonly", true);
+			for(var i in datos){
+					comprobante=datos[i].comprobanteID;
+					formaPago=datos[i].formaPagoID;
+					proveedor=datos[i].proveedorID;
+                	existencia=datos[i].tipoExistencia;
+                	adquisicion=datos[i].tipoAdquisicionID;
+                	detraccion=datos[i].detraccion;
+                	$("#txtFecha").val(datos[i].fecha);
+                	$("#txtSerie").val(datos[i].serie);
+                	$("#txtNumero").val(datos[i].numero);
+                	$("#txtFechaEmision").val(datos[i].fechaEmision);
+                	$("#txtFechaVcto").val(datos[i].fechaVencimiento);
+                	$("#txtCodigo").val(validarCorrelativo("#txtCorrelativo"));
+                	$("#txtPeriodo").val(meses[mes]+"-"+anio);
+                	$("#cboMoneda").val(datos[i].moneda);
+                	$("#cboIGV").val(datos[i].IGV);
+                	$("#cboPercepcion").val(datos[i].percepcion);
+                	$("#cboRenta").val(datos[i].renta);
+                	$("#txtTotalBruto").val(datos[i].totalBruto);
+                	$("#txtDescuento").val(datos[i].descuento);
+                	$("#txtValorVenta").val(datos[i].valorVenta);
+                	$("#txtIGV").val(datos[i].impuesto);
+                	$("#txtPrecioVenta").val(datos[i].precioVenta);
+                }
+             	cargarCboCondPago(formaPago);
+				cargarCboProveedor(proveedor);
+				cargarCboExistencias(existencia);
+				cargarCboTipoAdquision(adquisicion);
+				cargarCboComprobanteCompra(comprobante);
+				cargarCboDetraccion(detraccion);
+
+			if($("#txtFlag").val()=='V'){
+				$("#btnGuardar").addClass("hidden");
+			}
+			cerrarCargando();
+		},
+		error: function(rpta){
+			alert(rpta);
+			cerrarCargando();
+		}
+	});
+
+}
+
+
+
