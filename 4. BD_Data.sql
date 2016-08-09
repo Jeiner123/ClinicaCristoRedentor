@@ -772,7 +772,7 @@ INSERT INTO cargo (cargoID, areaID, cargo, estado) VALUES
   (10, 6, 'COORDINADOR', 1),
   (11, 6, 'ASISTENTE', 1),
   (12, 7, 'CONTADOR', 1),
-  (13, 7, 'ASISTENTE', 1),
+  (13, 7, 'ASISTENTE CONTABLE', 1),
   (14, 8, 'COORDINADOR', 1),
   (15, 8, 'JEFE', 1),
   (16, 9, 'DIRECTOR', 1),
@@ -794,6 +794,7 @@ INSERT INTO cargo (cargoID, areaID, cargo, estado) VALUES
   (32, 15, 'DIRECTOR', 1),
   (33, 15, 'MEDICO', 1),
   (34, 15, 'ENFERMERA', 1);
+  
 
 INSERT INTO forma_pago (formaPagoID, formaPago, numeroCuotas, estado) VALUES
   ('CON', 'CONTADO', 1, 1),
@@ -813,11 +814,19 @@ INSERT INTO procedencia (procedencia, estado) VALUES
 INSERT INTO persona (DNI, nombres, apPaterno, apMaterno, fechaNacimiento, sexo, telefono1, tipoTelefono1, telefono2, tipoTelefono2, correoPersonal, RUC, direccion, foto, timestamp)
 VALUES
   ('47790815', 'JUAN JEINY', 'HARO', 'GUTIERREZ', '1993-05-24', 'M', '987050724', 4, NULL, NULL, 'jeiner.24@gmail.com',
-   NULL, 'HUERTA BELLA MZ. F LT. 05 - LA RINCONADA', NULL, '2016-07-29 15:31:43');
+   NULL, 'HUERTA BELLA MZ. F LT. 05 - LA RINCONADA', NULL, '2016-07-29 15:31:43'),
+  ('44953281', 'DIANA YSABEL', 'MARTINEZ', 'MOSQUEIRA', '0000-00-00', 'F', '952437249', 4, NULL, NULL, 'dianys24@hotmail.com', 
+    NULL, '', NULL, '2016-08-09 14:02:33'),
+  ('23463463', 'DIEGO ANTONY', 'GUZMAN', 'GUTIERREZ', '1993-10-08', 'M', '555555555', 3, NULL, NULL, 'sfsdfh@gmail.com', NULL, '', NULL, '2016-08-09 14:20:45');
 
 INSERT INTO personal (personalID, DNI, tipoPersonalID, cargoID, fechaIngreso, correoCorporativo, sueldoMensual, estado, observaciones)
 VALUES
-  (1001, '47790815', 3, 5, '2016-03-01', 'soporteti@clinicacristoredentor.com', '0.00', 1, '');
+  (1001, '47790815', 3, 5, '2016-03-01', 'soporteti@clinicacristoredentor.com', '0.00', 1, ''),
+  (1002, '44953281', 3, 13, '2016-08-08', 'diana.contabilidad@clinicacristoredentor', '0.00', 1, ''),
+  (1003, '23463463', 1, 17, '2016-08-08', '', '0.00', 1, '');
+INSERT INTO personal_salud (personalID, especialidadID) VALUES
+  (1003, 17);
+
 
 insert into TIPO_EXISTENCIA values
 	('01','MERCADERÍAS, MATERIAS PRIMAS, SUMINISTROS, ENVASES Y EMBALAJES','A'),
@@ -961,9 +970,10 @@ INSERT INTO items (module_id, nombre, file) VALUES
   (8, 'Listado de proveedores', 'listado_proveedores'),
   (8, 'Nuevo proveedor', 'nuevo_proveedor'),
   (8, 'Orden de compra', 'orden_compra'),
-  (8, 'Nota de ingreso', 'compras'),
-  (8, 'Cuenta corriente por pagar', 'listado_facturas'),
-  (8, 'Provisiones por pagar', 'facturas'),
+  (8, 'Nota de ingreso', 'nota_ingreso'),
+  (8, 'Cuenta corriente por pagar', 'cuenta_pagar'),
+  (8, 'Provisiones por pagar', 'provision_pagar'),
+  (8, 'Movimientos de caja', 'movimientos_caja'),
 
   (9, 'Tipo de servicio', 'tipo_servicio'),
   (9, 'Tipo de personal', 'tipo_personal'),

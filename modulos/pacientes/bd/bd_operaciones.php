@@ -28,8 +28,8 @@
 			$apPaterno = strtoupper($_POST['txtPaterno']);
 			$apMaterno = strtoupper($_POST['txtMaterno']);
 			$fechaN = $_POST['txtFechaN'];
-				$fechaN = str_replace("/","-",$fechaN);
-		    $fechaN = date('Y/m/d',strtotime($fechaN));
+			$fechaN = str_replace("/","-",$fechaN);
+		  $fechaN = date('Y/m/d',strtotime($fechaN));
 			$sexo = $_POST['cboSexo'];
 			$RUC = $_POST['txtRUC'];
 			$telefono1 = $_POST['txtTelefono1'];
@@ -95,9 +95,9 @@
 			$DNI = $row[0];
 			$nombres = $row[1].' '.$row[2].' '.$row[3];
 			$edad = $row[8];
-				$fecha = str_replace("/","-",$row[8]);
-		    $fecha = date('Y/m/d',strtotime($fecha));		    
-		    $edad = $fechaHoyAMD - $fecha;		    
+			$fecha = str_replace("/","-",$row[8]);
+	    $fecha = date('Y/m/d',strtotime($fecha));		    
+	    $edad = $fechaHoyAMD - $fecha;		    
 			$telefono = $row[4].' - '.$row[5];
 			$ultimaVisita = "";
 			$estado = "";

@@ -5,6 +5,7 @@
   $mesID = '';
   $anioID = '';
   $codigo = '';
+  $monto = '';
 
   if(isset($_POST['txtmesID'])){
     $opcion = $_POST['txtOpcion'];
@@ -13,6 +14,10 @@
     $codigo = $_POST['txtNum'];
   }else{
     exit();
+  }
+
+  if(isset($_POST['txtMontoP'])){
+    $monto = $_POST['txtMontoP'];
   }
  ?>
 <!DOCTYPE html>
@@ -93,10 +98,6 @@
                 </select>
               </div>
               <div class="col-md-2">
-                <label class="control-label">Referencia</label>
-                <input type="text" id="txtReferencia" name="txtReferencia"class="form-control input-sm" readonly="">
-              </div>
-              <div class="col-md-2">
                 <label class="control-label">Serie</label>
                 <input type="text" id="txtSerie" name="txtSerie"class="form-control input-sm" readonly="">
               </div>
@@ -108,6 +109,10 @@
                 <label class="control-label">Total</label>
                 <input type="text" id="txtTotal" name="txtTotal"class="form-control input-sm" placeholder="S/." readonly="">
               </div>
+              <div class="col-md-2">
+                <label class="control-label">Saldo</label>
+                <input type="text" id="txtSaldo" name="txtSaldo" class="form-control input-sm" readonly="">
+              </div>
                <div class="col-md-6">
                 <label class="control-label">Forma de pago</label>
                 <select class="chosen-select input-sm" name="cboMedioPago" id="cboMedioPago" onchange="ValidarMedioPago()">
@@ -116,7 +121,7 @@
               </div>
               <div class="col-md-2">
                 <label class="control-label">Monto</label>
-                <input type="text" id="txtMonto" name="txtMonto"class="form-control input-sm" placeholder="S/." onkeypress="return soloNumeroDecimal(event);">
+                <input type="text" id="txtMonto" name="txtMonto"class="form-control input-sm" placeholder="S/." value="<?php echo $monto;?>" onkeypress="return soloNumeroDecimal(event);">
               </div>
             </div>
             <div class="row" id="divExtra" hidden>
@@ -177,11 +182,14 @@
           <!-- BOx-body -->
           <div class="box-footer" align="ceter">
             <div class="row" align="center">
-             <div class="col-md-6" style="top:20px!important;">
+             <div class="col-md-4" style="top:20px!important;">
                   <button type="button" class="btn btn-primary btn-block" onclick="RegistrarPagoCompra()" id="btnGuardar">Registrar pago</button>
               </div>
-              <div class="col-md-6" style="top:20px!important;">
-                <a href="listado_facturas.php" onclick="" class="btn btn-default btn-block">Ver movimientos de caja</a>
+              <div class="col-md-4" style="top:20px!important;">
+                <a href="movimientos_caja.php" onclick="" class="btn btn-default btn-block">Ver movimientos de caja</a>
+              </div>
+              <div class="col-md-4" style="top:20px!important;">
+                <a href="cuenta_pagar.php" onclick="" class="btn btn-default btn-block">Ver cuentas por pagar</a>
               </div>                  
             </div><br><br>
           </div>

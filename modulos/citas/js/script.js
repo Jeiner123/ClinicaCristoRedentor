@@ -3,6 +3,7 @@ var importeSinIGV = 0.0;
 var importeIGV = 0.0;
 var importeTotal = 0.0;
 
+// CITAS
 function guardarCita(form){
 	$('#btnGuardarCita').attr('disabled',true);
 	
@@ -114,15 +115,15 @@ function guardarCitaLaboratorio(){
 	// var personalReferenciaID
 	// var 
 }
-function cargarTablaCitas(tipo){	
+function cargarTablaCitas(){
 	abrirCargando();
 	fecha = $("#txtFechaCita").val();
-	estado = $("#cboEstado").val();	
-	tipo = $("input[name=rbListaCitas]:checked").val();	
+	estado = $("#cboEstado").val();
+	tipo = $("input[name=rbListaCitas]:checked").val();
 	var opc = 'CTC_01';
 	$.ajax({
 		type: 'POST',
-		data:'opc='+opc+'&fecha='+fecha+'&estado='+estado+'&tipo='+tipo,
+		data:'opc='+opc+'&fecha='+fecha+'&tipo='+tipo+'&estado='+estado,
 		url: url,
 		success: function(rpta){			
 			$('#tablaCitas').DataTable().destroy();
@@ -142,14 +143,39 @@ function cargarTablaCitas(tipo){
             { "targets": [ 8 ],"width": "7%","searchable": false ,},  //Pago
             { "targets": [ 9 ],"width": "4%", "orderable": false,"searchable": false ,}
 		      ],
-		      "order": [[ 3, "asc" ]],
+		      "order": [[ 4, "asc" ]],
+		      "order": [[ 7, "desc" ]],
 		      "iDisplayLength": 25
 				}
 			);
-			numeroCargas--;
-			if(numeroCargas==0){
-				cerrarModal("#modalCargando");
-			}			
+			cerrarCargando();	
+		},
+		error: function(rpta){
+			alert(rpta);
+		}
+	});
+}
+function editarEstadoCita(citaID,estadoNuevo){
+	if(estadoNuevo == "X"){
+			r = confirm("Seguro que desea anular la cita");
+		if (r != true){
+		  return false;
+		}
+	}
+	abrirCargando();
+	var opc = 'ME_C_01'; //Modificar estado cita
+	$.ajax({
+		type: 'POST',
+		data:'opc='+opc+'&citaID='+citaID+'&estadoNuevo='+estadoNuevo,
+		url: url,
+		success: function(rpta){
+			if(rpta == 1){
+				alert("Operación exitosa");
+				cargarTablaCitas();
+			}else{
+				alert(rpta);
+			}
+			cerrarCargando();
 		},
 		error: function(rpta){
 			alert(rpta);
@@ -327,37 +353,3 @@ function cargarTablaReferencias(){
 		}
 	});
 }
-
-// function guardarServicioDetalle(){
-// 	var importeSinIGV = Number($("#txtSubTotal").val());
-// 	var importeIGV = Number($("#txtIGV").val());
-// 	var total = Number($("#txtTotal").val());
-
-// 	if(isNaN(importeSinIGV) || isNaN(importeIGV) || isNaN(total)){
-// 		alert("Hay errores en el formulario");
-// 		return false;
-// 	}
-// 	// guardar a la base de datos 
-// 	var servicio = $("#txtServicio").val();
-// 	var precioU = $("#txtPrecio").val();
-// 	var cantidad = $("#txtCantidad").val();
-// 	var importe = $("#txtImporte").val();		
-// 	if(importe==""){
-// 		alert("Debe seleccionar el servicio");
-// 		return false;
-// 	}
-// 	agregarServicioDetalle(servicio,precioU,cantidad,importe);
-// 	importeSinIGV = importeSinIGV + Number(importe/1.18); 	$("#txtSubTotal").val(importeSinIGV.toFixed(2));
-// 	importeIGV = importeIGV + Number(importe-importe/1.18); 	$("#txtIGV").val(importeIGV.toFixed(2));
-// 	total = total + Number(importe); 	$("#txtTotal").val(total.toFixed(2));
-// }
-// function calcularSaldo(o){
-// 	var total = Number($("#txtTotal").val());
-// 	var saldo = total - o.value;
-// 	if(saldo<0){
-// 		alert("Valor no válido");
-// 		// $("#txtSaldo").val("0");
-// 		return false;
-// 	}
-// 	$("#txtSaldo").val(saldo.toFixed(2));
-// }

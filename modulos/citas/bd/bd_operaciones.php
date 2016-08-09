@@ -41,7 +41,8 @@
 	  
 		$consulta = "select C.citaID,P.nombres,P.apPaterno,P.apMaterno,PA.pacienteID,
 												E.especialidad,S.servicio,C.fecha,C.hora,PP.nombres,
-												PP.apPaterno,PP.apMaterno,C.estado,PS.estadoPago,PS.pedidoServicioID,PA.DNI
+												PP.apPaterno,PP.apMaterno,C.estado,PS.estadoPago,PS.pedidoServicioID,PA.DNI,
+												PS.tipo
 									from CITA C
 									inner join PEDIDO_SERVICIO PS ON C.pedidoServicioID = PS.pedidoServicioID
 									inner join PACIENTE PA ON PA.pacienteID = C.pacienteID
@@ -65,49 +66,26 @@
 				$nombreMedico = "Laboratorio";
 				$especialidad = "Laboratorio";
 			}
+			$DNI = $row[15];
 			$fecha = $row[7];
 			$fecha = str_replace("/","-",$fecha);
 	    $fecha = date('d-m-Y',strtotime($fecha));
-			$estadoCita = "";
-			$estadoPago = "";
-			$pedidoID = $row[14];
-			$DNI = $row[15];
+	    $pedidoID = $row[14];
+	    $tipoCita = $row[16];
+			$citaID = $row[0];			
+			$estadoCita = $row[12];
+			$estadoPago = $row[13];
 
-			// "<select class='form-control' id='cboEstadoCita' name='cboEstadoCita' >	      
-	  //     <option value='R' class='label-warning'>Reservado</option>
-	  //     <option value='C' class='label-info'>Confirmada</option>
-	  //     <option value='S' class='label-primary'>En Sala</option>
-	  //     <option value='A' class='label-success'>Atendido</option>
-	  //     <option value='X' class='label-danger'>Anulado</option>
-	  //   </select>"
+			if($estadoCita == 'R') $lineaCita = "<span class='label label-warning'>Reservado</span>";
+			else if($estadoCita == 'C') $lineaCita = "<span class='label label-info'>Confirmado</span>";
+			else if($estadoCita == 'S') $lineaCita = "<span class='label label-primary'>En Sala</span>";
+			else if($estadoCita == 'A') $lineaCita = "<span class='label label-success'>Atendido</span>";
+			else if($estadoCita == 'X') $lineaCita = "<span class='label label-danger'>Anulado</span>";
 
-			if($row[12]=='R'){
-				$estadoCita = "<span class='label label-warning'>Reservado</span>";
-			}else{
-				if($row[12]=='S'){
-					$estadoCita = "<span class='label label-primary'>En Sala</span>";
-				}else{
-					if($row[12]=='A'){
-						$estadoCita = "<span class='label label-success'>Atendido</span>";
-					}else{
-						if($row[12]=='X'){
-							$estadoCita = "<span class='label label-danger'>Anulado</span>";
-						}
-					}
-				}
-			}
+			if($estadoPago == 'PEN') $lineaPago = "<span class='label label-danger'>Pendiente</span>";
+			else if($estadoPago == 'PAG') $lineaPago = "<span class='label label-success'>Pagado</span>";
+			else if($estadoPago == 'PAR') $lineaPago = "<span class='label label-warning'>Parcial</span>";
 
-			if($row[13]=='PEN'){
-				$estadoPago = "<span class='label label-danger'>Pendiente</span>";
-			}else{
-				if($row[13]=='PAG'){
-					$estadoPago = "<span class='label label-success'>Pagado</span>";
-				}else{
-					if($row[13] == 'PAR'){
-						$estadoPago = "<span class='label label-warning'>Parcial</span>";
-					}
-				}
-			}
 			echo "<tr>
 							<td style='text-align:center;'>".$pedidoID."</td>
 							<td>".$nombrePaciente."</td>
@@ -116,25 +94,30 @@
 							<td>".$fecha."</td>
 							<td>".$row[8]."</td>
 							<td>".$nombreMedico."</td>
-							<td>".$estadoCita."</td>
-							<td>".$estadoPago."</td>
+							<td>".$lineaCita."</td>
+							<td>".$lineaPago."</td>
 							<td>
-							<div>
+								<div>
                   <div class='inline pos-rel dropup'>
                     <button  class='btn btn-secundary btn-flat btn-lista-flotante dropdown-toggle btn-xs'  data-toggle='dropdown' data-position='auto' aria-expanded='true'>
                         <i class='ace-icon fa fa-caret-down icon-only bigger-120'></i>
                     </button>
 
                     <ul class='lista-flotante dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close '>
+                    	
+
                       <li>
                       	<form method='post' action='../facturacion/facturar.php'>
 					                <input type='hidden' id='txtPedidoID' name='txtPedidoID' value='".$pedidoID."'>
 					                <input type='hidden' id='txtDNI' name='txtDNI' value='".$DNI."'>												  	
-                          <button type='submit' class='btn btn-block btn-transparente btn-flat btn-xs'>
+                          <button type='submit' class='btn btn-block btn-transparente btn-flat btn-xs'>                          
                           	<span class='text-blue'>
-	                            <i class='ace-icon fa fa-usd bigger-120'></i>
-	                            Facturación
+	                            <i class='ace-icon fa fa-usd bigger-120'></i>	                            
 	                          </span>
+	                          ";
+	                            if ($estadoPago == 'PEN') echo "<span> Facturar </span>";
+	                            else echo "<span> Facturación </span>";
+	                            echo "
 													</button>
 					              </form>
                       </li>
@@ -145,11 +128,25 @@
                           <button type='submit' class='btn btn-block btn-transparente btn-flat btn-xs'>
                           	<span class='text-blue'>
 	                            <i class='ace-icon fa fa-search bigger-120'></i>
-	                            Ver detalle
 	                          </span>
+	                          <span> Ver detalle </span>
 													</button>
 					              </form>
                       </li>
+                      ";
+                      if($estadoCita == 'R'){
+                      	echo "
+                      		<li>
+		                        <button onClick = 'editarEstadoCita(\"".$citaID."\",\""."X"."\")' class='btn btn-block btn-transparente btn-flat btn-xs'>
+		                        	<span class='text-red'>
+		                            <i class='ace-icon fa fa-trash bigger-120'></i>
+		                          </span>
+		                          <span> Anular cita </span>
+														</button>
+		                      </li>
+                      	";
+                      }
+                      echo "
                     </ul>
                   </div>
 							
@@ -216,7 +213,7 @@
 		}
 		exit();
 	}
-	// REGISTRAR CITA LABORATORIO - 
+	// REGISTRAR CITA LABORATORIO
 	if($opc == 'RCL_01'){
 		$pacienteID = $_POST['cboPacientes'];
 		$medicoRef = $_POST['cboMedicosRef'];
@@ -339,5 +336,30 @@
 						</tr>";
 		}
 		exit();
+	}
+	//EDITAR ESTADO DE CITA
+	if($opc == 'ME_C_01'){
+		$citaID = $_POST['citaID'];
+		$estadoNuevo = $_POST['estadoNuevo'];
+		$consulta = "select estado from cita where citaID = '".$citaID."'";
+		$res = mysqli_query($con,$consulta) or die(mysqli_error($con));
+		$row = mysqli_fetch_row($res);
+		$estadoActual = $row[0];		
+		if($estadoActual == "X"){
+			echo "No se puede realizar la operación, esta cita esta anulada.";
+			exit();
+		}
+		if($estadoActual == "A"){
+			echo "No se puede realizar la operación, esta cita ya ha sido atendida.";
+			exit();
+		}
+		echo editarEstadoCita($con,$citaID,$estadoNuevo);
+		exit();
+	}
+
+	function editarEstadoCita($con,$citaID,$estadoNuevo){
+		$consulta = "update cita set estado='".$estadoNuevo."' where citaID='".$citaID."'";
+		$res = mysqli_query($con,$consulta) or die(mysqli_error($con));
+		echo $res;
 	}
  ?>

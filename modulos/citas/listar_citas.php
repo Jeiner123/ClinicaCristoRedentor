@@ -58,12 +58,12 @@
             <div class="col-md-12" align="center" style="display:true">
               <div class="control-group ">
                 <label style="cursor: pointer">
-                  <input checked name="rbListaCitas" id="rbListaCitasC" type="radio"  value="C" onchange="cargarTablaCitas();" style="cursor: pointer">
+                  <input checked name="rbListaCitas" id="rbListaCitasC" type="radio"  value="C" onClick="cargarTablaCitas();" style="cursor: pointer">
                   <span class="lbl">Consultorio</span>
                 </label>
                 <!-- Radio -->
                 <label style="margin-left:10px;cursor: pointer; ">
-                  <input name="rbListaCitas" id="rbListaCitasL" type="radio"  value="L" onchange="cargarTablaCitas();" style="cursor: pointer">
+                  <input name="rbListaCitas" id="rbListaCitasL" type="radio"  value="L" onClick="cargarTablaCitas();" style="cursor: pointer">
                   <span class="lbl">Laboratorio</span>
                 </label>                
                 <!-- Radio -->

@@ -7,6 +7,26 @@ function validarCorrelativo(element){
   return valor;
 }
 
+//CARGARPERIODOS DE COMPRA
+	function cargarCboPeriodoCompra(valorDefecto){
+		opc = 'CC_PC';
+		$.ajax({
+			type: 'POST',
+			data:'opc='+opc,
+			url: url,
+			success: function(rpta){
+				$('#cboPeriodoCompra').html(rpta);
+				$('#cboPeriodoCompra').val(valorDefecto);
+				funcionSelect('#cboPeriodoCompra');
+				cerrarCargando();
+				return true;		
+			},
+			error: function(rpta){
+				alert(rpta);
+			}
+		});
+	}
+
 
 //============MANTENEDOR PROVEEDORES=============================================
 
@@ -400,6 +420,47 @@ function cargarTablaFactura(){
 	});
 }
 
+function cargarTablaFacturaFiltro(estado,periodo,proveedor){
+	if(periodo!=0){
+		var i = periodo.indexOf('-');
+		mes=periodo.substr(0,i);
+		anio=periodo.substr(i+1);
+	}else{
+		mes=0;
+		anio=0;
+	}
+	abrirCargando();
+	var opc = 'CC_16';
+	$.ajax({
+		type: 'POST',
+		data:'opc='+opc+'&estado='+estado+'&mes='+mes+'&anio='+anio+'&proveedor='+proveedor,
+		url: url,
+		success: function(rpta){
+			$('.tablaDatos').DataTable().destroy();
+			$('#cuerpoTablaFactura').html(rpta);
+			$('#tablaFactura').DataTable(
+			{
+				   	"columnDefs": [
+				        { "targets": [ 0 ],"width": "15%"}, 									 
+				        { "targets": [ 1 ],"width": "5%"}, 									 
+				        { "targets": [ 2 ],"width": "10%"},											 
+				        { "targets": [ 3 ],"width": "15%"},											 
+				        { "targets": [ 4 ],"width": "15%"},											 
+				        { "targets": [ 5 ],"width": "5%"},											 
+				        { "targets": [ 6 ],"width": "15%"},											 
+				        { "targets": [ 7 ],"width": "10%"},											 
+					  ]
+				}
+			);
+			cerrarCargando();
+		},
+		error: function(rpta){
+			alert(rpta);
+			cerrarCargando();
+		}
+	});
+}
+
 function validarTributos(){
 	if($('#cboComprobante').val()=='01' || $('#cboComprobante').val()=='03'){
 		$("#divRenta").hide();
@@ -420,7 +481,6 @@ function calcularImporte(e){
   	else if (e.target)
   	  tag = e.target.id;
   	
-	// var i = respuesta.indexOf('-');
 	var campo = tag.length;
 	if(campo==9){
 		var fila = tag.substr(8);
@@ -657,6 +717,41 @@ function cargarDetallesFactura(mes,anio,codigo){
 
 }
 
+function AnularFactura(mes,anio,codigo){
+	r = confirm("Seguro que desea anular el comprobante de compra");
+	if (r != true){
+	  return false;
+	}else{
+		var opc = 'CC_15';
+		$.ajax({
+			type: 'POST',
+			data:'opc='+opc+'&mes='+mes+'&anio='+anio+'&codigo='+codigo,
+			url: url,
+			success: function(rpta){
+				if(rpta==1){
+					cargarTablaFactura();
+				}else{
+					alert("No se puede anular la factura en estos momentos");
+				}
+			},
+			error: function(rpta){
+				alert(rpta);
+				cerrarCargando();
+			}
+		});
+	}
+}
+
+function cargarFacturasFiltro(){
+	estado=$("#cboEstado").val();
+	periodo=$("#cboPeriodoCompra").val();
+	proveedor=$("#cboProveedor").val();
+	if(estado==0 && proveedor==0 && periodo==0){
+		cargarTablaFactura();
+	}else{
+		cargarTablaFacturaFiltro(estado,periodo,proveedor);
+	}
+}
 //===================GESTIÓN DE MOVIMIENTOS DE SALIDA==========================
 
 function datosParaPago(){
@@ -683,13 +778,15 @@ function datosParaPago(){
                 	$("#txtFechaEmision").val(datos[i].fechaEmision);
                 	$("#txtFechaVcto").val(datos[i].fechaVencimiento);
                 	$("#txtReferencia").val(validarCorrelativo("#txtCorrelativo"));
-                	$("#txtTotal").val(datos[i].saldo);
+                	$("#txtSaldo").val(datos[i].saldo);
+                	$("#txtTotal").val(datos[i].precioVenta);
                 }
 				cargarCboComprobanteCompra(comprobante);
   				cargarCboMedioPago('008');
 
 			if($("#txtFlag").val()=='V'){
 				$("#btnGuardar").addClass("hidden");
+				bloqueoTotalForm("#formPagoCompra",true);
 			}
 			cargarDetallePago(mes,anio,codigo);
 			
@@ -770,17 +867,21 @@ function RegistrarPagoCompra(){
 		contentType :false,
 		processData: false,
 		success: function(rpta){
-			// if(rpta==1){
-			// 	total=parseFloat($("#txtTotal").val());
-			// 	monto=parseFloat($("#txtMonto").val());
-			// 	nTotal=total-monto;
-			// 	$("#txtTotal").val(nTotal);
-			// 	alert("Pago registrado")
-			// }else{
-			// 	alert("Ocurrió un error inesperado mientras se intentaba registrar el pago");
-			// }
-			alert(rpta);
-    		cerrarCargando();	
+			cerrarCargando();	
+			if(rpta==1){
+				saldo=parseFloat($("#txtSaldo").val());
+				monto=parseFloat($("#txtMonto").val());
+				nTotal=saldo-monto;
+				$("#txtSaldo").val(nTotal.toFixed(2));
+				$("#txtMonto").val('');
+				if(nTotal<=0){
+					$("#txtMonto").prop("disabled",true);
+				}
+				alert("Pago registrado")
+			}
+			if(rpta==0){
+				alert("Ocurrió un error inesperado mientras se intentaba registrar el pago");
+			}
 		},
 		error: function(rpta){
 			cerrarCargando();
@@ -789,3 +890,34 @@ function RegistrarPagoCompra(){
 	});	
 }
 
+//==================GESTIÓN DE MOVIMIENTOS DE CAJA==============================
+function cargarTablaMovimientosSalida(){
+	abrirCargando();
+	var opc = 'CC_14';
+	$.ajax({
+		type: 'POST',
+		data:'opc='+opc,
+		url: url,
+		success: function(rpta){
+			$('.tablaDatos').DataTable().destroy();
+			$('#cuerpoTablaMovSalida').html(rpta);
+			$('.tablaDatos').DataTable(
+			{
+				   	"columnDefs": [
+				        { "targets": [ 0 ],"width": "10%"}, 									 
+				        { "targets": [ 1 ],"width": "5%"}, 									 
+				        { "targets": [ 2 ],"width": "10%"},											 
+				        { "targets": [ 3 ],"width": "45%"},											 
+				        { "targets": [ 4 ],"width": "5%"},											 
+				        { "targets": [ 5 ],"width": "10%"}											 
+					  ]
+				}
+			);
+			cerrarCargando();
+		},
+		error: function(rpta){
+			alert(rpta);
+			cerrarCargando();
+		}
+	});
+}

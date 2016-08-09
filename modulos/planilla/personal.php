@@ -45,9 +45,9 @@
         <div class="box-body" style='overflow-x:scroll;overflow-y:hidden' align="center">
           <div class="row">
             <div class="col-md-2 col-md-offset-5 col-xs-6 col-xs-offset-3">
-              <button type="button" class="btn btn-block btn-primary btn-sm btn-flat" onclick="abrirModal('#modalRegPersonal');">
+              <a href="nuevo_personal.php" class="btn btn-block btn-primary btn-sm btn-flat">
                 Nuevo
-              </button>
+              </a>
             </div>
           </div>
           <br>
@@ -236,8 +236,8 @@
             <!-- /.modal-content -->
           </div>
           <!-- /.modal-Dialog -->
-        </div>
-        <!-- /.modalRegPersonal -->
+      </div>
+      <!-- /.modalRegPersonal -->
     </section>
     <!-- /.content -->
   </div>

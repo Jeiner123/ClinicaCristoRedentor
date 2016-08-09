@@ -97,10 +97,10 @@
                 <div class="col-md-12">
                   <div class="row">
                     <div class="col-md-12">
-                      <div class="box-header"  style="margin: -30px 0px -15px -10px">
-                          <br><h1 class="box-title">DOCUMENTO</h1>
+                      <div class="box-header"  style="margin: -35px 0px -15px -10px">
+                          <br><h1 class="box-title">DOCUMENTO</h1><hr>
                       </div>
-                      <hr>
+                      
                     </div>
                   </div>
                   <div class="row">
@@ -169,10 +169,10 @@
                   <br>
                   <div class="row">
                     <div class="col-md-12">
-                      <div class="box-header"  style="margin: -30px 0px -15px -10px">
-                          <br><h1 class="box-title">TRIBUTOS</h1>
+                      <div class="box-header"  style="margin: -35px 0px -15px -10px">
+                          <br><h1 class="box-title">TRIBUTOS</h1><hr>
                       </div>
-                      <hr>
+                      
                     </div>
                     <div class="col-md-2 tributo-comun">
                       <label for="cboIGV">I.G.V</label>
@@ -279,7 +279,7 @@
                           <button type="button" class="btn btn-primary btn-block" onclick="RegistrarCompra()" id="btnGuardar">Registrar nuevo documento</button>
                       </div>
                       <div class="col-md-6" style="top:20px!important;">
-                        <a href="listado_facturas.php" onclick="" class="btn btn-default btn-block">Ver documentos de compra</a>
+                        <a href="cuenta_pagar.php" onclick="" class="btn btn-default btn-block">Ver cuentas por pagar</a>
                     </div>
                   </div>
                   <br>
