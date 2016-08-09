@@ -72,7 +72,7 @@ else
                     <div class="box-body" align="center">
                         <div class="form-group">
                             <label for="usuario">Modificando permisos del usuario:</label>
-                            <input type="text" name="usuario" value="<?= $usuario ?>" readonly>
+                            <input type="text" id="user" value="<?= $usuario ?>" readonly>
                         </div>
 
                         <div class="row">
@@ -84,7 +84,7 @@ else
                         $modules = $result_set->fetch_all();
 
                         foreach ($modules as $module):
-                            $query = 'SELECT id, nombre FROM items WHERE module_id = ' . $module[0];
+                            $query = 'SELECT I.id, I.nombre, P.item_id FROM items I LEFT JOIN permissions P ON P.item_id=I.id WHERE module_id = ' . $module[0];
                             $result_set_items = mysqli_query($con, $query);
                             $items = $result_set_items->fetch_all();
                             ?>
@@ -94,7 +94,7 @@ else
                                     <ul>
                                         <?php foreach ($items as $item): ?>
                                             <li>
-                                                <input type="checkbox" value="<?= $item[0] ?>"> <?= $item[1] ?>
+                                                <input type="checkbox" value="<?= $item[0] ?>" <?php if($item[2]) echo 'checked'; ?>> <?= $item[1] ?>
                                             </li>
                                         <?php endforeach; ?>
                                     </ul>
@@ -117,17 +117,6 @@ else
   <?php include '../general/pie_pagina.php';?>
 
   <script src="../js/vue.min.js"></script>
-  <script>
-      var app_data = {
-          users: {}
-      };
-      new Vue({
-          el: '#users_table',
-          data: app_data
-      });
-      $.getJSON('json/users.php', function (data) {
-          app_data.users = data.users;
-      });
-  </script>
+  <script src="js/editar_permisos.js"></script>
 </body>
 </html>

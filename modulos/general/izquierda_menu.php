@@ -22,26 +22,30 @@
             $modules = $result_set->fetch_all();
 
             foreach ($modules as $module):
-                $query = 'SELECT nombre, file FROM items WHERE module_id = ' . $module[0];
+                $query = 'SELECT I.nombre, I.file FROM items I INNER JOIN permissions P ON P.item_id=I.id WHERE module_id = ' . $module[0];
                 $result_set_items = mysqli_query($con, $query);
                 $items = $result_set_items->fetch_all();
-                ?>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-chevron-down"></i>
-                        <span><?= $module[1] ?></span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <?php foreach ($items as $item): ?>
-                            <li class="treeview">
-                                <a href="../<?= $module[2] ?>/<?= $item[1] ?>.php">
-                                    <span><?= $item[0] ?></span>
-                                </a>
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
-                </li>
-            <?php endforeach; ?>
+                if (sizeof($items) > 0) {
+            ?>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-chevron-down"></i>
+                            <span><?= $module[1] ?></span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <?php foreach ($items as $item): ?>
+                                <li class="treeview">
+                                    <a href="../<?= $module[2] ?>/<?= $item[1] ?>.php">
+                                        <span><?= $item[0] ?></span>
+                                    </a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </li>
+            <?php
+                }
+            endforeach;
+            ?>
 
             <?php include 'izquierda_redes.php' ?>
         </ul>
