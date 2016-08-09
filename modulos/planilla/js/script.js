@@ -29,17 +29,17 @@ function  mostrarPersonal (personalID){
 			$('#txtFechaI').val(objeto[18]);
 			$('#txtSueldo').val(objeto[20]);
 			$('#cboTipoPersonal').val(objeto[15]);
-			$('#cboArea').val(objeto[16]);
+			$('#cboArea').val(objeto[17]);
 			$('#cboEstado').val(objeto[21]);
-			$('#txtObsrvaciones').val(objeto[22]);			
+			$('#txtObsrvaciones').val(objeto[22]);
 			opc = 'CC_CARG_01';
 			$.ajax({
 				type: 'POST',
-				data:'opc='+opc+'&areaID='+objeto[16],
+				data:'opc='+opc+'&areaID='+objeto[17],
 				url: '../'+url,
 				success: function(rpta){
 					$('#cboCargo').html(rpta);
-					$('#cboCargo').val(objeto[17]);
+					$('#cboCargo').val(objeto[16]);
 					cerrarCargando();
 				},
 				error: function(rpta){

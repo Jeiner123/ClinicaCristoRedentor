@@ -166,7 +166,7 @@
                 </div>
                 <div class="col-sm-3">
                   <div class="form-group">
-                    <label class="form-label"><strong>Comprobante</strong></label>
+                    <label for="cboComprobante"><strong>Comprobante</strong></label>
                     <select class="form-control input-sm" id="cboComprobante" name="cboComprobante">
                     </select>
                   </div>

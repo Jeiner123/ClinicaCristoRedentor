@@ -111,10 +111,9 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			type: 'POST',
 			data:'opc='+opc,
 			url: urlGeneral,
-			success: function(rpta){			
+			success: function(rpta){				
 				$('#cboComprobante').html(rpta);
-				$('#cboComprobante').val(valorDefecto);
-				funcionSelect('#cboComprobante');
+				$('#cboComprobante').val(valorDefecto);				
 				cerrarCargando();
 				return true;
 			},
@@ -228,6 +227,24 @@ var urlGeneral = '../bd/bd_operaciones.php';
 				$(combo).html(rpta);
 				$(combo).val(valorDefecto);
 				funcionSelect(combo);
+				cerrarCargando();
+				return true;		
+			},
+			error: function(rpta){
+				alert(rpta);
+			}
+		});
+	}
+	// Cargar combo de especialidades sin formato buscador 
+	function cargarCboEspecialidades2(combo){
+		abrirCargando();		
+		opc = 'CC_E_05';
+		$.ajax({
+			type: 'POST',
+			data:'opc='+opc,
+			url: urlGeneral,
+			success: function(rpta){
+				$(combo).html(rpta);
 				cerrarCargando();
 				return true;		
 			},
