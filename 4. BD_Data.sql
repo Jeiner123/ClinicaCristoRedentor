@@ -961,9 +961,10 @@ INSERT INTO items (module_id, nombre, file) VALUES
   (8, 'Listado de proveedores', 'listado_proveedores'),
   (8, 'Nuevo proveedor', 'nuevo_proveedor'),
   (8, 'Orden de compra', 'orden_compra'),
-  (8, 'Nota de ingreso', 'compras'),
-  (8, 'Cuenta corriente por pagar', 'listado_facturas'),
-  (8, 'Provisiones por pagar', 'facturas'),
+  (8, 'Nota de ingreso', 'nota_ingreso'),
+  (8, 'Cuenta corriente por pagar', 'cuenta_pagar'),
+  (8, 'Provisiones por pagar', 'provision_pagar'),
+  (8, 'Movimientos de caja', 'movimientos_caja'),
 
   (9, 'Tipo de servicio', 'tipo_servicio'),
   (9, 'Tipo de personal', 'tipo_personal'),
