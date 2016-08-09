@@ -1,28 +1,5 @@
 USE clinica;
 
-create table PROVEEDOR(
-	proveedorID varchar(15) NOT NULL,
-	tipoDocumento int not null,
-	razonSocial varchar(100) null,
-	emailEmpresa varchar(50) null,
-	direccion varchar(100) null,
-	condPago char(03) null,
-	banco char(02) null,
-	cuentaBanco varchar(100) null,
-	cuentaDetraccion varchar(100) null,
-	nombres varchar(50) not null,
-	apellidoPat varchar(20) not null,
-	apellidoMat varchar(20) not null,
-	telefono varchar(20) not null,
-	tipoTelefono int null,
-	emailPersonal varchar(50) null,
-	observaciones varchar(500) null,
-	estado char(01) not null,
-	primary key(proveedorID),
-	foreign key(tipoTelefono) references tipo_telefono(tipoTelefonoID),
-	foreign key(tipoDocumento) references tipo_documento(tipoDocumentoID)
-);
-
 create table TIPO_EXISTENCIA(
 	codigo char(02) not null,
 	descripcion varchar(150) not null,
@@ -58,6 +35,29 @@ create table ENTIDAD_FINANCIERA(
 	entidadFinanciera varchar(150) not null,
 	estado char(01) not null,
 	primary key(entidadFinancieraID)
+);
+
+create table PROVEEDOR(
+	proveedorID varchar(15) NOT NULL,
+	tipoDocumento int not null,
+	razonSocial varchar(100) null,
+	emailEmpresa varchar(50) null,
+	direccion varchar(100) null,
+	condPago char(03) null,
+	banco char(02) null,
+	cuentaBanco varchar(100) null,
+	cuentaDetraccion varchar(100) null,
+	nombres varchar(50) not null,
+	apellidoPat varchar(20) not null,
+	apellidoMat varchar(20) not null,
+	telefono varchar(20) not null,
+	tipoTelefono int null,
+	emailPersonal varchar(50) null,
+	observaciones varchar(500) null,
+	estado char(01) not null,
+	primary key(proveedorID),
+	foreign key(tipoTelefono) references tipo_telefono(tipoTelefonoID),
+	foreign key(tipoDocumento) references tipo_documento(tipoDocumentoID)
 );
 
 CREATE TABLE MEDIO_PAGO(
