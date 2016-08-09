@@ -5,12 +5,6 @@ session_start();
 if (isset($_SESSION['usuario']))
   header('Location: modulos/general/perfil.php');
 
-// Show a message if the login fails
-if (!isset($_GET['opc'])) {
-  $opc = 0;
-} else {
-  $opc = $_GET['opc'];
-}
 ?>
 <!DOCTYPE html>
 <html>
@@ -34,7 +28,7 @@ if (!isset($_GET['opc'])) {
     <link rel="shortcut icon" href="img/logo.png">
     <style type="text/css">
         h1 {
-            font-family: cambria;
+            font-family: 'cambria', Georgia, Arial, serif;
             font-size: 40px;
             font-weight: bold;
             color: #1990CE;
@@ -43,7 +37,7 @@ if (!isset($_GET['opc'])) {
         h2 {
             font-size: 30px;
             font-weight: bold;
-            font-family: cambria;
+            font-family: 'cambria', Georgia, Arial, serif;
             color: #595959;
         }
 
@@ -75,53 +69,13 @@ if (!isset($_GET['opc'])) {
         <h2>INTRANET</h2>
     </div>
 
-    <div class="col-md-12">
-        <div class="login-box" style="margin-top:30px;margin-bottom:-50px;">
-            <div class="login-box-body">
-                <p class="login-box-msg">Bienvenido</p>
+    <?php
+    if (isset($_GET['option']) && $_GET['option']=='register')
+        include 'register.php';
+    else
+        include 'login.php'
 
-                <div class="mensaje text-red">
-                <?php if (base64_decode($opc) == '1') { ?>
-                    <span class="glyphicon glyphicon-warning-sign"></span>
-                    <b>Datos ingresados no válidos</b>
-                <?php } ?>
-                <?php if (base64_decode($opc) == '2') { ?>
-                    <span class="glyphicon glyphicon-warning-sign"></span>
-                    <b>La cuenta está inactiva</b>
-                <?php } ?>
-                </div>
-
-                <form action="modulos/bd/bd_iniciar_sesion.php" method="POST">
-                    <div class="form-group has-feedback">
-                        <input type="text" name="txtUsuario" id="txtUsuario" class="form-control" placeholder="Nombre de usuario">
-                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                    </div>
-                    <div class="form-group has-feedback">
-                        <input type="password" name="txtClave" id="txtClave" class="form-control" placeholder="Contraseña">
-                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-8">
-                            <div class="checkbox icheck">
-                                <label>
-                                    <input type="checkbox">Recordarme
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <button type="submit" class="btn btn-primary btn-block btn-flat">Ingresar</button>
-                        </div>
-                    </div>
-                </form>
-                <br>
-                <a href="#">Olvidé mi contraseña</a><br>
-                <a href="#" class="text-center">Quiero registrarme ...</a>
-
-            </div><!-- /.login-box-body -->
-        </div><!-- /.login-box -->
-    </div><!-- /.col-md-12 -->
+    ?>
 </div>
 
 <!-- jQuery 2.1.4 -->
