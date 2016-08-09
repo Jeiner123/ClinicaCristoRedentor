@@ -7,6 +7,7 @@ if(mes<10){
 var fechaHoyDMA = f.getDate()+'-'+mes+'-'+año;
 var fechaHoyAMD = año+'-'+mes+'-'+f.getDate();
 var numeroCargas = 0;
+var meses = ["nombre del mes","ENERO", "FEBRERO", "MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SETIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE"];
 
 window.onload = function() {
     activarMenuLateral();    
@@ -141,12 +142,19 @@ function seleccionSimple(e){
 function activarMenuLateral() {
     var enlaces = $('.sidebar-menu li a');
     for (var i=0; i<enlaces.length; ++i) {
-        if (enlaces[i].href == location.href) {
+        if (enlaces[i].href == refineUrl()) {
             $(enlaces[i]).parent().addClass('active');
             $(enlaces[i]).parent().parent().parent().addClass('active');
             break;
         }
     }
+}
+
+function refineUrl() {
+	// Full url
+	var url = window.location.href;
+	// Return the part before the question char
+	return url.split("?")[0];
 }
 
 function soloNumeroEntero(e){

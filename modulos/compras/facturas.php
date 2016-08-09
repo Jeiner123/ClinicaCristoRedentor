@@ -2,6 +2,17 @@
 <?php include '../general/variables.php';?>
 <?php 
   $opcion='N';
+  $mesID = '';
+  $anioID = '';
+  $codigo = '';
+  $detalles=3;
+  if(isset($_POST['txtmesID'])){
+    $opcion = $_POST['txtOpcion'];
+    $mesID = $_POST['txtmesID'];
+    $anioID = $_POST['txtAnioID'];
+    $codigo = $_POST['txtNum'];
+    $detalles = $_POST['txtDetalles'];
+  }
  ?>
 <!DOCTYPE html>
 <html>
@@ -57,6 +68,9 @@
                 <input id="txtFlag" name="txtFlag" class="form-control" type="hidden" value="<?php echo $opcion; ?>">
                 <div class="row" style="margin-left:5px;">
                   <div class="col-md-2">
+                    <input id="txtMes" name="txtMes"class="form-control input-sm" type="hidden" value="<?php echo $mesID; ?>">
+                    <input id="txtAnio" name="txtAnio"class="form-control input-sm" type="hidden" value="<?php echo $anioID; ?>">
+                     <input id="txtCorrelativo" name="txtCorrelativo"class="form-control input-sm" type="hidden" value="<?php echo $codigo; ?>">
                     <label class="control-label">Periódo</label>
                     <input type="text" id="txtPeriodo" name="txtPeriodo"class="form-control input-sm" readonly="" value="">
                   </div>
@@ -92,15 +106,8 @@
                   <div class="row">
                     <div class="col-md-5">
                       <label for="txtProveedor">Proveedor</label>
-                      <div class="input-group">
-                        <div class="input-group-btn">
-                          <button onclick="abrirModal('#modalListaProveedor');" type="button"class="btn btn-secundary" title="Buscar paciente">
-                            <strong>...</strong>
-                          </button>
-                        </div>
-                        <input onclick="abrirModal('#modalListaProveedor');" id="txtProveedorID" name="txtProveedorID"class="form-control" readonly="true" type="hidden">
-                        <input onclick="abrirModal('#modalListaProveedor');" id="txtProveedor" name="txtProveedor"class="form-control" placeholder="PROVEEDOR" readonly="true">
-                      </div>
+                      <select class="chosen-select form-control" name="cboProveedor" id="cboProveedor">
+                      </select>
                     </div>
                     <div class="col-md-2">
                       <label class="control-label">Serie</label>
@@ -113,7 +120,7 @@
                     <div class="col-md-3">
                     <label class="control-label">Fecha de emisión</label>
                     <div class="input-group">
-                      <input id="txtFechaEmision" name="txtFechaEmision"class="form-control date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" onchange="validarFechaMayor(this);" value="" >
+                      <input id="txtFechaEmision" name="txtFechaEmision"class="form-control date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" value="" >
                       <span class="input-group-addon">
                         <i class="fa fa-calendar bigger-110"></i>
                       </span>
@@ -123,15 +130,15 @@
                   <div class="col-md-3">
                     <label class="control-label">Fecha de vencimiento</label>
                     <div class="input-group">
-                      <input id="txtFechaVcto" name="txtFechaVcto"class="form-control input-sm date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" onchange="validarFechaMayor(this);" value="">
+                      <input id="txtFechaVcto" name="txtFechaVcto"class="form-control input-sm date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" value="">
                       <span class="input-group-addon">
                         <i class="fa fa-calendar bigger-110"></i>
                       </span>
                     </div>
                   </div>
                   <div class="col-md-3">
-                      <label for="cboTipoCompra">Moneda</label>
-                      <select class="form-control input-sm">
+                      <label for="cboMoneda">Moneda</label>
+                      <select class="form-control input-sm" id="cboMoneda" name="cboMoneda">
                         <option value="1">SOLES</option>
                         <option value="2">DOLARES AMERICANOS</option>
                       </select>
@@ -225,28 +232,6 @@
                       <div class="col-md-2">
                         <label for="txtPrecioVenta">Precio de venta</label>
                         <input class="form-control input-sm" name="txtPrecioVenta" id="txtPrecioVenta" onkeypress="return soloNumeroDecimal(event);" readonly="" value="0.0" style="text-align:right;"></input>
-                        <label for="txtBaseAfecta">Base Afecta</label>
-                        <input class="form-control input-sm" name="txtBaseAfecta" id="txtBaseAfecta" onkeypress="return soloNumeroDecimal(event);"/>
-                      </div>
-                      <div class="col-md-2">
-                        <label for="txtInafecto">Inafecto</label>
-                        <input class="form-control input-sm" name="txtInafecto" id="txtInafecto" onkeypress="return soloNumeroDecimal(event);" />
-                      </div>
-                      <div class="col-md-2">
-                         <label for="txtIGV">I.G.V</label>
-                        <input class="form-control input-sm" name="txtIGV" id="txtIGV" onkeypress="return soloNumeroDecimal(event);" readonly=""/>
-                      </div>
-                      <div class="col-md-2">
-                        <label for="txtPercepcion">Percepción</label>
-                        <input class="form-control input-sm" name="txtPercepcion" id="txtPercepcion" onkeypress="return soloNumeroDecimal(event);" readonly=""/>
-                      </div>
-                      <div class="col-md-2">
-                        <label for="txtRenta">Renta</label>
-                        <input class="form-control input-sm" name="txtRenta" id="txtRenta" onkeypress="return soloNumeroDecimal(event);" readonly=""/>
-                      </div>
-                      <div class="col-md-2">
-                        <label for="txtTotal">Total</label>
-                        <input class="form-control input-sm" name="txtTotal" id="txtTotal" onkeypress="return soloNumeroDecimal(event);" readonly=""/>
                       </div>
                     </div>
                     <div class="col-md-12">
@@ -272,7 +257,7 @@
                           </tr>
                         </thead>
                         <tbody class="cuerpoTabla" id="cuerpoTablaProducto">
-                        <?php for ($i=1;$i<=3;++$i): ?>
+                        <?php for ($i=1;$i<=$detalles;++$i): ?>
                           <tr>
                             <td><input class="form-control input-sm" id="txtItem<?php echo $i;?>" name="txtItem<?php echo $i;?>" style='text-align:right;' readonly value="<?php echo $i;?>"></input></td>
                             <td><input class="form-control input-sm" id="txtReferencia<?php echo $i;?>" name="txtReferencia<?php echo $i;?>"></input></td>
@@ -281,13 +266,6 @@
                             <td><input class="form-control input-sm" id="txtCantidad<?php echo $i;?>" name="txtCantidad<?php echo $i;?>"  onkeypress="return soloNumeroEntero(event);" onblur="calcularImporte(event)"></input></td>
                             <td><input class="form-control input-sm" id="txtCosto<?php echo $i;?>" name="txtCosto<?php echo $i;?>" onkeypress="return soloNumeroDecimal(event);" onblur="calcularImporte(event)"></input></td>
                             <td><input class="form-control input-sm importe" id="txtImporte<?php echo $i;?>" name="txtImporte<?php echo $i;?>" onkeypress="return soloNumeroDecimal(event);" readonly value="0.0"></input></td>
-                            <td><input class="form-control input-sm" id="txtItem<?php echo $i;?>" name="txtItem<?php echo $i;?>" style='text-align:right;' readonly value="<?php echo $i;?>"/></td>
-                            <td><input class="form-control input-sm" id="txtReferencia<?php echo $i;?>" name="txtReferencia<?php echo $i;?>"/></td>
-                            <td><input class="form-control input-sm" id="txtCuenta<?php echo $i;?>" name="txtCuenta<?php echo $i;?>"  onkeypress="return soloNumeroEntero(event);"/></td>
-                            <td><input class="form-control input-sm" id="txtDescripcion<?php echo $i;?>" name="txtDescripcion<?php echo $i;?>"/></td>
-                            <td><input class="form-control input-sm" id="txtCantidad<?php echo $i;?>" name="txtCantidad<?php echo $i;?>"  onkeypress="return soloNumeroEntero(event);"/></td>
-                            <td><input class="form-control input-sm" id="txtCosto<?php echo $i;?>" name="txtCosto<?php echo $i;?>" onkeypress="return soloNumeroDecimal(event);"/></td>
-                            <td><input class="form-control input-sm" id="txtImporte<?php echo $i;?>" name="txtImporte<?php echo $i;?>" onkeypress="return soloNumeroDecimal(event);" readonly/></td>
                           </tr>
                         <?php endfor; ?>
                         </tbody>
@@ -297,19 +275,14 @@
                   </div>
 
                 <div class="row">
-                  <div class="col-md-6" style="top:20px!important;">
-                        <a href="#" class="btn btn-default btn-block">Cancelar registro</a>
-                    </div>
-                    <div class="col-md-6" style="top:20px!important;">
-                          <a href="#" class="btn btn-default btn-block">Cancelar registro</a>
+                      <div class="col-md-6" style="top:20px!important;">
+                          <button type="button" class="btn btn-primary btn-block" onclick="RegistrarCompra()" id="btnGuardar">Registrar nuevo documento</button>
                       </div>
                       <div class="col-md-6" style="top:20px!important;">
-                          <button type="button" class="btn btn-primary btn-block" onclick="RegistrarCompra()">Registrar nuevo documento</button>
-                      </div>
-                  </div>
-                  <br><br>
-                        <button type="submit" class="btn btn-primary btn-block">Registrar nuevo documento</button>
+                        <a href="listado_facturas.php" onclick="" class="btn btn-default btn-block">Ver documentos de compra</a>
                     </div>
+                  </div>
+                  <br>
                 </div>
                 <br><br>
 
@@ -327,38 +300,6 @@
   <div class="control-sidebar-bg"></div>
 </div>
 
-<!-- /.modalListapROVEEDOR -->
-      <div class="modal fade" id="modalListaProveedor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" align="center">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                  <h4 id="titulo" class="modal-title subfuente text-center">
-                    Seleccionar proveedor
-                  </h4>
-              </div>
-              <!-- /.modal-header -->
-              <div class="modal-body">
-                <table id="tablaProveedor" class="table table-bordered table-hover tablaProveedor">
-                  <thead>
-                    <tr>
-                      <th>RUC/DNI</th>
-                      <th>Razón social/ Contacto</th>
-                      <th style='text-align:center;'>Teléfono</th>
-                      <th style='text-align:center;'>Seleccionar</th>
-                    </tr>
-                  </thead>
-                  <tbody class="cuerpoTabla" id="cuerpoTablaProveedor">
-                    <!-- Aqui irán los elementos de la tabla -->
-                  </tbody>
-                </table>
-              </div>
-          </div>
-          <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-Dialog -->
-      </div>
-      <!-- /.modalListapROVEEDOR -->
 
 <!-- /.modalPeriodo -->
       <div class="modal fade" id="modalPeriodo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" align="center">
@@ -373,10 +314,7 @@
               <!-- /.modal-header -->
               <div class="modal-body">
                 <div class="row">
-                  <div class="col-md-3">
-                    <label for="cboMes">Periódo</label>
-                  </div>
-                   <div class="col-md-9">
+                   <div class="col-md-7">
                     <select class="form-control input-sm" name="cboMes" id="cboMes">
                       <?php
                         foreach ($meses as $mes => $value) {
@@ -386,12 +324,22 @@
                     </select>
                     <label class="control-label" style="color:red;font-size: 10px;" id="lbError"></label>
                   </div>
+                  <div class="col-md-5">
+                    <select class="form-control input-sm" name="cboAnio" id="cboAnio">
+                    <?php 
+                      $anio=date('Y');
+                      for ($i=2;$i>=1;--$i): 
+                        echo '<option value="'.$anio.'">'.$anio.'</option>';
+                        $anio=intval($anio)-1;
+                      endfor; ?>
+                    </select>
+                  </div>
                 </div>
               </div>
               <!-- /.modal-footer -->
               <div class="modal-footer">                  
                 <div class="row" align="center">
-                  <input  onClick="generarPeriodo('<?php echo date('m');?>','<?php echo date('Y');?>');" value="Aceptar" style="margin-right:20px;" type="button" class="btn btn-secundary btn-flat" id="btnGuardar"/>                  
+                  <input  onClick="generarPeriodo('<?php echo date('m');?>');" value="Aceptar" style="margin-right:20px;" type="button" class="btn btn-secundary btn-flat" id="btnGuardar"/>                  
                 </div>
               </div>
               <!-- /.modal-footer -->
