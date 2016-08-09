@@ -173,15 +173,15 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="../../img/doctor.jpg" class="user-image" alt="User Image">
               <span class="hidden-xs">
-                <?php echo $usuario; ?>
+                <?= $full_name ?>
               </span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="../../img/doctor.jpg" class="img-circle" alt="User Image">
+                <img src="../../img/doctor.JPG" class="img-circle" alt="User Image">
                 <p>
-                  <?php echo $usuario; ?>
+                  <?= $full_name ?>
                   <small>Administrador</small>
                 </p>
               </li>

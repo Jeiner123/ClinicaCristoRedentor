@@ -5,14 +5,14 @@
             <img src="../../img/doctor.JPG" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info" style="color:#245573 !important">
-            <p><?php echo $usuario; ?></p>
+            <p><?= $full_name ?></p>
             <a href="#" style="color:#245573 !important"><i class="fa fa-circle text-success"></i>Online</a>
         </div>
     </div>
 
     <section class="sidebar">
         <ul class="sidebar-menu">
-            <li class="header">Menú principal</li>
+            <li class="header"><strong>Menú principal</strong></li>
 
             <?php
             require '../bd/bd_conexion.php';

@@ -69,7 +69,7 @@
               </select>
             </div>
             <div class="col-md-4">
-              <label for="cboEspecialidades">Médico</label>
+              <label for="cboEspecialidades">Especialidad</label>
               <select class="form-control input-sm" id="cboEspecialidades" name="cboEspecialidades" onchange="cargarTablaReferencias();">
                 <!--  -->
               </select>

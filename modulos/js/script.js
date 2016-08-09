@@ -139,10 +139,15 @@ function seleccionSimple(e){
     }
 }
 
-function activarMenuLateral() {
+function activarMenuLateral(url) {
+    if (url)
+        url = location.href.substring(0, location.href.lastIndexOf('/')+1) + url;
+    else
+        url = refineUrl();
+
     var enlaces = $('.sidebar-menu li a');
     for (var i=0; i<enlaces.length; ++i) {
-        if (enlaces[i].href == refineUrl()) {
+        if (enlaces[i].href == url) {
             $(enlaces[i]).parent().addClass('active');
             $(enlaces[i]).parent().parent().parent().addClass('active');
             break;

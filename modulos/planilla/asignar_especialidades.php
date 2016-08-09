@@ -149,8 +149,8 @@
                     <div class="form-group">
                       <label class="col-md-3 control-label">Especialidad</label>
                       <div class="col-md-8">
-                        <select class="form-control input-sm" id="cboEspecialidad" name="cboEspecialidad">
-                          
+                        <select class="form-control input-sm chosen-select" id="cboEspecialidad" name="cboEspecialidad">
+                          <!-- DATOS -->
                         </select> 
                       </div>
                     </div>
@@ -184,6 +184,7 @@
 <script src="js/script.js"></script>
 
 <script type="text/javascript">
+  cargarCboEspecialidades2('#cboEspecialidad');
   cargarTablaMedicos();
   cargarEspecialidadesMedico(1);
 
@@ -195,7 +196,7 @@
   // cargarCboTipoPersonal();
   // cargarCboAreas();
   // cargarCboCargos();
-  cargarCboEspecialidades();
+  
   // cargarTablaPersonal();
   // abrirModal("#modalRegAsignacion");
   

@@ -117,6 +117,9 @@ else
   <?php include '../general/pie_pagina.php';?>
 
   <script src="../js/vue.min.js"></script>
+  <script>
+      activarMenuLateral('asignar_permisos.php');
+  </script>
   <script src="js/editar_permisos.js"></script>
 </body>
 </html>
