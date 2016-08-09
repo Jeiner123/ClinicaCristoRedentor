@@ -1,6 +1,26 @@
 var urlGeneral = '../bd/bd_operaciones.php';
 // Cargar Combos
 
+	//CARGAR MEDIOS DE PAGO
+	function cargarCboMedioPago(valorDefecto){
+		opc = 'CC_MP';
+		$.ajax({
+			type: 'POST',
+			data:'opc='+opc,
+			url: urlGeneral,
+			success: function(rpta){
+				$('#cboMedioPago').html(rpta);
+				$('#cboMedioPago').val(valorDefecto);
+				funcionSelect('#cboMedioPago');
+				cerrarCargando();
+				return true;		
+			},
+			error: function(rpta){
+				alert(rpta);
+			}
+		});
+	}
+
 	//CARGAR DETRACCIONES
 	function cargarCboDetraccion(valorDefecto){
 		opc = 'CC_TDE';
