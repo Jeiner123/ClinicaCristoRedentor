@@ -5,12 +5,13 @@
   $mesID = '';
   $anioID = '';
   $codigo = '';
-
+  $detalles=3;
   if(isset($_POST['txtmesID'])){
     $opcion = $_POST['txtOpcion'];
     $mesID = $_POST['txtmesID'];
     $anioID = $_POST['txtAnioID'];
     $codigo = $_POST['txtNum'];
+    $detalles = $_POST['txtDetalles'];
   }
  ?>
 <!DOCTYPE html>
@@ -119,7 +120,7 @@
                     <div class="col-md-3">
                     <label class="control-label">Fecha de emisión</label>
                     <div class="input-group">
-                      <input id="txtFechaEmision" name="txtFechaEmision"class="form-control date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" onchange="validarFechaMayor(this);" value="" >
+                      <input id="txtFechaEmision" name="txtFechaEmision"class="form-control date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" value="" >
                       <span class="input-group-addon">
                         <i class="fa fa-calendar bigger-110"></i>
                       </span>
@@ -129,7 +130,7 @@
                   <div class="col-md-3">
                     <label class="control-label">Fecha de vencimiento</label>
                     <div class="input-group">
-                      <input id="txtFechaVcto" name="txtFechaVcto"class="form-control input-sm date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" onchange="validarFechaMayor(this);" value="">
+                      <input id="txtFechaVcto" name="txtFechaVcto"class="form-control input-sm date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" value="">
                       <span class="input-group-addon">
                         <i class="fa fa-calendar bigger-110"></i>
                       </span>
@@ -256,7 +257,7 @@
                           </tr>
                         </thead>
                         <tbody class="cuerpoTabla" id="cuerpoTablaProducto">
-                        <?php for ($i=1;$i<=3;++$i): ?>
+                        <?php for ($i=1;$i<=$detalles;++$i): ?>
                           <tr>
                             <td><input class="form-control input-sm" id="txtItem<?php echo $i;?>" name="txtItem<?php echo $i;?>" style='text-align:right;' readonly value="<?php echo $i;?>"></input></td>
                             <td><input class="form-control input-sm" id="txtReferencia<?php echo $i;?>" name="txtReferencia<?php echo $i;?>"></input></td>
@@ -274,12 +275,12 @@
                   </div>
 
                 <div class="row">
-                  <div class="col-md-6" style="top:20px!important;">
-                        <a href="listado_facturas.php" onclick="" class="btn btn-default btn-block">Ver documentos de compra</a>
-                    </div>
                       <div class="col-md-6" style="top:20px!important;">
                           <button type="button" class="btn btn-primary btn-block" onclick="RegistrarCompra()" id="btnGuardar">Registrar nuevo documento</button>
                       </div>
+                      <div class="col-md-6" style="top:20px!important;">
+                        <a href="listado_facturas.php" onclick="" class="btn btn-default btn-block">Ver documentos de compra</a>
+                    </div>
                   </div>
                   <br>
                 </div>

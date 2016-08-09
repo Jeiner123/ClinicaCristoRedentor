@@ -183,6 +183,7 @@
 
 	//INSERTAR COMPRA
 	if($opc=='CC_08'){
+		$detalles = $_POST['detalles'];
 		$mes = $_POST['txtMes'];
 		$anio = $_POST['txtAnio'];
 		$consulta = "SELECT IFNULL(MAX(codigo)+1,1) FROM `compra` WHERE mesID=$mes and anio=$anio";
@@ -220,7 +221,7 @@
 		$impuesto = $_POST['txtIGV'];
 		$precioVenta = $_POST['txtPrecioVenta'];
 
-		$consulta = "INSERT INTO compra VALUES(".$mes.",".$anio.",".$codigo.",'".$fecha."','".$comprobanteID."','".$proveedorID."','".$serie."','".$numero."','".$fechaEmision."','".$fechaVencimiento."','".$moneda."','".$formaPagoID."','".$tipoAdquisicionID."','".$tipoExistencia."','".$IGV."','".$detraccion."','".$percepcion."','".$renta."','".$totalBruto."','".$descuento."','".$valorVenta."','".$impuesto."','".$precioVenta."','D')";
+		$consulta = "INSERT INTO compra VALUES(".$mes.",".$anio.",".$codigo.",'".$fecha."','".$comprobanteID."','".$proveedorID."','".$serie."','".$numero."','".$fechaEmision."','".$fechaVencimiento."','".$moneda."','".$formaPagoID."','".$tipoAdquisicionID."','".$tipoExistencia."','".$IGV."','".$detraccion."','".$percepcion."','".$renta."','".$totalBruto."','".$descuento."','".$valorVenta."','".$impuesto."','".$precioVenta."','".$precioVenta."','".$detalles."','D')";
 			
 		$res = mysqli_query($con,$consulta)or  die (mysqli_error($con));
 		if(!$res){
@@ -257,26 +258,23 @@
 
 	//LISTAR DOCUMENTOS DE COMPRA
 	if($opc=='CC_10'){
-		$consulta = "select mesID,anio,codigo,serie,numero,fechaEmision,fechaVencimiento,precioVenta,estado from compra";
+		$consulta = "select mesID,anio,codigo,serie,numero,fechaEmision,fechaVencimiento,precioVenta,estado,detalles from compra";
 	
 		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
 			while($row = mysqli_fetch_row($res)){
 				$mes=$row[0];
 				$anio=$row[1];
 				$codigo=$row[2];
+				$detalles=$row[9];
 
 				if($row[8]=='V'){
-					$estado = "<span class='label label-warning'>Vencido</span>";
+					$estado = "<span class='label label-danger'>Vencido</span>";
 				}else{
 					if($row[8]=='D'){
-						$estado = "<span class='label label-primary'>Pendiente</span>";
+						$estado = "<span class='label label-warning'>Pendiente</span>";
 					}else{
 						if($row[8]=='P'){
 							$estado = "<span class='label label-success'>Pagado</span>";
-						}else{
-							if($row[8]=='A'){
-								$estado = "<span class='label label-danger'>Anulado</span>";
-							}
 						}
 					}
 				}
@@ -298,18 +296,25 @@
 
 	                <ul class='lista-flotante dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close '>
 	                  <li>
-	                      <button type='button' class='btn btn-block btn-transparente btn-flat btn-xs' onclick='RegistrarPagoCompra(\"".$mes."\",\"".$anio."\",\"".$codigo."\")'>
+	                      <form method='post' action='../compras/facturar.php'>
+				                <input type='hidden' id='txtmesID' name='txtmesID' value='".$mes."'>
+				                <input type='hidden' id='txtAnioID' name='txtAnioID' value='".$anio."'>
+				                <input type='hidden' id='txtNum' name='txtNum' value='".$codigo."'>
+				                <input type='hidden' id='txtOpcion' name='txtOpcion' value='N'>												  	
+	                      <button type='submit' class='btn btn-block btn-transparente btn-flat btn-xs'>
 	                      	<span class='text-blue'>
 	                          <i class='ace-icon fa fa-usd bigger-120'></i>
-	                          Facturación
+	                          Facturar
 	                        </span>
-												</button>
+						  </button>
+				        </form>
 	                  </li>
 	                  <li>
 	                  	<form method='post' action='../compras/facturas.php'>
 				                <input type='hidden' id='txtmesID' name='txtmesID' value='".$mes."'>
 				                <input type='hidden' id='txtAnioID' name='txtAnioID' value='".$anio."'>
 				                <input type='hidden' id='txtNum' name='txtNum' value='".$codigo."'>
+				                <input type='hidden' id='txtDetalles' name='txtDetalles' value='".$detalles."'>
 				                <input type='hidden' id='txtOpcion' name='txtOpcion' value='V'>												  	
 	                      <button type='submit' class='btn btn-block btn-transparente btn-flat btn-xs'>
 	                      	<span class='text-blue'>
@@ -326,11 +331,12 @@
 		}	
 	}
 
+	//DATOS DE LA COMPRA
 	if($opc=='CC_11'){
 		$mes = $_POST['mes'];
 		$anio = $_POST['anio'];
 		$codigo = $_POST['codigo'];
-		$sql = "SELECT comprobanteID,formaPagoID,proveedorID,tipoExistencia,tipoAdquisicionID,detraccion,DATE_FORMAT(fecha, '%d-%m-%Y') as fecha,serie,numero,DATE_FORMAT(fechaEmision, '%d-%m-%Y') as fechaEmision,DATE_FORMAT(fechaVencimiento, '%d-%m-%Y') as fechaVencimiento,moneda,IGV,percepcion,renta,totalBruto,descuento,valorVenta,impuesto,precioVenta from compra where mesID=$mes and anio=$anio and codigo=$codigo";
+		$sql = "SELECT C.comprobanteID,C.formaPagoID,C.proveedorID,IF(P.razonSocial='',UPPER(concat(P.nombres,' ',P.apellidoPat,' ',P.apellidoMat)),UPPER(P.razonSocial)) as proveedor,C.tipoExistencia,C.tipoAdquisicionID,C.detraccion,DATE_FORMAT(C.fecha, '%d-%m-%Y') as fecha,C.serie,C.numero,DATE_FORMAT(C.fechaEmision, '%d-%m-%Y') as fechaEmision,DATE_FORMAT(C.fechaVencimiento, '%d-%m-%Y') as fechaVencimiento,C.moneda,C.IGV,C.percepcion,C.renta,.C.totalBruto,C.descuento,C.valorVenta,C.impuesto,C.precioVenta,C.saldo from compra C inner join proveedor P ON C.proveedorID=P.proveedorID  where C.mesID=$mes and C.anio=$anio and C.codigo=$codigo";
 		$resulset = mysqli_query($con,$sql);
  		$datos=array();
 	    while($row = mysqli_fetch_assoc($resulset))
@@ -341,6 +347,85 @@
 		
 		echo json_encode($datos);
 		exit();	
+	}
+
+	//DETALLE DE LA COMPRA
+	if($opc=='CC_12'){
+		$mes = $_POST['mes'];
+		$anio = $_POST['anio'];
+		$codigo = $_POST['codigo'];
+		$sql = "SELECT * from detalle_compra where mesID=$mes and anio=$anio and codigo=$codigo";
+		$resulset = mysqli_query($con,$sql);
+ 		$datos=array();
+	    while($row = mysqli_fetch_assoc($resulset))
+	    {
+	        $datos[] = $row;
+	    }
+		
+		echo json_encode($datos);
+		exit();	
+	}
+
+	//INSERTAR PAGO DE COMPRA
+	if($opc=='CC_13'){
+
+		$mes = $_POST['txtMes'];
+		$anio = $_POST['txtAnio'];
+		$codigo = $_POST['txtCodigo'];
+	
+		$consulta = "SELECT IFNULL(MAX(correlativo)+1,1) FROM `PAGO_COMPRA` WHERE mesID=$mes and anio=$anio and codigo=$codigo";
+		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
+		while($row = mysqli_fetch_row($res)){	
+			$correlativo=$row[0];
+		}
+	
+		$fechaEmision = $_POST['txtFechaEmision'];
+		$fechaEmision = str_replace("/","-",$fechaEmision);
+	  	$fechaEmision = date('Y-m-d',strtotime($fechaEmision));
+
+		$medioPagoID = $_POST['cboMedioPago'];
+		$total = $_POST['txtTotal'];
+		$monto = $_POST['txtMonto'];
+		$saldo = floatval($total)-floatval($monto);
+		
+		if(isset($_POST['cboBanco'])){
+			$entidadFinancieraID = $_POST['cboBanco'];
+		}else{
+			$entidadFinancieraID = '00';
+		}
+
+		$cuenta = $_POST['txtCuenta'];
+		$voucher = $_POST['txtVoucher'];
+		$numeroCk = $_POST['txtNumeroCheque'];
+
+		$fechaVctoCk = $_POST['txtFechaVctoCk'];
+		$fechaVctoCk = str_replace("/","-",$fechaVctoCk);
+	  	$fechaVctoCk = date('Y-m-d',strtotime($fechaVctoCk));
+
+		$consulta = "INSERT INTO pago_compra values(".$mes.",".$anio.",".$codigo.", ".$correlativo.",'".$fechaEmision."','".$medioPagoID."','".$monto."','".$saldo."','".$entidadFinancieraID."','".$cuenta."','".$voucher."','".$numeroCk."','".$fechaVctoCk."')";
+			
+		$res=mysqli_query($con,$consulta)or  die (mysqli_error($con));
+		if(!$res){
+			echo 0;
+		}else{
+				$query = "UPDATE compra set saldo='$saldo' where mesID=$mes and anio=$anio and codigo=$codigo";
+				$res = mysqli_query($con,$query)or  die (mysqli_error($con));
+				if($res){
+					if($saldo<=0){
+						$execute = "UPDATE compra set estado='P' where mesID=$mes and anio=$anio and codigo=$codigo";
+						$respuesta = mysqli_query($con,$execute)or  die (mysqli_error($con));
+						if($respuesta){
+							echo 1;
+						}else{
+							echo 0;
+						}
+					}
+				}else{
+					echo 0;
+				}
+		}
+		
+		exit();
 	}
 
 ?>

@@ -495,6 +495,7 @@ function CalcularTotal(){
 
 
 function RegistrarCompra(){
+	detalles=0;
 	inputObligatorio('#txtPeriodo',1);
 	comboObligatorio('#cboComprobante',0);
 	inputObligatorio('#txtSerie',4);
@@ -505,24 +506,28 @@ function RegistrarCompra(){
 	comboObligatorio('#cboAdquisicion',0);
 	comboObligatorio('#cboProveedor',0);
 
-
 	if(document.getElementsByClassName("has-error").length > 0){
 		alert("Verifique los datos ingresados");
 		return false;
 	}	
 
+	$(".importe").each(function (index){
+		detalles++;
+	});
+
 	if($("#txtFlag").val()=="N"){
-		ajaxSaveFactura();
+		ajaxSaveFactura(detalles);
 	}
 	if($("#txtFlag").val()=="M"){
 		
 	}
 }
 
-function ajaxSaveFactura(){
+function ajaxSaveFactura(detalles){
 	abrirCargando();
 	var formData = new FormData($('#formFactura')[0]);
 	formData.append("opc", "CC_08");
+	formData.append("detalles",detalles);
 	$.ajax({
 		type: 'POST',
 		data: formData,
@@ -534,7 +539,6 @@ function ajaxSaveFactura(){
 				ajaSaveDetalleFactura();
 				alert("Compra registrada");
     			cerrarCargando();
-    			//bloqueoTotalForm('#formFactura',false);
 			}else{
 				cerrarCargando();
 				alert("Ocurrió un error mientrás se intentaba registrar la compra");
@@ -574,11 +578,6 @@ function ajaSaveDetalleFactura(){
     })
 }
 
-function RegistrarPagoCompra(mes,anio,codigo){
-	abrirModal('#modalPagos');
-	alert(mes);
-}
-
 function datosFactura(mes,anio,codigo){
 	abrirCargando();
 	var opc = 'CC_11';
@@ -588,8 +587,6 @@ function datosFactura(mes,anio,codigo){
 		url: url,
 		success: function(data){
 			var datos= JSON.parse(data);
-			// $('#cboDocumento').prop("disabled", true);
-			// $("#txtDocumento").prop("readonly", true);
 			for(var i in datos){
 					comprobante=datos[i].comprobanteID;
 					formaPago=datos[i].formaPagoID;
@@ -624,7 +621,7 @@ function datosFactura(mes,anio,codigo){
 			if($("#txtFlag").val()=='V'){
 				$("#btnGuardar").addClass("hidden");
 			}
-			cerrarCargando();
+			cargarDetallesFactura(mes,anio,codigo);
 		},
 		error: function(rpta){
 			alert(rpta);
@@ -634,5 +631,161 @@ function datosFactura(mes,anio,codigo){
 
 }
 
+function cargarDetallesFactura(mes,anio,codigo){
+	var opc = 'CC_12';
+	$.ajax({
+		type: 'POST',
+		data:'opc='+opc+'&mes='+mes+'&anio='+anio+'&codigo='+codigo,
+		url: url,
+		success: function(data){
+			var datos= JSON.parse(data);
+			for(var i in datos){
+					item=datos[i].item;
+					$("#txtDescripcion"+item).val(datos[i].descripcion);
+					$("#txtCantidad"+item).val(datos[i].cantidad);
+					$("#txtCosto"+item).val(datos[i].costoUnitario);
+					$("#txtImporte"+item).val(datos[i].importe);
+            }
+         	cerrarCargando();
 
+		},
+		error: function(rpta){
+			alert(rpta);
+			cerrarCargando();
+		}
+	});
+
+}
+
+//===================GESTIÓN DE MOVIMIENTOS DE SALIDA==========================
+
+function datosParaPago(){
+	mes=$("#txtMes").val();
+	anio=$("#txtAnio").val();
+	codigo=$("#txtCodigo").val();
+
+	abrirCargando();
+	var opc = 'CC_11';
+	$.ajax({
+		type: 'POST',
+		data:'opc='+opc+'&mes='+mes+'&anio='+anio+'&codigo='+codigo,
+		url: url,
+		success: function(data){
+			var datos= JSON.parse(data);
+			for(var i in datos){
+					comprobante=datos[i].comprobanteID;
+					formaPago=datos[i].formaPagoID;
+					proveedor=datos[i].proveedorID;
+                	$("#txtProveedorID").val(datos[i].proveedorID);
+                	$("#txtProveedor").val(datos[i].proveedor);
+                	$("#txtSerie").val(datos[i].serie);
+                	$("#txtNumero").val(datos[i].numero);
+                	$("#txtFechaEmision").val(datos[i].fechaEmision);
+                	$("#txtFechaVcto").val(datos[i].fechaVencimiento);
+                	$("#txtReferencia").val(validarCorrelativo("#txtCorrelativo"));
+                	$("#txtTotal").val(datos[i].saldo);
+                }
+				cargarCboComprobanteCompra(comprobante);
+  				cargarCboMedioPago('008');
+
+			if($("#txtFlag").val()=='V'){
+				$("#btnGuardar").addClass("hidden");
+			}
+			cargarDetallePago(mes,anio,codigo);
+			
+		},
+		error: function(rpta){
+			alert(rpta);
+			cerrarCargando();
+		}
+	});
+
+}
+
+function cargarDetallePago(mes,anio,codigo){
+	var opc = 'CC_12';
+	$.ajax({
+		type: 'POST',
+		data:'opc='+opc+'&mes='+mes+'&anio='+anio+'&codigo='+codigo,
+		url: url,
+		success: function(data){
+			var datos= JSON.parse(data);
+			for(var i in datos){
+				item=datos[i].item;
+				descripcion=datos[i].descripcion;
+				cantidad=datos[i].cantidad;
+				costo=datos[i].costoUnitario;
+				importe=datos[i].importe;
+
+				$("#tablaDetallePago")
+				.append
+				(
+					'<tr><td>'+item+'</td><td>'+descripcion+'</td><td>'+cantidad+'</td><td style="text-align:right">'+costo+'</td><td style="text-align:right">'+importe+'</td></tr>'
+				);
+            }
+         	cerrarCargando();
+
+		},
+		error: function(rpta){
+			alert(rpta);
+			cerrarCargando();
+		}
+	});
+
+}
+
+function ValidarMedioPago(){
+	if($('#cboMedioPago').val()=='008' || $('#cboMedioPago').val()=='009' || $('#cboMedioPago').val()=='999'){
+		$("#divExtra").hide();
+	}else{
+		$("#divExtra").show();
+		cargarCboEntidadFinanciera('00');
+	}
+
+	if($('#cboMedioPago').val()=='007' || $('#cboMedioPago').val()=='102'){
+		$("#subtitulo").text("DETALLE PAGO CON CHEQUE");
+		$(".ck").show();
+		$(".cuenta").hide();
+	}else{
+		$("#subtitulo").text("");
+		$(".ck").hide();
+		$(".cuenta").show();
+	}
+}
+
+function RegistrarPagoCompra(){
+	inputObligatorio('#txtMonto',1);
+	if(document.getElementsByClassName("has-error").length > 0){
+		alert("Verifique los datos ingresados");
+		return false;
+	}
+
+	abrirCargando();
+	var formData = new FormData($('#formPagoCompra')[0]);
+	formData.append("opc", "CC_13");
+	$.ajax({
+		type: 'POST',
+		data: formData,
+		url: url,
+		contentType :false,
+		processData: false,
+		success: function(rpta){
+			// if(rpta==1){
+			// 	total=parseFloat($("#txtTotal").val());
+			// 	monto=parseFloat($("#txtMonto").val());
+			// 	nTotal=total-monto;
+			// 	$("#txtTotal").val(nTotal);
+			// 	alert("Pago registrado")
+			// }else{
+			// 	alert("Ocurrió un error inesperado mientras se intentaba registrar el pago");
+			// }
+			alert(rpta);
+    		cerrarCargando();	
+		},
+		error: function(rpta){
+			cerrarCargando();
+			alert(rpta);
+		}
+	});	
+}
 

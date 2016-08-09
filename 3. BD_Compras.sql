@@ -60,6 +60,13 @@ create table ENTIDAD_FINANCIERA(
 	primary key(entidadFinancieraID)
 );
 
+CREATE TABLE MEDIO_PAGO(
+  medioPagoID CHAR(3)      NOT NULL,
+  medioPago   VARCHAR(200) NOT NULL,
+  estado      CHAR(01)          NOT NULL,
+  PRIMARY KEY (medioPagoID)
+);
+
 create table COMPRA(
 	mesID int not null,
 	anio int not null,
@@ -84,6 +91,8 @@ create table COMPRA(
 	valorVenta decimal(9,2) not null,
 	impuesto decimal(9,2) not null,
 	precioVenta decimal(9,2) not null,
+	saldo decimal(9,2) not null,
+	detalles int not null,
 	estado char(01) not null,
 	primary key(mesID,anio,codigo),
 	foreign key(comprobanteID) references comprobante_pago(comprobanteID),
@@ -107,5 +116,24 @@ create table DETALLE_COMPRA(
 	primary key(mesID,anio,codigo,item),
 	foreign key(mesID,anio,codigo) references COMPRA(mesID,anio,codigo)
 );
+
+create table PAGO_COMPRA(
+	mesID int not null,
+	anio int not null,
+	codigo int not null,
+	correlativo int not null,
+	fechaEmision date not null,
+	medioPagoID CHAR(3) NOT NULL,
+	monto decimal(9,2),
+	saldo decimal(9,2),
+	entidadFinancieraID char(02) null,
+	cuenta varchar(30) null,
+	voucher varchar(30) null,
+	numeroCk varchar(30) null,
+	fechaVctoCk date null,
+	primary key(mesID,anio,codigo,correlativo),
+	foreign key(mesID,anio,codigo) references COMPRA(mesID,anio,codigo)
+)
+
 
 	
