@@ -30,6 +30,14 @@ create table TIPO_DETRACCION(
 	primary key(tipoDetraccionID)
 );
 
+create table TIPO_PERCEPCION(
+	tipoPercepcionID int not null,
+	tipoPercepcion varchar(200) not null,
+	porcentaje decimal(6,3) not null,
+	estado char(01) not null,
+	primary key(tipoPercepcionID)
+);
+
 create table ENTIDAD_FINANCIERA(
 	entidadFinancieraID char(02) not null,
 	entidadFinanciera varchar(150) not null,
@@ -82,16 +90,20 @@ create table COMPRA(
 	formaPagoID char(3) not null,
 	tipoAdquisicionID int not null,
 	tipoExistencia char(02) not null,
-	IGV int not null,
-	detraccion int not null,
-	percepcion int not null,
-	renta int not null,
+	IGV decimal(6,3) null,
+	detraccion decimal(6,3) null,
+	valorDetraccion decimal(6,3) null,
+	percepcion int null,
+	valorPercepcion decimal(6,3) null,
+	renta int null,
+	valorRenta decimal(6,3) null,
 	totalBruto decimal(9,2) not null,
 	descuento decimal(9,2) not null,
 	valorVenta decimal(9,2) not null,
 	impuesto decimal(9,2) not null,
 	precioVenta decimal(9,2) not null,
 	saldo decimal(9,2) not null,
+	saldoPagar decimal(6,3) not null,
 	detalles int not null,
 	estado char(01) not null,
 	primary key(mesID,anio,codigo),
@@ -120,8 +132,10 @@ create table DETALLE_COMPRA(
 create table PAGO_COMPRA(
 	mesID int not null,
 	anio int not null,
-	codigo int not null,
 	correlativo int not null,
+	mesReferencia int not null,
+	anioReferencia int not null,
+	codigoReferencia int not null,
 	fechaEmision date not null,
 	medioPagoID CHAR(3) NOT NULL,
 	monto decimal(9,2),
@@ -131,8 +145,8 @@ create table PAGO_COMPRA(
 	voucher varchar(30) null,
 	numeroCk varchar(30) null,
 	fechaVctoCk date null,
-	primary key(mesID,anio,codigo,correlativo),
-	foreign key(mesID,anio,codigo) references COMPRA(mesID,anio,codigo)
+	primary key(mesID,anio,correlativo),
+	foreign key(mesReferencia,anioReferencia,codigoReferencia) references COMPRA(mesID,anio,codigo)
 )
 
 
