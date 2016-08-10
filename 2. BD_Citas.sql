@@ -19,7 +19,7 @@ create table PEDIDO_SERVICIO(
 	importeTotal decimal(9,2) null,
 	importePagado decimal(9,2) null,
 	formaPagoID char(3) null,					/* Contado | Crédito */
-	estadoPago char(3) not null,					/* PAG: Pagado | PEN: Pendiente |	PAR:Parcial */
+	estadoPago char(3) not null,				/* PAG: Pagado | PEN: Pendiente | PAR:Parcial | XXX: Anulado*/
 	timestamp timestamp not null,
 	primary key(pedidoServicioID),
 	foreign key(pacienteID) references paciente(pacienteID),
@@ -55,7 +55,7 @@ create table CITA(
 	fecha date not null,
 	hora varchar(8) not null,
 	observaciones varchar(500) null,
-	estado char(1) not null,					/* R: Reservado | S: En sala | A: Atendido |	X: Anulado */
+	estado char(1) not null,				/* R: Reservado | C: Confirmado | S: En sala | A: Atendido | X: Anulado */
 	precio decimal(9,2) not null,
 	cantidad decimal(9,2) not null,
 	diagnostico varchar(500) null,

@@ -122,10 +122,11 @@ function traerServicios(pedidoID){
 function facturar(form,DNI,pedidoID){
 	$('#btnFacturar').attr('disabled',true);
 	var formaPagoID = $('#cboModalidadPago').val();	
-	var comprobante = $('#cboComprobante').val();	
-	var nroSerie = $('#txtNroSerie').val();
-	var nroComprobante = $('#txtNroComprobante').val();
-	var importe = $('#txtPagar').val();		
+	var comprobante = $('#cboComprobante').val();
+
+	// var nroSerie = $('#txtNroSerie').val();
+	// var nroComprobante = $('#txtNroComprobante').val();
+	// var importe = $('#txtPagar').val();
 	comboObligatorio('#cboComprobante',"0");
 	inputObligatorio('#txtNroComprobante',0);
 	if(comprobante != "00"){  //Tipo de comprobante
@@ -147,15 +148,18 @@ function facturar(form,DNI,pedidoID){
 		$('#btnFacturar').attr('disabled',false);
 		return false;
 	}
-	
-	opc = 'FAC_01';
-	// $('#btnFacturar').hide();
+	var formData = new FormData($('#formFacturar')[0]);
+
+	formData.append("opc", "FAC_01");   //Agregar nuevo
+	formData.append("DNI", DNI);   //Agregar nuevo
+	formData.append("pedidoID", pedidoID);   //Agregar nuevo
+		
 	$.ajax({
 		type: 'POST',
-		data:'opc='+opc+'&DNI='+DNI+'&pedidoID='+pedidoID+'&comprobante='+comprobante+
-				'&nroSerie='+nroSerie+'&nroComprobante='+nroComprobante
-				+'&importe='+importe,
+		data: formData,
 		url: url,
+		contentType :false,
+		processData: false,
 		success: function(rpta){
 			if(rpta == 1){
 				alert("Pago exitoso");				
@@ -193,7 +197,7 @@ function calcularNuevoSaldo(){
 function actualizarCampoPedidoServicio(pedidoID,campo){
 	var pedidoID = pedidoID;
 	var campo = campo;
-	var nuevoValor = $('#cboModalidadPago').val();	
+	var nuevoValor = $('#cboModalidadPago').val();
 	if(nuevoValor == 0){
 		$('#cboModalidadPago').parent().addClass('has-error');
 		alert('No valido');
@@ -205,12 +209,11 @@ function actualizarCampoPedidoServicio(pedidoID,campo){
 	abrirCargando();
 	$.ajax({
 		type: 'POST',
-		data:'opc='+opc+'&pedidoID='+pedidoID+'&campo='+campo+'&nuevoValor='+nuevoValor,				
+		data:'opc='+opc+'&pedidoID='+pedidoID+'&campo='+campo+'&nuevoValor='+nuevoValor,
 		url: url,
 		success: function(rpta){
 			if(rpta ==1 ){
 				$('#cboModalidadPago').parent().removeClass('has-error');
-				// $('#cboModalidadPago').attr('disabled',true);
 			}else{
 				alert(rpta);
 			}
@@ -221,7 +224,7 @@ function actualizarCampoPedidoServicio(pedidoID,campo){
 			alert(rpta);
 			cerrarCargando();
 		}
-	});	
+	});
 }
 // Carga todos los pagos de hoy
 function cargarTablaPagos(){

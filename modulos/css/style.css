@@ -49,12 +49,10 @@ form label ,.box-body label{
 /*Los estilos se agregan de acuerdo al tiempo de creacion */
 /*Los primeros fueron los ultimos*/
 table th,table td {
+	padding: 5px 5px 5px 5px !important;
 	font-size:12px;
-	/*padding-left: 2px !important;*/
-	/*padding-right: 2px !important;*/
-	/*padding-top: 5px !important;*/
-	/*padding-bottom: 5px !important;*/
-	/*padding-right: 2px !important;*/
+	vertical-align:middle!important;
+	cursor: pointer;
 }
 .dataTables_info,.paginate_button {
 	font-size:11px;

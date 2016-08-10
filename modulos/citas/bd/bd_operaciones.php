@@ -94,8 +94,8 @@
 							<td>".$fecha."</td>
 							<td>".$row[8]."</td>
 							<td>".$nombreMedico."</td>
-							<td>".$lineaCita."</td>
-							<td>".$lineaPago."</td>
+							<td style='text-align:center;'>".$lineaCita."</td>
+							<td style='text-align:center;'>".$lineaPago."</td>
 							<td>
 								<div>
                   <div class='inline pos-rel dropup'>
@@ -103,15 +103,14 @@
                         <i class='ace-icon fa fa-caret-down icon-only bigger-120'></i>
                     </button>
 
-                    <ul class='lista-flotante dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close '>
-                    	
+                    <ul class='lista-flotante dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close '>                    	
 
                       <li>
                       	<form method='post' action='../facturacion/facturar.php'>
 					                <input type='hidden' id='txtPedidoID' name='txtPedidoID' value='".$pedidoID."'>
 					                <input type='hidden' id='txtDNI' name='txtDNI' value='".$DNI."'>												  	
                           <button type='submit' class='btn btn-block btn-transparente btn-flat btn-xs'>                          
-                          	<span class='text-blue'>
+                          	<span class='text-green'>
 	                            <i class='ace-icon fa fa-usd bigger-120'></i>	                            
 	                          </span>
 	                          ";
@@ -147,6 +146,14 @@
                       	";
                       }
                       echo "
+                      <li>
+	                      <button onClick = 'editarEstadoCita(\"".$citaID."\",\""."S"."\")' class='btn btn-block btn-transparente btn-flat btn-xs'>
+	                      	<span class='text-aqua'>
+	                          <i class='ace-icon fa fa-clock-o bigger-120'></i>
+	                        </span>
+	                        <span> En sala </span>
+												</button>
+	                    </li>
                     </ul>
                   </div>
 							
@@ -317,6 +324,7 @@
 			
 
 			if($estadoCita=='R') $estadoCita = "<span class='label label-warning'>Reservado</span>";
+			else if($estadoCita=='C')	$estadoCita = "<span class='label label-info'>Confirmado</span>";
 			else if($estadoCita=='S')	$estadoCita = "<span class='label label-primary'>En Sala</span>";
 			else if($estadoCita=='A')	$estadoCita = "<span class='label label-success'>Atendido</span>";
 			else if($estadoCita=='X') $estadoCita = "<span class='label label-danger'>Anulado</span>";
@@ -331,8 +339,8 @@
 							<td>".$servicio."</td>
 							<td>".$especialidad."</td>
 							<td>".$fecha."</td>
-							<td>".$estadoCita."</td>
-							<td>".$estadoPago."</td>
+							<td style='text-align:center;'>".$estadoCita."</td>
+							<td style='text-align:center;'>".$estadoPago."</td>
 						</tr>";
 		}
 		exit();
