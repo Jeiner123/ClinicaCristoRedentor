@@ -6,6 +6,14 @@ if (!isset($_GET['opc'])) {
   $opc = $_GET['opc'];
 }
 ?>
+<div class="col-md-10 col-md-offset-1" align="center" style="margin-top:20px;">
+    <h1>CLÍNICA CRISTO REDENTOR</h1>
+</div>
+
+<div class="col-md-10 col-md-offset-1" align="center">
+    <h2>INTRANET</h2>
+</div>
+
 <div class="col-md-12">
     <div class="login-box" style="margin-top:30px;margin-bottom:-50px;">
         <div class="login-box-body">

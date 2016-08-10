@@ -62,13 +62,6 @@ if (isset($_SESSION['usuario']))
 </div>
 
 <div class="row" >
-    <div class="col-md-10 col-md-offset-1" align="center" style="margin-top:25px;">
-        <h1>CLÍNICA CRISTO REDENTOR</h1>
-    </div>
-    <div class="col-md-10 col-md-offset-1" align="center">
-        <h2>INTRANET</h2>
-    </div>
-
     <?php
     if (isset($_GET['option']) && $_GET['option']=='register')
         include 'register.php';
@@ -93,5 +86,79 @@ if (isset($_SESSION['usuario']))
     });
   });
 </script>
+
+<?php if (isset($_GET['option']) && $_GET['option']=='register') { ?>
+    <script src="modulos/js/script.js"></script>
+    <script>
+        function cargarCboTipoTelefono() {
+            opc = 'CC_TT_01';
+            $.ajax({
+                type: 'POST',
+                data:'opc='+opc,
+                url: './modulos/bd/bd_operaciones.php',
+                success: function(rpta){
+                    $('#tipoTelefono1').html(rpta);
+                    $('#tipoTelefono2').html(rpta);
+                    return true;
+                },
+                error: function(rpta){
+                    alert(rpta);
+                }
+            });
+        }
+        cargarCboTipoTelefono();
+
+        function validarPersona() {
+
+            inputObligatorio('#nombres', 4);
+            inputMismoValor('#DNI', 8);
+            inputObligatorio('#apPaterno', 3);
+            inputObligatorio('#apMaterno', 3);
+
+            inputMismoValor('#fechaNacimiento', 10);
+
+            inputCorreo('#correoPersonal');
+            inputObligatorio('#direccion', 6);
+
+            inputObligatorio('#telefono1', 6);
+            comboObligatorio('#tipoTelefono1', 0);
+
+            if ($('#telefono2').val().length > 0)
+                comboObligatorio('#tipoTelefono2', 0);
+
+            if($('.has-error').length > 0) {
+                alert("Verifique los datos ingresados");
+                return false;
+            } else
+                document.form.submit();
+
+            /*
+            abrirCargando();
+            $.ajax({
+                type: 'POST',
+                data: formData,
+                url: url,
+                contentType :false,
+                processData: false,
+                success: function(rpta){
+                    if(rpta==1){
+                        alert("Registro exitoso");
+                        limpiarForm(form);
+                        cerrarModal('#modalRegPersonal');
+                        cargarTablaPersonal();
+                        cerrarCargando();
+                        return true;
+                    }
+                    alert(rpta);
+                    cerrarCargando();
+                },
+                error: function(rpta){
+                    alert(rpta);
+                    cerrarCargando();
+                }
+            });*/
+        }
+    </script>
+<?php } ?>
 </body>
 </html>

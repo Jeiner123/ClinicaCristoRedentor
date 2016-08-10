@@ -64,7 +64,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="txtPaterno">Apellido paterno</label><label style="color:red">*</label>
-                    <input type="text" style="text-transform:uppercase;" class="form-control input-sm" id="txtPaterno"    name="txtPaterno" maxlength="50">
+                    <input type="text" style="text-transform:uppercase;" class="form-control input-sm" id="txtPaterno" name="txtPaterno" maxlength="50">
                   </div>
                 </div>
                 <div class="col-md-6">
