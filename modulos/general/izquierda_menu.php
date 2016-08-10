@@ -15,7 +15,6 @@
             <li class="header"><strong>Menú principal</strong></li>
 
             <?php
-            require '../bd/bd_conexion.php';
 
             $query = 'SELECT id, nombre, folder FROM modules';
             $result_set = mysqli_query($con, $query);
