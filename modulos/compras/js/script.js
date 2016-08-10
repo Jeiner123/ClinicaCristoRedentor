@@ -7,9 +7,29 @@ function validarCorrelativo(element){
   return valor;
 }
 
-//CARGARPERIODOS DE COMPRA
+//CARGAR PERIODOS DE COMPRA
 	function cargarCboPeriodoCompra(valorDefecto){
 		opc = 'CC_PC';
+		$.ajax({
+			type: 'POST',
+			data:'opc='+opc,
+			url: url,
+			success: function(rpta){
+				$('#cboPeriodoCompra').html(rpta);
+				$('#cboPeriodoCompra').val(valorDefecto);
+				funcionSelect('#cboPeriodoCompra');
+				cerrarCargando();
+				return true;		
+			},
+			error: function(rpta){
+				alert(rpta);
+			}
+		});
+	}
+
+//CARGAR PERIODOS DE PAGOS
+	function cargarCboPeriodoPago(valorDefecto){
+		opc = 'CC_PP';
 		$.ajax({
 			type: 'POST',
 			data:'opc='+opc,
@@ -345,6 +365,30 @@ function crearDetalleFactura(){
 	);
 }
 
+function validaDetraccion(){
+	if($("#cboDetraccion").val()!=0){
+		$("#divDetraccion").show();
+		valorDetraccion=parseFloat($("#cboDetraccion").val());
+		total=parseFloat($("#txtPrecioVenta").val());
+		detraccion=valorDetraccion*total
+		$("#txtDetraccion").val(detraccion.toFixed(2));
+	}else{
+		$("#divDetraccion").hide();
+	}
+}
+
+function validaRetencion(){
+	if($("#cboRetencion").val()!=0){
+		$("#divValorRetencion").show();
+		valorRetencion=parseFloat($("#cboRetencion").val());
+		total=parseFloat($("#txtPrecioVenta").val());
+		Retencion=valorRetencion*total
+		$("#txtRetencion").val(Retencion.toFixed(2));
+	}else{
+		$("#divValorRetencion").hide();
+	}
+}
+
 function SeleccionarPeriodo(mes){
 	bloqueoTotalForm('#formFactura',true);
 	if($("#txtFlag").val()=="N"){
@@ -359,9 +403,10 @@ function SeleccionarPeriodo(mes){
 	}
 }
 
-function generarPeriodo(mes){
+function generarPeriodo(mes,anio){
 	mes=parseInt(mes);
-	if($("#cboMes").val()>mes){
+	anio=parseInt(anio);
+	if($("#cboMes").val()>mes && $("#cboAnio").val()>=anio){
 		comboObligatorio('#cboMes',$("#cboMes").val());
 		$("#lbError").text("Periódo no permitido");
 		return;
@@ -377,14 +422,36 @@ function generarPeriodo(mes){
 	cargarCboAreas();
 	cargarCboExistencias();
 	cargarCboTipoAdquision(0);
-	cargarCboComprobanteCompra('01');
+	cargarCboComprobanteCompra('03');
 	cargarCboDetraccion(0);
+	cargarCboPercepcion(0);
+	cargarCboParametro(1,"#cboIGV",0);
+	cargarCboParametro(2,"#cboRetencion",0);
 	$("#txtFecha").prop("disabled",true);
 	$("#txtMes").val(mesPeriodo);
 	$("#txtAnio").val(anioPeriodo);
 	combo=document.getElementById("cboMes");
 	periodo = combo.options[combo.selectedIndex].text;
 	$("#txtPeriodo").val(periodo+"-"+anioPeriodo);
+	generarCorrelativo(mesPeriodo,anioPeriodo);
+}
+
+function generarCorrelativo(mes,anio){
+	var opc = 'CC_GC';
+		$.ajax({
+			type: 'POST',
+			data:'opc='+opc+'&mes='+mes+'&anio='+anio,
+			url: url,
+			success: function(rpta){
+				rpta=parseInt(rpta);
+				$("#txtCodigo").val(rpta);
+				$("#txtCodigo").val(validarCorrelativo("#txtCodigo"));
+
+			},
+			error: function(rpta){
+				alert(rpta);
+			}
+		});
 }
 
 function cargarTablaFactura(){
@@ -546,10 +613,33 @@ function CalcularTotal(){
     $("#txtTotalBruto").val(total.toFixed(2));
     descuento=parseFloat($("#txtDescuento").val());
     valorVenta=total-descuento;
-    igv=parseFloat(valorVenta)*0.18;
-    precioVenta=valorVenta+igv;
+    if($("#cboIGV").val()!=0){
+    	valoIGV=$("#cboIGV").val();
+    	igv=parseFloat(valorVenta)*parseFloat(valoIGV);
+    	$("#txtIGV").val(igv.toFixed(2));
+    	precioVenta=valorVenta+igv;
+    }else{
+    	$("#txtIGV").val("0.00");
+    	precioVenta=valorVenta;
+    }
+
+    if($("#cboDetraccion").val()!=0){
+    	detraccion=$("#cboDetraccion").val();
+    	valorDetraccion=precioVenta*parseFloat(detraccion);
+		$("#txtDetraccion").val(valorDetraccion.toFixed(2));
+	}else{
+		$("#txtDetraccion").val("0.00");
+	}
+
+	if($("#cboRetencion").val()!=0){
+		retencion=$("#cboRetencion").val();
+    	valorRetencion=precioVenta*parseFloat(retencion);
+		$("#txtRetencion").val(valorRetencion.toFixed(2));
+	}else{
+		$("#txtRetencion").val("0.00");
+	}
+
     $("#txtValorVenta").val(valorVenta.toFixed(2));
-    $("#txtIGV").val(igv.toFixed(2));
     $("#txtPrecioVenta").val(precioVenta.toFixed(2));
 }
 
@@ -755,10 +845,11 @@ function cargarFacturasFiltro(){
 //===================GESTIÓN DE MOVIMIENTOS DE SALIDA==========================
 
 function datosParaPago(){
-	mes=$("#txtMes").val();
-	anio=$("#txtAnio").val();
-	codigo=$("#txtCodigo").val();
-
+	mes=$("#txtMesRef").val();
+	anio=$("#txtAnioRef").val();
+	codigo=$("#txtCodigoRef").val();
+	flag=$("#txtFlag").val();
+	
 	abrirCargando();
 	var opc = 'CC_11';
 	$.ajax({
@@ -777,16 +868,22 @@ function datosParaPago(){
                 	$("#txtNumero").val(datos[i].numero);
                 	$("#txtFechaEmision").val(datos[i].fechaEmision);
                 	$("#txtFechaVcto").val(datos[i].fechaVencimiento);
-                	$("#txtReferencia").val(validarCorrelativo("#txtCorrelativo"));
                 	$("#txtSaldo").val(datos[i].saldo);
                 	$("#txtTotal").val(datos[i].precioVenta);
                 }
 				cargarCboComprobanteCompra(comprobante);
   				cargarCboMedioPago('008');
-
-			if($("#txtFlag").val()=='V'){
+  			bloqueoTotalForm("#formPagoCompra",true);
+			if(flag=='V'){
 				$("#btnGuardar").addClass("hidden");
-				bloqueoTotalForm("#formPagoCompra",true);
+			}else{
+				if(flag=='N'){
+					mes=parseInt(mes);
+					anio=parseInt(anio);
+					abrirModal("#modalPeriodo");
+					$("#cboMes").val(mes);
+					$("#cboAnio").val(anio);
+				}
 			}
 			cargarDetallePago(mes,anio,codigo);
 			
@@ -796,7 +893,25 @@ function datosParaPago(){
 			cerrarCargando();
 		}
 	});
+}
 
+function generarPeriodoPago(mes,anio){
+	mes=parseInt(mes);
+	anio=parseInt(anio);
+
+	if($("#cboMes").val()>mes && $("#cboAnio").val()>=anio){
+		comboObligatorio('#cboMes',$("#cboMes").val());
+		$("#lbError").text("Periódo no permitido");
+		return;
+	}
+
+	mes=$("#cboMes").val();
+	anio=$("#cboAnio").val();
+	$("#txtMes").val(mes);
+	$("#txtAnio").val(anio);
+	$("#txtPeriodo").val(meses[mes]+' - '+anio);
+	bloqueoTotalForm("#formPagoCompra",false);
+	cerrarModal("#modalPeriodo")
 }
 
 function cargarDetallePago(mes,anio,codigo){
@@ -852,6 +967,7 @@ function ValidarMedioPago(){
 
 function RegistrarPagoCompra(){
 	inputObligatorio('#txtMonto',1);
+	inputObligatorio('#txtPeriodo',1);
 	if(document.getElementsByClassName("has-error").length > 0){
 		alert("Verifique los datos ingresados");
 		return false;
@@ -904,7 +1020,7 @@ function cargarTablaMovimientosSalida(){
 			$('.tablaDatos').DataTable(
 			{
 				   	"columnDefs": [
-				        { "targets": [ 0 ],"width": "10%"}, 									 
+				        { "targets": [ 0 ],"width": "15%"}, 									 
 				        { "targets": [ 1 ],"width": "5%"}, 									 
 				        { "targets": [ 2 ],"width": "10%"},											 
 				        { "targets": [ 3 ],"width": "45%"},											 
@@ -920,4 +1036,51 @@ function cargarTablaMovimientosSalida(){
 			cerrarCargando();
 		}
 	});
+}
+
+function cargarPagosCompraFiltro(){
+	proveedor=$("#cboProveedor").val();
+	periodo=$("#cboPeriodoCompra").val();
+	if(periodo!=0){
+		var i = periodo.indexOf('-');
+		mes=periodo.substr(0,i);
+		anio=periodo.substr(i+1);
+	}else{
+		mes=0;
+		anio=0;
+	}
+
+	if(proveedor==0 && periodo==0){
+		cargarTablaMovimientosSalida();
+	}else{
+		abrirCargando();
+		var opc = 'CC_17';
+		$.ajax({
+			type: 'POST',
+			data:'opc='+opc+'&proveedor='+proveedor+'&mes='+mes+'&anio='+anio,
+			url: url,
+			success: function(rpta){
+				$('.tablaDatos').DataTable().destroy();
+				$('#cuerpoTablaMovSalida').html(rpta);
+				$('.tablaDatos').DataTable(
+				{
+					   	"columnDefs": [
+					        { "targets": [ 0 ],"width": "15%"}, 									 
+					        { "targets": [ 1 ],"width": "5%"}, 									 
+					        { "targets": [ 2 ],"width": "10%"},											 
+					        { "targets": [ 3 ],"width": "45%"},											 
+					        { "targets": [ 4 ],"width": "5%"},											 
+					        { "targets": [ 5 ],"width": "10%"}											 
+						  ]
+					}
+				);
+				cerrarCargando();
+				//alert(rpta);
+			},
+			error: function(rpta){
+				alert(rpta);
+				cerrarCargando();
+			}
+		});
+	}
 }

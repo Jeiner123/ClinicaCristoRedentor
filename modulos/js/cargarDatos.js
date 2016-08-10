@@ -1,6 +1,23 @@
 var urlGeneral = '../bd/bd_operaciones.php';
 // Cargar Combos
 
+	// CARGAR PARAMETRO
+	function cargarCboParametro(parametroID,combo,valorDefecto){
+	var opc = 'CC_CP';
+			$.ajax({
+				type: 'POST',
+				data:'opc='+opc+'&parametroID='+parametroID,
+				url: urlGeneral,
+				success: function(rpta){
+					$(combo).html(rpta);
+					$(combo).val(valorDefecto);
+				},
+				error: function(rpta){
+					alert(rpta);
+				}
+			});
+	}
+
 	//CARGAR MEDIOS DE PAGO
 	function cargarCboMedioPago(valorDefecto){
 		opc = 'CC_MP';
@@ -12,7 +29,6 @@ var urlGeneral = '../bd/bd_operaciones.php';
 				$('#cboMedioPago').html(rpta);
 				$('#cboMedioPago').val(valorDefecto);
 				funcionSelect('#cboMedioPago');
-				cerrarCargando();
 				return true;		
 			},
 			error: function(rpta){
@@ -21,7 +37,7 @@ var urlGeneral = '../bd/bd_operaciones.php';
 		});
 	}
 
-	//CARGAR DETRACCIONES
+	//CARGAR COMBO DETRACCIONES
 	function cargarCboDetraccion(valorDefecto){
 		opc = 'CC_TDE';
 		$.ajax({
@@ -32,7 +48,25 @@ var urlGeneral = '../bd/bd_operaciones.php';
 				$('#cboDetraccion').html(rpta);
 				$('#cboDetraccion').val(valorDefecto);
 				funcionSelect('#cboDetraccion');
-				cerrarCargando();
+				return true;		
+			},
+			error: function(rpta){
+				alert(rpta);
+			}
+		});
+	}
+
+	//CARGAR COMBO PERCEPCIONES
+	function cargarCboPercepcion(valorDefecto){
+		opc = 'CC_TP';
+		$.ajax({
+			type: 'POST',
+			data:'opc='+opc,
+			url: urlGeneral,
+			success: function(rpta){
+				$('#cboPercepcion').html(rpta);
+				$('#cboPercepcion').val(valorDefecto);
+				funcionSelect('#cboPercepcion');
 				return true;		
 			},
 			error: function(rpta){
@@ -315,6 +349,7 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			url: 'bd/bd_operaciones.php',
 			success: function(rpta){				
 				$('#cboTipoExistencia').html(rpta);
+				funcionSelect('#cboTipoExistencia');
 				cerrarCargando();
 				return true;		
 			},

@@ -48,6 +48,18 @@
         </div>        
         <div class="box-body" style='overflow-x:scroll;overflow-y:hidden' align="center">
           <div class="row">
+            <div class="col-md-1"><label class="control-label">Proveedor</label></div>
+           <div class="col-md-4">
+              <select class="chosen-select" name="cboProveedor" id="cboProveedor" onchange="cargarPagosCompraFiltro();">
+              </select>
+            </div>
+            <div class="col-md-1"><label class="control-label">Periodo</label></div>
+            <div class="col-md-3">
+                <select class="chosen-select form-control" name="cboPeriodoCompra" id="cboPeriodoCompra" onchange="cargarPagosCompraFiltro();">
+                </select>
+            </div>
+          </div><br>
+          <div class="row">
             <div class="col-md-12">
               <table id="tablaMovSalida" class="table table-bordered table-hover tablaDatos">
                 <thead>
@@ -86,6 +98,8 @@
   .datepicker{z-index:1151 !important;}
 </style>
 <script type="text/javascript">
+  cargarCboPeriodoPago(0);
+  cargarCboProveedor(0);
   cargarTablaMovimientosSalida(); 
   $('#tablaMovSalida tbody').on('click','tr',function(){seleccionSimple(this);});  
   
