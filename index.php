@@ -130,7 +130,7 @@ if (isset($_SESSION['usuario']))
                 alert("Verifique los datos ingresados");
                 return false;
             } else
-                document.form.submit();
+                $('#formRegister').submit();
 
             /*
             abrirCargando();

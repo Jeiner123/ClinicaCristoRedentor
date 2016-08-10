@@ -1,9 +1,9 @@
 <?php
-// Show a message if the login fails
-if (isset($_GET['opc'])) {
-    $opc = $_GET['opc'];
+// Show a message if the register fails
+if (isset($_GET['msg'])) {
+    $msg = $_GET['msg'];
 } else {
-    $opc = 0;
+    $msg = 0;
 }
 ?>
 <div class="col-md-6 col-md-offset-3">
@@ -11,18 +11,20 @@ if (isset($_GET['opc'])) {
         <div class="login-box-body">
             <p class="login-box-msg">Formulario de registro</p>
 
+            <?php if ($msg == '1') { ?>
             <div class="mensaje text-red">
-            <?php if (base64_decode($opc) == '1') { ?>
                 <span class="glyphicon glyphicon-warning-sign"></span>
-                <b>Datos ingresados no válidos</b>
-            <?php } ?>
-            <?php if (base64_decode($opc) == '2') { ?>
-                <span class="glyphicon glyphicon-warning-sign"></span>
-                <b>La cuenta está inactiva</b>
-            <?php } ?>
+                <b>Los datos ingresados no son válidos.</b>
             </div>
+            <?php } ?>
 
-            <form action="modulos/general/registrar_persona.php" method="POST">
+            <?php if ($msg == '2') { ?>
+                <div class="alert alert-success">
+                    <b>Registro realizado correctamente.</b>
+                </div>
+            <?php } ?>
+
+            <form action="modulos/general/registrar_persona.php" method="POST" id="formRegister">
                 <div class="row">
                     <div class="form-group col-md-6">
                         <label for="nombres">Nombres</label>
