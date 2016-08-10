@@ -135,6 +135,17 @@
 		exit();
 	}
 // CARGAR COMBOS
+	//CARGAR COMBO PARAMETRO
+	if($opc=='CC_CP'){
+		$parametroID=$_POST['parametroID'];
+		$consulta = "SELECT parametro,valor from parametro where parametroID='".$parametroID."' and estado=1";
+		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
+		echo "<option value='0'> No aplica</option>";
+		while($row = mysqli_fetch_row($res)){	
+			echo "<option value='".$row[1]."'>".$row[0]." ".($row[1]*100)."%</option>";
+		}
+		exit();
+	}
 	//CARGAR COMBO MEDIO DE PAGO
 	if($opc=='CC_MP'){
 		$consulta = "SELECT medioPagoID,medioPago FROM medio_pago where estado='A'";
@@ -157,11 +168,22 @@
 
 	//CARGAR COMBO DETRACCIONES
 	if($opc=='CC_TDE'){
-		$consulta = "SELECT tipoDetraccionID,tipoDetraccion,porcentaje*100 FROM tipo_detraccion where estado='A' order by tipoDetraccion";
+		$consulta = "SELECT tipoDetraccionID,tipoDetraccion,porcentaje FROM tipo_detraccion where estado='A' order by tipoDetraccion";
 		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
 		echo "<option value='0'>No aplica</option>";
 		while($row = mysqli_fetch_row($res)){	
-			echo "<option value='".$row[0]."'>".$row[1]." ".intval($row[2])."%</option>";
+			echo "<option value='".$row[2]."'>".$row[1]." ".($row[2]*100)."%</option>";
+		}
+		exit();
+	}
+
+	//CARGAR COMBO PERCEPCION
+	if($opc=='CC_TP'){
+		$consulta = "SELECT tipoPercepcion,porcentaje FROM tipo_percepcion where estado='A'";
+		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
+		echo "<option value='0'>No aplica</option>";
+		while($row = mysqli_fetch_row($res)){	
+			echo "<option value='".$row[1]."'>".$row[0]." ".($row[1]*100)."%</option>";
 		}
 		exit();
 	}

@@ -67,6 +67,10 @@
             <!-- COL-MD-6 -->
                 <input id="txtFlag" name="txtFlag" class="form-control" type="hidden" value="<?php echo $opcion; ?>">
                 <div class="row" style="margin-left:5px;">
+                  <div class="col-md-1">
+                    <label class="control-label">Cod.</label>
+                    <input type="text" id="txtCodigo" name="txtCodigo"class="form-control input-sm" readonly="">
+                  </div>
                   <div class="col-md-2">
                     <input id="txtMes" name="txtMes"class="form-control input-sm" type="hidden" value="<?php echo $mesID; ?>">
                     <input id="txtAnio" name="txtAnio"class="form-control input-sm" type="hidden" value="<?php echo $anioID; ?>">
@@ -74,33 +78,36 @@
                     <label class="control-label">Periódo</label>
                     <input type="text" id="txtPeriodo" name="txtPeriodo"class="form-control input-sm" readonly="" value="">
                   </div>
-                  <div class="col-md-2">
-                    <label class="control-label">Correlativo</label>
-                    <input type="text" id="txtCodigo" name="txtCodigo"class="form-control input-sm" readonly="">
-                  </div>
                   <div class="col-md-3">
                     <label class="control-label">Fecha</label>
                     <div class="input-group">
-                      <input id="txtFecha" name="txtFecha"class="form-control date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" onchange="validarFechaMayor(this);" value="<?php echo $fechaHoyDMA;?>" >
+                      <input id="txtFecha" name="txtFecha"class="form-control date-picker input-sm" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" onchange="validarFechaMayor(this);" value="<?php echo $fechaHoyDMA;?>" >
                       <span class="input-group-addon">
                         <i class="fa fa-calendar bigger-110"></i>
                       </span>
                     </div>
                   </div>
-                  <div class="col-md-5">
+                  <div class="col-md-4">
                     <label for="cboComprobante">Tipo de documento</label>
                     <select class="chosen-select form-control" name="cboComprobante" id="cboComprobante" onchange="validarTributos()">
                       </select>
                   </div>
+                  <div class="col-md-2">
+                      <label for="cboMoneda">Moneda</label>
+                      <select class="form-control input-sm" id="cboMoneda" name="cboMoneda">
+                        <option value="1">SOLES</option>
+                        <option value="2">DOLARES</option>
+                      </select>
+                    </div>
                 </div><br>
 
                 <div class="col-md-12">
                   <div class="row">
                     <div class="col-md-12">
-                      <div class="box-header"  style="margin: -30px 0px -15px -10px">
-                          <br><h1 class="box-title">DOCUMENTO</h1>
+                      <div class="box-header"  style="margin: -35px 0px -15px -10px">
+                          <hr>
                       </div>
-                      <hr>
+                      
                     </div>
                   </div>
                   <div class="row">
@@ -118,81 +125,71 @@
                       <input type="text" id="txtNumero" name="txtNumero"class="form-control input-sm" onchange="validarNumeroComprobante(this)">
                     </div>
                     <div class="col-md-3">
-                    <label class="control-label">Fecha de emisión</label>
-                    <div class="input-group">
-                      <input id="txtFechaEmision" name="txtFechaEmision"class="form-control date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" value="" >
-                      <span class="input-group-addon">
-                        <i class="fa fa-calendar bigger-110"></i>
-                      </span>
-                    </div>
-                  </div>
-                    
-                  <div class="col-md-3">
-                    <label class="control-label">Fecha de vencimiento</label>
-                    <div class="input-group">
-                      <input id="txtFechaVcto" name="txtFechaVcto"class="form-control input-sm date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" value="">
-                      <span class="input-group-addon">
-                        <i class="fa fa-calendar bigger-110"></i>
-                      </span>
-                    </div>
-                  </div>
-                  <div class="col-md-3">
-                      <label for="cboMoneda">Moneda</label>
-                      <select class="form-control input-sm" id="cboMoneda" name="cboMoneda">
-                        <option value="1">SOLES</option>
-                        <option value="2">DOLARES AMERICANOS</option>
-                      </select>
-                    </div>
-                    <div class="col-md-3">
                       <label class="control-label">Cond. de Pago</label>
                       <select class="form-control input-sm" id="cboModalidadPago" name="cboModalidadPago">
                       </select> 
                     </div>
+                    <div class="col-md-5">
+                        <label for="cboTipoExistencia">Tipo de bien o servicio</label>
+                        <select class="form-control input-sm" name="cboTipoExistencia" id="cboTipoExistencia">
+                        </select>
+                    </div>
                      <div class="col-md-3">
-                      <label class="control-label">Tipo de adquisición</label>
-                      <select class="form-control input-sm" id="cboAdquisicion" name="cboAdquisicion">
-                      </select> 
+                      <label class="control-label">Fecha de emisión</label>
+                      <div class="input-group">
+                        <input id="txtFechaEmision" name="txtFechaEmision"class="form-control date-picker input-sm" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" value="" >
+                        <span class="input-group-addon">
+                          <i class="fa fa-calendar bigger-110"></i>
+                        </span>
+                      </div>
                     </div>
-
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <label for="cboTipoExistencia">Tipo de bien o servicio</label>
-                      <select class="form-control input-sm" name="cboTipoExistencia" id="cboTipoExistencia">
-                      </select>
+                    <div class="col-md-3">
+                      <label class="control-label">Fecha de vencimiento</label>
+                      <div class="input-group">
+                        <input id="txtFechaVcto" name="txtFechaVcto"class="form-control input-sm date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" value="">
+                        <span class="input-group-addon">
+                          <i class="fa fa-calendar bigger-110"></i>
+                        </span>
                     </div>
-                   
+                    </div>
                   </div>
+                 
                 </div>
 
                  <div class="col-md-12">
                   <br>
                   <div class="row">
                     <div class="col-md-12">
-                      <div class="box-header"  style="margin: -30px 0px -15px -10px">
-                          <br><h1 class="box-title">TRIBUTOS</h1>
+                      <div class="box-header"  style="margin: -35px 0px -15px -10px">
+                          <br><h1 class="box-title">TRIBUTOS</h1><hr>
                       </div>
-                      <hr>
+                      
+                    </div>
+                    <div class="col-md-3">
+                        <label class="control-label">Tipo de adquisición</label>
+                        <select class="form-control input-sm" id="cboAdquisicion" name="cboAdquisicion">
+                        </select> 
                     </div>
                     <div class="col-md-2 tributo-comun">
                       <label for="cboIGV">I.G.V</label>
-                      <select class="form-control input-sm" name="cboIGV" id="cboIGV">
-                        <option value="1">No aplica</option>
-                        <option value="2" selected>I.G.V 18%</option>
+                      <select class="form-control input-sm" name="cboIGV" id="cboIGV" onchange="CalcularTotal()">
                       </select>
                     </div>
-                    <div class="col-md-6 tributo-comun">
+                    <div class="col-md-4 tributo-comun">
                       <label for="cboDetraccion">Detracción</label>
-                      <select class="form-control input-sm" name="cboDetraccion" id="cboDetraccion">
-                        <option value="1">No aplica</option>
+                      <select class="form-control input-sm" name="cboDetraccion" id="cboDetraccion" onchange="validaDetraccion()">
                       </select>
                     </div>
-                    <div class="col-md-2 tributo-comun">
+                    <div class="col-md-3 tributo-comun">
                       <label for="cboPercepcion">Percepción</label>
                       <select class="form-control input-sm" name="cboPercepcion" id="cboPercepcion">
-                        <option value="1">No aplica</option>
-                        <option value="2">Percep.2%</option>
-                        <option value="3">Serv.6.5%</option>
+                        
+                      </select>
+                    </div>
+                     <div class="col-md-2 tributo-comun" id="divRetencion">
+                      <label for="cboRetencion">Retencion</label>
+                      <select class="form-control input-sm" name="cboRetencion" id="cboRetencion" onchange="validaRetencion()">
+                        
                       </select>
                     </div>
                      <div class="col-md-2" hidden id="divRenta">
@@ -232,6 +229,22 @@
                       <div class="col-md-2">
                         <label for="txtPrecioVenta">Precio de venta</label>
                         <input class="form-control input-sm" name="txtPrecioVenta" id="txtPrecioVenta" onkeypress="return soloNumeroDecimal(event);" readonly="" value="0.0" style="text-align:right;"></input>
+                      </div>
+                      <div class="col-md-2" hidden id="divDetraccion">
+                        <label for="txtDetraccion">Valor detracción</label>
+                        <input class="form-control input-sm" name="txtDetraccion" id="txtDetraccion" onkeypress="return soloNumeroDecimal(event);" value="0.0" style="text-align:right;" readonly=""></input>
+                      </div>
+                      <div class="col-md-2" hidden id="divValorPercepcion">
+                        <label for="txtPercepcion">Valor percepcion</label>
+                        <input class="form-control input-sm" name="txtPercepcion" id="txtPercepcion" onkeypress="return soloNumeroDecimal(event);" value="0.0" style="text-align:right;" readonly=""></input>
+                      </div>
+                      <div class="col-md-2" hidden id="divValorRenta">
+                        <label for="txtRenta">Valor renta</label>
+                        <input class="form-control input-sm" name="txtRenta" id="txtRenta" onkeypress="return soloNumeroDecimal(event);" value="0.0" style="text-align:right;" readonly=""></input>
+                      </div>
+                       <div class="col-md-2" hidden id="divValorRetencion">
+                        <label for="txtRetencion">Valor retención</label>
+                        <input class="form-control input-sm" name="txtRetencion" id="txtRetencion" onkeypress="return soloNumeroDecimal(event);" value="0.0" style="text-align:right;" readonly=""></input>
                       </div>
                     </div>
                     <div class="col-md-12">
@@ -279,7 +292,7 @@
                           <button type="button" class="btn btn-primary btn-block" onclick="RegistrarCompra()" id="btnGuardar">Registrar nuevo documento</button>
                       </div>
                       <div class="col-md-6" style="top:20px!important;">
-                        <a href="listado_facturas.php" onclick="" class="btn btn-default btn-block">Ver documentos de compra</a>
+                        <a href="cuenta_pagar.php" onclick="" class="btn btn-default btn-block">Ver cuentas por pagar</a>
                     </div>
                   </div>
                   <br>
@@ -339,7 +352,7 @@
               <!-- /.modal-footer -->
               <div class="modal-footer">                  
                 <div class="row" align="center">
-                  <input  onClick="generarPeriodo('<?php echo date('m');?>');" value="Aceptar" style="margin-right:20px;" type="button" class="btn btn-secundary btn-flat" id="btnGuardar"/>                  
+                  <input  onClick="generarPeriodo('<?php echo date('m');?>','<?php echo date('Y');?>');" value="Aceptar" style="margin-right:20px;" type="button" class="btn btn-secundary btn-flat" id="btnGuardar"/>                  
                 </div>
               </div>
               <!-- /.modal-footer -->

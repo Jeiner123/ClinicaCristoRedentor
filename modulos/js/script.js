@@ -104,33 +104,36 @@ function cerrarCargando(){
 	}
 }
 
-// Validamos que el combo esté seleccionado
-function comboObligatorio(combo,valor){
-	if($(combo).val() ==valor){
+// Validamos que el combo tenga 1 selección
+function comboObligatorio(combo,valor) {
+	if($(combo).val() == valor)
 		$(combo).parent().addClass('has-error');
-	}else{
+	else
 		$(combo).parent().removeClass('has-error');
-	}
 }
-// Validamos los campos que son obigatorios
-function inputObligatorio(input,valor){
-	if($.trim($(input).val()).length<valor){
+// Validamos los campos que son obligatorios
+function inputObligatorio(input,valor) {
+	if($.trim($(input).val()).length < valor)
 		$(input).parent().addClass('has-error');
-	}else{
+	else
 		$(input).parent().removeClass('has-error');
-	}
 }
-function inputMismoValor(input,valor){
-	if($.trim($(input).val()).length!=valor){
+function inputMismoValor(input,valor) {
+	if($.trim($(input).val()).length != valor)
 		$(input).parent().addClass('has-error');
-	}else{
+	else
 		$(input).parent().removeClass('has-error');
-	}
 }
-function seleccionSimple(e){
-	if ($(e).parents("table").find('tbody tr td').length == 1){ //Si no hay datos
+function inputCorreo(input) {
+	if (validaCorreo($(input).val()))
+        $(input).parent().removeClass('has-error');
+	else
+        $(input).parent().addClass('has-error');
+}
+function seleccionSimple(e) {
+	if ($(e).parents("table").find('tbody tr td').length == 1) //Si no hay datos
  	   return false;
-	}
+
 	if ( $(e).hasClass('active')){
  		$(e).removeClass('active');
  	}else{
@@ -222,12 +225,10 @@ function soloLetras(e){
 		return false;
 	}
 }
-function validaCorreo(email){
+// Devuelve verdadero si el correo es válido
+function validaCorreo(email) {
 	var correo = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    if ( !correo.test(email) )
-       return false;
-    else
-    	return true;
+    return correo.test(email);
 }
 function enviarCorreo(form){
 	var nombres = $.trim($('#txtNombres').val());

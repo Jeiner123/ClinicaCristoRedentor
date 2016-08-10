@@ -25,7 +25,6 @@
 <link rel="shortcut icon" href="../../img/logo.png">
 <link rel="stylesheet" href="../../plugins/morris/morris.css">
 
- 
 
 <link rel="stylesheet" href="../css/style.css">
 <link rel="stylesheet" href="../css/plan.css">
@@ -33,45 +32,38 @@
 <link rel="stylesheet" href="../../plugins/chosen/chosen.min.css">
 <!-- <link rel="stylesheet" href="../../plugins/ace-master/ace.min.css"> -->
 
-  
+
+<!-- jQuery 2.1.4 -->
+<script src="../../plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<!-- Bootstrap 3.3.5 -->
+<script src="../../bootstrap/js/bootstrap.min.js"></script>
+<script src="../../dist/js/app.min.js"></script>
 
 
-
-
-
-
-   <!-- jQuery 2.1.4 -->
-  <script src="../../plugins/jQuery/jQuery-2.1.4.min.js"></script>
-  <!-- Bootstrap 3.3.5 -->
-  <script src="../../bootstrap/js/bootstrap.min.js"></script>
-  <script src="../../dist/js/app.min.js"></script>
-  
-
-
-  <!-- DataTables -->
-  <link rel="stylesheet" href="../../plugins/datatables/dataTables.bootstrap.css">
-  <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-  <script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
+<!-- DataTables -->
+<link rel="stylesheet" href="../../plugins/datatables/dataTables.bootstrap.css">
+<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
 
 
 <!-- Locales -->
-  <script src="../js/script.js"></script>
-  <script src="../js/cargarDatos.js"></script>
-  <script src="../js/jsOperaciones.js"></script>
-  <!-- ACE -->
-  <script src="../../plugins/ace-master/ace-extra.min.js"></script>
- 
-  <!-- Time - Date Picker -->
+<script src="../js/script.js"></script>
+<script src="../js/cargarDatos.js"></script>
+<script src="../js/jsOperaciones.js"></script>
+<!-- ACE -->
+<script src="../../plugins/ace-master/ace-extra.min.js"></script>
 
-  <script src="../../plugins/timepicker/bootstrap-timepicker.min.js"></script>
-  <!-- <link rel="stylesheet" href="../../plugins/datepicker/bootstrap-datepicker.js"> -->
+<!-- Time - Date Picker -->
 
-  <script src="../../plugins/datepicker/bootstrap-datepicker.min.js"></script>
-  <script src="../../plugins/iCheck/icheck.min.js"></script>
+<script src="../../plugins/timepicker/bootstrap-timepicker.min.js"></script>
+<!-- <link rel="stylesheet" href="../../plugins/datepicker/bootstrap-datepicker.js"> -->
 
-  <script src="../../plugins/chosen/chosen.jquery.min.js"></script>
-  <!-- <script src="../../plugins/daterangepicker/daterangepicker.js"></script>-->
-  <!-- <script src="../../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>-->
-  <!-- <script src="../../dist/js/pages/dashboard.js"></script> -->
-  <!-- <script src="../../dist/js/demo.js"></script> -->
-  <!-- <script src="../../plugins/knob/jquery.knob.js"></script> -->
+<script src="../../plugins/datepicker/bootstrap-datepicker.min.js"></script>
+<script src="../../plugins/iCheck/icheck.min.js"></script>
+
+<script src="../../plugins/chosen/chosen.jquery.min.js"></script>
+<!-- <script src="../../plugins/daterangepicker/daterangepicker.js"></script>-->
+<!-- <script src="../../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>-->
+<!-- <script src="../../dist/js/pages/dashboard.js"></script> -->
+<!-- <script src="../../dist/js/demo.js"></script> -->
+

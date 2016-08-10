@@ -5,6 +5,7 @@
   $mesID = '';
   $anioID = '';
   $codigo = '';
+  $monto = '';
 
   if(isset($_POST['txtmesID'])){
     $opcion = $_POST['txtOpcion'];
@@ -13,6 +14,10 @@
     $codigo = $_POST['txtNum'];
   }else{
     exit();
+  }
+
+  if(isset($_POST['txtMontoP'])){
+    $monto = $_POST['txtMontoP'];
   }
  ?>
 <!DOCTYPE html>
@@ -53,10 +58,16 @@
         <div class="box box-primary color-palette-box">          
           <div class="box-body">
             <input id="txtFlag" name="txtFlag" class="form-control" type="hidden" value="<?php echo $opcion; ?>">
-            <input id="txtMes" name="txtMes"class="form-control input-sm"  value="<?php echo $mesID; ?>" type="hidden">
-            <input id="txtAnio" name="txtAnio"class="form-control input-sm"  value="<?php echo $anioID; ?>" type="hidden">
-             <input id="txtCodigo" name="txtCodigo" class="form-control input-sm" value="<?php echo $codigo; ?>" type="hidden">
-            <div class="row"> 
+            <input id="txtMes" name="txtMes"class="form-control input-sm" type="hidden">
+            <input id="txtAnio" name="txtAnio"class="form-control input-sm" type="hidden">
+             <input id="txtMesRef" name="txtMesRef"class="form-control input-sm"  value="<?php echo $mesID; ?>" type="hidden">
+            <input id="txtAnioRef" name="txtAnioRef"class="form-control input-sm"  value="<?php echo $anioID; ?>" type="hidden">
+             <input id="txtCodigoRef" name="txtCodigoRef" class="form-control input-sm" value="<?php echo $codigo; ?>" type="hidden">
+            <div class="row">
+              <div class="col-md-2">
+                <label class="control-label">Periodo</label>
+                <input type="text" id="txtPeriodo"  name="txtPeriodo" class="form-control input-sm" readonly="">
+              </div>
               <div class="col-md-4">
                 <label class="control-label">Proveedor</label>
                 <input type="hidden" id="txtProveedorID"  name="txtProveedorID" class="form-control input-sm">
@@ -80,21 +91,13 @@
                   </span>
                 </div>
               </div>
-              <div class="col-md-2">
-                <label class="control-label">Correlativo</label>
-                <input type="text" id="txtCorrelativo" name="txtCorrelativo"class="form-control input-sm" readonly="">
-              </div>
-            
+             
             </div>
             <div class="row">
              <div class="col-md-4">
               <label for="cboTipoOperacion">Tipo de comprobante</label>
               <select class="chosen-select input-sm" name="cboComprobante" id="cboComprobante" disabled>
                 </select>
-              </div>
-              <div class="col-md-2">
-                <label class="control-label">Referencia</label>
-                <input type="text" id="txtReferencia" name="txtReferencia"class="form-control input-sm" readonly="">
               </div>
               <div class="col-md-2">
                 <label class="control-label">Serie</label>
@@ -108,6 +111,10 @@
                 <label class="control-label">Total</label>
                 <input type="text" id="txtTotal" name="txtTotal"class="form-control input-sm" placeholder="S/." readonly="">
               </div>
+              <div class="col-md-2">
+                <label class="control-label">Saldo</label>
+                <input type="text" id="txtSaldo" name="txtSaldo" class="form-control input-sm" readonly="">
+              </div>
                <div class="col-md-6">
                 <label class="control-label">Forma de pago</label>
                 <select class="chosen-select input-sm" name="cboMedioPago" id="cboMedioPago" onchange="ValidarMedioPago()">
@@ -116,7 +123,7 @@
               </div>
               <div class="col-md-2">
                 <label class="control-label">Monto</label>
-                <input type="text" id="txtMonto" name="txtMonto"class="form-control input-sm" placeholder="S/." onkeypress="return soloNumeroDecimal(event);">
+                <input type="text" id="txtMonto" name="txtMonto"class="form-control input-sm" placeholder="S/." value="<?php echo $monto;?>" onkeypress="return soloNumeroDecimal(event);">
               </div>
             </div>
             <div class="row" id="divExtra" hidden>
@@ -177,11 +184,14 @@
           <!-- BOx-body -->
           <div class="box-footer" align="ceter">
             <div class="row" align="center">
-             <div class="col-md-6" style="top:20px!important;">
+             <div class="col-md-4" style="top:20px!important;">
                   <button type="button" class="btn btn-primary btn-block" onclick="RegistrarPagoCompra()" id="btnGuardar">Registrar pago</button>
               </div>
-              <div class="col-md-6" style="top:20px!important;">
-                <a href="listado_facturas.php" onclick="" class="btn btn-default btn-block">Ver movimientos de caja</a>
+              <div class="col-md-4" style="top:20px!important;">
+                <a href="movimientos_caja.php" onclick="" class="btn btn-default btn-block">Ver movimientos de caja</a>
+              </div>
+              <div class="col-md-4" style="top:20px!important;">
+                <a href="cuenta_pagar.php" onclick="" class="btn btn-default btn-block">Ver cuentas por pagar</a>
               </div>                  
             </div><br><br>
           </div>
@@ -195,6 +205,54 @@
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
+<!-- /.modalPeriodo -->
+      <div class="modal fade" id="modalPeriodo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" align="center">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+             <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                  <h4 id="titulo" class="modal-title subfuente text-center">
+                    Seleccionar periódo
+                  </h4>
+              </div>
+              <!-- /.modal-header -->
+              <div class="modal-body">
+                <div class="row">
+                   <div class="col-md-7">
+                    <select class="form-control input-sm" name="cboMes" id="cboMes">
+                      <?php
+                        foreach ($meses as $mes => $value) {
+                          echo '<option value="'.$mes.'">'.$meses[$mes].'</option>';
+                        }
+                      ?>
+                    </select>
+                    <label class="control-label" style="color:red;font-size: 10px;" id="lbError"></label>
+                  </div>
+                  <div class="col-md-5">
+                    <select class="form-control input-sm" name="cboAnio" id="cboAnio">
+                    <?php 
+                      $anio=date('Y');
+                      for ($i=2;$i>=1;--$i): 
+                        echo '<option value="'.$anio.'">'.$anio.'</option>';
+                        $anio=intval($anio)-1;
+                      endfor; ?>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <!-- /.modal-footer -->
+              <div class="modal-footer">                  
+                <div class="row" align="center">
+                  <input  onClick="generarPeriodoPago('<?php echo date('m');?>','<?php echo date('Y');?>');" value="Aceptar" style="margin-right:20px;" type="button" class="btn btn-secundary btn-flat" id="btnGuardar"/>                  
+                </div>
+              </div>
+              <!-- /.modal-footer -->
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-Dialog -->
+      </div>
+      <!-- /.modalPeriodo -->
   <?php include '../general/pie_pagina.php';?>
   
 </body>

@@ -1,7 +1,8 @@
 USE clinica;
 
 INSERT INTO PARAMETRO (parametroID, parametro, valor, estado) VALUES
-  (1, 'IGV', 0.18, 1);
+  (1, 'IGV', 0.18, 1),
+  (2, 'Retención', 0.03, 1);
 
 INSERT INTO COMPROBANTE_PAGO (comprobanteID, descripcion, estado, compras, ventas, ingresos, egresos, honorarios, diario)
 VALUES
@@ -832,7 +833,7 @@ insert into TIPO_EXISTENCIA values
 	('01','MERCADERÍAS, MATERIAS PRIMAS, SUMINISTROS, ENVASES Y EMBALAJES','A'),
 	('02','ACTIVO FIJO','A'),
 	('03','OTROS ACTIVOS NO CONSIDERADOS EN EL NUMERAL 01 Y 02','A'),
-	('04','GASTOS DE EDUCACIÓN,SALUD, RECREACION, CULTURALES','A'),
+	('04','GASTOS DE EDUCACIÓN, RECREACIÓN, SALUD, CULTURALES. REPRESENTACIÓN, CAPACITACIÓN, DE VIAJE, MANTENIMIENTO DE VEHICULO Y  DE PREMIOS','A'),
 	('05','OTROS GASTOS NO INCLUIDOS EN EL NUMERAL 04','A');
 
 	
@@ -874,8 +875,13 @@ insert into ENTIDAD_FINANCIERA values
 	('47','ORION ','A'),
 	('48','DEL PAIS ','A'),
 	('49','MI BANCO','A'),
-	('50','BNP PARIBAS','A'),
-	('53','HSBC BANK PERU S.A.','A'),
+  ('50','BNP PARIBAS','A'),
+	('51','AGROBANCO','A'),
+  ('53','HSBC BANK PERU S.A.','A'),
+  ('54','BANCO FALABELLA S.A.','A'),
+  ('55','BANCO RIPLEY','A'),
+  ('56','BANCO SANTANDER PERU S.A.','A'),
+	('58','BANCO AZTECA DEL PERU','A'),
 	('59','OTROS','A');
 
 insert into TIPO_ADQUISICION values
@@ -909,7 +915,7 @@ insert into MEDIO_PAGO values
   ('999','OTROS MEDIOS DE PAGO','A');
 
 insert into TIPO_DETRACCION values
-	('1','INTERMEDIACION LABORAL Y TERCERIZACION (Contratos de Gerencia)','S','0.12','A'),
+	('1','INTERMEDIACION LABORAL Y TERCERIZACION (Contratos de Gerencia)','0.12','A'),
 	('2','ARRENDAMIENTO DE BIENES (muebles e inmuebles)','S','0.12','A'),
 	('3','MANTENIMIENTO Y REPARACIÓN DE BIENE MUEBLES','S','0.12','A'),
 	('4','MOVIMIENTO DE CARGA','S','0.12','A'),
@@ -919,6 +925,14 @@ insert into TIPO_DETRACCION values
 	('8','SERVICIO DE TRANSPORTE DE PERSONAS POR VIA TERRESTRE','S','0.10','A'),
 	('9','CONTRATOS DE CONSTRUCCIÓN','S','0.04','A'),
 	('10','DEMAS SERVICIOS GRAVADOS CON EL IGV (exceptop hospedaje, restaurantes entre otros)','S','0.10','A');
+
+insert into TIPO_PERCEPCION values
+  ('1','COMBUSTIBLES LIQUIDOS DERIVADOS DEL PETROLEO','0.01','A'),
+  ('2','BIENES IMPORTADOS DE MANERA DEFINITIVA','0.10','A'),
+  ('3','BIENES IMPORTADOS DE MANERA DEFINITIVA','0.05','A'),
+  ('4','BIENES IMPORTADOS DE MANERA DEFINITIVA','0.035','A'),
+  ('5','BIENES INCLUIDOSEN EL APENDICE 1 DE LA LEY  N° 29173 Y DECRETO SUPREMO  N° 091-2013-EF','0.002','A'),
+  ('6','MOVIMIENTO DE CARGA','0.005','A');
 
 
 INSERT INTO usuario (usuario, clave, DNI, estado) VALUES
@@ -970,9 +984,10 @@ INSERT INTO items (module_id, nombre, file) VALUES
   (8, 'Listado de proveedores', 'listado_proveedores'),
   (8, 'Nuevo proveedor', 'nuevo_proveedor'),
   (8, 'Orden de compra', 'orden_compra'),
-  (8, 'Nota de ingreso', 'compras'),
-  (8, 'Cuenta corriente por pagar', 'listado_facturas'),
-  (8, 'Provisiones por pagar', 'facturas'),
+  (8, 'Nota de ingreso', 'nota_ingreso'),
+  (8, 'Cuenta corriente por pagar', 'cuenta_pagar'),
+  (8, 'Provisiones por pagar', 'provision_pagar'),
+  (8, 'Movimientos de caja', 'movimientos_caja'),
 
   (9, 'Tipo de servicio', 'tipo_servicio'),
   (9, 'Tipo de personal', 'tipo_personal'),

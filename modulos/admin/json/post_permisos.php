@@ -16,9 +16,8 @@ if (isset($value)) {
         $sql = "INSERT INTO permissions (username, item_id) VALUES ('$username', $item_id)";
     else $sql = "DELETE FROM permissions WHERE username='$username' AND item_id=$item_id";
 }
-echo $sql;
-$result_set = mysqli_query($con, $sql);
-echo $result_set;
 
-/*$data['success'] = $result_set;
-echo json_encode($data);*/
+$result_set = mysqli_query($con, $sql);
+
+$data['success'] = $result_set;
+echo json_encode($data);
