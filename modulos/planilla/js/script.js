@@ -54,7 +54,7 @@ function  mostrarPersonal (personalID){
 		}
 	});	
 }
-//Guardar personal
+// Guardar personal
 function guardarPersonal(form){
 	// Validaciones
 	flag = $.trim($('#txtFlag').val());
@@ -112,7 +112,7 @@ function guardarPersonal(form){
 	});
 }
 // Cargar la tabla de todos los personales
-function cargarTablaPersonal(){
+function cargarTablaPersonal() {
 	abrirCargando();
 	var opc = 'CT_P_01';
 	var tipoPersonal = 'T';
