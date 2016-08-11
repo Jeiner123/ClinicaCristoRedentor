@@ -38,7 +38,7 @@
       <div class="box box-solid color-palette-box">
         <div class="box-header bg-blue" >
           <div>
-            <h3 class="box-title">Listado de documentos de pago</h3>
+            <h3 class="box-title">Listado de documentos de compra</h3>
           </div>
           <div class="box-tools pull-right">
             <button style='color:#fff;' type="button" class="btn btn-box-tool" data-widget="collapse">
@@ -64,10 +64,11 @@
               </select>
             </div>
             <div class="col-md-1"><label class="control-label">Periodo</label></div>
-          <div class="col-md-3">
+            <div class="col-md-3">
               <select class="chosen-select form-control" name="cboPeriodoCompra" id="cboPeriodoCompra" onchange="cargarFacturasFiltro();">
               </select>
             </div>
+             
           </div>
           <br>
           <div class="row">
@@ -89,6 +90,14 @@
                   <!-- Aqui irán los elementos de la tabla -->
                 </tbody>
               </table>
+            </div>
+            <div class="col-sm-2"><br>
+              <div class="form-group">
+                <a href="javascript:;" class="btn btn-block btn-success btn-sm btn-flat" >
+                  Exportar a  excel
+                  <i class="fa fa-download"></i>
+                </a>
+              </div>
             </div>
           </div>
         </div>

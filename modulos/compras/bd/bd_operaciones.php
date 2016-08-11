@@ -413,7 +413,7 @@
 		$mes = $_POST['mes'];
 		$anio = $_POST['anio'];
 		$codigo = $_POST['codigo'];
-		$sql = "SELECT C.comprobanteID,C.formaPagoID,C.proveedorID,IF(P.razonSocial='',UPPER(concat(P.nombres,' ',P.apellidoPat,' ',P.apellidoMat)),UPPER(P.razonSocial)) as proveedor,C.tipoExistencia,C.tipoAdquisicionID,C.detraccion,DATE_FORMAT(C.fecha, '%d-%m-%Y') as fecha,C.serie,C.numero,DATE_FORMAT(C.fechaEmision, '%d-%m-%Y') as fechaEmision,DATE_FORMAT(C.fechaVencimiento, '%d-%m-%Y') as fechaVencimiento,C.moneda,C.IGV,C.detraccion,C.valorDetraccion,C.percepcion,C.valorPercepcion,C.renta,C.valorRenta,C.retencion,C.valorRetencion,C.totalBruto,C.descuento,C.valorVenta,C.impuesto,C.precioVenta,C.saldo,C.saldoPagar from compra C inner join proveedor P ON C.proveedorID=P.proveedorID  where C.mesID=$mes and C.anio=$anio and C.codigo=$codigo";
+		$sql = "SELECT C.comprobanteID,C.formaPagoID,C.proveedorID,IF(P.razonSocial='',UPPER(concat(P.nombres,' ',P.apellidoPat,' ',P.apellidoMat)),UPPER(P.razonSocial)) as proveedor,P.cuentaDetraccion,C.tipoExistencia,C.tipoAdquisicionID,C.detraccion,DATE_FORMAT(C.fecha, '%d-%m-%Y') as fecha,C.serie,C.numero,DATE_FORMAT(C.fechaEmision, '%d-%m-%Y') as fechaEmision,DATE_FORMAT(C.fechaVencimiento, '%d-%m-%Y') as fechaVencimiento,C.moneda,C.IGV,C.detraccion,C.valorDetraccion,C.percepcion,C.valorPercepcion,C.renta,C.valorRenta,C.retencion,C.valorRetencion,C.totalBruto,C.descuento,C.valorVenta,C.impuesto,C.precioVenta,C.saldo,C.saldoPagar from compra C inner join proveedor P ON C.proveedorID=P.proveedorID  where C.mesID=$mes and C.anio=$anio and C.codigo=$codigo";
 		$resulset = mysqli_query($con,$sql);
  		$datos=array();
 	    while($row = mysqli_fetch_assoc($resulset))
@@ -464,6 +464,8 @@
 
 		$medioPagoID = $_POST['cboMedioPago'];
 		$total = $_POST['txtTotal'];
+		$valorVenta=$_POST['txtValorVenta'];
+		$igv=$_POST['txtIGV'];
 		$monto = $_POST['txtMonto'];
 		$saldo = $_POST['txtSaldo'];
 		$saldo=floatval($saldo)-floatval($monto);
@@ -482,7 +484,8 @@
 		$fechaVctoCk = str_replace("/","-",$fechaVctoCk);
 	  	$fechaVctoCk = date('Y-m-d',strtotime($fechaVctoCk));
 
-		$consulta = "INSERT INTO pago_compra values(".$mes.",".$anio.",".$correlativo.",".$mesRef.",".$anioRef.",".$codigoRef.",'".$fechaEmision."','".$medioPagoID."','".$monto."','".$saldo."','".$entidadFinancieraID."','".$cuenta."','".$voucher."','".$numeroCk."','".$fechaVctoCk."')";
+	  	$concepto=$_POST['concepto'];
+		$consulta = "INSERT INTO pago_compra values(".$mes.",".$anio.",".$correlativo.",".$mesRef.",".$anioRef.",".$codigoRef.",'".$fechaEmision."','".$medioPagoID."','".$valorVenta."','".$igv."','".$monto."','".$saldo."','".$entidadFinancieraID."','".$cuenta."','".$voucher."','".$numeroCk."','".$fechaVctoCk."','".$concepto."')";
 
 		$res=mysqli_query($con,$consulta)or  die (mysqli_error($con));
 		if(!$res){
@@ -513,7 +516,13 @@
 
 	//LISTAR MOVIMIENTOS DE SALIDA DE CAJA
 	if($opc=='CC_14'){
-		$consulta = "select PC.mesID,PC.anio,PC.correlativo,C.serie,C.numero,DATE_FORMAT(PC.fechaEmision, '%d-%m-%Y'),MP.medioPago,PC.monto from pago_compra PC inner join medio_pago MP on PC.medioPagoID=MP.medioPagoID inner join  compra C on PC.mesReferencia=C.mesID AND PC.anioReferencia=C.anio and PC.codigoReferencia=C.codigo";
+		$query = "SELECT parametro,valor from parametro where parametroID=1 and estado=1";
+		$res = mysqli_query($con,$query) or die (mysqli_error($con));
+		while($row = mysqli_fetch_row($res)){	
+			$igv=$row[1];
+		}
+
+		$consulta = "select PC.mesID,PC.anio,PC.correlativo,C.serie,C.numero,DATE_FORMAT(PC.fechaEmision, '%d-%m-%Y'),MP.medioPago,PC.monto,PC.valorVenta,PC.igv,PC.mesReferencia,PC.anioReferencia,PC.codigoReferencia from pago_compra PC inner join medio_pago MP on PC.medioPagoID=MP.medioPagoID inner join  compra C on PC.mesReferencia=C.mesID AND PC.anioReferencia=C.anio and PC.codigoReferencia=C.codigo";
 	
 		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
 			while($row = mysqli_fetch_row($res)){
@@ -521,6 +530,12 @@
 				$anio=$row[1];
 				$codigo=$row[2];
 				$monto=$row[7];
+				$valorVenta=$row[8];
+				$igvValor=$row[9];
+
+				$mesRef=$row[10];
+				$anioRef=$row[11];
+				$codigoRef=$row[12];
 
 				echo "<tr>					
 						<td>".$meses[$mes]."-".$anio."</td>
@@ -532,11 +547,14 @@
 							<div class='row'>
 								<div class='col-md-4 col-md-offset-2'>
 									<form method='post' action='../compras/facturar.php'>
-		                <input type='hidden' id='txtmesID' name='txtmesID' value='".$mes."'>
-		                <input type='hidden' id='txtAnioID' name='txtAnioID' value='".$anio."'>
-		                <input type='hidden' id='txtNum' name='txtNum' value='".$codigo."'>
+		                <input type='hidden' id='txtmesID' name='txtmesID' value='".$mesRef."'>
+		                <input type='hidden' id='txtAnioID' name='txtAnioID' value='".$anioRef."'>
+		                <input type='hidden' id='txtNum' name='txtNum' value='".$codigoRef."'>
 		                <input type='hidden' id='txtMontoP' name='txtMontoP' value='".$monto."'>
+		                <input type='hidden' id='txtValorVentaP' name='txtValorVentaP' value='".$valorVenta."'>
+		                <input type='hidden' id='txtValorIgvP' name='txtValorIgvP' value='".$igvValor."'>
 		                <input type='hidden' id='txtOpcion' name='txtOpcion' value='V'>
+		                <input type='hidden' id='txtIgvP' name='txtIgvP' value='".$igv."'>
 		                <button type='submit' class='btn btn-block opcion btn-flat btn-xs'>
 		                	<span class='text-blue'>
 		                    <i class='fa fa-search' title='Ver'></i>
@@ -684,6 +702,12 @@
 
 	//LISTAR MOVIMIENTOS DE SALIDA DE CAJA POR FILTRO
 	if($opc=='CC_17'){
+		$query = "SELECT parametro,valor from parametro where parametroID=1 and estado=1";
+		$res = mysqli_query($con,$query) or die (mysqli_error($con));
+		while($row = mysqli_fetch_row($res)){	
+			$igv=$row[1];
+		}
+
 		$proveedor = $_POST['proveedor'];
 		$mes = $_POST['mes'];
 		$anio = $_POST['anio'];
@@ -698,7 +722,7 @@
 				$qproveedor="C.proveedorID='".$proveedor."'";
 		} 
 		
-		$consulta = "select PC.mesID,PC.anio,PC.correlativo,C.serie,C.numero,DATE_FORMAT(PC.fechaEmision, '%d-%m-%Y'),MP.medioPago,PC.monto from pago_compra PC inner join medio_pago MP on PC.medioPagoID=MP.medioPagoID inner join  compra C on PC.mesReferencia=C.mesID AND PC.anioReferencia=C.anio and PC.codigoReferencia=C.codigo where ".$qproveedor." and ".$qperiodo."";
+		$consulta = "select PC.mesID,PC.anio,PC.correlativo,C.serie,C.numero,DATE_FORMAT(PC.fechaEmision, '%d-%m-%Y'),MP.medioPago,PC.monto,PC.valorVenta,PC.igv,PC.mesReferencia,PC.anioReferencia,PC.codigoReferencia from pago_compra PC inner join medio_pago MP on PC.medioPagoID=MP.medioPagoID inner join  compra C on PC.mesReferencia=C.mesID AND PC.anioReferencia=C.anio and PC.codigoReferencia=C.codigo where ".$qproveedor." and ".$qperiodo."";
 	
 		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
 			while($row = mysqli_fetch_row($res)){
@@ -706,6 +730,12 @@
 				$anio=$row[1];
 				$codigo=$row[2];
 				$monto=$row[7];
+				$valorVenta=$row[8];
+				$igvValor=$row[9];
+
+				$mesRef=$row[10];
+				$anioRef=$row[11];
+				$codigoRef=$row[12];
 
 				echo "<tr>					
 						<td>".$meses[$mes]."-".$anio."</td>
@@ -717,11 +747,14 @@
 							<div class='row'>
 								<div class='col-md-4 col-md-offset-2'>
 									<form method='post' action='../compras/facturar.php'>
-		                <input type='hidden' id='txtmesID' name='txtmesID' value='".$mes."'>
-		                <input type='hidden' id='txtAnioID' name='txtAnioID' value='".$anio."'>
-		                <input type='hidden' id='txtNum' name='txtNum' value='".$codigo."'>
+		                <input type='hidden' id='txtmesID' name='txtmesID' value='".$mesRef."'>
+		                <input type='hidden' id='txtAnioID' name='txtAnioID' value='".$anioRef."'>
+		                <input type='hidden' id='txtNum' name='txtNum' value='".$codigoRef."'>
 		                <input type='hidden' id='txtMontoP' name='txtMontoP' value='".$monto."'>
-		                <input type='hidden' id='txtOpcion' name='txtOpcion' value='V'>				
+		                <input type='hidden' id='txtValorVentaP' name='txtValorVentaP' value='".$valorVenta."'>
+		                <input type='hidden' id='txtValorIgvP' name='txtValorIgvP' value='".$igvValor."'>
+		                <input type='hidden' id='txtOpcion' name='txtOpcion' value='V'>			
+		                <input type='hidden' id='txtIgvP' name='txtIgvP' value='".$igv."'>			
 		                <button type='submit' class='btn btn-block opcion btn-flat btn-xs'>
 		                	<span class='text-blue'>
 		                    <i class='fa fa-search' title='Ver'></i>
@@ -732,10 +765,25 @@
 		          </div>
 						</td>
 					</tr>";
-		}			
+		}
 	}
 
-
+	//HISTORIAL DE PAGOS
+	if($opc=='CC_18'){
+		$mes = $_POST['mes'];
+		$anio = $_POST['anio'];
+		$codigo = $_POST['codigo'];
+		$sql = "SELECT PC.correlativo,PC.fechaEmision,PC.monto,if(PC.concepto='N','Valor venta','detraccion') as concepto,MP.medioPago from pago_compra PC inner join medio_pago MP on PC.medioPagoID=MP.medioPagoID where PC.mesReferencia=$mes and PC.anioReferencia=$anio and PC.codigoReferencia=$codigo";
+		$resulset = mysqli_query($con,$sql);
+ 		$datos=array();
+	    while($row = mysqli_fetch_assoc($resulset))
+	    {
+	        $datos[] = $row;
+	    }
+		
+		echo json_encode($datos);
+		exit();	
+	}
 	
 
 ?>

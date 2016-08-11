@@ -149,6 +149,7 @@ create table PAGO_COMPRA(
 	voucher varchar(30) null,
 	numeroCk varchar(30) null,
 	fechaVctoCk date null,
+	concepto char(01) null,
 	primary key(mesID,anio,correlativo),
 	foreign key(mesReferencia,anioReferencia,codigoReferencia) references COMPRA(mesID,anio,codigo)
 )
