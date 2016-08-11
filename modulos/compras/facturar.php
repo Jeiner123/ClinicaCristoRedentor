@@ -7,6 +7,9 @@
   $codigo = '';
   $monto = '';
   $igv = '';
+  $periodo = '';
+  $valorVenta = '';
+  $valorIgv = '';
 
   if(isset($_POST['txtIgvP'])){
     $opcion = $_POST['txtOpcion'];
@@ -19,13 +22,16 @@
   }
 
   if(isset($_POST['txtMontoP'])){
+    $periodo = $meses[$mesID].' - '.$anioID;
     $monto = $_POST['txtMontoP'];
+    $valorVenta=$_POST['txtValorVentaP'];
+    $valorIgv=$_POST['txtValorIgvP'];
   }
  ?>
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Movimientos de caja | CLÍNICA CRISTO REDENTOR</title>
+  <title>Gestión de pagos | CLÍNICA CRISTO REDENTOR</title>
   <?php include '../general/header.php';?>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -60,6 +66,7 @@
         <div class="box box-primary color-palette-box">          
           <div class="box-body">
             <input id="txtFlag" name="txtFlag" class="form-control" type="hidden" value="<?php echo $opcion; ?>">
+            <input id="valorIGV" name="valorIGV" class="form-control" type="hidden" value="<?php echo $igv; ?>">
             <input id="txtMes" name="txtMes"class="form-control input-sm" type="hidden">
             <input id="txtAnio" name="txtAnio"class="form-control input-sm" type="hidden">
              <input id="txtMesRef" name="txtMesRef"class="form-control input-sm"  value="<?php echo $mesID; ?>" type="hidden">
@@ -68,7 +75,7 @@
             <div class="row">
               <div class="col-md-2">
                 <label class="control-label">Periodo</label>
-                <input type="text" id="txtPeriodo"  name="txtPeriodo" class="form-control input-sm" readonly="">
+                <input type="text" id="txtPeriodo"  name="txtPeriodo" class="form-control input-sm" readonly="" value="<?php echo $periodo;?>">
               </div>
               <div class="col-md-4">
                 <label class="control-label">Proveedor</label>
@@ -141,13 +148,20 @@
               </div>
                <div class="col-md-2">
                 <label class="control-label">Valor venta</label>
-                <input type="text" id="txtValorVenta" name="txtValorVenta" class="form-control input-sm" readonly="">
+                <input type="text" id="txtValorVenta" name="txtValorVenta" class="form-control input-sm" readonly="" value="<?php echo $valorVenta; ?>">
               </div>
               <div class="col-md-2">
                 <label class="control-label">I.G.V</label>
-                <input type="text" id="txtIGV" name="txtIGV" class="form-control input-sm" readonly="" placeholder="<?php echo ($igv*100)."%";?>">
+                <input type="text" id="txtIGV" name="txtIGV" class="form-control input-sm" readonly="" placeholder="<?php echo ($igv*100)."%";?>" value="<?php echo $valorIgv; ?>">
               </div>
-              
+              <div class="form-group col-md-2" hidden id="divPagoDetraccion">
+                <label style="color: white;">detraccion</label>
+                <div class="checkbox icheck">
+                    <label onclick="validaPagoDetraccion();">
+                        <input type="checkbox" id="ckkDetraccion" name="ckkDetraccion"> Detracción
+                    </label>
+                </div>
+              </div>
             </div>
             <div class="row" id="divExtra" hidden>
               <div class="col-md-12"><hr>
@@ -180,29 +194,6 @@
                 </div>
               </div>
             </div>
-          
-            <div class="row">
-              <div class="col-md-12">
-                <h4 class="subfuente text-left">Detalle del pago</h4>
-              </div>
-              <div class="col-md-10 col-md-offset-1">
-                <table id="tablaDetallePago" class="table table-bordered table-hover tablaDetallePago">
-                  <thead>
-                    <tr class="success">
-                      <th width="5%" style="text-align:center;">Item</th>
-                      <th width="25%">Descripcion</th>
-                      <th width="10%" style="text-align:center;">Cantidad</th>
-                      <th width="5%">Costo Unit.</th>
-                      <th width="5%" style="text-align:center">Importe</th>
-                    </tr>
-                  </thead>
-                  <tbody class="cuerpoTabla" id="cuerpoTablaDetallePago">
-                    <!-- Aqui irán los elementos de la tabla -->
-                  </tbody>
-                </table>
-                <hr>
-              </div>
-            </div>
           </div>
           <!-- BOx-body -->
           <div class="box-footer" align="ceter">
@@ -221,8 +212,78 @@
         </div>
       </form>
       <!-- Formulario registrar nuevo paciente -->
+      <div class="box box-solid color-palette-box collapsed-box">
+        <div class="box-header bg-blue" >
+          <div>
+            <h3 class="box-title">Detalle del pago</h3>
+          </div>
+          <div class="box-tools pull-right">
+            <button style='color:#fff;' type="button" class="btn btn-box-tool" data-widget="collapse">
+              <i class="fa fa-minus"></i>
+            </button>
+          </div>
+        </div>        
+        <div class="box-body" style='overflow-x:scroll;overflow-y:hidden' align="center">
+          <div class="row">
+              <div class="col-md-10 col-md-offset-1">
+                <table id="tablaDetallePago" class="table table-bordered table-hover tablaDetallePago">
+                  <thead>
+                    <tr class="success">
+                      <th width="5%" style="text-align:center;">Item</th>
+                      <th width="25%">Descripcion</th>
+                      <th width="10%" style="text-align:center;">Cantidad</th>
+                      <th width="5%">Costo Unit.</th>
+                      <th width="5%" style="text-align:center">Importe</th>
+                    </tr>
+                  </thead>
+                  <tbody class="cuerpoTabla" id="cuerpoTablaDetallePago">
+                    <!-- Aqui irán los elementos de la tabla -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          
+        </div>
+        <!-- /.box-body -->
+      </div>
+
+      <div class="box box-solid color-palette-box collapsed-box">
+        <div class="box-header bg-blue" >
+          <div>
+            <h3 class="box-title">Historial de pagos</h3>
+          </div>
+          <div class="box-tools pull-right">
+            <button style='color:#fff;' type="button" class="btn btn-box-tool" data-widget="collapse">
+              <i class="fa fa-minus"></i>
+            </button>
+          </div>
+        </div>        
+        <div class="box-body" style='overflow-x:scroll;overflow-y:hidden' align="center">
+          <div class="row">
+              <div class="col-md-10 col-md-offset-1">
+                <table id="tablaHistorial" class="table table-bordered table-hover tablaHistorial">
+                  <thead>
+                    <tr class="success">
+                      <th width="5%" style="text-align:center;">Item</th>
+                      <th width="20%" style="text-align:center">Fecha de emisión</th>
+                      <th width="45%" style="text-align:center">Medio de pago</th>
+                      <th width="10%" style="text-align:center;">Monto pagado</th>
+                      <th width="10%">Concepto</th>
+                    </tr>
+                  </thead>
+                  <tbody class="cuerpoTabla" id="cuerpoTablaHistorial">
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          
+        </div>
+        <!-- /.box-body -->
+      </div>
     </section>
     <!-- /.content -->
+
+
   </div>
   <!-- /.content-wrapper -->
   <div class="control-sidebar-bg"></div>
@@ -283,4 +344,11 @@
 <script src="js/script.js"></script>
 <script type="text/javascript">
   datosParaPago();
+  $(function () {
+    $('input').iCheck({
+      checkboxClass: 'icheckbox_square-blue',
+      radioClass: 'iradio_square-blue',
+      increaseArea: '20%' // optional
+    });
+  });
 </script>

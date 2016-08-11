@@ -69,7 +69,7 @@
                     <th style="text-align:center">Fecha de emisión</th>
                     <th>Medio de pago</th>
                     <th style="text-align:center">Monto</th>
-                    <th style="text-align:center">Opciones</th>
+                    <th >Opciones</th>
                   </tr>
                 </thead>
                 <tbody class="cuerpoTabla" id="cuerpoTablaMovSalida">

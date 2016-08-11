@@ -922,6 +922,7 @@ function datosParaPago(){
 					valorRetencion=datos[i].valorRetencion;
 					valorRenta=datos[i].valorRenta;
 					IGV=datos[i].IGV;
+					cuenta=datos[i].cuentaDetraccion;;
                 	$("#txtProveedorID").val(datos[i].proveedorID);
                 	$("#txtProveedor").val(datos[i].proveedor);
                 	$("#txtSerie").val(datos[i].serie+"-"+datos[i].numero);
@@ -931,17 +932,18 @@ function datosParaPago(){
                 	$("#txtTotal").val(datos[i].saldoPagar);
                 	$("#txtPrecioVenta").val(datos[i].precioVenta);
                 }
-              
+              	cargarCboMedioPago('008');
 				cargarCboComprobanteCompra(comprobante);
   				$("#txtBoolIGV").val(IGV);
+  				$("#txtCuenta").val(cuenta);
 
   				if(detraccion!='0.000'){
-  					cargarCboMedioPago('001');
   					$("#divDetraccion").show();
   					$("#divPrecioVenta").show();
+  					$("#divPagoDetraccion").show();
   					$("#txtDetraccion").val(valorDetraccion);
   				}else{
-  					cargarCboMedioPago('008');
+  					
   				}
 				if(percepcion!='0.000'){
   					$("#divPercepcion").show();
@@ -961,6 +963,7 @@ function datosParaPago(){
   			
 			if(flag=='V'){
 				$("#btnGuardar").addClass("hidden");
+				$("#txtMonto").prop("readonly",true);
 			}else{
 				if(flag=='N'){
 					$("#btnGuardar").addClass("hidden");
@@ -972,6 +975,7 @@ function datosParaPago(){
 				}
 			}
 			cargarDetallePago(mes,anio,codigo);
+			cargarHistorialPagos(mes,anio,codigo);
 			
 		},
 		error: function(rpta){
@@ -1032,6 +1036,52 @@ function cargarDetallePago(mes,anio,codigo){
 
 }
 
+function cargarHistorialPagos(mes,anio,codigo){
+	var opc = 'CC_18';
+	$.ajax({
+		type: 'POST',
+		data:'opc='+opc+'&mes='+mes+'&anio='+anio+'&codigo='+codigo,
+		url: url,
+		success: function(data){
+			var datos= JSON.parse(data);
+			
+			pagos=0;
+			for(var i in datos){
+				pagos++;
+			}
+
+			if(pagos==0){
+				$("#tablaHistorial")
+					.append
+					(
+						'<tr class="active"><td colspan="5" style="text-align:center;"> No hay pagos registrados</td></tr>'
+					);
+			}else{
+				for(var i in datos){
+					item=datos[i].correlativo;
+					fechaEmision=datos[i].fechaEmision;
+					monto=datos[i].monto;
+					medioPago=datos[i].medioPago;
+					concepto=datos[i].concepto;
+
+					$("#tablaHistorial")
+					.append
+					(
+						'<tr class="active"><td style="text-align:center;">'+item+'</td><td style="text-align:center">'+fechaEmision+'</td><td style="text-align:center;">'+medioPago+'</td><td style="text-align:right">'+monto+'</td><td style="text-align:right">'+concepto+'</td></tr>'
+					);
+	            }
+			}
+			
+         	cerrarCargando();
+
+		},
+		error: function(rpta){
+			alert(rpta);
+			cerrarCargando();
+		}
+	});
+}
+
 function ValidarMedioPago(){
 	detraccion=$("#txtDetraccion").val();
 
@@ -1058,7 +1108,25 @@ function ValidarMedioPago(){
 	}
 }
 
+function validaPagoDetraccion(){
+	var marcado = $("#ckkDetraccion").prop("checked") ? true : false;
+	detraccion=$("#txtDetraccion").val();
+
+    if(marcado==true){
+        $("#divExtra").hide();
+    }
+    else{
+     	$("#divExtra").show(); 
+     	$("#txtMonto").val(detraccion);
+     	igv=$("#valorIGV").val();
+     	descomponerPago(igv);
+     	cargarCboEntidadFinanciera('18');
+     	$("#cboMedioPago").val('001');
+    }
+}
+
 function RegistrarPagoCompra(){
+
 	inputObligatorio('#txtMonto',1);
 	inputObligatorio('#txtPeriodo',1);
 	if(document.getElementsByClassName("has-error").length > 0){
@@ -1066,9 +1134,27 @@ function RegistrarPagoCompra(){
 		return false;
 	}
 
+	monto=parseFloat($("#txtMonto").val());
+	saldo=parseFloat($("#txtSaldo").val());
+	
+	if(monto>saldo){
+		r = confirm("El monto excede al saldo ¿Esta seguro de registrar el pago?");
+		if (r != true){
+		  return false;
+		}
+	}
+	
+	var marcado = $("#ckkDetraccion").prop("checked") ? true : false;
+	if(marcado==true){
+		concepto='D';
+	}else{
+		concepto='N';
+	}
+		    
 	abrirCargando();
 	var formData = new FormData($('#formPagoCompra')[0]);
 	formData.append("opc", "CC_13");
+	formData.append("concepto", concepto);
 	$.ajax({
 		type: 'POST',
 		data: formData,
@@ -1097,9 +1183,9 @@ function RegistrarPagoCompra(){
 			alert(rpta);
 		}
 	});	
+	
 }
 
-//==================GESTIÓN DE MOVIMIENTOS DE CAJA==============================
 function descomponerPago(igv){
 	bool=$("#txtBoolIGV").val();
 	if(bool!="0.000"){
@@ -1116,6 +1202,7 @@ function descomponerPago(igv){
 	$("#txtIGV").val(igvPagado.toFixed(2));
 	
 ;}
+//==================GESTIÓN DE MOVIMIENTOS DE CAJA==============================
 
 function cargarTablaMovimientosSalida(){
 	abrirCargando();
@@ -1131,10 +1218,10 @@ function cargarTablaMovimientosSalida(){
 			{
 				   	"columnDefs": [
 				        { "targets": [ 0 ],"width": "15%"}, 									 
-				        { "targets": [ 1 ],"width": "5%"}, 									 
+				        { "targets": [ 1 ],"width": "15%"}, 									 
 				        { "targets": [ 2 ],"width": "10%"},											 
-				        { "targets": [ 3 ],"width": "45%"},											 
-				        { "targets": [ 4 ],"width": "5%"},											 
+				        { "targets": [ 3 ],"width": "40%"},											 
+				        { "targets": [ 4 ],"width": "10"},											 
 				        { "targets": [ 5 ],"width": "10%"}											 
 					  ]
 				}
