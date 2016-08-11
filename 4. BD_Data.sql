@@ -2,7 +2,8 @@ USE clinica;
 
 INSERT INTO PARAMETRO (parametroID, parametro, valor, estado) VALUES
   (1, 'IGV', 0.18, 1),
-  (2, 'Retención', 0.03, 1);
+  (2, 'Retención', 0.03, 1),
+  (3, 'Renta', 0.08, 1);
 
 INSERT INTO COMPROBANTE_PAGO (comprobanteID, descripcion, estado, compras, ventas, ingresos, egresos, honorarios, diario)
 VALUES
@@ -915,7 +916,7 @@ insert into MEDIO_PAGO values
   ('999','OTROS MEDIOS DE PAGO','A');
 
 insert into TIPO_DETRACCION values
-	('1','INTERMEDIACION LABORAL Y TERCERIZACION (Contratos de Gerencia)','0.12','A'),
+	('1','INTERMEDIACION LABORAL Y TERCERIZACION (Contratos de Gerencia)','S','0.12','A'),
 	('2','ARRENDAMIENTO DE BIENES (muebles e inmuebles)','S','0.12','A'),
 	('3','MANTENIMIENTO Y REPARACIÓN DE BIENE MUEBLES','S','0.12','A'),
 	('4','MOVIMIENTO DE CARGA','S','0.12','A'),
@@ -931,7 +932,7 @@ insert into TIPO_PERCEPCION values
   ('2','BIENES IMPORTADOS DE MANERA DEFINITIVA','0.10','A'),
   ('3','BIENES IMPORTADOS DE MANERA DEFINITIVA','0.05','A'),
   ('4','BIENES IMPORTADOS DE MANERA DEFINITIVA','0.035','A'),
-  ('5','BIENES INCLUIDOSEN EL APENDICE 1 DE LA LEY  N° 29173 Y DECRETO SUPREMO  N° 091-2013-EF','0.002','A'),
+  ('5','BIENES INCLUIDOSEN EL APENDICE 1 DE LA LEY  N° 29173 Y DECRETO SUPREMO  N° 091-2013-EF','0.02','A'),
   ('6','MOVIMIENTO DE CARGA','0.005','A');
 
 
@@ -949,7 +950,8 @@ INSERT INTO modules (id, nombre, folder) VALUES
   (7, 'Ventas', 'ventas'),
   (8, 'Compras', 'compras'),
   (9, 'Parámetros', 'parametros'),
-  (10, 'Admin', 'admin');
+  (10, 'Admin', 'admin'),
+  (11, 'Requerimientos', 'Requerimientos');
 
 INSERT INTO items (module_id, nombre, file) VALUES
   (1, 'Control de documentos', 'control_documentos'),
@@ -998,7 +1000,10 @@ INSERT INTO items (module_id, nombre, file) VALUES
   (9, 'Tipo de documento', 'tipo_documento'),
   (9, 'Comprobante de pago', 'comprobante_pago'),
 
-  (10, 'Asignar permisos', 'asignar_permisos');
+  (10, 'Asignar permisos', 'asignar_permisos'),
+
+  (11, 'Solicitud de requerimiento', 'solicitud_requerimiento'),
+  (11, 'Listar requerimeintos', 'listado_requerimeintos');
 
 -- Set global permissions to the administrator user
 INSERT INTO permissions (username, item_id)

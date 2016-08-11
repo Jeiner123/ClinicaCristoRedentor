@@ -6,12 +6,14 @@
   $anioID = '';
   $codigo = '';
   $monto = '';
+  $igv = '';
 
-  if(isset($_POST['txtmesID'])){
+  if(isset($_POST['txtIgvP'])){
     $opcion = $_POST['txtOpcion'];
     $mesID = $_POST['txtmesID'];
     $anioID = $_POST['txtAnioID'];
     $codigo = $_POST['txtNum'];
+    $igv = $_POST['txtIgvP'];
   }else{
     exit();
   }
@@ -23,7 +25,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Nuevo pago | CLÍNICA CRISTO REDENTOR</title>
+  <title>Movimientos de caja | CLÍNICA CRISTO REDENTOR</title>
   <?php include '../general/header.php';?>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -94,26 +96,42 @@
              
             </div>
             <div class="row">
-             <div class="col-md-4">
-              <label for="cboTipoOperacion">Tipo de comprobante</label>
-              <select class="chosen-select input-sm" name="cboComprobante" id="cboComprobante" disabled>
-                </select>
-              </div>
+              <input type="hidden" id="txtBoolIGV" name="txtBoolIGV"class="form-control input-sm" readonly="">
               <div class="col-md-2">
-                <label class="control-label">Serie</label>
+                <label class="control-label">Serie-Número</label>
                 <input type="text" id="txtSerie" name="txtSerie"class="form-control input-sm" readonly="">
               </div>
-              <div class="col-md-2">
-                <label class="control-label">Número</label>
-                <input type="text" id="txtNumero" name="txtNumero"class="form-control input-sm" readonly="">
+              <div class="col-md-2" hidden id="divPrecioVenta">
+                <label class="control-label">Precio de venta</label>
+                <input type="text" readonly id="txtPrecioVenta" name="txtPrecioVenta"class="form-control input-sm">
+              </div>
+              <div class="col-md-2" hidden id="divRenta">
+                <label class="control-label">Renta</label>
+                <input type="text" readonly id="txtRenta" name="txtRenta"class="form-control input-sm">
+              </div>
+              <div class="col-md-2" hidden id="divDetraccion">
+                <label class="control-label">Detraccion</label>
+                <input type="text" readonly id="txtDetraccion" name="txtDetraccion"class="form-control input-sm">
+              </div>
+              <div class="col-md-2" hidden id="divPercepcion">
+                <label class="control-label">Percepcion</label>
+                <input type="text" readonly id="txtPercepcion" name="txtPercepcion"class="form-control input-sm">
+              </div>
+              <div class="col-md-2" hidden id="divRetencion">
+                <label class="control-label">Retencion</label>
+                <input type="text" readonly id="txtRetencion" name="txtRetencion"class="form-control input-sm">
               </div>
                <div class="col-md-2">
                 <label class="control-label">Total</label>
                 <input type="text" id="txtTotal" name="txtTotal"class="form-control input-sm" placeholder="S/." readonly="">
               </div>
               <div class="col-md-2">
-                <label class="control-label">Saldo</label>
+                <label class="control-label">Debe</label>
                 <input type="text" id="txtSaldo" name="txtSaldo" class="form-control input-sm" readonly="">
+              </div>
+              <div class="col-md-2">
+                <label class="control-label">Monto</label>
+                <input type="text" id="txtMonto" name="txtMonto"class="form-control input-sm" placeholder="S/." value="<?php echo $monto;?>" onchange="descomponerPago('<?php echo $igv;?>');">
               </div>
                <div class="col-md-6">
                 <label class="control-label">Forma de pago</label>
@@ -121,10 +139,15 @@
                   
                 </select>
               </div>
-              <div class="col-md-2">
-                <label class="control-label">Monto</label>
-                <input type="text" id="txtMonto" name="txtMonto"class="form-control input-sm" placeholder="S/." value="<?php echo $monto;?>" onkeypress="return soloNumeroDecimal(event);">
+               <div class="col-md-2">
+                <label class="control-label">Valor venta</label>
+                <input type="text" id="txtValorVenta" name="txtValorVenta" class="form-control input-sm" readonly="">
               </div>
+              <div class="col-md-2">
+                <label class="control-label">I.G.V</label>
+                <input type="text" id="txtIGV" name="txtIGV" class="form-control input-sm" readonly="" placeholder="<?php echo ($igv*100)."%";?>">
+              </div>
+              
             </div>
             <div class="row" id="divExtra" hidden>
               <div class="col-md-12"><hr>
@@ -165,10 +188,10 @@
               <div class="col-md-10 col-md-offset-1">
                 <table id="tablaDetallePago" class="table table-bordered table-hover tablaDetallePago">
                   <thead>
-                    <tr>
-                      <th width="5%">Item</th>
+                    <tr class="success">
+                      <th width="5%" style="text-align:center;">Item</th>
                       <th width="25%">Descripcion</th>
-                      <th width="10%">Cantidad</th>
+                      <th width="10%" style="text-align:center;">Cantidad</th>
                       <th width="5%">Costo Unit.</th>
                       <th width="5%" style="text-align:center">Importe</th>
                     </tr>

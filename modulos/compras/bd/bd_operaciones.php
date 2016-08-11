@@ -248,15 +248,38 @@
 		$tipoExistencia = $_POST['cboTipoExistencia'];
 		$IGV = $_POST['cboIGV'];
 		$detraccion = $_POST['cboDetraccion'];
+		$valorDetraccion = $_POST['txtDetraccion'];
 		$percepcion = $_POST['cboPercepcion'];
+		$valorPercepcion = $_POST['txtPercepcion'];
 		$renta = $_POST['cboRenta'];
+		$valorRenta = $_POST['txtRenta'];
+		$retencion = $_POST['cboRetencion'];
+		$valorRetencion = $_POST['txtRetencion'];
 		$totalBruto = $_POST['txtTotalBruto'];
 		$descuento = $_POST['txtDescuento'];
 		$valorVenta = $_POST['txtValorVenta'];
 		$impuesto = $_POST['txtIGV'];
 		$precioVenta = $_POST['txtPrecioVenta'];
 
-		$consulta = "INSERT INTO compra VALUES(".$mes.",".$anio.",".$codigo.",'".$fecha."','".$comprobanteID."','".$proveedorID."','".$serie."','".$numero."','".$fechaEmision."','".$fechaVencimiento."','".$moneda."','".$formaPagoID."','".$tipoAdquisicionID."','".$tipoExistencia."','".$IGV."','".$detraccion."','".$percepcion."','".$renta."','".$totalBruto."','".$descuento."','".$valorVenta."','".$impuesto."','".$precioVenta."','".$precioVenta."','".$detalles."','D')";
+		if($detraccion!=0){
+			$saldoPagar=floatVal($precioVenta)-floatVal($valorDetraccion);
+		}else{
+			if($percepcion!=0){
+				$saldoPagar=floatVal($precioVenta)+floatVal($valorPercepcion);
+			}else{
+				if($retencion!=0){
+					$saldoPagar=floatVal($precioVenta)+floatVal($valorRetencion);
+				}else{
+					if($renta!=0){
+						$saldoPagar=floatVal($precioVenta)-floatVal($valorRenta);
+					}else{
+						$saldoPagar=$precioVenta;
+					}
+				}
+			}
+		}
+
+		$consulta = "INSERT INTO compra VALUES(".$mes.",".$anio.",".$codigo.",'".$fecha."','".$comprobanteID."','".$proveedorID."','".$serie."','".$numero."','".$fechaEmision."','".$fechaVencimiento."','".$moneda."','".$formaPagoID."','".$tipoAdquisicionID."','".$tipoExistencia."','".$IGV."','".$detraccion."','".$valorDetraccion."','".$percepcion."','".$valorPercepcion."','".$renta."','".$valorRenta."','".$retencion."','".$valorRetencion."','".$totalBruto."','".$descuento."','".$valorVenta."','".$impuesto."','".$precioVenta."','".$saldoPagar."','".$saldoPagar."','".$detalles."','D')";
 			
 		$res = mysqli_query($con,$consulta)or  die (mysqli_error($con));
 		if(!$res){
@@ -293,7 +316,13 @@
 
 	//LISTAR DOCUMENTOS DE COMPRA
 	if($opc=='CC_10'){
-		$consulta = "select mesID,anio,codigo,serie,numero,DATE_FORMAT(fechaEmision, '%d-%m-%Y') as fechaEmision,DATE_FORMAT(fechaVencimiento, '%d-%m-%Y') as fechaVencimiento,precioVenta, if(fechaVencimiento < DATE_FORMAT(NOW(),'%Y-%m-%d 00:00:00') and estado='D','V',estado),detalles from compra";
+		$query = "SELECT parametro,valor from parametro where parametroID=1 and estado=1";
+		$res = mysqli_query($con,$query) or die (mysqli_error($con));
+		while($row = mysqli_fetch_row($res)){	
+			$igv=$row[1];
+		}
+
+		$consulta = "select mesID,anio,codigo,serie,numero,DATE_FORMAT(fechaEmision, '%d-%m-%Y') as fechaEmision,DATE_FORMAT(fechaVencimiento, '%d-%m-%Y') as fechaVencimiento,saldoPagar, if(fechaVencimiento < DATE_FORMAT(NOW(),'%Y-%m-%d 00:00:00') and estado='D','V',estado),detalles from compra";
 	
 		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
 			while($row = mysqli_fetch_row($res)){
@@ -353,7 +382,8 @@
 				                <input type='hidden' id='txtmesID' name='txtmesID' value='".$mes."'>
 				                <input type='hidden' id='txtAnioID' name='txtAnioID' value='".$anio."'>
 				                <input type='hidden' id='txtNum' name='txtNum' value='".$codigo."'>
-				                <input type='hidden' id='txtOpcion' name='txtOpcion' value='N'>												  	
+				                <input type='hidden' id='txtOpcion' name='txtOpcion' value='N'>
+				                <input type='hidden' id='txtIgvP' name='txtIgvP' value='".$igv."'>								  	
 	                      <button type='submit' class='btn btn-block btn-transparente btn-flat btn-xs'>
 	                      	<span class='text-blue'>
 	                          <i class='ace-icon fa fa-usd bigger-120'></i>
@@ -383,7 +413,7 @@
 		$mes = $_POST['mes'];
 		$anio = $_POST['anio'];
 		$codigo = $_POST['codigo'];
-		$sql = "SELECT C.comprobanteID,C.formaPagoID,C.proveedorID,IF(P.razonSocial='',UPPER(concat(P.nombres,' ',P.apellidoPat,' ',P.apellidoMat)),UPPER(P.razonSocial)) as proveedor,C.tipoExistencia,C.tipoAdquisicionID,C.detraccion,DATE_FORMAT(C.fecha, '%d-%m-%Y') as fecha,C.serie,C.numero,DATE_FORMAT(C.fechaEmision, '%d-%m-%Y') as fechaEmision,DATE_FORMAT(C.fechaVencimiento, '%d-%m-%Y') as fechaVencimiento,C.moneda,C.IGV,C.percepcion,C.renta,.C.totalBruto,C.descuento,C.valorVenta,C.impuesto,C.precioVenta,C.saldo from compra C inner join proveedor P ON C.proveedorID=P.proveedorID  where C.mesID=$mes and C.anio=$anio and C.codigo=$codigo";
+		$sql = "SELECT C.comprobanteID,C.formaPagoID,C.proveedorID,IF(P.razonSocial='',UPPER(concat(P.nombres,' ',P.apellidoPat,' ',P.apellidoMat)),UPPER(P.razonSocial)) as proveedor,C.tipoExistencia,C.tipoAdquisicionID,C.detraccion,DATE_FORMAT(C.fecha, '%d-%m-%Y') as fecha,C.serie,C.numero,DATE_FORMAT(C.fechaEmision, '%d-%m-%Y') as fechaEmision,DATE_FORMAT(C.fechaVencimiento, '%d-%m-%Y') as fechaVencimiento,C.moneda,C.IGV,C.detraccion,C.valorDetraccion,C.percepcion,C.valorPercepcion,C.renta,C.valorRenta,C.retencion,C.valorRetencion,C.totalBruto,C.descuento,C.valorVenta,C.impuesto,C.precioVenta,C.saldo,C.saldoPagar from compra C inner join proveedor P ON C.proveedorID=P.proveedorID  where C.mesID=$mes and C.anio=$anio and C.codigo=$codigo";
 		$resulset = mysqli_query($con,$sql);
  		$datos=array();
 	    while($row = mysqli_fetch_assoc($resulset))
@@ -483,7 +513,6 @@
 
 	//LISTAR MOVIMIENTOS DE SALIDA DE CAJA
 	if($opc=='CC_14'){
-
 		$consulta = "select PC.mesID,PC.anio,PC.correlativo,C.serie,C.numero,DATE_FORMAT(PC.fechaEmision, '%d-%m-%Y'),MP.medioPago,PC.monto from pago_compra PC inner join medio_pago MP on PC.medioPagoID=MP.medioPagoID inner join  compra C on PC.mesReferencia=C.mesID AND PC.anioReferencia=C.anio and PC.codigoReferencia=C.codigo";
 	
 		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
@@ -507,7 +536,7 @@
 		                <input type='hidden' id='txtAnioID' name='txtAnioID' value='".$anio."'>
 		                <input type='hidden' id='txtNum' name='txtNum' value='".$codigo."'>
 		                <input type='hidden' id='txtMontoP' name='txtMontoP' value='".$monto."'>
-		                <input type='hidden' id='txtOpcion' name='txtOpcion' value='V'>				
+		                <input type='hidden' id='txtOpcion' name='txtOpcion' value='V'>
 		                <button type='submit' class='btn btn-block opcion btn-flat btn-xs'>
 		                	<span class='text-blue'>
 		                    <i class='fa fa-search' title='Ver'></i>
@@ -540,6 +569,12 @@
 
 	//LISTAR DOCUMENTOS DE COMPRA POR ESTADO
 	if($opc=='CC_16'){
+		$query = "SELECT parametro,valor from parametro where parametroID=1 and estado=1";
+		$res = mysqli_query($con,$query) or die (mysqli_error($con));
+		while($row = mysqli_fetch_row($res)){	
+			$igv=$row[1];
+		}
+
 		$estado = $_POST['estado'];
 		$mes = $_POST['mes'];
 		$anio = $_POST['anio'];
@@ -561,7 +596,7 @@
 				$query_estado="estado='".$estado."'";
 			}
 		}
-		$consulta = "select mesID,anio,codigo,serie,numero,DATE_FORMAT(fechaEmision, '%d-%m-%Y') as fechaEmision,DATE_FORMAT(fechaVencimiento, '%d-%m-%Y') as fechaVencimiento,precioVenta, if(fechaVencimiento < DATE_FORMAT(NOW(),'%Y-%m-%d 00:00:00') and estado='D','V',estado),detalles from compra where ".$query_estado." and ".$periodo." and ".$qproveedor;
+		$consulta = "select mesID,anio,codigo,serie,numero,DATE_FORMAT(fechaEmision, '%d-%m-%Y') as fechaEmision,DATE_FORMAT(fechaVencimiento, '%d-%m-%Y') as fechaVencimiento,saldoPagar, if(fechaVencimiento < DATE_FORMAT(NOW(),'%Y-%m-%d 00:00:00') and estado='D','V',estado),detalles from compra where ".$query_estado." and ".$periodo." and ".$qproveedor;
 	
 	
 		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
@@ -622,7 +657,7 @@
 				                <input type='hidden' id='txtmesID' name='txtmesID' value='".$mes."'>
 				                <input type='hidden' id='txtAnioID' name='txtAnioID' value='".$anio."'>
 				                <input type='hidden' id='txtNum' name='txtNum' value='".$codigo."'>
-				                <input type='hidden' id='txtOpcion' name='txtOpcion' value='N'>												  	
+				                <input type='hidden' id='txtOpcion' name='txtOpcion' value='N'>		<input type='hidden' id='txtIgvP' name='txtIgvP' value='".$igv."'>								  	
 	                      <button type='submit' class='btn btn-block btn-transparente btn-flat btn-xs'>
 	                      	<span class='text-blue'>
 	                          <i class='ace-icon fa fa-usd bigger-120'></i>
