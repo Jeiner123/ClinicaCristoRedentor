@@ -140,7 +140,7 @@
           <div class="row">
             <div class="col-sm-2">
               <label for="cboEstadoCita">Estado</label>
-              <select class="form-control input-sm" id="cboEstadoCita" name="cboEstadoCita" onchange="cargarTablaPedidos();">
+              <select class="form-control input-sm" id="cboEstadoCita" name="cboEstadoCita" onchange="cargarTablaCitas();">
                 <option value="0">-- Todos --</option>
                 <option value="R">RESERVADO</option>
                 <option value="C">CONFIRMADO</option> 
@@ -151,7 +151,7 @@
             </div>
             <div class="col-sm-2">
               <label for="cboEstadoPagoCita">Estado de pago</label>
-              <select class="form-control input-sm" id="cboEstadoPagoCita" name="cboEstadoPagoCita" onchange="cargarTablaPedidos();">
+              <select class="form-control input-sm" id="cboEstadoPagoCita" name="cboEstadoPagoCita" onchange="cargarTablaCitas();">
                 <option value="0">-- Todos --</option>
                 <option value="PEN">PENDIENTE</option>
                 <option value="PAR">PARCIAL</option> 
@@ -159,15 +159,15 @@
                 <option value="XXX">ANULADO</option>
               </select>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-4">
               <div class="form-group">
-                <label class="control-label">Médico</label>
-                <select  id="cboMedicos" name="cboMedicos" class="chosen-select form-control input-sm">
+                <label class="control-label">Médico de atención</label>
+                <select  id="cboMedicos" name="cboMedicos" class="chosen-select form-control input-sm" onchange="cargarTablaCitas();">
                   <!-- Lista de diagnósticos -->
                 </select> 
               </div>
             </div>            
-            <div class="col-sm-2 col-sm-offset-3">
+            <div class="col-sm-2 col-sm-offset-2">
               <div class="form-group">
                 <a href="javascript:;" class="btn btn-block btn-success btn-sm btn-flat" >
                   Exportar a excel
@@ -179,7 +179,7 @@
           <br>
           <div class="row">
             <div class="col-md-12">
-              <table id="tablaCitas" class="table table-bordered table-hover tablaDatos">
+              <table id="tablaCitas" width="100%" class="table table-bordered table-hover tablaDatos">
                 <thead>
                   <tr>
                     <th style='text-align:left;'>#</th>
@@ -189,9 +189,8 @@
                     <th style='text-align:center;'>Tipo</th>
                     <th style='text-align:center;'>Especialidad</th>
                     <th style='text-align:center;'>Servicio</th>
-                    <th style='text-align:center;'>Medico</th>
-                    <th style='text-align:center;'>Cantidad</th>
-                    <th style='text-align:center;'>Importe total</th>
+                    <th style='text-align:center;'>Medico</th>                    
+                    <th style='text-align:center;'>Importe </th>
                     <th style='text-align:center;'>Estado</th>
                   </tr>
                 </thead>
@@ -230,7 +229,7 @@
           <br>
           <div class="row">
             <div class="col-md-12">
-              <table id="tablaPagos" class="table table-bordered table-hover tablaDatos">
+              <table id="tablaPagos"  width="100%" class="table table-bordered table-hover tablaDatos">
                 <thead>
                   <tr>
                     <th style='text-align:center;'>Fecha</th>
@@ -253,6 +252,71 @@
         <!-- /.box-body -->
       </div>
       <!-- Lista de Pagos -->
+      <div class="box box-solid color-palette-box">
+        <div class="box-header bg-blue">
+          <div>
+            <h3 class="box-title">Listado de referencias</h3>
+          </div>
+          <div class="box-tools pull-right">
+            <button style='color:#fff;' type="button" class="btn btn-box-tool" data-widget="collapse">
+              <i class="fa fa-minus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="box-body" style='overflow-x:scroll;overflow-y:hidden' align="center">
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label class="control-label">Referencia de </label>
+                <select  id="cboMedicosReferencia" name="cboMedicosReferencia" class="chosen-select form-control input-sm" onchange="cargarTablaReferencias();">
+                  <!-- Lista de diagnósticos -->
+                </select> 
+              </div>
+            </div> 
+            <div class="col-md-4">
+              <label for="cboEspecialidades">Especialidad</label>
+              <select class="form-control input-sm" id="cboEspecialidades" name="cboEspecialidades" onchange="cargarTablaReferencias();">
+                <!--  -->
+              </select>
+            </div>
+            <div class="col-sm-2 col-sm-offset-2">
+              <div class="form-group">
+                <a href="javascript:;" class="btn btn-block btn-success btn-sm btn-flat" >
+                  Exportar a excel
+                  <i class="fa fa-download"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <!-- ROW -->
+          <br>
+          <table id="tablaReferencias" width="100%" class="table table-bordered table-hover tablaDatos">
+            <thead>
+              <tr> 
+                <th>P.</th>
+                <th>Médico</th>
+                <th>Servicio</th>
+                <th>Especialidad</th>
+                <th>Fecha</th>
+                <th>Cita</th>
+                <th>Pago</th>                
+              </tr>
+            </thead>
+            <tbody class="cuerpoTabla" id="cuerpoTablaReferencias">
+              <!-- Aqui irán los elementos de la tabla -->        
+            </tbody>
+          </table>
+          <hr>
+          <div class="row">
+            <div class="col-md-2">
+              <label for="txtNumeroFilas" class="text-red"><strong>N° de referencias</strong></label>
+              <input class="form-control input-sm" id="txtNumeroFilas" name="txtNuMroFilas" disabled>
+            </div>
+          </div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- Lista de referencias -->
     </section>
     <!-- /.content -->
   </div>
@@ -267,18 +331,22 @@
 <script type="text/javascript">
 
   function cargarTablasVentas () {
-    cargarTablaPedidos();
-    return;
+    cargarTablaPedidos();    
     cargarTablaCitas();
+    cargarTablaReferencias();
+    return;
     cargarTablaPagos();
   }
   cargarTablasVentas();
 
   // cargarCboEspecialidades("#cboEspecialidad",-1);
   cargarCboMedicos('#cboMedicos',0);
+  cargarCboMedicos('#cboMedicosReferencia',0);
+  cargarCboEspecialidades('#cboEspecialidades',-1);
   
   
   $('#tablaPedidos tbody').on('click','tr',function(){seleccionSimple(this);} );
   $('#tablaCitas tbody').on('click','tr',function(){seleccionSimple(this);});
-  $('#tablaPagos tbody').on('click','tr',function(){seleccionSimple(this);});  
+  $('#tablaPagos tbody').on('click','tr',function(){seleccionSimple(this);});
+  $('#tablaReferencias tbody').on('click','tr',function(){seleccionSimple(this);});
 </script>

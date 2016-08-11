@@ -97,6 +97,5 @@
   // // cargarCboEspecialidades();
   // cargarTablaPersonal();
   // abrirModal("#modalRegPersonal");
-  $('#tablaPacientes tbody').on('click','tr',function(){seleccionSimple(this);});  
-  
+  $('#tablaPacientes tbody').on('click','tr',function(){seleccionSimple(this);});
 </script>

@@ -813,21 +813,36 @@ INSERT INTO procedencia (procedencia, estado) VALUES
   ('B - TRUJILLO', 1);
 
 INSERT INTO persona (DNI, nombres, apPaterno, apMaterno, fechaNacimiento, sexo, telefono1, tipoTelefono1, telefono2, tipoTelefono2, correoPersonal, RUC, direccion, foto, timestamp)
-VALUES
-  ('47790815', 'JUAN JEINY', 'HARO', 'GUTIERREZ', '1993-05-24', 'M', '987050724', 4, NULL, NULL, 'jeiner.24@gmail.com',
-   NULL, 'HUERTA BELLA MZ. F LT. 05 - LA RINCONADA', NULL, '2016-07-29 15:31:43'),
-  ('44953281', 'DIANA YSABEL', 'MARTINEZ', 'MOSQUEIRA', '0000-00-00', 'F', '952437249', 4, NULL, NULL, 'dianys24@hotmail.com', 
-    NULL, '', NULL, '2016-08-09 14:02:33'),
-  ('23463463', 'DIEGO ANTONY', 'GUZMAN', 'GUTIERREZ', '1993-10-08', 'M', '555555555', 3, NULL, NULL, 'sfsdfh@gmail.com', NULL, '', NULL, '2016-08-09 14:20:45');
+VALUES  
+  ('19094406', 'TOMAS', 'RODRIGUEZ', 'ALVARADO', '2000-02-17', 'M', '044 - 456743', 2, NULL, NULL, NULL, NULL, NULL, NULL, '2016-08-11 16:05:25'),
+  ('19238738', 'MARIA ISABEL', 'MARTINEZ', 'VASQUEZ', '1982-07-29', 'M', '942252151', 3, NULL, NULL, 'MARTINEZ@gmail.com', NULL, NULL, NULL, '2016-08-11 16:02:24'),
+  ('23463463', 'DIEGO ANTONY', 'GUZMAN', 'GUTIERREZ', '1993-10-08', 'M', '555555555', 3, NULL, NULL, 'sfsdfh@gmail.com', NULL, '', NULL, '2016-08-09 19:20:45'),
+  ('44953281', 'DIANA YSABEL', 'MARTINEZ', 'MOSQUEIRA', '0000-00-00', 'F', '952437249', 4, NULL, NULL, 'dianys24@hotmail.com', NULL, '', NULL, '2016-08-09 19:02:33'),
+  ('46454343', 'JUAN CARLO', 'RAMOS', 'SUYON', '1999-10-13', 'M', '044 - 875647', 2, NULL, NULL, NULL, NULL, NULL, NULL, '2016-08-11 16:06:42'),
+  ('46786543', 'JOSE', 'CHAMAN', 'CASTILLO', '0000-00-00', 'M', '987-756476', 3, NULL, NULL, '', NULL, '', NULL, '2016-08-11 16:10:37'),
+  ('47790815', 'JUAN JEINY', 'HARO', 'GUTIERREZ', '1993-05-24', 'M', '987050724', 4, NULL, NULL, 'jeiner.24@gmail.com', NULL, 'HUERTA BELLA MZ. F LT. 05 - LA RINCONADA', NULL, '2016-07-29 20:31:43'),
+  ('56784563', 'JUAN', 'OLORTEGUI', 'RISCO', '0000-00-00', 'M', '044 - 768576', 3, NULL, NULL, '', NULL, '', NULL, '2016-08-11 16:11:54'),
+  ('56784965', 'CESAR', 'GONZALEZ', 'MORENO', '0000-00-00', 'M', '987-897654', 2, NULL, NULL, '', NULL, '', NULL, '2016-08-11 16:08:04'),
+  ('77976956', 'ANGELO SEBASTIAN', 'AVALOS', 'ÑIQUIN', '2000-03-30', 'M', '986-465783', 3, NULL, NULL, NULL, NULL, NULL, NULL, '2016-08-11 16:04:00');
 
 INSERT INTO personal (personalID, DNI, tipoPersonalID, cargoID, fechaIngreso, correoCorporativo, sueldoMensual, estado, observaciones)
 VALUES
   (1001, '47790815', 3, 5, '2016-03-01', 'soporteti@clinicacristoredentor.com', '0.00', 1, ''),
   (1002, '44953281', 3, 13, '2016-08-08', 'diana.contabilidad@clinicacristoredentor', '0.00', 1, ''),
-  (1003, '23463463', 1, 17, '2016-08-08', '', '0.00', 1, '');
+  (1003, '23463463', 1, 17, '2016-08-08', '', '0.00', 1, ''),
+  (1004, '56784965', 1, 17, '0000-00-00', '', '0.00', 1, ''),
+  (1006, '46786543', 1, 20, '0000-00-00', '', '0.00', 1, ''),
+  (1007, '56784563', 1, 20, '0000-00-00', '', '0.00', 1, '');
 INSERT INTO personal_salud (personalID, especialidadID) VALUES
+  (1004, 6),
+  (1006, 7),
+  (1007, 7),
   (1003, 17);
-
+INSERT INTO `paciente` (`pacienteID`, `DNI`, `familiarDNI`, `parentesco`, `estado`, `procedenciaID`, `observaciones`) VALUES
+(1001, '19238738', NULL, NULL, 1, 2, NULL),
+(1002, '77976956', NULL, NULL, 1, NULL, NULL),
+(1003, '19094406', NULL, NULL, 1, NULL, NULL),
+(1004, '46454343', NULL, NULL, 1, NULL, NULL);
 
 insert into TIPO_EXISTENCIA values
 	('01','MERCADERÍAS, MATERIAS PRIMAS, SUMINISTROS, ENVASES Y EMBALAJES','A'),
@@ -915,7 +930,7 @@ insert into MEDIO_PAGO values
   ('999','OTROS MEDIOS DE PAGO','A');
 
 insert into TIPO_DETRACCION values
-	('1','INTERMEDIACION LABORAL Y TERCERIZACION (Contratos de Gerencia)','0.12','A'),
+	('1','INTERMEDIACION LABORAL Y TERCERIZACION (Contratos de Gerencia)','S','0.12','A'),
 	('2','ARRENDAMIENTO DE BIENES (muebles e inmuebles)','S','0.12','A'),
 	('3','MANTENIMIENTO Y REPARACIÓN DE BIENE MUEBLES','S','0.12','A'),
 	('4','MOVIMIENTO DE CARGA','S','0.12','A'),
@@ -976,7 +991,7 @@ INSERT INTO items (module_id, nombre, file) VALUES
   (6, 'Asignar especialidades', 'asignar_especialidades'),
   (6, 'Recibos por honorario', 'recibos_por_honorario'),
 
-  (7, 'Listado de ventas', 'listado_ventas'),
+  (7, 'Reporte de ventas', 'listado_ventas'),
   (7, 'Nueva venta', 'nueva_venta'),
   (7, 'Nuevo Cliente', 'nuevo_cliente'),
   (7, 'Listado de  clientes', 'listado_clientes'),
