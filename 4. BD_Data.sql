@@ -951,7 +951,7 @@ INSERT INTO modules (id, nombre, folder) VALUES
   (8, 'Compras', 'compras'),
   (9, 'Parámetros', 'parametros'),
   (10, 'Admin', 'admin'),
-  (11, 'Requerimientos', 'Requerimientos');
+  (11, 'Requerimientos', 'requerimientos');
 
 INSERT INTO items (module_id, nombre, file) VALUES
   (1, 'Control de documentos', 'control_documentos'),
