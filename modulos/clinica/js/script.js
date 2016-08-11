@@ -14,9 +14,9 @@ function cargarTablaEspecialidades(){
 				{
 			   	"columnDefs": [
             { "targets": [ 0 ],"width": "10%",  "searchable": false,},
-            { "targets": [ 1 ],"width": "55%", },
+            { "targets": [ 1 ],"width": "50%", },
             { "targets": [ 2 ],"width": "15%",  "searchable": false , },
-            { "targets": [ 3 ],"width": "5%",  "searchable": false ,},
+            { "targets": [ 3 ],"width": "10%",  "searchable": false ,},
             { "targets": [ 4 ],"width": "15%", "orderable": false,"searchable": false ,}
             
 		      ],
@@ -133,17 +133,18 @@ function cargarTablaServicios(){
 			$('.tablaDatos').DataTable(
 				{
 			   	"columnDefs": [
-            { "targets": [ 0 ],"width": "5%",  "searchable": false,},
-            { "targets": [ 1 ],"width": "52%", },
-            { "targets": [ 2 ],"width": "13%", },
-            { "targets": [ 3 ],"width": "20%",},            
-            { "targets": [ 4 ],"width": "%","visible": false, "searchable": false ,},
-            { "targets": [ 5 ],"width": "15%",},
-            { "targets": [ 6 ],"width": "%","visible": false, "searchable": false ,},
-            { "targets": [ 7 ],"width": "5%",},
-            { "targets": [ 8 ],"width": "10%","orderable": false,}
+            { "targets": [ 0 ],"width": "5%",  "searchable": false,},  //ID
+            { "targets": [ 1 ],"width": "40%", },												//Servicio
+            { "targets": [ 2 ],"width": "10%", },												//Precio
+            { "targets": [ 3 ],"width": "20%",},            						//Especialida
+            { "targets": [ 4 ],"width": "0%","visible": false, "searchable": false ,},	//EspecialidadID
+            { "targets": [ 5 ],"width": "10%",},												//tipo servicios
+            { "targets": [ 6 ],"width": "0%","visible": false, "searchable": false ,},	//tipo servicio ID
+            { "targets": [ 7 ],"width": "7%",},													//Estado
+            { "targets": [ 8 ],"width": "8%","orderable": false,}			//Operaciones
 		      ],
-		      "order": [[ 0, "asc" ]],"iDisplayLength": 700
+		      "order": [[ 0, "asc" ]],
+		      "iDisplayLength": 100
 				}
 			);
 			cerrarCargando();

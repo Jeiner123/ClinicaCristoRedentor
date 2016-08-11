@@ -65,12 +65,12 @@
               <table id="tablaPagos" class="table table-bordered table-hover tablaDatos">
                 <thead>
                   <tr>
-                    <th style='text-align:center;'>Ped.</th>
+                    <th>Ped.</th>
                     <th style='text-align:center;'>Fecha</th>
                     <th>Paciente</th>
                     <th>Telefono</th>
                     <th>Comprobante</th>
-                    <th>Número Comprob.</th>                    
+                    <th>Número Comprob.</th>
                     <th>Importe</th>
                     <th></th>
                   </tr>
