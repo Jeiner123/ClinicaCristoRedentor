@@ -1,7 +1,7 @@
 <?php include '../general/validar_sesion.php';?>
 <?php include '../general/variables.php';?>
 <!DOCTYPE html>
-<html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
   <title>Permisos | CLÍNICA CRISTO REDENTOR</title>
   <?php include '../general/header.php';?>
@@ -61,9 +61,11 @@
                           <tr v-for="user in users">
                               <td>{{ user.usuario }}</td>
                               <td>{{ user.DNI }}</td>
-                              <td>{{ user.estado }}</td>
+                              <td>{{ user.estado?'Activo':'Inactivo' }}</td>
                               <td>
                                   <a href="./editar_permisos.php?usuario={{ user.usuario }}" class="btn btn-primary">Editar permisos</a>
+                                  <button v-if="user.estado == 1" v-on:click="postEstado(0, $index)" type="button" class="btn btn-danger">Desactivar usuario</button>
+                                  <button v-else v-on:click="postEstado(1, $index)" type="button" class="btn btn-success">Activar usuario</button>
                               </td>
                           </tr>
                           </tbody>
@@ -89,7 +91,17 @@
       };
       new Vue({
           el: '#users_table',
-          data: app_data
+          data: app_data,
+          methods: {
+              postEstado: function (estado, i) {
+                  var user = this.users[i];
+                  var params = '?estado='+estado+'&usuario='+user.usuario;
+                  $.getJSON('json/cambiar_estado.php'+params, function (data) {
+                      if (data.success)
+                          user.estado = estado;
+                  });
+              }
+          }
       });
       $.getJSON('json/users.php', function (data) {
           app_data.users = data.users;
