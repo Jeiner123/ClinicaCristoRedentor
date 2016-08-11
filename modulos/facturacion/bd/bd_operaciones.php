@@ -3,15 +3,14 @@
 	require('../../bd/bd_conexion.php');
 	$opc = $_POST['opc'];
 	
-	//Actualizar campo para el pedido_servicio
+	//ACTUALIZAR CAMPO para el pedido_servicio
 	if($opc == 'ACT_P_S'){
 		$pedidoID = $_POST['pedidoID'];
 		$campo = $_POST['campo'];
 		$nuevoValor = $_POST['nuevoValor'];
 
-		$consulta = "update PEDIDO_SERVICIO set ".$campo." = '".$nuevoValor."'
-								where pedidoServicioID = '".$pedidoID."'
-								";
+		$consulta = "UPDATE PEDIDO_SERVICIO SET ".$campo." = '".$nuevoValor."' 
+								WHERE pedidoServicioID = '".$pedidoID."' ";
 		$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
 		if(!$res){
 			echo "No se pudo modificar";
@@ -25,7 +24,7 @@
 		$DNI = $_POST["DNI"];
 		$pedidoID = $_POST["pedidoID"];
 
-		$consulta = "select PE.DNI,PE.nombres,PE.apPaterno,PE.apMaterno,PE.telefono1,
+		$consulta = "SELECT PE.DNI,PE.nombres,PE.apPaterno,PE.apMaterno,PE.telefono1,
 								PS.importeSinIGV,PS.importeIGV,PS.importeTotal,PS.importePagado,
 								PS.importeTotal-PS.importePagado,PS.formaPagoID								
 								from PEDIDO_SERVICIO PS
@@ -36,13 +35,12 @@
 		$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
 		$datos = "";
 		if(mysqli_num_rows($res)>0){
-			$datos = mysqli_fetch_array($res);			
+			$datos = mysqli_fetch_array($res);
 			$nombres = $datos[1].' '.$datos[2].' '.$datos[3];
 
 			echo $datos[0].",,".$nombres.",,".$datos[4].",,".
 					$datos[5].",,".$datos[6].",,".$datos[7].",,".$datos[8].",,".
 					$datos[9].",,".$datos[10];
-
 		}else{
 			echo 0;
 		}
@@ -52,7 +50,7 @@
 	if($opc == 'TP_01'){
 		$pedidoID = $_POST["pedidoID"];
 
-		$consulta = "select P.pagoID,P.pedidoServicioID,CP.descripcion,P.numeroComprobante,P.importeTotal,P.fechaPago,
+		$consulta = "SELECT P.pagoID,P.pedidoServicioID,CP.descripcion,P.numeroComprobante,P.importeTotal,P.fechaPago,
 									P.estado,P.numeroSerie
 									from pago P 
 									inner join COMPROBANTE_PAGO CP ON CP.comprobanteID = P.comprobanteID
@@ -81,7 +79,7 @@
 	if($opc == 'TS_01'){
 		$pedidoID = $_POST["pedidoID"];
 
-		$consulta = "select C.citaID,C.pedidoServicioID,C.pacienteID,C.medicoID,C.especialidadID,
+		$consulta = "SELECT C.citaID,C.pedidoServicioID,C.pacienteID,C.medicoID,C.especialidadID,
 									S.servicio,C.tipo,C.fecha,C.hora,C.observaciones,C.estado,C.precio,C.cantidad
 									from CITA C
 									inner join SERVICIO S  ON S.servicioID = C.servicioID
@@ -95,28 +93,17 @@
 			$importe = $precio * $cantidad;
 			$estadoCita = $row[10];
 
-			if($estadoCita=='R'){
-				$estadoCita = "<span class='label label-warning'>Reservado</span>";
-			}else{
-				if($estadoCita=='S'){
-					$estadoCita = "<span class='label label-primary'>En Sala</span>";
-				}else{
-					if($estadoCita=='A'){
-						$estadoCita = "<span class='label label-success'>Atendido</span>";
-					}else{
-						if($estadoCita=='X'){
-							$estadoCita = "<span class='label label-danger'>Anulado</span>";
-						}
-					}
-				}
-			}
+			if($estadoCita=='R') $estadoCita = "<span class='label label-warning'>Reservado</span>";
+			else if($estadoCita=='S') $estadoCita = "<span class='label label-primary'>En Sala</span>";
+			else if($estadoCita=='A') $estadoCita = "<span class='label label-success'>Atendido</span>";
+			else if($estadoCita=='X') $estadoCita = "<span class='label label-danger'>Anulado</span>";					
 			echo "
 						<tr>												
 							<td>".$servicio."</td>
 							<td>".$precio."</td>
 							<td>".$cantidad."</td>
 							<td style='text-align:right; padding-right:20px;'>".$importe."</td>
-							<td>".$estadoCita."</td>
+							<td style='text-align:center;''>".$estadoCita."</td>
 						</tr>
 				";
 		}
@@ -126,80 +113,85 @@
 	if($opc == 'FAC_01'){
 		$DNI = $_POST["DNI"];
 		$pedidoID = $_POST["pedidoID"];
-		$comprobante = $_POST["comprobante"];
-		$nroSerie = $_POST["nroSerie"];
-		$nroComprobante = $_POST["nroComprobante"];
-		$importe = $_POST["importe"];
-		//OBTENER DATOS DEL PEDIDO_SERVICIO
-			$consulta = "select pedidoServicioID,importeTotal,formaPagoID,importePagado,estadoPago
-									from PEDIDO_SERVICIO where pedidoServicioID = '".$pedidoID."'
-									";
-			$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
-			$row = mysqli_fetch_array($res);
-			$importeTotal = $row[1];
-			$formaPagoID = $row[2];
-			$importePagado = $row[3];
-			$estadoPago = $row[4];
+		$comprobante = $_POST["cboComprobante"];
+		$nroSerie = $_POST["txtNroSerie"];
+		$nroComprobante = $_POST["txtNroComprobante"];
+		$importe = $_POST["txtPagar"];
 
-			$saldo = $importeTotal - $importePagado;
-			$nuevoSaldo = $saldo - $importe;
-		
+		//OBTENER DATOS DEL PEDIDO_SERVICIO
+				$consulta = "SELECT pedidoServicioID,importeTotal,formaPagoID,importePagado,estadoPago
+										FROM PEDIDO_SERVICIO WHERE pedidoServicioID = '".$pedidoID."'
+										";
+				$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
+				$row = mysqli_fetch_array($res);
+				$importeTotal = $row[1];
+				$formaPagoID = $row[2];
+				$importePagado = $row[3];
+				$estadoPago = $row[4];
+
+				$saldo = $importeTotal - $importePagado;
+				$nuevoSaldo = $saldo - $importe;	
 
 		// echo $row[1].'-'.$row[2].'-'.$row[3].'-'.$row[4];
 		if($estadoPago == 'PAG'){
-			echo "El servicio ya ha sido pagado";
+			echo "El servicio ya ha sido pagado.";
 			exit();
 		}
 		if($formaPagoID == 'CON'){
 			if($nuevoSaldo != 0){
-				echo "Debe pagar la totalidad";
+				echo "Debe pagar la totalidad.";
 				exit();
 			}
 		}
-		// INSERTAR PAGO
-		$consulta = "SELECT valor FROM PARAMETRO WHERE parametroID = 1 and parametro = 'IGV'";
+		// OBTENER EL IGV
+		$consulta = "SELECT valor FROM PARAMETRO WHERE parametroID = 1 AND parametro = 'IGV'";
 		$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
 		$row = mysqli_fetch_row($res);
 		$IGV = $row[0];
-
+		// INSERTAR PAGO
 		$consulta = "insert into PAGO (pedidoServicioID,comprobanteID,numeroSerie,numeroComprobante,
 									IGV,importeSinIGV,importeIGV,importeTotal,
 									fechaPago,estado,timestamp) values
 							('".$pedidoID."','".$comprobante."',
-							".(($comprobante == '000')?'NULL':("'".$nroSerie."'")).",								
+							".(($comprobante == '000')?'NULL':("'".$nroSerie."'")).",
 							".(($nroComprobante == '')?'NULL':("'".$nroComprobante."'")).",
 							".$IGV.",".$importe/(1+$IGV).",".$importe*($IGV/(1+$IGV)).",
 							".$importe.",'".$fechaHoyAMD."',1,'".$timestamp."')
 							";
-
 		$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
 		if(!$res){
 			echo "No se pudo registrar el pago";
 			exit();
 		}
-		if($nuevoSaldo==0)$estadoPago = 'PAG';
-		else if($nuevoSaldo>0 && $nuevoSaldo < $importeTotal) //importeTotal
-				$estadoPago = 'PAR';
+		if($nuevoSaldo == 0){
+			$consulta = "UPDATE cita SET estado = 'C' where pedidoServicioID = '".$pedidoID."'";
+			$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
+			if(!$res){
+				echo "Hubo errores al confirmar las citas";
+			}
+			$estadoPago = 'PAG';
+		} 
+		else if($nuevoSaldo > 0 && $nuevoSaldo < $importeTotal)	$estadoPago = 'PAR';
 		
-		$consulta = "update PEDIDO_SERVICIO set importePagado=importePagado+'".$importe."',
+		$consulta = "UPDATE PEDIDO_SERVICIO SET importePagado = importePagado+'".$importe."',
 								estadoPago='".$estadoPago."'
-								where pedidoServicioID='".$pedidoID."'
+								WHERE pedidoServicioID='".$pedidoID."'
 								 ";
-		$res = mysqli_query($con,$consulta)or die (mysqli_error($con));		
+		$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
 		if(!$res){
-			echo "No se pudo rmodificar la deuda";
+			echo "No se pudo modificar la deuda.";
 			exit();
 		}
 		echo 1;
 		exit();
 	}
-	// CARGAR TABLA  PAGOS 
+	// CARGAR TABLA  PAGOS
 	if($opc == 'CTP_01'){
 		$fechaPago = $_POST['fechaPago'];
 		$fechaPago = str_replace("/","-",$fechaPago);
 	  $fechaPago = date('Y-m-d',strtotime($fechaPago));
 	  
-		$consulta = "select P.pagoID,P.pedidoServicioID,P.comprobanteID,P.numeroSerie,
+		$consulta = "SELECT P.pagoID,P.pedidoServicioID,P.comprobanteID,P.numeroSerie,
 								P.numeroComprobante,P.importeTotal,P.fechaPago,P.estado,
 								PE.nombres,PE.apPaterno,PE.apMaterno,PE.DNI,PE.telefono1,
 								CP.descripcion
@@ -251,13 +243,13 @@
 		}
 		exit();
 	}
-	// CARGAR TABLA  PEDIDOS PENDIENTES	
+	// CARGAR TABLA  PEDIDOS PENDIENTES
 	if($opc == 'CTPP_01'){
 		// $fechaPago = $_POST['fechaPago'];
 		// $fechaPago = str_replace("/","-",$fechaPago);
 	  // $fechaPago = date('Y-m-d',strtotime($fechaPago));
 	  
-		$consulta = "select PS.pedidoServicioID,PS.pacienteID,PS.tipo,PS.via,PS.tasaIGV,PS.importeSinIGV,PS.importeIGV,
+		$consulta = "SELECT PS.pedidoServicioID,PS.pacienteID,PS.tipo,PS.via,PS.tasaIGV,PS.importeSinIGV,PS.importeIGV,
 											PS.importeTotal,PS.importePagado,FP.formaPago,PS.estadoPago,substring_index(PS.timestamp,' ',1) as 'fecha',
 											PE.DNI,PE.nombres,PE.apPaterno,PE.apMaterno,PE.telefono1
 								from PEDIDO_SERVICIO PS
@@ -285,11 +277,11 @@
 			else if($via == 'T') $via = 'Teléfono';
 			else if($via == 'W') $via = 'Web';
 			else if($via == 'F') $via = 'Facebook';
+			// Tipo
 			if($tipo == 'C') $tipo = 'Consultorio';
 			else if($tipo == 'L') $tipo = 'Laboraroio';
 			// Estado  de pago
-			if($estadoPago == 'PEN') $estadoPago = "<span class='label label-danger'>Pendiente</span>";
-			else if($estadoPago == 'PAG') $estadoPago = "<span class='label label-success'>Pagado</span>";
+			if($estadoPago == 'PEN') $estadoPago = "<span class='label label-danger'>Pendiente</span>";			
 			else if($estadoPago == 'PAR')	$estadoPago = "<span class='label label-warning'>Parcial</span>";
 			echo "
 						<tr>
@@ -300,7 +292,7 @@
 							<td style='text-align:right; padding-right:20px;'>".$importe."</td>
 							<td style='text-align:right; padding-right:20px;'>".$importePagado."</td>
 							<td>".$formaPago."</td>
-							<td>".$estadoPago."</td>
+							<td style='text-align:center;'>".$estadoPago."</td>
 							<td>
 									<div class='row'>
 										<div class='col-md-8'>

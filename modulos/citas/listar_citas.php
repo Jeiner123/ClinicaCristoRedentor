@@ -85,11 +85,11 @@
               <label class="form-label">Estado</label>
               <select class="form-control input-sm" id="cboEstado" name="cboEstado" onchange="cargarTablaCitas();">
                 <option value="T" selected>Todos</option>
-                <option value="R" class="label-warning">Reservado</option>
-                <option value="C" class="label-info">Confirmada</option>
-                <option value="S" class="label-primary">En Sala</option>
-                <option value="A" class="label-success">Atendido</option>
-                <option value="X" class="label-danger">Anulado</option>
+                <option value="R" >Reservado</option>
+                <option value="C" >Confirmada</option>
+                <option value="S" >En Sala</option>
+                <option value="A" >Atendido</option>
+                <option value="X" >Anulado</option>
               </select>
             </div>
           </div>

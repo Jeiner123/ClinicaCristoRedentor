@@ -104,18 +104,5 @@
 <!-- ./wrapper -->
   <?php include '../general/pie_pagina.php';?>
 
-  <script src="../js/vue.min.js"></script>
-  <script>
-      var app_data = {
-          users: {}
-      };
-      new Vue({
-          el: '#users_table',
-          data: app_data
-      });
-      $.getJSON('json/users.php', function (data) {
-          app_data.users = data.users;
-      });
-  </script>
 </body>
 </html>

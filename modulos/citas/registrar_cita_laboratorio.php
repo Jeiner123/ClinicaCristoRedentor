@@ -106,19 +106,19 @@
               <div class="col-md-2 col-xs-3">
                 <div class="form-group">
                   <label class="form-label">Precio</label>
-                  <input type="text" id="txtPrecio" name="txtPrecio" class="form-control" placeholder="Precio Unit." readonly="true">
+                  <input type="text" id="txtPrecio" name="txtPrecio" class="form-control input-sm" placeholder="Precio Unit." readonly="true">
                 </div>
               </div>
               <div class="col-md-1  col-xs-3">
                 <div class="form-group">
                   <label class="form-label">Cantidad</label>
-                  <input type="text" id="txtCantidad" name="txtCantidad" value="1" maxlength="2"class="form-control" onchange="calcularImporte();" onkeypress="return soloNumeroEntero(event);">
+                  <input type="text" id="txtCantidad" name="txtCantidad" value="1" maxlength="2"class="form-control input-sm" onchange="calcularImporte();" onkeypress="return soloNumeroEntero(event);">
                 </div>
               </div>
                <div class="col-md-2  col-xs-3">
                 <div class="form-group">
                   <label class="form-label">Importe</label>
-                  <input type="text" id="txtImporte" name="txtImporte" class="form-control" placeholder="Importe" readonly="true" >
+                  <input type="text" id="txtImporte" name="txtImporte" class="form-control input-sm" placeholder="Importe" readonly="true" >
                 </div>
               </div>
               <div class="col-md-1  col-xs-12" align="center">

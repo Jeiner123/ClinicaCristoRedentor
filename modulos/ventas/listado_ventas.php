@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Listado de ventas | CLÍNICA CRISTO REDENTOR</title>
+  <title>Reporte de ventas | CLÍNICA CRISTO REDENTOR</title>
   <?php include '../general/header.php';?>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -26,17 +26,109 @@
           <a href="listado_ventas.php">Ventas</a>
         </li>
         <li class="active">
-          Listado de ventas
+          Reporte de ventas
         </li>
       </ol>
     </section>
     <!-- Main content -->
     <section class="content">
-
+      <div class="row" >
+        <div class="col-sm-2 col-md-offset-4">
+          <div class="form-group">            
+            <select class="form-control input-sm" id="cboAnio" name="cboAnio" onchange="cargarTablasVentas();">
+              <option value="2015">2015</option>
+              <option value="2016" selected>2016</option>
+            </select>
+          </div>            
+        </div>
+        <div class="col-sm-2">
+          <div class="form-group">            
+            <select class="form-control input-sm" id="cboMes" name="cboMes" onchange="cargarTablasVentas();">
+              <?php 
+                foreach ($meses as $id => $value){
+                  echo "<option ";
+                  if($id == date('m')) echo "selected ";
+                  echo "value='".$id."'>".$value."</option>";
+                }
+              ?>
+            </select>
+          </div>
+        </div>
+      </div>
       <div class="box box-solid color-palette-box">
         <div class="box-header bg-blue" >
           <div>
-            <h3 class="box-title">Listado de ventas</h3>
+            <h3 class="box-title">Listado de Pedidos</h3>
+          </div>
+          <div class="box-tools pull-right">
+            <button style='color:#fff;' type="button" class="btn btn-box-tool" data-widget="collapse">
+              <i class="fa fa-minus"></i>
+            </button>
+          </div>
+        </div>        
+        <div class="box-body" style='overflow-x:scroll;overflow-y:hidden' align="center">
+          <div class="row">            
+            <div class="col-sm-2">
+              <label for="cboEstadoPedido">Estado</label>
+              <select class="form-control input-sm" id="cboEstadoPedido" name="cboEstadoPedido" onchange="cargarTablaPedidos();">
+                <option value="0">-- Todos --</option>
+                <option value="PEN">PENDIENTE</option>
+                <option value="PAR">PARCIAL</option> 
+                <option value="PAG">PAGADO</option>
+                <option value="XXX">ANULADO</option>
+              </select>
+            </div>
+            <div class="col-sm-2">
+              <label for="cboTipoPedido">Tipo</label>
+              <select class="form-control input-sm" id="cboTipoPedido" name="cboTipoPedido" onchange="cargarTablaPedidos();">
+                <option value="0">-- Todos --</option>
+                <option value="L">LABORATORIO</option>
+                <option value="C">CONSULTA</option>
+              </select>
+            </div>
+            <div class="col-sm-2 col-sm-offset-6">
+              <div class="form-group">
+                <a href="javascript:;" class="btn btn-block btn-success btn-sm btn-flat" >
+                  Exportar a excel
+                  <i class="fa fa-download"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-sm-12">
+              <table id="tablaPedidos" width="100%" class="table table-bordered table-hover tablaDatos">
+                <thead>
+                  <tr>
+                    <th style='text-align:left;'>#</th>
+                    <th style='text-align:center;'>Ped.</th>
+                    <th style='text-align:center;'>Fecha</th>
+                    <th style='text-align:center;'>Paciente</th>
+                    <th style='text-align:center;'>Tipo</th>
+                    <th style='text-align:center;'>IGV</th>
+                    <th style='text-align:center;'>VV</th>
+                    <th style='text-align:center;'>IGV</th>
+                    <th style='text-align:center;'>Importe</th>
+                    <th style='text-align:center;'>Pagado</th>
+                    <th style='text-align:center;'>Forma pago</th>
+                    <th style='text-align:left;'>Estado</th>
+                  </tr>
+                </thead>
+                <tbody class="cuerpoTabla" id="cuerpoTablaPedidos">
+                  <!-- Aqui irán los elementos de la tabla -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- Lista de pedidos -->
+      <div class="box box-solid color-palette-box">
+        <div class="box-header bg-blue" >
+          <div>
+            <h3 class="box-title">Listado de Citas</h3>
           </div>
           <div class="box-tools pull-right">
             <button style='color:#fff;' type="button" class="btn btn-box-tool" data-widget="collapse">
@@ -46,29 +138,64 @@
         </div>        
         <div class="box-body" style='overflow-x:scroll;overflow-y:hidden' align="center">
           <div class="row">
-            <div class="col-md-6 col-md-offset-3 col-xs-8 col-xs-offset-2">
-              <a href="javascript:;" class="btn btn-block btn-primary btn-sm btn-flat" >
-                Exportar a excel
-              </a>
+            <div class="col-sm-2">
+              <label for="cboEstadoCita">Estado</label>
+              <select class="form-control input-sm" id="cboEstadoCita" name="cboEstadoCita" onchange="cargarTablaPedidos();">
+                <option value="0">-- Todos --</option>
+                <option value="R">RESERVADO</option>
+                <option value="C">CONFIRMADO</option> 
+                <option value="S">EN SALA</option>
+                <option value="A">ATENDIDO</option>
+                <option value="X">ANULADO</option>
+              </select>
+            </div>
+            <div class="col-sm-2">
+              <label for="cboEstadoPagoCita">Estado de pago</label>
+              <select class="form-control input-sm" id="cboEstadoPagoCita" name="cboEstadoPagoCita" onchange="cargarTablaPedidos();">
+                <option value="0">-- Todos --</option>
+                <option value="PEN">PENDIENTE</option>
+                <option value="PAR">PARCIAL</option> 
+                <option value="PAG">PAGADO</option>
+                <option value="XXX">ANULADO</option>
+              </select>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label class="control-label">Médico</label>
+                <select  id="cboMedicos" name="cboMedicos" class="chosen-select form-control input-sm">
+                  <!-- Lista de diagnósticos -->
+                </select> 
+              </div>
+            </div>            
+            <div class="col-sm-2 col-sm-offset-3">
+              <div class="form-group">
+                <a href="javascript:;" class="btn btn-block btn-success btn-sm btn-flat" >
+                  Exportar a excel
+                  <i class="fa fa-download"></i>
+                </a>
+              </div>
             </div>
           </div>
           <br>
           <div class="row">
             <div class="col-md-12">
-              <table id="tablaClientes" class="table table-bordered table-hover tablaDatos">
+              <table id="tablaCitas" class="table table-bordered table-hover tablaDatos">
                 <thead>
                   <tr>
-                    <th style='text-align:center;'>Documento</th>
-                    <th style='text-align:center;'>N° documento</th>
-                    <th>Cliente</th>
-                    <th style='text-align:center;'>Contacto</th>
-                    <th>Teléfono</th>
-                    <th>Correo</th>
+                    <th style='text-align:left;'>#</th>
+                    <th style='text-align:center;'>Ped.</th>
+                    <th style='text-align:center;'>Fecha cita</th>
+                    <th style='text-align:center;'>Paciente</th>
+                    <th style='text-align:center;'>Tipo</th>
+                    <th style='text-align:center;'>Especialidad</th>
+                    <th style='text-align:center;'>Servicio</th>
+                    <th style='text-align:center;'>Medico</th>
+                    <th style='text-align:center;'>Cantidad</th>
+                    <th style='text-align:center;'>Importe total</th>
                     <th style='text-align:center;'>Estado</th>
-                    <th style='text-align:center;'></th>
                   </tr>
                 </thead>
-                <tbody class="cuerpoTabla" id="cuerpoTablaClientes">
+                <tbody class="cuerpoTabla" id="cuerpoTablaCitas">
                   <!-- Aqui irán los elementos de la tabla -->
                 </tbody>
               </table>
@@ -77,7 +204,55 @@
         </div>
         <!-- /.box-body -->
       </div>
-      <!-- Lista de items -->
+      <!-- Lista de Citas -->
+      <div class="box box-solid color-palette-box">
+        <div class="box-header bg-blue" >
+          <div>
+            <h3 class="box-title">Listado de Pagos</h3>
+          </div>
+          <div class="box-tools pull-right">
+            <button style='color:#fff;' type="button" class="btn btn-box-tool" data-widget="collapse">
+              <i class="fa fa-minus"></i>
+            </button>
+          </div>
+        </div>        
+        <div class="box-body" style='overflow-x:scroll;overflow-y:hidden' align="center">
+          <div class="row">
+            <div class="col-sm-2 col-sm-offset-10">
+              <div class="form-group">
+                <a href="javascript:;" class="btn btn-block btn-success btn-sm btn-flat" >
+                  Exportar a excel
+                  <i class="fa fa-download"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-12">
+              <table id="tablaPagos" class="table table-bordered table-hover tablaDatos">
+                <thead>
+                  <tr>
+                    <th style='text-align:center;'>Fecha</th>
+                    <th style='text-align:center;'>Documento</th>
+                    <th style='text-align:center;'>Serie - Número</th>
+                    <th>RUC / DNI</th>
+                    <th style='text-align:center;'>Cliente</th>                    
+                    <th>VV</th>
+                    <th>IGV</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody class="cuerpoTabla" id="cuerpoTablaPagos">
+                  <!-- Aqui irán los elementos de la tabla -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- Lista de Pagos -->
     </section>
     <!-- /.content -->
   </div>
@@ -90,13 +265,20 @@
 </html>
 <script src="js/script.js"></script>
 <script type="text/javascript">
-  cargarTablaPacientes();
-  // cargarCboTipoPersonal();
-  // cargarCboAreas();
-  // cargarCboCargos();
-  // // cargarCboEspecialidades();
-  // cargarTablaPersonal();
-  // abrirModal("#modalRegPersonal");
-  $('#tablaPacientes tbody').on('click','tr',function(){seleccionSimple(this);});  
+
+  function cargarTablasVentas () {
+    cargarTablaPedidos();
+    return;
+    cargarTablaCitas();
+    cargarTablaPagos();
+  }
+  cargarTablasVentas();
+
+  // cargarCboEspecialidades("#cboEspecialidad",-1);
+  cargarCboMedicos('#cboMedicos',0);
   
+  
+  $('#tablaPedidos tbody').on('click','tr',function(){seleccionSimple(this);} );
+  $('#tablaCitas tbody').on('click','tr',function(){seleccionSimple(this);});
+  $('#tablaPagos tbody').on('click','tr',function(){seleccionSimple(this);});  
 </script>

@@ -87,7 +87,7 @@
               </div>
               <div class="col-sm-5">
                 <div class="form-group">
-                  <label class="control-label">Médico</label>                  
+                  <label class="control-label">Médico</label>
                   <select onchange="seleccionarCboMedico(this);" class="chosen-select form-control input-sm" id="cboMedicos" name="cboMedicos">
                     <!-- Lista de diagnósticos -->
                   </select> 
@@ -177,8 +177,7 @@
   cargarCboMedicos('#cboMedicos',0);
   cargarCboServicios('#cboServicios',0,0);  
   cargarCboTipoServicio();
-  cargarCboEspecialidades();
-
+  cargarCboEspecialidades("#cboEspecialidad",-1);
     //Timepicker
     $(".timepicker").timepicker({
       showInputs: false
