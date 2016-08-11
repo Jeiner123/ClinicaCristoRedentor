@@ -90,6 +90,54 @@ function validarFechaMayor(elemento){
     $(elemento).parent().removeClass('has-error');
   }  
 }
+function validarFechaMenor(elemento){
+	var fecha = $(elemento).val();
+  if(fecha.length<1){
+    $(elemento).parent().addClass('has-error');
+    return false;
+  }else{
+    $(elemento).parent().removeClass('has-error');
+  }  
+  var valuesStart= fechaHoyDMA.split("-");
+  var valuesEnd=fecha.split("-");
+  var dateStart = new Date(valuesStart[2],(valuesStart[1]-1),valuesStart[0]);
+  var dateEnd = new Date(valuesEnd[2],(valuesEnd[1]-1),valuesEnd[0]);
+  if(dateStart < dateEnd){
+    $(elemento).parent().addClass('has-error');        
+  }else{
+    $(elemento).parent().removeClass('has-error');
+  }  
+}
+
+function compararFechas(nfechaMayor,nfechaMenor){
+	var fechaMayor = $(nfechaMayor).val();
+	var fechaMenor = $(nfechaMenor).val();
+  if(fechaMayor.length<1){
+    $(fechaMayor).parent().addClass('has-error');
+    return false;
+  }else{
+    $(fechaMayor).parent().removeClass('has-error');
+  } 
+
+  if(fechaMenor.length<1){
+    $(fechaMenor).parent().addClass('has-error');
+    return false;
+  }else{
+    $(fechaMenor).parent().removeClass('has-error');
+  }  
+
+  var valuesMayor= fechaMayor.split("-");
+  var valuesMenor=fechaMenor.split("-");
+  var dateMayor = new Date(valuesMayor[2],(valuesMayor[1]-1),valuesMayor[0]);
+  var dateMenor = new Date(valuesMenor[2],(valuesMenor[1]-1),valuesMenor[0]);
+  if(dateMayor <= dateMenor){
+    $(nfechaMenor).parent().addClass('has-error');        
+    $(nfechaMayor).parent().addClass('has-error');     
+  }else{
+    $(nfechaMenor).parent().removeClass('has-error');
+    $(nfechaMayor).parent().removeClass('has-error');
+  }  
+}
 function abrirCargando(){
 	numeroCargas++;
 	$("#modalCargando").modal({

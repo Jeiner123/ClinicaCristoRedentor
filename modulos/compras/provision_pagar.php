@@ -137,7 +137,7 @@
                      <div class="col-md-3">
                       <label class="control-label">Fecha de emisión</label>
                       <div class="input-group">
-                        <input id="txtFechaEmision" name="txtFechaEmision"class="form-control date-picker input-sm" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" value="" >
+                        <input id="txtFechaEmision" name="txtFechaEmision"class="form-control date-picker input-sm" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy"  onchange="validarFechaMenor(this);">
                         <span class="input-group-addon">
                           <i class="fa fa-calendar bigger-110"></i>
                         </span>
@@ -182,7 +182,7 @@
                     </div>
                     <div class="col-md-3 tributo-comun">
                       <label for="cboPercepcion">Percepción</label>
-                      <select class="form-control input-sm" name="cboPercepcion" id="cboPercepcion">
+                      <select class="form-control input-sm" name="cboPercepcion" id="cboPercepcion" onchange="validaPercepcion()">
                         
                       </select>
                     </div>
@@ -194,9 +194,8 @@
                     </div>
                      <div class="col-md-2" hidden id="divRenta">
                       <label for="cboRenta">Renta</label>
-                      <select class="form-control input-sm" name="cboRenta" id="cboRenta">
-                        <option value="1">No aplica</option>
-                        <option value="2">Renta 8%</option>
+                      <select class="form-control input-sm" name="cboRenta" id="cboRenta" onchange="validaRenta()">
+                        
                       </select>
                     </div>
                   </div></div>
