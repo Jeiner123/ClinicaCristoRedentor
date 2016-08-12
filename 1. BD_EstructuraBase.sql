@@ -82,7 +82,7 @@ CREATE TABLE cargo (
   FOREIGN KEY (areaID) REFERENCES area (areaID)
 );
 CREATE TABLE persona (
-  personaID       INT          NOT NULL,
+  personaID       INT          NOT NULL AUTO_INCREMENT,
   DNI             CHAR(8)      NOT NULL,
   nombres         VARCHAR(50)  NOT NULL,
   apPaterno       VARCHAR(50)  NOT NULL,
