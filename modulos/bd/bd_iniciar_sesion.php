@@ -7,7 +7,7 @@
 
 	$consulta = "SELECT U.usuario, U.clave, U.estado, P.nombres, P.apPaterno, P.apMaterno
 				FROM usuario U
-				INNER JOIN persona P ON P.DNI = U.DNI
+				INNER JOIN persona P ON P.personaID = U.personaID
 				WHERE U.usuario='".$usuario."' AND U.clave='".$clave."'";
 	$res = mysqli_query($con, $consulta) or die (mysqli_error($con));
 	 

@@ -74,29 +74,35 @@
             $query = "SELECT 1 FROM permissions P INNER JOIN items I ON P.item_id=I.id WHERE I.file='asignar_permisos' AND P.username='".$_SESSION['usuario']."'";
             $result_set = mysqli_query($con, $query);
             if (mysqli_num_rows($result_set) > 0) {
+
+                $sql  = "SELECT PE.* ";
+                $sql .= "FROM persona PE ";
+                $sql .= "LEFT JOIN paciente PA ON PE.personaID = PA.personaID ";
+                $sql .= "LEFT JOIN personal PL ON PE.personaID = PL.personaID ";
+                $sql .= "WHERE PA.pacienteID is NULL AND PL.personalID is NULL";
+                $result_set = mysqli_query($con, $sql);
+                $pending_users = mysqli_fetch_all($result_set, MYSQLI_ASSOC);
+                $pending_users_count = count($pending_users);
             ?>
 
             <!-- Notifications -->
             <li class="dropdown notifications-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-bell-o"></i>
-                    <span class="label label-warning">2</span>
+                    <span class="label label-warning"><?= $pending_users_count ?></span>
                 </a>
                 <ul class="dropdown-menu">
-                    <li class="header">Tienes 2 notificaciones</li>
+                    <li class="header">Tienes <?= $pending_users_count ?> notificaciones</li>
                     <li>
-                        <!-- inner menu: contains the actual data -->
                         <ul class="menu">
+                            <?php foreach ($pending_users as $pending_user): ?>
                             <li>
-                                <a href="../admin/asignar_permisos.php">
-                                    <i class="fa fa-users text-aqua"></i> Nuevo registro: Juan Ramos
+                                <a href="#">
+                                    <i class="fa fa-users text-aqua"></i> Nuevo registro:
+                                    <?php echo $pending_user['nombres'] . ' ' . $pending_user['apPaterno'] . ' ' . $pending_user['apMaterno'] ?>
                                 </a>
                             </li>
-<!--                            <li>-->
-<!--                                <a href="#">-->
-<!--                                    <i class="fa fa-warning text-yellow"></i> 2 citas canceladas-->
-<!--                                </a>-->
-<!--                            </li>-->
+                            <?php endforeach; ?>
                         </ul>
                     </li>
                 </ul>
