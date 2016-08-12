@@ -71,7 +71,7 @@
     $opGravada='0.000';
     $opNoGravada='0.000';
     $honorarios='0.000';
-    $consulta = "select C.codigo,C.fechaEmision,C.fechaVencimiento,C.comprobanteID,C.serie,C.numero,P.tipoDocumento,C.proveedorID,IF(P.razonSocial='',UPPER(concat(P.nombres,' ',P.apellidoPat,' ',P.apellidoMat)),UPPER(P.razonSocial)),C.descuento,C.percepcion,C.impuesto,C.tipoAdquisicionID,C.precioVenta,C.retencion,C.totalBruto from compra C inner join PROVEEDOR P on C.proveedorID=P.proveedorID where mesID='".$mes."' and anio='".$anio."' order by C.codigo";
+    $consulta = "select C.codigo,C.fechaEmision,C.fechaVencimiento,C.comprobanteID,C.serie,C.numero,P.tipoDocumento,C.proveedorID,IF(P.razonSocial='',UPPER(concat(P.nombres,' ',P.apellidoPat,' ',P.apellidoMat)),UPPER(P.razonSocial)),C.descuento,C.percepcion,C.impuesto,C.tipoAdquisicionID,C.precioVenta,C.valorRenta,C.totalBruto from compra C inner join PROVEEDOR P on C.proveedorID=P.proveedorID where mesID='".$mes."' and anio='".$anio."' order by C.codigo";
   
     $res = mysqli_query($con,$consulta) or die (mysqli_error($con));
       while($row = mysqli_fetch_row($res)){
@@ -98,6 +98,16 @@
           $fechaVencimiento='';
         }
 
+        if($comprobanteID=='07'){
+          $fecha=$row[2];
+          $tipo=$comprobanteID;
+          $SerieNum=$row[4]."/".$row[5];
+        }else{
+          $fecha='';
+          $tipo='';
+          $SerieNum='';
+        }
+
         echo "<tr>
                 <td class='tg-4cwu'>".$row[0]."</td>
                 <td class='tg-4cwu'>".$row[1]."</td>
@@ -118,9 +128,9 @@
                 <td class='tg-4cwu' style='mso-number-format:"."\"0.00\"".";'>".number_format($row[13], 2, ',', '')."</td>
                 <td class='tg-4cwu'></td>
                 <td class='tg-4cwu' style='mso-number-format:"."\"0.00\"".";'>0,00</td>
-                <td class='tg-4cwu'></td>
-                <td class='tg-4cwu'></td>
-                <td class='tg-4cwu'></td>
+                <td class='tg-4cwu'>".$fecha."</td>
+                <td class='tg-4cwu'>".$tipo."</td>
+                <td class='tg-4cwu'>".$SerieNum."</td>
               </tr>";
       }
   ?>

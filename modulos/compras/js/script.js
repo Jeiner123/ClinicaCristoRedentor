@@ -58,6 +58,11 @@ function mantenerProveedor(form){
 
 	if($("#cboDocumento").val()==1){
 		inputMismoValor('#txtDocumento',8);	
+		inputObligatorio('#txtNombre',2);
+		inputObligatorio('#txtApellidoPat',4);
+		inputObligatorio('#txtApellidoMat',4);
+		inputObligatorio('#txtTelefono',6);
+		comboObligatorio('#cboTipoTelefono1',0);
 	}
 	if($("#cboDocumento").val()==6){
 		inputMismoValor('#txtDocumento',11);	
@@ -65,11 +70,6 @@ function mantenerProveedor(form){
 		inputObligatorio('#txtDireccion',4);
 	}
 
-	inputObligatorio('#txtNombre',2);
-	inputObligatorio('#txtApellidoPat',4);
-	inputObligatorio('#txtApellidoMat',4);
-	inputObligatorio('#txtTelefono',6);
-	comboObligatorio('#cboTipoTelefono1',0);
 
 	if(document.getElementsByClassName("has-error").length > 0){
 		alert("Verifique los datos ingresados");
@@ -84,6 +84,7 @@ function mantenerProveedor(form){
 	}
 }
 function guardarProveedor(form){
+	abrirCargando();
 	var formData = new FormData($('#formProveedor')[0]);
 	formData.append("opc", "CC_01");
 	$.ajax({
@@ -93,7 +94,9 @@ function guardarProveedor(form){
 		contentType :false,
 		processData: false,
 		success: function(rpta){
+			cerrarCargando();
 			alert(rpta);
+			limpiarForm("#formProveedor");
 		},
 		error: function(rpta){
 			alert(rpta);
@@ -223,7 +226,6 @@ function datosProveedor(documento){
                 	$("#txtDocumento").val(datos[i].proveedorID);
                 	$("#txtRazonSocial").val(datos[i].razonSocial);
                 	$("#txtDireccion").val(datos[i].direccion);
-                	$("#txtEmailE").val(datos[i].emailEmpresa);
                 	entidad=datos[i].banco;
                 	$("#txtDetraccion").val(datos[i].cuentaDetraccion);
                 	$("#txtCuenta").val(datos[i].cuentaBanco);
@@ -255,7 +257,7 @@ function datosProveedor(documento){
 	}else{
 		cargaOperador(0);
 		cargarCboCondPago(0);
-		cargarCboTipoDocumento('');
+		cargarCboTipoDocumento(6);
 		cargarCboEntidadFinanciera('00');
 	}
 	
@@ -445,7 +447,7 @@ function generarPeriodo(mes,anio){
 	cargarCboProveedor(0);
 	cargarCboAreas();
 	cargarCboExistencias();
-	cargarCboTipoAdquision(0);
+	cargarCboTipoAdquision(1);
 	cargarCboComprobanteCompra('03');
 	cargarCboDetraccion(0);
 	cargarCboPercepcion(0);
@@ -555,8 +557,10 @@ function cargarTablaFacturaFiltro(estado,periodo,proveedor){
 
 function validarTributos(){
 	if($('#cboComprobante').val()=='01' || $('#cboComprobante').val()=='03'){
+		$("#cboAdquisicion").val(1);
 		$("#divRenta").hide();
 	}else{
+		$("#cboAdquisicion").val(3);
 		$("#divRenta").show();
 	}
 
@@ -924,12 +928,11 @@ function datosParaPago(){
 					IGV=datos[i].IGV;
 					cuenta=datos[i].cuentaDetraccion;;
                 	$("#txtProveedorID").val(datos[i].proveedorID);
-                	$("#txtProveedor").val(datos[i].proveedor);
-                	$("#txtSerie").val(datos[i].serie+"-"+datos[i].numero);
-                	$("#txtFechaEmision").val(datos[i].fechaEmision);
-                	$("#txtFechaVcto").val(datos[i].fechaVencimiento);
-                	$("#txtSaldo").val(datos[i].saldo);
-                	$("#txtTotal").val(datos[i].saldoPagar);
+                	$("#lbProveedor").text(datos[i].proveedor);
+                	$("#lbSerie").text(datos[i].serie+" - "+datos[i].numero);
+                	$("#lbFechaVcto").text(datos[i].fechaVencimiento);
+                	$("#lbSaldo").text(datos[i].saldo);
+                	$("#lbTotal").text(datos[i].saldoPagar);
                 	$("#txtPrecioVenta").val(datos[i].precioVenta);
                 }
               	cargarCboMedioPago('008');
@@ -999,7 +1002,7 @@ function generarPeriodoPago(mes,anio){
 	anio=$("#cboAnio").val();
 	$("#txtMes").val(mes);
 	$("#txtAnio").val(anio);
-	$("#txtPeriodo").val(meses[mes]+' - '+anio);
+	$("#lbPeriodo").text(meses[mes]+' - '+anio);
 	$("#btnGuardar").removeClass("hidden");
 	cerrarModal("#modalPeriodo")
 }
@@ -1135,7 +1138,7 @@ function RegistrarPagoCompra(){
 	}
 
 	monto=parseFloat($("#txtMonto").val());
-	saldo=parseFloat($("#txtSaldo").val());
+	saldo=parseFloat($("#lbSaldo").text());
 	
 	if(monto>saldo){
 		r = confirm("El monto excede al saldo ¿Esta seguro de registrar el pago?");
@@ -1150,11 +1153,16 @@ function RegistrarPagoCompra(){
 	}else{
 		concepto='N';
 	}
+
+	total=$("#lbTotal").text();
+	saldo=$("#lbSaldo").text();
 		    
 	abrirCargando();
 	var formData = new FormData($('#formPagoCompra')[0]);
 	formData.append("opc", "CC_13");
 	formData.append("concepto", concepto);
+	formData.append("total", total);
+	formData.append("saldo", saldo);
 	$.ajax({
 		type: 'POST',
 		data: formData,
@@ -1164,11 +1172,13 @@ function RegistrarPagoCompra(){
 		success: function(rpta){
 			cerrarCargando();	
 			if(rpta==1){
-				saldo=parseFloat($("#txtSaldo").val());
+				saldo=parseFloat($("#lbSaldo").text());
 				monto=parseFloat($("#txtMonto").val());
 				nTotal=saldo-monto;
-				$("#txtSaldo").val(nTotal.toFixed(2));
+				$("#lbSaldo").text(nTotal.toFixed(2));
 				$("#txtMonto").val('');
+				$("#txtValorVenta").val('');
+				$("#txtIGV").val('');
 				if(nTotal<=0){
 					$("#txtMonto").prop("disabled",true);
 				}

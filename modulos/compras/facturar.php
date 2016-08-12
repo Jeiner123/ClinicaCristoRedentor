@@ -73,41 +73,75 @@
             <input id="txtAnioRef" name="txtAnioRef"class="form-control input-sm"  value="<?php echo $anioID; ?>" type="hidden">
              <input id="txtCodigoRef" name="txtCodigoRef" class="form-control input-sm" value="<?php echo $codigo; ?>" type="hidden">
             <div class="row">
+              <div class="col-md-1">
+                <label class="control-label" style="font-weight: bold;">Periódo:</label>
+              </div>
               <div class="col-md-2">
-                <label class="control-label">Periodo</label>
-                <input type="text" id="txtPeriodo"  name="txtPeriodo" class="form-control input-sm" readonly="" value="<?php echo $periodo;?>">
+                <label class="control-label" id="lbPeriodo"><?php echo $periodo;?></label>
               </div>
-              <div class="col-md-4">
-                <label class="control-label">Proveedor</label>
-                <input type="hidden" id="txtProveedorID"  name="txtProveedorID" class="form-control input-sm">
-                <input type="text" id="txtProveedor" name="txtProveedor"class="form-control input-sm" readonly="">
+              <div class="col-md-1">
+                <label class="control-label" style="font-weight: bold;">Proveedor:</label>
               </div>
+              <div class="col-md-8">
+                <label class="control-label" id="lbProveedor"></label>
+              </div>
+              <div class="col-md-1">
+                <label class="control-label" style="font-weight: bold;">Fecha de vcto:</label>
+              </div>
+              <div class="col-md-2">
+                <label class="control-label" id="lbFechaVcto"></label>
+              </div>
+              <div class="col-md-1">
+                <label class="control-label" style="font-weight: bold;">Serie y número:</label>
+              </div>
+              <div class="col-md-2">
+                <label class="control-label" id="lbSerie"></label>
+              </div>
+              <div class="col-md-1 col-md-offset-2">
+                <label class="control-label" style="font-weight: bold;">Total:</label>
+              </div>
+              <div class="col-md-1">
+                <label class="control-label" id="lbTotal" name="lbTotal"></label>
+              </div>
+              <div class="col-md-1">
+                <label class="control-label" style="font-weight: bold;">Saldo:</label>
+              </div>
+              <div class="col-md-1">
+                <label class="control-label" id="lbSaldo" name="lbSaldo"></label>
+              </div>
+              <div class="col-md-12"><hr></div>
+            </div>
+            <div class="row">
               <div class="col-md-3">
                 <label class="control-label">Emitido</label>
                 <div class="input-group">
-                  <input id="txtFechaEmision" name="txtFechaEmision"class="form-control date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" onchange="validarFechaMayor(this);" value="<?php echo $fechaHoyDMA;?>">
+                  <input id="txtFechaEmision" name="txtFechaEmision"class="form-control input-sm date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" onchange="validarFechaMayor(this);" value="<?php echo $fechaHoyDMA;?>">
                   <span class="input-group-addon">
                     <i class="fa fa-calendar bigger-110"></i>
                   </span>
                 </div>
               </div>
-               <div class="col-md-3">
-                <label class="control-label">Fecha de vcto.</label>
-                <div class="input-group">
-                  <input id="txtFechaVcto" name="txtFechaVcto"class="form-control input-sm date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" onchange="validarFechaMayor(this);" readonly="">
-                  <span class="input-group-addon">
-                    <i class="fa fa-calendar bigger-110"></i>
-                  </span>
-                </div>
+              <div class="col-md-2">
+                <label class="control-label">Monto</label>
+                <input type="text" id="txtMonto" name="txtMonto"class="form-control input-sm" placeholder="S/." value="<?php echo $monto;?>" onchange="descomponerPago('<?php echo $igv;?>');">
               </div>
-             
+              <div class="col-md-7">
+                <label class="control-label">Forma de pago</label>
+                <select class="chosen-select input-sm" name="cboMedioPago" id="cboMedioPago" onchange="ValidarMedioPago()">
+                  
+                </select>
+              </div>
+              <div class="col-md-2">
+                <label class="control-label">Valor venta</label>
+                <input type="text" id="txtValorVenta" name="txtValorVenta" class="form-control input-sm" readonly="" value="<?php echo $valorVenta; ?>">
+              </div>
+              <div class="col-md-2">
+                <label class="control-label">I.G.V</label>
+                <input type="text" id="txtIGV" name="txtIGV" class="form-control input-sm" readonly="" placeholder="<?php echo ($igv*100)."%";?>" value="<?php echo $valorIgv; ?>">
+              </div>
             </div>
             <div class="row">
               <input type="hidden" id="txtBoolIGV" name="txtBoolIGV"class="form-control input-sm" readonly="">
-              <div class="col-md-2">
-                <label class="control-label">Serie-Número</label>
-                <input type="text" id="txtSerie" name="txtSerie"class="form-control input-sm" readonly="">
-              </div>
               <div class="col-md-2" hidden id="divPrecioVenta">
                 <label class="control-label">Precio de venta</label>
                 <input type="text" readonly id="txtPrecioVenta" name="txtPrecioVenta"class="form-control input-sm">
@@ -127,32 +161,6 @@
               <div class="col-md-2" hidden id="divRetencion">
                 <label class="control-label">Retencion</label>
                 <input type="text" readonly id="txtRetencion" name="txtRetencion"class="form-control input-sm">
-              </div>
-               <div class="col-md-2">
-                <label class="control-label">Total</label>
-                <input type="text" id="txtTotal" name="txtTotal"class="form-control input-sm" placeholder="S/." readonly="">
-              </div>
-              <div class="col-md-2">
-                <label class="control-label">Debe</label>
-                <input type="text" id="txtSaldo" name="txtSaldo" class="form-control input-sm" readonly="">
-              </div>
-              <div class="col-md-2">
-                <label class="control-label">Monto</label>
-                <input type="text" id="txtMonto" name="txtMonto"class="form-control input-sm" placeholder="S/." value="<?php echo $monto;?>" onchange="descomponerPago('<?php echo $igv;?>');">
-              </div>
-               <div class="col-md-6">
-                <label class="control-label">Forma de pago</label>
-                <select class="chosen-select input-sm" name="cboMedioPago" id="cboMedioPago" onchange="ValidarMedioPago()">
-                  
-                </select>
-              </div>
-               <div class="col-md-2">
-                <label class="control-label">Valor venta</label>
-                <input type="text" id="txtValorVenta" name="txtValorVenta" class="form-control input-sm" readonly="" value="<?php echo $valorVenta; ?>">
-              </div>
-              <div class="col-md-2">
-                <label class="control-label">I.G.V</label>
-                <input type="text" id="txtIGV" name="txtIGV" class="form-control input-sm" readonly="" placeholder="<?php echo ($igv*100)."%";?>" value="<?php echo $valorIgv; ?>">
               </div>
               <div class="form-group col-md-2" hidden id="divPagoDetraccion">
                 <label style="color: white;">detraccion</label>

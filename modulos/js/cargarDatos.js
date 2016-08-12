@@ -369,6 +369,7 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			success: function(rpta){
 				$('#cboModalidadPago').html(rpta);
 				$('#cboModalidadPago').val(valorDefecto);
+				funcionSelect('#cboModalidadPago');
 				cerrarCargando();
 				return true;		
 			},
@@ -387,6 +388,7 @@ var urlGeneral = '../bd/bd_operaciones.php';
 			success: function(rpta){
 				$('#cboDocumento').html(rpta);
 				$('#cboDocumento').val(valorDefecto);
+				funcionSelect('#cboDocumento');
 				cerrarCargando();
 				return true;		
 			},

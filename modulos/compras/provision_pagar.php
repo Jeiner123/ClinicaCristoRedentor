@@ -167,7 +167,7 @@
                     </div>
                     <div class="col-md-3">
                         <label class="control-label">Tipo de adquisición</label>
-                        <select class="form-control input-sm" id="cboAdquisicion" name="cboAdquisicion">
+                        <select class="form-control input-sm" id="cboAdquisicion" name="cboAdquisicion" onchange="validaAdquisicion();">
                         </select> 
                     </div>
                     <div class="col-md-2 tributo-comun">
