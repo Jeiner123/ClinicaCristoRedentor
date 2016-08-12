@@ -1281,3 +1281,21 @@ function cargarPagosCompraFiltro(){
 		});
 	}
 }
+
+//==========================REGISTRO DE COMPRAS========================================
+
+function generarRegistroCompras(){
+	periodo=$("#cboPeriodoCompra").val();
+	if(periodo==0){
+		alert("Seleccione un periodo");
+		return false;
+	}else{
+		var i = periodo.indexOf('-');
+		mes=periodo.substr(0,i);
+		anio=periodo.substr(i+1);
+		$("#txtMesID").val(mes);
+		$("#txtAnio").val(anio);
+		return true;
+	}
+	
+}
