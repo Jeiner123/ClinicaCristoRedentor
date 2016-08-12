@@ -47,6 +47,7 @@
           </div>
         </div>        
         <div class="box-body" style='overflow-x:scroll;overflow-y:hidden' align="center">
+        <form class="form-horizontal" role="form" method="post" action="registro_compras.php" onsubmit="return generarRegistroCompras()">
           <div class="row">
             <div class="col-md-1"><label class="control-label">Estado</label></div>
             <div class="col-md-2">
@@ -67,6 +68,8 @@
             <div class="col-md-3">
               <select class="chosen-select form-control" name="cboPeriodoCompra" id="cboPeriodoCompra" onchange="cargarFacturasFiltro();">
               </select>
+              <input type="hidden" id="txtMesID" name="txtMesID" class="form-control"></input>
+              <input type="hidden" id="txtAnio" name="txtAnio" class="form-control"></input>
             </div>
              
           </div>
@@ -91,15 +94,15 @@
                 </tbody>
               </table>
             </div>
+            
             <div class="col-sm-2"><br>
-              <div class="form-group">
-                <a href="javascript:;" class="btn btn-block btn-success btn-sm btn-flat" >
-                  Exportar a  excel
-                  <i class="fa fa-download"></i>
-                </a>
+              <div class="form-group" style="margin-left: 5px;">
+                <button class="btn btn-block btn-success btn-sm btn-flat" type="submit">Exportar a excel <i class="fa fa-download"></i></button>
               </div>
             </div>
+           
           </div>
+           </form>
         </div>
         <!-- /.box-body -->
       </div>

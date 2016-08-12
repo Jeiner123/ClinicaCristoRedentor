@@ -1,7 +1,14 @@
+<?php include '../general/variables.php';?>
 <?php
+  require('../bd/bd_conexion.php');
+  $mes=$_POST['txtMesID'];
+  $anio=$_POST['txtAnio'];
+  $periodo= $meses[$mes]." - ".$anio;
+
   header("Content-type: application/vnd.ms-excel");
-  header("Content-Disposition: attachment; filename=reporte.xls");
+  header("Content-Disposition: attachment; filename=Compras ".$periodo.".xls");
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,70 +17,106 @@
    
 </head>
 <body>
-  <style type="text/css">
-  .tg  {border-collapse:collapse;border-spacing:0;}
-  .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
-  .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
-  .tg .tg-nrw1{font-size:10px;text-align:center;vertical-align:top}
-  .tg .tg-62xo{font-weight:bold;font-size:14px;text-align:center;vertical-align:top}
-  .tg .tg-r8vz{font-weight:bold;font-size:11px;vertical-align:top}
-  .tg .tg-3j8g{font-weight:bold;font-size:10px;text-align:center;vertical-align:top}
-  </style>
-  <table class="tg">
-    <tr>
-      <th class="tg-62xo" colspan="28">FORMATO 8.1: REGISTRO DE COMPRAS</th>
-    </tr>
-    <tr>
-      <td class="tg-r8vz" colspan="28">PERIODO:</td>
-    </tr>
-    <tr>
-      <td class="tg-r8vz" colspan="28">RUC:</td>
-    </tr>
-    <tr>
-      <td class="tg-r8vz" colspan="28">APELLIDOS Y NOMBRES, DENOMINACIÓN O RAZÓN SOCIAL:</td>
-    </tr>
-    <tr>
-      <td class="tg-nrw1" rowspan="3"><br><br><br><br><br>NÚMERO <br>CORRELATIVO <br>DEL REGISTRO O <br>CÓDIGO UNICO <br>DE LA OPERACIÓN</td>
-      <td class="tg-nrw1" rowspan="3"><br><br><br><br><br>FECHA DE <br>EMISIÓN DEL<br>COMPROBANTE <br>DE PAGO <br>O DOCUMENTO</td>
-      <td class="tg-nrw1" rowspan="3"><br><br><br><br><br>FECHA<br>DE<br>VENCIMIENTO<br>O FECHA<br>DE PAGO (1)</td>
-      <td class="tg-nrw1" colspan="3"><br><br>COMPROBANTE DE PAGO<br>O DOCUMENTO</td>
-      <td class="tg-nrw1" rowspan="3">N° DE<br>COMPROBANTE DE PAGO,DOCUMENTO, N° DE ORDEN DEL FORMULARIO FÍSICO O VIRTUAL,<br>N° DE DUA, DSI O LIQUIDACIÓN DE COBRANZA U OTROS DOCUMENTOS EMITIDOS POR SUNAT PARA ACREDITAR EL CRÉDITO FISCAL EN LA IMPORTACIÓN</td>
-      <td class="tg-nrw1" colspan="3"><br><br><br><br>INFORMACIÓN DEL<br>PROVEEDOR</td>
-      <td class="tg-nrw1" colspan="2">ADQUISICIONES GRAVADAS DESTINADAS A OPERACIONESGRAVADAS Y/O DE EXPORTACIÓN</td>
-      <td class="tg-nrw1" colspan="2">ADQUISICIONES GRAVADAS DESTINADAS A OPERACIONESGRAVADAS Y/O DE EXPORTACIÓN Y A OPERACIONES NO GRAVADAS</td>
-      <td class="tg-nrw1" colspan="2">ADQUISICIONES GRAVADAS DESTINADAS A OPERACIONES<br>NO GRAVADAS</td>
-      <td class="tg-nrw1" rowspan="3"><br><br><br><br><br><br>VALOR<br>DE LAS<br>ADQUISIONES NO GRAVADAS</td>
-      <td class="tg-nrw1" rowspan="3"><br><br><br><br><br><br><br><br>ISC</td>
-      <td class="tg-nrw1" rowspan="3"><br><br><br><br><br><br><br>OTROS TRIBUTOS Y CARGOS</td>
-      <td class="tg-nrw1" rowspan="3"><br><br><br><br><br><br><br><br>IMPORTE TOTAL</td>
-      <td class="tg-nrw1" rowspan="3"><br><br><br><br>Nº DE COMPROBANTE DE PAGO EMITIDO POR SUJETO NO DOMICILIADO (2)<br></td>
-      <td class="tg-nrw1" colspan="2"><br>CONSTANCIA DE DEPÓSITO DE DETRACCIÓN</td>
-      <td class="tg-nrw1" rowspan="3"><br><br><br><br>TIPO DE CAMBIO</td>
-      <td class="tg-3j8g" colspan="4"><br>REFERENCIA DEL COMPROBANTE DE PAGO<br>O DOCUMENTO ORIGINAL QUE SE MODIFICA</td>
-    </tr>
-    <tr>
-      <td class="tg-nrw1" rowspan="2"><br><br><br>TIPO<br>(TABLA 10)</td>
-      <td class="tg-nrw1" rowspan="2"><br>SERIE O<br>CÓDIGO DE LA<br>DEPENDENCIA<br>ADUANERA<br>(TABLA 11)</td>
-      <td class="tg-nrw1" rowspan="2"><br>AÑO DE<br>EMISIÓN DE<br>LA DUA<br>O DSI</td>
-      <td class="tg-nrw1" colspan="2">DOCUMENTO DE IDENTIDAD</td>
-      <td class="tg-nrw1" rowspan="2"><br>APELLIDOS<br>YNOMBRES,<br>DENOMINACIÓN<br>O RAZÓN<br>SOCIAL</td>
-      <td class="tg-nrw1" rowspan="2"><br><br>BASE IMPONIBLE</td>
-      <td class="tg-nrw1" rowspan="2"><br><br>IGV<br></td>
-      <td class="tg-nrw1" rowspan="2"><br><br>BASE IMPONIBLE</td>
-      <td class="tg-nrw1" rowspan="2"><br>IGV</td>
-      <td class="tg-nrw1" rowspan="2"><br>BASE IMPONIBLE</td>
-      <td class="tg-nrw1" rowspan="2"><br>IGV</td>
-      <td class="tg-nrw1" rowspan="2"><br><br><br>NÚMERO<br></td>
-      <td class="tg-nrw1" rowspan="2"><br>FECHA DE EMISIÓN<br></td>
-      <td class="tg-nrw1" rowspan="2"><br><br><br><br>FECHA</td>
-      <td class="tg-nrw1" rowspan="2"><br>TIPO<br>(TABLA 10)</td>
-      <td class="tg-3j8g" rowspan="2"><br><br>SERIE</td>
-      <td class="tg-3j8g" rowspan="2"><br>Nº DEL COMPROBANTE DE PAGO O DOCUMENTO</td>
-    </tr>
-    <tr>
-      <td class="tg-3j8g">TIPO<br>(TABLA 2)</td>
-      <td class="tg-3j8g">NÚMERO</td>
-    </tr>
-  </table>
+
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg .tg-huh1{font-weight:bold;font-size:10px;background-color:#000080;color:#ffffff;vertical-align:top}
+.tg .tg-3cwu{font-weight:bold;font-size:10px;vertical-align:top;border:0px;}
+.tg .tg-4cwu{font-size:10px;vertical-align:top;text-align: center;}
+.tg .tg-5dbx{font-weight:bold;font-size:10px;background-color:#000080;color:#ffffff;text-align:center;vertical-align:top}
+</style>
+<table class="tg">
+  <tr>
+    <th class="tg-3cwu" colspan="22">FORMATO 8.1: REGISTRO DE COMPRAS</th>
+  </tr>
+  <tr>
+    <td class="tg-3cwu" colspan="22">PERIODO: <?php echo $periodo;?></td>
+  </tr>
+  <tr>
+    <td class="tg-3cwu" colspan="22">RUC: 20559596257</td>
+  </tr>
+  <tr>
+    <td class="tg-3cwu" colspan="22">APELLIDOS Y NOMBRES, DENOMINACIÓN O RAZÓN SOCIAL:  EMPRESA DE SERVICIOS MEDICOS CRISTO REDENTOR S.A.C.</td>
+  </tr>
+  <tr>
+    <td class="tg-5dbx" rowspan="2"><br><br><br>N° Correlativo<br></td>
+    <td class="tg-5dbx" rowspan="2"><br><br><br>Fecha.Em<br></td>
+    <td class="tg-5dbx" rowspan="2"><br><br><br>Fecha Venc<br></td>
+    <td class="tg-5dbx" rowspan="2"><br><br><br>Tipo.Comp.<br></td>
+    <td class="tg-5dbx" rowspan="2"><br><br><br>Serie<br></td>
+    <td class="tg-5dbx" rowspan="2"><br><br><br>Número<br></td>
+    <td class="tg-5dbx" rowspan="2"><br><br><br>Tip.Doc.Id.<br></td>
+    <td class="tg-5dbx" rowspan="2"><br><br><br>Num.Doc.Id.<br></td>
+    <td class="tg-5dbx" rowspan="2"><br><br><br>Razon.Social<br></td>
+    <td class="tg-5dbx" rowspan="2"><br><br><br>Op.Gravada<br></td>
+    <td class="tg-5dbx" rowspan="2"><br><br><br>Op.No.Gravada<br></td>
+    <td class="tg-5dbx" rowspan="2"><br><br><br>Descuento<br></td>
+    <td class="tg-5dbx" rowspan="2"><br><br><br>Percepcion<br></td>
+    <td class="tg-5dbx" rowspan="2"><br><br><br>IGV<br></td>
+    <td class="tg-5dbx" rowspan="2"><br><br><br>Honorarios<br></td>
+    <td class="tg-5dbx" rowspan="2"><br><br><br>Retencion<br></td>
+    <td class="tg-5dbx" rowspan="2"><br><br><br>Total<br></td>
+    <td class="tg-5dbx" rowspan="2"><br><br>Constancia<br>detracción<br>fecha</td>
+    <td class="tg-5dbx" rowspan="2"><br><br><br>T/C<br></td>
+    <td class="tg-5dbx" colspan="3">Referencia del documento<br>que se modifica<br></td>
+  </tr>
+  <tr>
+    <td class="tg-huh1">Fecha</td>
+    <td class="tg-huh1">Tipo</td>
+    <td class="tg-huh1">Serie/Número</td>
+  </tr>
+  <?php
+    $opGravada='0.000';
+    $opNoGravada='0.000';
+    $honorarios='0.000';
+    $consulta = "select C.codigo,C.fechaEmision,C.fechaVencimiento,C.comprobanteID,C.serie,C.numero,P.tipoDocumento,C.proveedorID,IF(P.razonSocial='',UPPER(concat(P.nombres,' ',P.apellidoPat,' ',P.apellidoMat)),UPPER(P.razonSocial)),C.descuento,C.percepcion,C.impuesto,C.tipoAdquisicionID,C.precioVenta,C.retencion,C.totalBruto from compra C inner join PROVEEDOR P on C.proveedorID=P.proveedorID where mesID='".$mes."' and anio='".$anio."' order by C.codigo";
+  
+    $res = mysqli_query($con,$consulta) or die (mysqli_error($con));
+      while($row = mysqli_fetch_row($res)){
+        $tipoAdquisicionID=$row[12];
+        $comprobanteID=$row[3];
+        if( $tipoAdquisicionID==1){
+          $opGravada=$row[15];
+        }
+        if( $tipoAdquisicionID==3){
+          $opNoGravada=$row[15];
+        }
+        if($comprobanteID=='2'){
+          $opGravada='0.000';
+          $opNoGravada='0.000';
+          $honorarios=$row[15];
+        }else{
+          $honorarios='0.000';
+        }
+
+        echo "<tr>
+                <td class='tg-4cwu'>".$row[0]."</td>
+                <td class='tg-4cwu'>".$row[1]."</td>
+                <td class='tg-4cwu'>".$row[2]."</td>
+                <td class='tg-4cwu'>&nbsp;".$row[3]."</td>
+                <td class='tg-4cwu'>&nbsp;".$row[4]."</td>
+                <td class='tg-4cwu'>&nbsp;".$row[5]."</td>
+                <td class='tg-4cwu'>".$row[6]."</td>
+                <td class='tg-4cwu'>".$row[7]."</td>
+                <td class='tg-4cwu'>".$row[8]."</td>
+                <td class='tg-4cwu' style='mso-number-format:"."\"0.00\"".";'>".number_format($opGravada, 2, ',', '')."</td>
+                <td class='tg-4cwu' style='mso-number-format:"."\"0.00\"".";'>".number_format($opNoGravada, 2, ',', '')."</td>
+                <td class='tg-4cwu' style='mso-number-format:"."\"0.00\"".";'>".number_format($row[9], 2, ',', '')."</td>
+                <td class='tg-4cwu' style='mso-number-format:"."\"0.00\"".";'>".number_format($row[10], 2, ',', '')."</td>
+                <td class='tg-4cwu' style='mso-number-format:"."\"0.00\"".";'>".number_format($row[11], 2, ',', '')."</td>
+                <td class='tg-4cwu' style='mso-number-format:"."\"0.00\"".";'>".number_format($honorarios, 2, ',', '')."</td>
+                <td class='tg-4cwu' style='mso-number-format:"."\"0.00\"".";'>".number_format($row[14], 2, ',', '')."</td>
+                <td class='tg-4cwu' style='mso-number-format:"."\"0.00\"".";'>".number_format($row[13], 2, ',', '')."</td>
+                <td class='tg-4cwu'></td>
+                <td class='tg-4cwu' style='mso-number-format:"."\"0.00\"".";'>0,00</td>
+                <td class='tg-4cwu'></td>
+                <td class='tg-4cwu'></td>
+                <td class='tg-4cwu'></td>
+              </tr>";
+      }
+  ?>
+</table>
 </body>
 </html>
