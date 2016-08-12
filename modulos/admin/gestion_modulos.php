@@ -70,7 +70,7 @@
                             </div>
                         </form>
 
-                        <div class="alert alert-success" transition="success" v-if="success">El módulo se agregó correctamente.</div>
+                        <div class="alert alert-success" transition="success" v-if="success">Operación realizada con éxito.</div>
                     </div>
                 </div>
             </div>
@@ -133,6 +133,7 @@
   <script>
       var app_data = {
           newModule: {
+              id: '',
               nombre: '',
               folder: ''
           },
@@ -146,11 +147,14 @@
           methods: {
               UpdateStatus: function (status, i) {
                   var module = this.modules[i];
-                  var params = '?status='+status+'&id='+module.id;
-                  $.getJSON('json/update_module_status.php'+params, function (data) {
+                  var params = {
+                      status: status,
+                      id: module.id
+                  };
+                  $.post('json/update_module_status.php', params, function (data) {
                       if (data.success)
                           module.active = status;
-                  });
+                  }, 'json');
               },
               ShowModule: function (module) {
                   this.edit = true;
@@ -158,51 +162,64 @@
                   this.newModule.id = module.id;
                   this.newModule.nombre = module.nombre;
                   this.newModule.folder = module.folder;
-
-                  /*this.$http.get('/json/modules?id='+id, function (data) {
-                      this.newModule.id = data.id;
-                      this.newModule.nombre = data.nombre;
-                      this.newModule.folder = data.folder;
-                  });*/
               },
               AddNewModule: function () {
                   // Module data in form
                   var module = this.newModule;
 
                   // Clear form input
-                  this.newModule = { nombre: '', folder: '' };
+                  this.newModule = { id: '', nombre: '', folder: '' };
+                  var self = this;
 
                   // Send post request
-                  // this.$http.post('/api/users/', module)
+                  var params = {
+                      nombre: module.nombre,
+                      folder: module.folder
+                  };
+                  $.post('json/store_module.php', params, function (data) {
+                      if (data.success) {
+                          // Show success message
+                          self.success = true;
+                          setTimeout(function () {
+                              self.success = false;
+                          }, 5000);
 
-                  // Show success message
-                  var self = this;
-                  this.success = true;
-                  setTimeout(function () {
-                      self.success = false;
-                  }, 5000);
-
-                  // Reload page
-                  this.fetchModules()
+                          self.fetchModules();
+                      }
+                  }, 'json');
               },
               EditModule: function (id) {
+                  // Module data in form
                   var module = this.newModule;
 
-                  this.newModule = { nombre: '', folder: ''};
+                  // Clear form input
+                  this.newModule = { id: '', nombre: '', folder: ''};
+                  var self = this;
 
-                  /*this.$http.patch('/api/users/' + id, user, function (data) {
-                      console.log(data)
-                  });*/
+                  // Send post request
+                  var params = {
+                      id: module.id,
+                      nombre: module.nombre,
+                      folder: module.folder
+                  };
+                  $.post('json/update_module.php', params, function (data) {
+                      if (data.success) {
+                          // Show success message
+                          self.success = true;
+                          setTimeout(function () {
+                              self.success = false;
+                          }, 5000);
 
-                  this.fetchModules();
-
-                  this.edit = false;
-
+                          self.fetchModules();
+                          self.edit = false;
+                      }
+                  }, 'json');
               },
               fetchModules: function () {
-                  /*this.$http.get('/api/users', function (data) {
-                      this.$set('users', data)
-                  })*/
+                  var self = this;
+                  $.getJSON('json/modules.php', function (data) {
+                      self.modules = data.modules;
+                  });
               }
           },
           computed: {
@@ -219,10 +236,10 @@
                       return validation[key];
                   });
               }
+          },
+          ready: function () {
+              this.fetchModules()
           }
-      });
-      $.getJSON('json/modules.php', function (data) {
-          app_data.modules = data.modules;
       });
       activarMenuLateral('asignar_permisos.php');
   </script>
