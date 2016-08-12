@@ -164,7 +164,7 @@
 <script src="js/script.js"></script>
 <script type="text/javascript">
   cargarTablaServicios();
-  cargarCboEspecialidades();
+  cargarCboEspecialidades2("#cboEspecialidad",-1);
   cargarCboTipoServicio();
   $('#tablaServicios tbody').on('click','tr',function(){seleccionSimple(this);}); 
 </script>

@@ -12,11 +12,11 @@
 		$consulta = "SELECT PS.pedidoServicioID,PS.pacienteID,PS.tipo,PS.via,PS.tasaIGV,PS.importeSinIGV,PS.importeIGV,
 											PS.importeTotal,PS.importePagado,FP.formaPago,PS.estadoPago,substring_index(PS.timestamp,' ',1) as 'fecha',
 											PE.DNI,PE.nombres,PE.apPaterno,PE.apMaterno,PE.telefono1
-								from PEDIDO_SERVICIO PS
-								inner join PACIENTE PA ON PS.pacienteID = PA.pacienteID
-								inner join PERSONA PE ON PE.DNI = PA.DNI
-								left join FORMA_PAGO FP ON FP.formaPagoID = PS.formaPagoID
-								where MONTH(PS.timestamp) = '".$mes."' and YEAR(PS.timestamp) = '".$anio."'
+								FROM PEDIDO_SERVICIO PS
+								INNER JOIN PACIENTE PA ON PS.pacienteID = PA.pacienteID
+								INNER JOIN PERSONA PE ON PE.DNI = PA.DNI
+								LEFT 	JOIN FORMA_PAGO FP ON FP.formaPagoID = PS.formaPagoID
+								WHERE MONTH(PS.timestamp) = '".$mes."' and YEAR(PS.timestamp) = '".$anio."'
 								";
 		if($estado != '0' ) $consulta = $consulta." and PS.estadoPago='".$estado."'";
 		if($tipo != '0' ) $consulta = $consulta." and PS.tipo='".$tipo."'";
@@ -152,18 +152,20 @@
 	//CARGAR TABLA DE REFERENCIAS
 	if($opc == 'CTR_01'){
 		$mes = $_POST['mes'];
+		$anio = $_POST['anio'];
 		$personalID = $_POST['personalID'];
 	  $especialidadID = $_POST['especialidadID'];
 	  
-		$consulta = "select PS.pedidoServicioID,P.nombres,P.apPaterno,P.apMaterno,E.especialidad,S.servicio,
+		$consulta = "SELECT PS.pedidoServicioID,P.nombres,P.apPaterno,P.apMaterno,E.especialidad,S.servicio,
 									substring_index(PS.timestamp,' ',1) as 'fecha',PS.estadoPago,C.estado
-								from PEDIDO_SERVICIO PS
-								inner join PERSONAL PL ON PS.personalReferenciaID = PL.personalID
-								inner join PERSONA P ON P.DNI = PL.DNI
-								inner join CITA C ON C.pedidoServicioID = PS.pedidoServicioID
-								left join ESPECIALIDAD E on E.especialidadID = C.especialidadID
-								inner join SERVICIO S on S.servicioID = C.servicioID
-								where MONTH(PS.timestamp) = '".$mes."'";
+								FROM PEDIDO_SERVICIO PS
+								INNER JOIN PERSONAL PL ON PS.personalReferenciaID = PL.personalID
+								INNER JOIN PERSONA P ON P.DNI = PL.DNI
+								INNER JOIN CITA C ON C.pedidoServicioID = PS.pedidoServicioID
+								left 	JOIN ESPECIALIDAD E ON E.especialidadID = C.especialidadID
+								INNER JOIN SERVICIO S ON S.servicioID = C.servicioID
+								WHERE MONTH(PS.timestamp) = '".$mes."' and YEAR(PS.timestamp) = '".$anio."'
+								";
 		if($personalID != 0)$consulta = $consulta." and PL.personalID = '".$personalID."'";
 		if($especialidadID != -1 )$consulta = $consulta." and C.especialidadID = '".$especialidadID."'";
 				
@@ -200,6 +202,50 @@
 							<td style='text-align:center;'>".$estadoCita."</td>
 							<td style='text-align:center;'>".$estadoPago."</td>
 						</tr>";
+		}
+		exit();
+	}
+	// CARGAR TABLA  PAGOS
+	if($opc == 'CTP_01'){
+	  $mes = $_POST['mes'];
+	  $anio = $_POST['anio'];
+		$consulta = "SELECT P.pagoID,P.pedidoServicioID,P.comprobanteID,P.numeroSerie,
+								P.numeroComprobante,P.importeTotal,P.fechaPago,P.estado,
+								PE.nombres,PE.apPaterno,PE.apMaterno,PE.DNI,PE.telefono1,
+								CP.descripcion
+								FROM PAGO P
+								INNER JOIN PEDIDO_SERVICIO PS ON PS.pedidoServicioID = P.pedidoServicioID
+								INNER JOIN PACIENTE PA ON PA.pacienteID = PS.pacienteID
+								INNER JOIN PERSONA PE ON PE.DNI = PA.DNI
+								INNER JOIN COMPROBANTE_PAGO CP ON CP.comprobanteID = P.comprobanteID
+								WHERE MONTH(P.fechaPago) = '".$mes."' and YEAR(P.fechaPago) = '".$anio."'
+								";
+		$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
+		$cont = 1;
+		while($row = mysqli_fetch_row($res)){
+			$pedidoID =  $row[1];
+			$fechaPago = str_replace("/","-",$row[6]);
+	    $fechaPago = date('d-m-Y',strtotime($fechaPago));
+	    $nombresP = explode(" ", $row[8]);
+	    $paciente = $nombresP[0].' '.$row[9].' '.$row[10];
+	    $telefono = $row[12];
+			$comprobante = $row[13]; //N-B-F : Ninguno - Boleta - Factura
+			$nroSerie = $row[3]; 
+			$nroDoc = $row[4];	//Numero del comprobante
+			$importe = $row[5];
+			if($nroDoc == '')$nroDoc = '---';
+			echo "
+						<tr>
+							<td style='text-align:center;'>".$cont++."</td>
+							<td style='text-align:center;'>".$pedidoID."</td>
+							<td style='text-align:center;'>".$fechaPago."</td>
+							<td >".$paciente."</td>
+							<td>".$telefono."</td>
+							<td style='text-align:center;'>".$comprobante."</td>
+							<td>".$nroSerie.' - '.$nroDoc."</td>
+							<td style='text-align:right; padding-right:20px;'>".$importe."</td>							
+						</tr>
+				";
 		}
 		exit();
 	}

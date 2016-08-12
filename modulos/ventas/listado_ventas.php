@@ -219,7 +219,7 @@
           <div class="row">
             <div class="col-sm-2 col-sm-offset-10">
               <div class="form-group">
-                <a href="javascript:;" class="btn btn-block btn-success btn-sm btn-flat" >
+                <a href="javascript:;" onclick="exportarPagosExcel();" class="btn btn-block btn-success btn-sm btn-flat" >
                   Exportar a excel
                   <i class="fa fa-download"></i>
                 </a>
@@ -232,14 +232,14 @@
               <table id="tablaPagos"  width="100%" class="table table-bordered table-hover tablaDatos">
                 <thead>
                   <tr>
+                    <th>#</th>
+                    <th>Ped.</th>
                     <th style='text-align:center;'>Fecha</th>
-                    <th style='text-align:center;'>Documento</th>
-                    <th style='text-align:center;'>Serie - Número</th>
-                    <th>RUC / DNI</th>
-                    <th style='text-align:center;'>Cliente</th>                    
-                    <th>VV</th>
-                    <th>IGV</th>
-                    <th>Total</th>
+                    <th>Paciente</th>
+                    <th>Telefono</th>
+                    <th>Comprobante</th>
+                    <th>Número Comprob.</th>
+                    <th>Importe</th>                    
                   </tr>
                 </thead>
                 <tbody class="cuerpoTabla" id="cuerpoTablaPagos">
@@ -331,10 +331,9 @@
 <script type="text/javascript">
 
   function cargarTablasVentas () {
-    cargarTablaPedidos();    
+    cargarTablaPedidos();
     cargarTablaCitas();
-    cargarTablaReferencias();
-    return;
+    cargarTablaReferencias();    
     cargarTablaPagos();
   }
   cargarTablasVentas();
@@ -349,4 +348,9 @@
   $('#tablaCitas tbody').on('click','tr',function(){seleccionSimple(this);});
   $('#tablaPagos tbody').on('click','tr',function(){seleccionSimple(this);});
   $('#tablaReferencias tbody').on('click','tr',function(){seleccionSimple(this);});
+  function exportarPagosExcel(){
+    var mes = $("#cboMes").val();
+    var anio = $("#cboAnio").val();    
+    window.open("reporte_ventas_vs_14.1.php?mes="+mes+"&anio="+anio, '_blank');
+  }
 </script>

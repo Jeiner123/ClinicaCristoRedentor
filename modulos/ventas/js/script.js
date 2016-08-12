@@ -89,6 +89,7 @@ function cargarTablaReferencias(){
 	// fecha = $("#txtFechaCita").val();
 	// estadoPago = $("#cboEstadoPago").val();
 	var mes = $("#cboMes").val();
+	var anio = $("#cboAnio").val();
 	var personalID = $("#cboMedicosReferencia").val();
 	var especialidadID = $("#cboEspecialidades").val();
 	if(personalID == null)personalID = 0;
@@ -97,7 +98,7 @@ function cargarTablaReferencias(){
 	var opc = 'CTR_01';
 	$.ajax({
 		type: 'POST',
-		data:'opc='+opc+'&mes='+mes+'&personalID='+personalID+'&especialidadID='+especialidadID,
+		data:'opc='+opc+'&mes='+mes+'&anio='+anio+'&personalID='+personalID+'&especialidadID='+especialidadID,
 		url: url,
 		success: function(rpta){			
 			$('#tablaReferencias').DataTable().destroy();			
@@ -123,6 +124,41 @@ function cargarTablaReferencias(){
 		},
 		error: function(rpta){
 			alert(rpta);
+		}
+	});
+}
+// CARGAR TABLA DE PAGOS 
+function cargarTablaPagos(){
+	var mes = $("#cboMes").val();
+	var anio = $("#cboAnio").val();
+	abrirCargando();
+	opc = 'CTP_01';
+	$.ajax({
+		type: 'POST',
+		data:'opc='+opc+'&mes='+mes+'&anio='+anio,
+		url: url,
+		success: function(rpta){			
+			$('#tablaPagos').DataTable().destroy();
+			$('#cuerpoTablaPagos').html(rpta);
+			$('#tablaPagos').DataTable(
+				{
+           "columnDefs": [
+           	{ "targets": [ 0 ],"width": "5", "searchable": false,},	//Peidod
+            { "targets": [ 1 ],"width": "5", "searchable": false,},	//Peidod
+            { "targets": [ 2 ],"width": "10%", "orderable": false, },		//fecha
+            { "targets": [ 3 ],"width": "33%",  "searchable": false , },	//Pacinete
+            { "targets": [ 4 ],"width": "10%", "orderable": false, "searchable": false ,"type": "double"},	//Teleofno
+            { "targets": [ 5 ],"width": "15%","searchable": false ,},	//Comprobante
+            { "targets": [ 6 ],"width": "15%", "orderable": false,"searchable": false ,},	//numero com
+            { "targets": [ 7 ],"width": "7%","searchable": false ,}, //Importe             
+          ]
+        }
+			);
+			cerrarCargando();
+		},
+		error: function(rpta){
+			alert(rpta);
+			cerrarCargando();
 		}
 	});
 }
