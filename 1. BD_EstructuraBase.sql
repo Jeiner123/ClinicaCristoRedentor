@@ -18,7 +18,7 @@ USE clinica;
 
 -- LOS PARAMETROS NO SE RELACIONAN CON OTRAS TABLAS
 -- SOLO SE UTILIZARÁN SUS VALORES
-CREATE TABLE PARAMETRO (
+CREATE TABLE parametro (
   parametroID INT         NOT NULL AUTO_INCREMENT,
   parametro   VARCHAR(50) NOT NULL,
   valor       VARCHAR(50) NOT NULL,
@@ -82,6 +82,7 @@ CREATE TABLE cargo (
   FOREIGN KEY (areaID) REFERENCES area (areaID)
 );
 CREATE TABLE persona (
+  personaID       INT          NOT NULL,
   DNI             CHAR(8)      NOT NULL,
   nombres         VARCHAR(50)  NOT NULL,
   apPaterno       VARCHAR(50)  NOT NULL,
@@ -97,28 +98,27 @@ CREATE TABLE persona (
   direccion       VARCHAR(255) NULL,
   foto            VARCHAR(255) NULL,
   timestamp       TIMESTAMP    NULL,
-  PRIMARY KEY (DNI),
+  PRIMARY KEY (personaID),
   FOREIGN KEY (tipoTelefono1) REFERENCES tipo_telefono (tipoTelefonoID),
   FOREIGN KEY (tipoTelefono2) REFERENCES tipo_telefono (tipoTelefonoID)
 );
 CREATE TABLE paciente (
-  pacienteID    INT(6)       NOT NULL AUTO_INCREMENT, /* Nro de historia clínica */
-  DNI           CHAR(8)      NOT NULL,
-  familiarDNI   CHAR(8)      NULL,
-  parentesco    VARCHAR(100) NULL,
-  estado        INT          NOT NULL,
-  procedenciaID INT          NULL,
-  observaciones VARCHAR(255) NULL,
+  pacienteID        INT          NOT NULL AUTO_INCREMENT, /* Nro de historia clínica */
+  personaID         INT          NOT NULL,
+  procedenciaID     INT          NULL,
+  familiar          VARCHAR(255) NULL,
+  telefonoFamiliar  VARCHAR(255) NULL,
+  parentesco        VARCHAR(100) NULL,
+  estado            INT          NOT NULL,   /*1: Activo , 2: Inactivo*/ 
+  observaciones     VARCHAR(255) NULL,
   PRIMARY KEY (pacienteID),
-  FOREIGN KEY (DNI) REFERENCES persona (DNI),
-  FOREIGN KEY (familiarDNI) REFERENCES persona (DNI),
+  FOREIGN KEY (personaID) REFERENCES persona (personaID),  
   FOREIGN KEY (procedenciaID) REFERENCES procedencia (procedenciaID)
 );
-ALTER TABLE paciente AUTO_INCREMENT = 1001;
 
 CREATE TABLE personal (
   personalID        INT           NOT NULL AUTO_INCREMENT,
-  DNI               CHAR(8)       NOT NULL,
+  personaID         INT           NOT NULL,
   tipoPersonalID    INT           NOT NULL,
   cargoID           INT           NOT NULL,
   fechaIngreso      DATE          NULL,
@@ -127,11 +127,10 @@ CREATE TABLE personal (
   estado            INT           NOT NULL,
   observaciones     VARCHAR(255)  NULL,
   PRIMARY KEY (personalID),
-  FOREIGN KEY (DNI) REFERENCES persona (DNI),
+  FOREIGN KEY (personaID) REFERENCES persona (personaID),
   FOREIGN KEY (cargoID) REFERENCES cargo (cargoID),
   FOREIGN KEY (tipoPersonalID) REFERENCES tipo_personal (tipoPersonalID)
 );
-ALTER TABLE personal AUTO_INCREMENT = 1001;
 
 CREATE TABLE personal_salud (
   personalID     INT NOT NULL,
@@ -184,12 +183,12 @@ CREATE TABLE registro_requerido (
 );
 
 CREATE TABLE usuario (
-  usuario   VARCHAR(100) NOT NULL,
-  clave     VARCHAR(200) NOT NULL,
-  DNI       CHAR(8)      NOT NULL,
-  estado    INT          NOT NULL,
+  usuario     VARCHAR(100) NOT NULL,
+  clave       VARCHAR(200) NOT NULL,
+  personaID   INT          NOT NULL,
+  estado      INT          NOT NULL,
   PRIMARY KEY (usuario),
-  FOREIGN KEY (DNI) REFERENCES persona (DNI)
+  FOREIGN KEY (personaID) REFERENCES persona (personaID)
 );
 CREATE TABLE forma_pago (
   formaPagoID  CHAR(3)     NOT NULL,

@@ -845,6 +845,7 @@ INSERT INTO `paciente` (`pacienteID`, `DNI`, `familiarDNI`, `parentesco`, `estad
 (1003, '19094406', NULL, NULL, 1, NULL, NULL),
 (1004, '46454343', NULL, NULL, 1, NULL, NULL);
 
+
 insert into TIPO_EXISTENCIA values
 	('01','MERCADERÍAS, MATERIAS PRIMAS, SUMINISTROS, ENVASES Y EMBALAJES','A'),
 	('02','ACTIVO FIJO','A'),
