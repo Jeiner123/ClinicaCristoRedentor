@@ -223,6 +223,7 @@ CREATE TABLE items (
   module_id int NOT NULL,
   nombre VARCHAR(55) NOT NULL,
   file VARCHAR(55) NOT NULL,
+  active BOOLEAN NOT NULL DEFAULT 1,
   FOREIGN KEY (module_id) REFERENCES modules(id)
 );
 

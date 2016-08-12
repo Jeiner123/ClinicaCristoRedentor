@@ -174,7 +174,7 @@ else header('Location: gestion_modulos.php');
 
                   this.newItem.id = item.id;
                   this.newItem.nombre = item.nombre;
-                  this.newItem.folder = item.folder;
+                  this.newItem.file = item.file;
               },
               AddNewItem: function () {
                   // Item data in form
@@ -189,7 +189,7 @@ else header('Location: gestion_modulos.php');
                       nombre: item.nombre,
                       file: item.file
                   };
-                  $.post('json/store_item.php', params, function (data) {
+                  $.post('json/store_item.php?module_id=<?= $module['id'] ?>', params, function (data) {
                       if (data.success) {
                           // Show success message
                           self.success = true;
