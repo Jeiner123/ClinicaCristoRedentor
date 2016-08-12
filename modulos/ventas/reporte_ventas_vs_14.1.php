@@ -1,10 +1,11 @@
-<?php 
+<?php
+  
   $mes = $_GET['mes'];
   $anio = $_GET['anio'];
   $fileName =  "reporte_".$mes."_".$anio.".xls";
   $link = "Content-Disposition: attachment; filename=".$fileName;  
-  // header("Content-type: application/vnd.ms-excel");
-  // header($link);
+  header("Content-type: application/vnd.ms-excel");
+  header($link);
  ?>
 <html>
 <head>
@@ -76,22 +77,22 @@
                 $apPaterno = $row[12];
                 $apMaterno = $row[13];
                 $nombres = $row[11];
-                $VV = $row[6];
-                $importeIGV = $row[7];
-                $total = $row[8];
+                $VV = number_format($row[6], 2, ',', '');
+                $importeIGV = number_format($row[7], 2, ',', '');
+                $total = number_format($row[8], 2, ',', '');                
                 ?>
                   <tr>
                     <td class="tg-s6z2"><?php echo $cont++; ?></td>
                     <td class="tg-s6z2"><?php echo $fechaPago; ?></td>
-                    <td class="tg-s6z2"><?php echo $comprobanteID; ?></td>
-                    <td class="tg-s6z2"><?php echo $serie; ?></td>
-                    <td class="tg-s6z2"><?php echo $numeroC; ?></td>
-                    <td class="tg-s6z2"><?php echo "01";  ?></td>
+                    <td class="tg-s6z2">&nbsp;<?php echo $comprobanteID; ?></td>
+                    <td class="tg-s6z2">&nbsp;<?php echo $serie; ?></td>
+                    <td class="tg-s6z2">&nbsp;<?php echo $numeroC; ?></td>
+                    <td class="tg-s6z2">&nbsp;<?php echo "01";  ?></td>
                     <td class="tg-s6z2"><?php echo $DNI;  ?></td>
                     <td class="tg-s6z2"><?php echo $apPaterno." ".$apMaterno." ".$nombres ?></td>
-                    <td class="tg-s6z2"><?php echo $VV; ?></td>
-                    <td class="tg-s6z2"><?php echo $importeIGV; ?></td>
-                    <td class="tg-s6z2"><?php echo $total; ?></td>
+                    <td class="tg-s6z2" style="text-align:right;mso-number-format:'0.00';"><?php echo $VV; ?></td>
+                    <td class="tg-s6z2" style="text-align:right;mso-number-format:'0.00';"><?php echo $importeIGV; ?></td>
+                    <td class="tg-s6z2" style="text-align:right;mso-number-format:'0.00';"><?php echo $total; ?></td>
                   </tr>
                 <?php 
               }
@@ -114,9 +115,9 @@
                       <td class="tg-s6z2"></td>
                       <td class="tg-s6z2"></td>
                       <td class="tg-hgcj">TOTAL</td>
-                      <td class="tg-hgcj"><?php echo $row[0]; ?></td>
-                      <td class="tg-hgcj"><?php echo $row[1]; ?></td>
-                      <td class="tg-hgcj"><?php echo $row[2]; ?></td>
+                      <td class="tg-hgcj" style="text-align:right;mso-number-format:'0.00';"><?php echo number_format($row[0], 2, ',', ''); ?></td>
+                      <td class="tg-hgcj" style="text-align:right;mso-number-format:'0.00';"><?php echo number_format($row[1], 2, ',', ''); ?></td>
+                      <td class="tg-hgcj" style="text-align:right;mso-number-format:'0.00';"><?php echo number_format($row[2], 2, ',', ''); ?></td>
                     </tr>
                   <?php 
                 }
