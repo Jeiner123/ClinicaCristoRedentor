@@ -214,7 +214,8 @@ CREATE TABLE comprobante_pago (
 CREATE TABLE modules (
   id int NOT NULL PRIMARY KEY,
   nombre VARCHAR(35) NOT NULL,
-  folder VARCHAR(35) NOT NULL
+  folder VARCHAR(35) NOT NULL,
+  active BOOLEAN NOT NULL DEFAULT 1
 );
 
 CREATE TABLE items (

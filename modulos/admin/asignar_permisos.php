@@ -115,7 +115,7 @@
               postEstado: function (estado, i) {
                   var user = this.users[i];
                   var params = '?estado='+estado+'&usuario='+user.usuario;
-                  $.getJSON('json/cambiar_estado.php'+params, function (data) {
+                  $.getJSON('json/update_user.php'+params, function (data) {
                       if (data.success)
                           user.estado = estado;
                   });

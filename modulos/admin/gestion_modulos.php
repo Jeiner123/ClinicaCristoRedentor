@@ -65,8 +65,8 @@
                             </div>
 
                             <div class="form-group">
-                                <button :disabled="!isValid" class="btn btn-default" type="submit" v-if="!edit">Añadir módulo</button>
                                 <button :disabled="!isValid" class="btn btn-default" v-if="edit" v-on:click="EditModule(newModule.id)">Editar módulo</button>
+                                <button :disabled="!isValid" class="btn btn-default" v-else>Añadir módulo</button>
                             </div>
                         </form>
 
@@ -104,10 +104,13 @@
                                 <td>{{ module.nombre }}</td>
                                 <td>{{ module.folder }}</td>
                                 <td>
-                                    <button type="button" v-on:click="ShowModule(module)" class="btn btn-sm btn-success">Editar</button>
-                                    <button v-if="1 == 1" v-on:click="postEstado(0, $index)" type="button" class="btn btn-sm btn-danger">Desactivar módulo</button>
-                                    <button v-else v-on:click="postEstado(1, $index)" type="button" class="btn btn-sm btn-success">Activar usuario</button>
-                                    <a href="#" class="btn btn-sm btn-primary">Gestionar items</a>
+                                    <button v-show="module.active == 1" v-on:click="ShowModule(module)" class="btn btn-sm btn-primary">Editar</button>
+
+                                    <button v-if="module.active == 1" v-on:click="UpdateStatus(0, $index)" class="btn btn-sm btn-danger">Desactivar módulo</button>
+
+                                    <button v-else v-on:click="UpdateStatus(1, $index)" type="button" class="btn btn-sm btn-success">Activar módulo</button>
+
+                                    <a href="#" class="btn btn-sm btn-info">Gestionar items</a>
                                 </td>
                             </tr>
                             </tbody>
@@ -141,12 +144,12 @@
           el: '#ModuleController',
           data: app_data,
           methods: {
-              postEstado: function (estado, i) {
-                  var user = this.users[i];
-                  var params = '?estado='+estado+'&usuario='+user.usuario;
-                  $.getJSON('json/cambiar_estado.php'+params, function (data) {
+              UpdateStatus: function (status, i) {
+                  var module = this.modules[i];
+                  var params = '?status='+status+'&id='+module.id;
+                  $.getJSON('json/update_module_status.php'+params, function (data) {
                       if (data.success)
-                          user.estado = estado;
+                          module.active = status;
                   });
               },
               ShowModule: function (module) {
