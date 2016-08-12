@@ -86,7 +86,7 @@
             ?>
 
             <!-- Notifications -->
-            <li class="dropdown notifications-menu">
+            <li class="dropdown notifications-menu" id="li-notifications">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-bell-o"></i>
                     <span class="label label-warning"><?= $pending_users_count ?></span>
@@ -97,7 +97,7 @@
                         <ul class="menu">
                             <?php foreach ($pending_users as $pending_user): ?>
                             <li>
-                                <a href="#">
+                                <a href="#" onclick="alert('Asigne un usuario al nuevo registro');">
                                     <i class="fa fa-users text-aqua"></i> Nuevo registro:
                                     <?php echo $pending_user['nombres'] . ' ' . $pending_user['apPaterno'] . ' ' . $pending_user['apMaterno'] ?>
                                 </a>
@@ -107,7 +107,24 @@
                     </li>
                 </ul>
             </li>
-            <?php } ?>
+
+            <?php
+                if ($pending_users_count) {
+            ?>
+                <script>
+                    window.onload = function () {
+                        // Wait 3 seconds and ...
+                        setTimeout(function () {
+                            document.getElementById('li-notifications').className += ' open';
+                            var audio = new Audio('../../dist/sounds/pling.mp3');
+                            audio.play();
+                        }, 2800);
+                    };
+                </script>
+            <?php
+                }
+            }
+            ?>
 
             <!-- Tasks -->
             <li class="dropdown tasks-menu">
