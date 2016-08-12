@@ -200,7 +200,7 @@ CREATE TABLE forma_pago (
 );
 CREATE TABLE comprobante_pago (
   comprobanteID CHAR(2)      NOT NULL,
-  descripcion   VARCHAR(100) NOT NULL,
+  descripcion   VARCHAR(300) NOT NULL,
   estado        INT          NOT NULL,
   compras       BOOLEAN      NOT NULL,
   ventas        BOOLEAN      NOT NULL,
