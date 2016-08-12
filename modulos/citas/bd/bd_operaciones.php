@@ -2,17 +2,16 @@
 <?php
 	require('../../bd/bd_conexion.php');
 	$opc = $_POST['opc'];
-
-	
+		
 	// MOSTRAR DATOS DE SERVICIOS
 	if($opc == 'M_SERV_01'){
 		$servicioID = $_POST["servicioID"];
 		$consulta = "SELECT S.servicioID,S.servicio,S.precioUnitario,S.estado,E.especialidad,
 											E.especialidadID,T.tipoServicio,T.tipoServicioID
-									from servicio S
-									left join tipo_servicio T on S.tipoServicioID = T.tipoServicioID
-									INNER join especialidad E on E.especialidadID = S.especialidadID
-									where S.estado=1 and S.servicioID='".$servicioID."'";
+									FROM servicio S
+									LEFT 	JOIN tipo_servicio T 	ON S.tipoServicioID = T.tipoServicioID
+									INNER JOIN especialidad E 	ON E.especialidadID = S.especialidadID
+									WHERE S.estado=1 AND S.servicioID='".$servicioID."'";
 
 		$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
 		$datos = "";
@@ -39,30 +38,30 @@
 	  $fechaCita = date('Y-m-d',strtotime($fechaCita));
 	  $estado = $_POST['estado'];
 	  
-		$consulta = "select C.citaID,P.nombres,P.apPaterno,P.apMaterno,PA.pacienteID,
+		$consulta = "SELECT C.citaID,P.nombres,P.apPaterno,P.apMaterno,PA.pacienteID,
 												E.especialidad,S.servicio,C.fecha,C.hora,PP.nombres,
-												PP.apPaterno,PP.apMaterno,C.estado,PS.estadoPago,PS.pedidoServicioID,PA.DNI,
+												PP.apPaterno,PP.apMaterno,C.estado,PS.estadoPago,PS.pedidoServicioID,P.DNI,
 												PS.tipo
-									from CITA C
-									inner join PEDIDO_SERVICIO PS ON C.pedidoServicioID = PS.pedidoServicioID
-									inner join PACIENTE PA ON PA.pacienteID = C.pacienteID
-									inner join PERSONA P ON P.DNI = PA.DNI
-									left join ESPECIALIDAD E ON E.especialidadID = C.especialidadID
-									inner join SERVICIO S ON S.servicioID = C.servicioID
-									left join PERSONAL PE ON PE.personalID = C.medicoID
-									left join PERSONA PP ON PP.DNI = PE.DNI
-									where C.fecha='".$fechaCita."' and C.tipo = '".$tipo."'";
-		if($estado != "T"){
-			$consulta = $consulta."and C.estado='".$estado."'";
-		}
+									FROM 	CITA C
+									INNER JOIN PEDIDO_SERVICIO PS ON PS.pedidoServicioID = C.pedidoServicioID
+									INNER JOIN PACIENTE PA ON PA.pacienteID = C.pacienteID
+									INNER JOIN PERSONA P ON P.personaID = PA.personaID
+									LEFT 	JOIN ESPECIALIDAD E ON E.especialidadID = C.especialidadID
+									INNER JOIN SERVICIO S ON S.servicioID = C.servicioID
+									LEFT 	JOIN PERSONAL PE ON PE.personalID = C.medicoID
+									LEFT 	JOIN PERSONA PP ON PP.personaID = PE.personaID
+									WHERE C.fecha='".$fechaCita."' AND C.tipo = '".$tipo."'";
+
+		if($estado != "0") $consulta = $consulta." AND C.estado='".$estado."'";
+
 		$res = mysqli_query($con,$consulta) or die(mysqli_error($con));
 		while($row = mysqli_fetch_row($res)){			
-			$nombresP = explode(" ", $row[1]); $nombresM = explode(" ", $row[9]);
+			$nombresP = explode(" ", $row[1]);
+			$nombresM = explode(" ", $row[9]);
 			$nombrePaciente = $nombresP[0].' '.$row[2].' '.$row[3];
+			$nombreMedico = $nombresM[0].' '.$row[10];
 			$especialidad = $row[5];
-			if($tipo == "C"){
-				$nombreMedico = $nombresM[0].' '.$row[10];
-			}else{
+			if($tipo == "L"){
 				$nombreMedico = "Laboratorio";
 				$especialidad = "Laboratorio";
 			}
@@ -75,17 +74,16 @@
 			$citaID = $row[0];			
 			$estadoCita = $row[12];
 			$estadoPago = $row[13];
-
+			// ESTADO DE LA CITA
 			if($estadoCita == 'R') $lineaCita = "<span class='label label-warning'>Reservado</span>";
 			else if($estadoCita == 'C') $lineaCita = "<span class='label label-info'>Confirmado</span>";
 			else if($estadoCita == 'S') $lineaCita = "<span class='label label-primary'>En Sala</span>";
 			else if($estadoCita == 'A') $lineaCita = "<span class='label label-success'>Atendido</span>";
 			else if($estadoCita == 'X') $lineaCita = "<span class='label label-danger'>Anulado</span>";
-
+			//ESTADO DEL PAGO 
 			if($estadoPago == 'PEN') $lineaPago = "<span class='label label-danger'>Pendiente</span>";
 			else if($estadoPago == 'PAG') $lineaPago = "<span class='label label-success'>Pagado</span>";
 			else if($estadoPago == 'PAR') $lineaPago = "<span class='label label-warning'>Parcial</span>";
-
 			echo "<tr>
 							<td style='text-align:center;'>".$pedidoID."</td>
 							<td>".$nombrePaciente."</td>
@@ -108,7 +106,7 @@
                       <li>
                       	<form method='post' action='../facturacion/facturar.php'>
 					                <input type='hidden' id='txtPedidoID' name='txtPedidoID' value='".$pedidoID."'>
-					                <input type='hidden' id='txtDNI' name='txtDNI' value='".$DNI."'>												  	
+					                <input type='hidden' id='txtDNI' name='txtDNI' value='".$DNI."'>
                           <button type='submit' class='btn btn-block btn-transparente btn-flat btn-xs'>                          
                           	<span class='text-green'>
 	                            <i class='ace-icon fa fa-usd bigger-120'></i>	                            
@@ -182,7 +180,7 @@
 		$importePagado = 0;		//Total Pagado = 0
 		// OBTENEMOS EL PRECIO DEL SERVICIO
 					// $tasaIGV = 0.18; Variable global
-					$csPrecio = "select precioUnitario from servicio where servicioID = '".$servicioID."'";
+					$csPrecio = "SELECT precioUnitario FROM servicio WHERE servicioID = '".$servicioID."'";
 					$res = mysqli_query($con,$csPrecio)or  die (mysqli_error($con));
 					$row = mysqli_fetch_row($res);
 					$precio = (double)$row[0];
@@ -190,22 +188,18 @@
 					$importeIGV = $precio - $importeSinIGV;
 					$importeTotal = $precio;
 		//---------------------------------
-		$consulta = "insert into PEDIDO_SERVICIO(pacienteID,tipo,via,tasaIGV,importeSinIGV,importeIGV,
-									importeTotal,importePagado,estadoPago,timestamp)values
-									('".$pacienteID."','".$tipo."','".$via."','".$tasaIGV."','".$importeSinIGV."','".$importeIGV."',
-										'".$importeTotal."','".$importePagado."','".$estadoPago."','".$timestamp."');";
-		if($medicoRef != 0){
-			$consulta = "insert into PEDIDO_SERVICIO(pacienteID,tipo,via,tasaIGV,importeSinIGV,importeIGV,
-									importeTotal,importePagado,estadoPago,timestamp,personalReferenciaID)values
-									('".$pacienteID."','".$tipo."','".$via."','".$tasaIGV."','".$importeSinIGV."','".$importeIGV."',
-										'".$importeTotal."','".$importePagado."','".$estadoPago."','".$timestamp."','".$medicoRef."');";
-		}		
+		$consulta = "INSERT INTO PEDIDO_SERVICIO(pacienteID,tipo,via,tasaIGV,importeSinIGV,importeIGV,
+								importeTotal,importePagado,estadoPago,timestamp,personalReferenciaID)VALUES
+								('".$pacienteID."','".$tipo."','".$via."','".$tasaIGV."','".$importeSinIGV."','".$importeIGV."',
+									'".$importeTotal."','".$importePagado."','".$estadoPago."','".$timestamp."',
+									".(($medicoRef == '0')?'NULL':("'".$medicoRef."'")).")";
+
 		$res = mysqli_query($con,$consulta)or  die (mysqli_error($con));
 		$pedidoServicioID = mysqli_insert_id($con);
 		// mysqli_rollback($con);		
 		if($pedidoServicioID > 0){
-			$consulta = "insert into cita(pedidoServicioID,pacienteID,medicoID,especialidadID,servicioID,
-										tipo,fecha,hora,observaciones,estado,precio,cantidad) values
+			$consulta = "INSERT INTO cita(pedidoServicioID,pacienteID,medicoID,especialidadID,servicioID,
+										tipo,fecha,hora,observaciones,estado,precio,cantidad)VALUES
 										('".$pedidoServicioID."','".$pacienteID."','".$medicoID."','".$especialidadID."',
 											'".$servicioID."','".$tipo."','".$fecha."','".$hora."','".$motivo."','".$estado."',
 											'".$precio."',1);";
@@ -240,7 +234,7 @@
 					for($i=0;$i<count($listaServicios)-1;$i++){
 						$fila = explode(",,", $listaServicios[$i]);
 						$servicioID = $fila[0];
-						$csPrecio = "select precioUnitario from servicio where servicioID = '".$servicioID."'";
+						$csPrecio = "SELECT precioUnitario FROM servicio WHERE servicioID = '".$servicioID."'";
 						$res = mysqli_query($con,$csPrecio)or  die (mysqli_error($con));
 						$row = mysqli_fetch_row($res);
 						$precio = (double)$row[0];
@@ -251,24 +245,16 @@
 		$importeSinIGV = round($importeSinIGV, 2);
 		$importeIGV = round($importeIGV, 2);
 		$importeTotal = round($importeTotal, 2);
-		//---------------------------------		
-		// echo $importeSinIGV.'-';
-		// echo $importeIGV.'-';
-		// echo $importeTotal;
+		//---------------------------------	
+			$consulta = "INSERT INTO PEDIDO_SERVICIO(pacienteID,tipo,via,tasaIGV,importeSinIGV,importeIGV,
+									importeTotal,importePagado,estadoPago,timestamp,personalReferenciaID)VALUES
+									('".$pacienteID."','".$tipo."','".$via."','".$tasaIGV."','".$importeSinIGV."','".$importeIGV."',
+										'".$importeTotal."','".$importePagado."','".$estadoPago."','".$timestamp."',
+										".(($medicoRef == '0')?'NULL':("'".$medicoRef."'")).")";
 
-		$consulta = "insert into PEDIDO_SERVICIO(pacienteID,tipo,via,tasaIGV,importeSinIGV,importeIGV,
-									importeTotal,importePagado,estadoPago,timestamp)values
-									('".$pacienteID."','".$tipo."','".$via."','".$tasaIGV."','".$importeSinIGV."','".$importeIGV."',
-										'".$importeTotal."','".$importePagado."','".$estadoPago."','".$timestamp."');";
-		if($medicoRef != 0){
-			$consulta = "insert into PEDIDO_SERVICIO(pacienteID,tipo,via,tasaIGV,importeSinIGV,importeIGV,
-									importeTotal,importePagado,estadoPago,timestamp,personalReferenciaID)values
-									('".$pacienteID."','".$tipo."','".$via."','".$tasaIGV."','".$importeSinIGV."','".$importeIGV."',
-										'".$importeTotal."','".$importePagado."','".$estadoPago."','".$timestamp."','".$medicoRef."');";
-		}
 		$res = mysqli_query($con,$consulta)or  die (mysqli_error($con));
 		$pedidoServicioID = mysqli_insert_id($con);
-		// mysqli_rollback($con);	
+		// mysqli_rollback($con);
 		if($pedidoServicioID>0){
 			for($i=0;$i<count($listaServicios)-1;$i++){
 				$fila = explode(",,", $listaServicios[$i]);
@@ -280,11 +266,11 @@
 				$hora = $fila[3];
 				$obs = $fila[4];
 				$precio = $fila[5];
-				$consulta = "insert into cita(pedidoServicioID,pacienteID,especialidadID,servicioID,
-										tipo,fecha,hora,observaciones,estado,precio,cantidad) values
+				$consulta = "INSERT INTO cita(pedidoServicioID,pacienteID,especialidadID,servicioID,
+										tipo,fecha,hora,observaciones,estado,precio,cantidad)VALUES
 										('".$pedidoServicioID."','".$pacienteID."','".$especialidadID."',
-											'".$servicioID."','".$tipo."','".$fecha."','".$hora."','".$obs."','".$estado."',
-											'".$precio."','".$cantidad."');";
+										'".$servicioID."','".$tipo."','".$fecha."','".$hora."','".$obs."','".$estado."',
+										'".$precio."','".$cantidad."');";
 				$res = mysqli_query($con,$consulta)or  die (mysqli_error($con));				
 			}
 		}
@@ -297,15 +283,15 @@
 		$personalID = $_POST['personalID'];
 	  $especialidadID = $_POST['especialidadID'];
 	  
-		$consulta = "select PS.pedidoServicioID,P.nombres,P.apPaterno,P.apMaterno,E.especialidad,S.servicio,
+		$consulta = "SELECT PS.pedidoServicioID,P.nombres,P.apPaterno,P.apMaterno,E.especialidad,S.servicio,
 									substring_index(PS.timestamp,' ',1) as 'fecha',PS.estadoPago,C.estado
-								from PEDIDO_SERVICIO PS
-								inner join PERSONAL PL ON PS.personalReferenciaID = PL.personalID
-								inner join PERSONA P ON P.DNI = PL.DNI
-								inner join CITA C ON C.pedidoServicioID = PS.pedidoServicioID
-								left join ESPECIALIDAD E on E.especialidadID = C.especialidadID
-								inner join SERVICIO S on S.servicioID = C.servicioID
-								where MONTH(PS.timestamp) = '".$mes."'";
+								FROM PEDIDO_SERVICIO PS
+								INNER JOIN PERSONAL PL ON PS.personalReferenciaID = PL.personalID
+								INNER JOIN PERSONA P ON P.personaID = PL.personaID
+								INNER JOIN CITA C ON C.pedidoServicioID = PS.pedidoServicioID
+								LEFT JOIN ESPECIALIDAD E ON E.especialidadID = C.especialidadID
+								INNER JOIN SERVICIO S ON S.servicioID = C.servicioID
+								WHERE MONTH(PS.timestamp) = '".$mes."'";
 		if($personalID != 0)$consulta = $consulta." and PL.personalID = '".$personalID."'";
 		if($especialidadID != -1 )$consulta = $consulta." and C.especialidadID = '".$especialidadID."'";
 		
@@ -320,19 +306,17 @@
 			$fecha = str_replace("/","-",$row[6]);
 	    $fecha = date('d-m-Y',strtotime($fecha));			
 			$estadoPago = $row[7];
-			$estadoCita = $row[8];
-			
-
+			$estadoCita = $row[8];			
+			// ESTADO DE LA CITA
 			if($estadoCita=='R') $estadoCita = "<span class='label label-warning'>Reservado</span>";
 			else if($estadoCita=='C')	$estadoCita = "<span class='label label-info'>Confirmado</span>";
 			else if($estadoCita=='S')	$estadoCita = "<span class='label label-primary'>En Sala</span>";
 			else if($estadoCita=='A')	$estadoCita = "<span class='label label-success'>Atendido</span>";
 			else if($estadoCita=='X') $estadoCita = "<span class='label label-danger'>Anulado</span>";
-
+			//ESTADO DEL PAGO
 			if($estadoPago=='PEN') $estadoPago = "<span class='label label-danger'>Pendiente</span>";
 			else if($estadoPago=='PAG')	$estadoPago = "<span class='label label-success'>Pagado</span>";
 			else if($estadoPago == 'PAR')	$estadoPago = "<span class='label label-warning'>Parcial</span>";
-
 			echo "<tr>
 							<td style='text-align:center;'>".$pedidoID."</td>
 							<td>".$medico."</td>
@@ -349,7 +333,7 @@
 	if($opc == 'ME_C_01'){
 		$citaID = $_POST['citaID'];
 		$estadoNuevo = $_POST['estadoNuevo'];
-		$consulta = "select estado from cita where citaID = '".$citaID."'";
+		$consulta = "SELECT estado FROM cita WHERE citaID = '".$citaID."'";
 		$res = mysqli_query($con,$consulta) or die(mysqli_error($con));
 		$row = mysqli_fetch_row($res);
 		$estadoActual = $row[0];		
@@ -366,7 +350,7 @@
 	}
 
 	function editarEstadoCita($con,$citaID,$estadoNuevo){
-		$consulta = "update cita set estado='".$estadoNuevo."' where citaID='".$citaID."'";
+		$consulta = "update cita set estado='".$estadoNuevo."' WHERE citaID='".$citaID."'";
 		$res = mysqli_query($con,$consulta) or die(mysqli_error($con));
 		echo $res;
 	}

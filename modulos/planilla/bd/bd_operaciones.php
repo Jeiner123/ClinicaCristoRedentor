@@ -6,15 +6,15 @@
 	// MOSTRAR DATOS DEL PERSONAL
 	if($opc == 'MP_01'){
 		$personalID = $_POST['personalID'];
-		$consulta = "select PE.DNI,PE.nombres,PE.apPaterno,PE.apMaterno,PE.fechaNacimiento,PE.sexo,
+		$consulta = "SELECT PE.DNI,PE.nombres,PE.apPaterno,PE.apMaterno,PE.fechaNacimiento,PE.sexo,
 								PE.telefono1,PE.tipoTelefono1,PE.telefono2,PE.tipoTelefono2,
 								PE.correoPersonal,PE.direccion,PE.foto,PE.timestamp,
 								PL.personalID,PL.tipoPersonalID,PL.cargoID,C.areaID,PL.fechaIngreso,
-								PL.correoCorporativo,PL.sueldoMensual,PL.estado,PL.observaciones								
-								from PERSONAL PL
-								inner join PERSONA PE ON PE.DNI = PL.DNI
-								left join CARGO C on PL.cargoID = C.cargoID
-								where PL.personalID='".$personalID."'
+								PL.correoCorporativo,PL.sueldoMensual,PL.estado,PL.observaciones
+								FROM PERSONAL PL
+								INNER JOIN PERSONA PE ON PE.personaID = PL.personaID
+								LEFT 	JOIN CARGO C ON PL.cargoID = C.cargoID
+								WHERE PL.personalID='".$personalID."'
 								";
 		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
 		$row = mysqli_fetch_row($res);
@@ -39,14 +39,14 @@
 		// $foto = $_POST['txtFoto'];
 		// $timestamp = $timestamp;
 
-		$consulta = "insert into persona(DNI,nombres,apPaterno,apMaterno,fechaNacimiento,sexo,
+		$consulta = "INSERT INTO persona(DNI,nombres,apPaterno,apMaterno,fechaNacimiento,sexo,
 								telefono1,tipoTelefono1,telefono2,tipoTelefono2,
 								correoPersonal,direccion,foto,timestamp) values
 								('".$DNI."','".$nombres."','".$apPaterno."','".$apMaterno."','".$fechaNacimiento."',
 								'".$sexo."','".$telefono1."','".$tipoTelefono1."',".$telefono2.",
 								'".$tipoTelefono2."','".$correoPersonal."','".$direccion."',null,'".$timestamp."')";
 		if($tipoTelefono2==0){
-			$consulta = "insert into persona(DNI,nombres,apPaterno,apMaterno,fechaNacimiento,sexo,
+			$consulta = "INSERT INTO persona(DNI,nombres,apPaterno,apMaterno,fechaNacimiento,sexo,
 								telefono1,tipoTelefono1,correoPersonal,direccion,foto,timestamp) values
 								('".$DNI."','".$nombres."','".$apPaterno."','".$apMaterno."','".$fechaNacimiento."',
 								'".$sexo."','".$telefono1."','".$tipoTelefono1."',
@@ -66,7 +66,7 @@
 		$estado = $_POST['cboEstado'];
 		$observaciones = $_POST['txtObservaciones'];
 
-		$consulta = "insert into personal(DNI,tipoPersonalID,cargoID,fechaIngreso,correoCorporativo,
+		$consulta = "INSERT INTO personal(DNI,tipoPersonalID,cargoID,fechaIngreso,correoCorporativo,
 								sueldoMensual,estado,observaciones) values
 								('".$DNI."','".$tipoPersonalID."','".$cargoID."',
 									'".$fechaIngreso."','".$correoCorporativo."','".$sueldoMensual."',
@@ -84,15 +84,15 @@
 	// CARGAR TABLA DE PERSONAL
 	if($opc=='CT_P_01'){
 		$tipoPersonal = $_POST["tipoPersonal"];
-		$consulta = "select P.DNI,PL.personalID,P.nombres,P.apPaterno,P.apMaterno,P.telefono1,TT.tipoTelefono,
+		$consulta = "SELECT P.DNI,PL.personalID,P.nombres,P.apPaterno,P.apMaterno,P.telefono1,TT.tipoTelefono,
 								TP.tipoPersonal,PL.estado
-								from personal PL
-								inner join persona P on P.DNI = PL.DNI
-								left join tipo_telefono TT on TT.tipoTelefonoID = P.tipoTelefono1
-								inner join tipo_personal TP on TP.tipoPersonalID = PL.tipoPersonalID
-								left join cargo C on C.cargoID = PL.cargoID
-								left join area A on A.areaID = C.areaID
-								where PL.estado <=2
+								FROM personal PL
+								INNER JOIN persona P on P.DNI = PL.DNI
+								LEFT JOIN tipo_telefono TT on TT.tipoTelefonoID = P.tipoTelefono1
+								INNER JOIN tipo_personal TP on TP.tipoPersonalID = PL.tipoPersonalID
+								LEFT JOIN cargo C on C.cargoID = PL.cargoID
+								LEFT JOIN area A on A.areaID = C.areaID
+								WHERE PL.estado <=2
 								";
 		if($tipoPersonal!='T'){  //TODOS
 			$consulta = $consulta.'and PL.tipoPersonalID<="'.$tipoPersonal.'"';
@@ -144,15 +144,15 @@
 	}
 	//CARGAR TABLA DE MEDICOS Y PEROSNAL DE SALUD
 	if($opc=='CT_P_02'){
-		$consulta = "select P.DNI,PL.personalID,P.nombres,P.apPaterno,P.apMaterno,P.telefono1,TT.tipoTelefono,
+		$consulta = "SELECT P.DNI,PL.personalID,P.nombres,P.apPaterno,P.apMaterno,P.telefono1,TT.tipoTelefono,
 								TP.tipoPersonal,PL.estado
-								from personal PL
-								inner join persona P on P.DNI = PL.DNI
-								left join tipo_telefono TT on TT.tipoTelefonoID = P.tipoTelefono1
-								inner join tipo_personal TP on TP.tipoPersonalID = PL.tipoPersonalID
-								left join cargo C on C.cargoID = PL.cargoID
-								left join area A on A.areaID = C.areaID
-								where PL.estado <=2 and PL.tipoPersona<=2
+								FROM personal PL
+								INNER JOIN persona P on P.DNI = PL.DNI
+								LEFT JOIN tipo_telefono TT on TT.tipoTelefonoID = P.tipoTelefono1
+								INNER JOIN tipo_personal TP on TP.tipoPersonalID = PL.tipoPersonalID
+								LEFT JOIN cargo C on C.cargoID = PL.cargoID
+								LEFT JOIN area A on A.areaID = C.areaID
+								WHERE PL.estado <=2 and PL.tipoPersona<=2
 								";
 		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
 		while($row = mysqli_fetch_row($res)){
@@ -202,10 +202,10 @@
 	//CARGAR ESPECIALIDADES DE UN MEDICO
 	if($opc == 'CEM_01'){
 		$personalID = $_POST['personalID'];
-		$consulta = "select PS.personalID,E.especialidadID,E.especialidad
-								from PERSONAL_SALUD PS
-								inner join ESPECIALIDAD E ON E.especialidadID = PS.especialidadID
-								where PS.personalID='".$personalID."'
+		$consulta = "SELECT PS.personalID,E.especialidadID,E.especialidad
+								FROM PERSONAL_SALUD PS
+								INNER JOIN ESPECIALIDAD E ON E.especialidadID = PS.especialidadID
+								WHERE PS.personalID='".$personalID."'
 								";
 	  $res = mysqli_query($con,$consulta) or die (mysqli_error($con));
 		while($row = mysqli_fetch_row($res)){

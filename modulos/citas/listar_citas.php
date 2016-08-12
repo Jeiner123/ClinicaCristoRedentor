@@ -84,7 +84,7 @@
             <div class="col-md-2">
               <label class="form-label">Estado</label>
               <select class="form-control input-sm" id="cboEstado" name="cboEstado" onchange="cargarTablaCitas();">
-                <option value="T" selected>Todos</option>
+                <option value="0" selected>Todos</option>
                 <option value="R" >Reservado</option>
                 <option value="C" >Confirmada</option>
                 <option value="S" >En Sala</option>

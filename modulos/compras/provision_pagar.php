@@ -348,6 +348,7 @@
                   </div>
                 </div>
               </div>
+              <?php echo obtenerIGV(); ?>
               <!-- /.modal-footer -->
               <div class="modal-footer">                  
                 <div class="row" align="center">

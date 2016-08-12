@@ -27,10 +27,10 @@
 		$consulta = "SELECT PE.DNI,PE.nombres,PE.apPaterno,PE.apMaterno,PE.telefono1,
 								PS.importeSinIGV,PS.importeIGV,PS.importeTotal,PS.importePagado,
 								PS.importeTotal-PS.importePagado,PS.formaPagoID								
-								from PEDIDO_SERVICIO PS
-								inner join PACIENTE PA ON PS.pacienteID = PA.pacienteID
-								inner join PERSONA PE ON PE.DNI = PA.DNI
-								where PE.DNI = '".$DNI."' and PS.pedidoServicioID = '".$pedidoID."'
+								FROM PEDIDO_SERVICIO PS
+								INNER JOIN PACIENTE PA ON PS.pacienteID = PA.pacienteID
+								INNER JOIN PERSONA PE ON PE.personaID = PA.personaID
+								WHERE PE.DNI = '".$DNI."' and PS.pedidoServicioID = '".$pedidoID."'
 								";
 		$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
 		$datos = "";
@@ -52,9 +52,9 @@
 
 		$consulta = "SELECT P.pagoID,P.pedidoServicioID,CP.descripcion,P.numeroComprobante,P.importeTotal,P.fechaPago,
 									P.estado,P.numeroSerie
-									from pago P 
-									inner join COMPROBANTE_PAGO CP ON CP.comprobanteID = P.comprobanteID
-									where P.pedidoServicioID = '".$pedidoID."';
+									FROM pago P 
+									INNER JOIN COMPROBANTE_PAGO CP ON CP.comprobanteID = P.comprobanteID
+									WHERE P.pedidoServicioID = '".$pedidoID."';
 								";
 		$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
 		while($row = mysqli_fetch_row($res)){			
@@ -81,9 +81,9 @@
 
 		$consulta = "SELECT C.citaID,C.pedidoServicioID,C.pacienteID,C.medicoID,C.especialidadID,
 									S.servicio,C.tipo,C.fecha,C.hora,C.observaciones,C.estado,C.precio,C.cantidad
-									from CITA C
-									inner join SERVICIO S  ON S.servicioID = C.servicioID
-									where pedidoServicioID='".$pedidoID."'
+									FROM CITA C
+									INNER JOIN SERVICIO S  ON S.servicioID = C.servicioID
+									WHERE pedidoServicioID='".$pedidoID."'
 								";
 		$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
 		while($row = mysqli_fetch_row($res)){
@@ -148,10 +148,10 @@
 		$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
 		$row = mysqli_fetch_row($res);
 		$IGV = $row[0];
-		// INSERTAR PAGO
-		$consulta = "insert into PAGO (pedidoServicioID,comprobanteID,numeroSerie,numeroComprobante,
+		// INSERTAMOS EL PAGO
+		$consulta = "INSERT INTO PAGO (pedidoServicioID,comprobanteID,numeroSerie,numeroComprobante,
 									IGV,importeSinIGV,importeIGV,importeTotal,
-									fechaPago,estado,timestamp) values
+									fechaPago,estado,timestamp)VALUES
 							('".$pedidoID."','".$comprobante."',
 							".(($comprobante == '000')?'NULL':("'".$nroSerie."'")).",
 							".(($nroComprobante == '')?'NULL':("'".$nroComprobante."'")).",
@@ -163,17 +163,18 @@
 			echo "No se pudo registrar el pago";
 			exit();
 		}
+		// ACTUALIZAMOS EL ESTADO DE LAS CITAS A CONFIRMADO
 		if($nuevoSaldo == 0){
-			$consulta = "UPDATE cita SET estado = 'C' where pedidoServicioID = '".$pedidoID."'";
+			$consulta = "UPDATE cita SET estado = 'C' WHERE pedidoServicioID = '".$pedidoID."'";
 			$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
 			if(!$res){
-				echo "Hubo errores al confirmar las citas";
+				echo "Hubo errores al confirmar las citas.";
 			}
 			$estadoPago = 'PAG';
 		} 
 		else if($nuevoSaldo > 0 && $nuevoSaldo < $importeTotal)	$estadoPago = 'PAR';
-		
-		$consulta = "UPDATE PEDIDO_SERVICIO SET importePagado = importePagado+'".$importe."',
+		//ACTUALIZAMOS EL ESTADO DEL PEDIDO_SERVICIO
+		$consulta = "UPDATE PEDIDO_SERVICIO SET importePagado = importePagado + '".$importe."',
 								estadoPago='".$estadoPago."'
 								WHERE pedidoServicioID='".$pedidoID."'
 								 ";
@@ -195,12 +196,12 @@
 								P.numeroComprobante,P.importeTotal,P.fechaPago,P.estado,
 								PE.nombres,PE.apPaterno,PE.apMaterno,PE.DNI,PE.telefono1,
 								CP.descripcion
-								from PAGO P
-								inner join PEDIDO_SERVICIO PS on PS.pedidoServicioID = P.pedidoServicioID
-								inner join PACIENTE PA ON PA.pacienteID = PS.pacienteID
-								inner join PERSONA PE ON PE.DNI = PA.DNI
-								inner join COMPROBANTE_PAGO CP ON CP.comprobanteID = P.comprobanteID
-								where P.fechaPago='".$fechaPago."'
+								FROM PAGO P
+								INNER JOIN PEDIDO_SERVICIO PS on PS.pedidoServicioID = P.pedidoServicioID
+								INNER JOIN PACIENTE PA ON PA.pacienteID = PS.pacienteID
+								INNER JOIN PERSONA PE ON PE.personaID = PA.personaID
+								INNER JOIN COMPROBANTE_PAGO CP ON CP.comprobanteID = P.comprobanteID
+								WHERE P.fechaPago='".$fechaPago."'
 								";
 		$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
 		while($row = mysqli_fetch_row($res)){
@@ -244,19 +245,15 @@
 		exit();
 	}
 	// CARGAR TABLA  PEDIDOS PENDIENTES
-	if($opc == 'CTPP_01'){
-		// $fechaPago = $_POST['fechaPago'];
-		// $fechaPago = str_replace("/","-",$fechaPago);
-	  // $fechaPago = date('Y-m-d',strtotime($fechaPago));
-	  
+	if($opc == 'CTPP_01'){	  
 		$consulta = "SELECT PS.pedidoServicioID,PS.pacienteID,PS.tipo,PS.via,PS.tasaIGV,PS.importeSinIGV,PS.importeIGV,
 											PS.importeTotal,PS.importePagado,FP.formaPago,PS.estadoPago,substring_index(PS.timestamp,' ',1) as 'fecha',
 											PE.DNI,PE.nombres,PE.apPaterno,PE.apMaterno,PE.telefono1
-								from PEDIDO_SERVICIO PS
-								inner join PACIENTE PA ON PS.pacienteID = PA.pacienteID
-								inner join PERSONA PE ON PE.DNI = PA.DNI
-								left join FORMA_PAGO FP ON FP.formaPagoID = PS.formaPagoID
-								where PS.estadoPago<>'PAG'
+								FROM PEDIDO_SERVICIO PS
+								INNER JOIN PACIENTE PA ON PS.pacienteID = PA.pacienteID
+								INNER JOIN PERSONA PE ON PE.personaID = PA.personaID
+								left JOIN FORMA_PAGO FP ON FP.formaPagoID = PS.formaPagoID
+								WHERE PS.estadoPago<>'PAG'
 								";
 		$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
 		while($row = mysqli_fetch_row($res)){
