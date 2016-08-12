@@ -1,9 +1,16 @@
+<?php
+// Validate id
+if (isset($_GET['id']))
+    $id = $_GET['id'];
+else header('Location: gestion_modulos.php');
+?>
+
 <?php include '../general/validar_sesion.php';?>
 <?php include '../general/variables.php';?>
 <!DOCTYPE html>
 <html xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
-  <title>Módulos | CLÍNICA CRISTO REDENTOR</title>
+  <title>Items | CLÍNICA CRISTO REDENTOR</title>
   <?php include '../general/header.php';?>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -12,6 +19,14 @@
 <div class="wrapper">
   <?php include '../general/izquierda_menu.php';?>
 
+    <?php
+        $sql = "SELECT * FROM modules WHERE id=$id";
+        $result_set = mysqli_query($con, $sql);
+        $modules = mysqli_fetch_all($result_set, MYSQLI_ASSOC);
+        if (count($modules) > 0)
+            $module = $modules[0];
+        else exit('No module selected.');
+    ?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
 
@@ -19,7 +34,7 @@
 	<section class="content-header">
 	  <h1>
 		Administración
-		<small>Gestionar módulos</small>
+		<small>Gestionar items</small>
 	  </h1>
 	  <ol class="breadcrumb">
 		<li>
@@ -30,13 +45,13 @@
 	</section>
 
 	<!-- Main content -->
-	<section class="content" id="ModuleController">
+	<section class="content" id="ItemController">
 
         <div class="row">
             <div class="col-md-12">
                 <div class="box box-solid color-palette-box">
                     <div class="box-header bg-blue">
-                        <h3 class="box-title">Registro de módulos</h3>
+                        <h3 class="box-title">Registro de items</h3>
                         <div class="box-tools pull-right">
                             <button style='color:#fff;' type="button" class="btn btn-box-tool" data-widget="collapse">
                                 <i class="fa fa-minus"></i>
@@ -44,29 +59,29 @@
                         </div>
                     </div>
                     <div class="box-body" align="center">
-                        <p>Registre nuevos módulos.</p>
+                        <p>Registre nuevos items para el módulo seleccionado: <strong><?= $module['nombre'] ?></strong>.</p>
 
                         <div class="alert alert-danger" v-if="!isValid">
                             <ul>
-                                <li v-show="!validation.nombre">Ingrese un nombre para el módulo.</li>
-                                <li v-show="!validation.folder">Nombre de carpeta inválido.</li>
+                                <li v-show="!validation.nombre">Ingrese un nombre para el item.</li>
+                                <li v-show="!validation.folder">Nombre de archivo inválido.</li>
                             </ul>
                         </div>
 
-                        <form action="#" v-on:submit.prevent="AddNewModule" method="POST">
+                        <form action="#" v-on:submit.prevent="AddNewItem" method="POST">
                             <div class="form-group">
-                                <label for="nombre">Nombre del módulo:</label>
-                                <input v-model="newModule.nombre" type="text" id="nombre" name="nombre" class="form-control">
+                                <label for="nombre">Nombre del item:</label>
+                                <input v-model="newItem.nombre" type="text" id="nombre" name="nombre" class="form-control">
                             </div>
 
                             <div class="form-group">
-                                <label for="folder">Carpeta asociada <em>(dentro de /modulos/)</em>:</label>
-                                <input v-model="newModule.folder" type="text" id="folder" name="folder" class="form-control">
+                                <label for="folder">Archivo asociado <em>(dentro de /<?= $module['folder'] ?>/)</em>:</label>
+                                <input v-model="newItem.file" type="text" id="file" name="file" class="form-control">
                             </div>
 
                             <div class="form-group">
-                                <button :disabled="!isValid" class="btn btn-default" v-if="edit" v-on:click="EditModule(newModule.id)">Editar módulo</button>
-                                <button :disabled="!isValid" class="btn btn-default" v-else>Añadir módulo</button>
+                                <button :disabled="!isValid" class="btn btn-default" v-if="edit" v-on:click="EditItem(newItem.id)">Editar item</button>
+                                <button :disabled="!isValid" class="btn btn-default" v-else>Añadir item</button>
                             </div>
                         </form>
 
@@ -80,7 +95,7 @@
             <div class="col-md-12">
                 <div class="box box-solid color-palette-box">
                     <div class="box-header bg-blue">
-                        <h3 class="box-title">Módulos</h3>
+                        <h3 class="box-title">Items</h3>
                         <div class="box-tools pull-right">
                             <button style='color:#fff;' type="button" class="btn btn-box-tool" data-widget="collapse">
                                 <i class="fa fa-minus"></i>
@@ -88,29 +103,27 @@
                         </div>
                     </div>
                     <div class="box-body" align="center">
-                        <p>Modifique o desactive los módulos existentes.</p>
+                        <p>Modifique o desactive los items existentes.</p>
                         <table class="table hover">
                             <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Nombre</th>
-                                <th>Folder</th>
+                                <th>Archivo</th>
                                 <th>Opciones</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="module in modules">
-                                <td>{{ module.id }}</td>
-                                <td>{{ module.nombre }}</td>
-                                <td>{{ module.folder }}</td>
+                            <tr v-for="item in items">
+                                <td>{{ item.id }}</td>
+                                <td>{{ item.nombre }}</td>
+                                <td>{{ item.file }}</td>
                                 <td>
-                                    <button v-show="module.active == 1" v-on:click="ShowModule(module)" class="btn btn-sm btn-primary">Editar</button>
+                                    <button v-show="item.active == 1" v-on:click="ShowItem(item)" class="btn btn-sm btn-primary">Editar</button>
 
-                                    <button v-if="module.active == 1" v-on:click="UpdateStatus(0, $index)" class="btn btn-sm btn-danger">Desactivar módulo</button>
+                                    <button v-if="item.active == 1" v-on:click="UpdateStatus(0, $index)" class="btn btn-sm btn-danger">Desactivar item</button>
 
-                                    <button v-else v-on:click="UpdateStatus(1, $index)" type="button" class="btn btn-sm btn-success">Activar módulo</button>
-
-                                    <a href="#" class="btn btn-sm btn-info">Gestionar items</a>
+                                    <button v-else v-on:click="UpdateStatus(1, $index)" type="button" class="btn btn-sm btn-success">Activar item</button>
                                 </td>
                             </tr>
                             </tbody>
@@ -129,54 +142,54 @@
 <!-- ./wrapper -->
   <?php include '../general/pie_pagina.php';?>
 
-  <script src="../js/vue.min.js"></script>
+  <script src="../js/vue.js"></script>
   <script>
       var app_data = {
-          newModule: {
+          newItem: {
               id: '',
               nombre: '',
-              folder: ''
+              file: ''
           },
-          modules: {},
+          items: {},
           success: false,
           edit: false
       };
       new Vue({
-          el: '#ModuleController',
+          el: '#ItemController',
           data: app_data,
           methods: {
               UpdateStatus: function (status, i) {
-                  var module = this.modules[i];
+                  var item = this.items[i];
                   var params = {
                       status: status,
-                      id: module.id
+                      id: item.id
                   };
-                  $.post('json/update_module_status.php', params, function (data) {
+                  $.post('json/update_item_status.php', params, function (data) {
                       if (data.success)
-                          module.active = status;
+                          item.active = status;
                   }, 'json');
               },
-              ShowModule: function (module) {
+              ShowItem: function (item) {
                   this.edit = true;
 
-                  this.newModule.id = module.id;
-                  this.newModule.nombre = module.nombre;
-                  this.newModule.folder = module.folder;
+                  this.newItem.id = item.id;
+                  this.newItem.nombre = item.nombre;
+                  this.newItem.folder = item.folder;
               },
-              AddNewModule: function () {
-                  // Module data in form
-                  var module = this.newModule;
+              AddNewItem: function () {
+                  // Item data in form
+                  var item = this.newItem;
 
                   // Clear form input
-                  this.newModule = { id: '', nombre: '', folder: '' };
+                  this.newItem = { id: '', nombre: '', file: '' };
                   var self = this;
 
                   // Send post request
                   var params = {
-                      nombre: module.nombre,
-                      folder: module.folder
+                      nombre: item.nombre,
+                      file: item.file
                   };
-                  $.post('json/store_module.php', params, function (data) {
+                  $.post('json/store_item.php', params, function (data) {
                       if (data.success) {
                           // Show success message
                           self.success = true;
@@ -184,25 +197,25 @@
                               self.success = false;
                           }, 5000);
 
-                          self.fetchModules();
+                          self.fetchItems();
                       }
                   }, 'json');
               },
-              EditModule: function (id) {
-                  // Module data in form
-                  var module = this.newModule;
+              EditItem: function (id) {
+                  // Item data in form
+                  var item = this.newItem;
 
                   // Clear form input
-                  this.newModule = { id: '', nombre: '', folder: ''};
+                  this.newItem = { id: '', nombre: '', file: ''};
                   var self = this;
 
                   // Send post request
                   var params = {
-                      id: module.id,
-                      nombre: module.nombre,
-                      folder: module.folder
+                      id: item.id,
+                      nombre: item.nombre,
+                      file: item.file
                   };
-                  $.post('json/update_module.php', params, function (data) {
+                  $.post('json/update_item.php', params, function (data) {
                       if (data.success) {
                           // Show success message
                           self.success = true;
@@ -210,23 +223,23 @@
                               self.success = false;
                           }, 5000);
 
-                          self.fetchModules();
+                          self.fetchItems();
                           self.edit = false;
                       }
                   }, 'json');
               },
-              fetchModules: function () {
+              fetchItems: function () {
                   var self = this;
-                  $.getJSON('json/modules.php', function (data) {
-                      self.modules = data.modules;
+                  $.getJSON('json/items.php?id='+<?= $module['id'] ?>, function (data) {
+                      self.items = data.items;
                   });
               }
           },
           computed: {
               validation: function () {
                   return {
-                      nombre: !!this.newModule.nombre.trim(),
-                      folder: !!this.newModule.folder.trim()
+                      nombre: !!this.newItem.nombre.trim(),
+                      folder: !!this.newItem.file.trim()
                   }
               },
 
@@ -238,7 +251,7 @@
               }
           },
           ready: function () {
-              this.fetchModules()
+              this.fetchItems()
           }
       });
       activarMenuLateral('asignar_permisos.php');
