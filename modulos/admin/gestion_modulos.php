@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
-  <title>Permisos | CLÍNICA CRISTO REDENTOR</title>
+  <title>Módulos | CLÍNICA CRISTO REDENTOR</title>
   <?php include '../general/header.php';?>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -19,7 +19,7 @@
 	<section class="content-header">
 	  <h1>
 		Administración
-		<small>Asignar permisos</small>
+		<small>Gestionar módulos</small>
 	  </h1>
 	  <ol class="breadcrumb">
 		<li>
@@ -36,7 +36,7 @@
             <div class="col-md-12">
                 <div class="box box-solid color-palette-box">
                     <div class="box-header bg-blue">
-                        <h3 class="box-title">Módulos e items</h3>
+                        <h3 class="box-title">Módulos</h3>
                         <div class="box-tools pull-right">
                             <button style='color:#fff;' type="button" class="btn btn-box-tool" data-widget="collapse">
                                 <i class="fa fa-minus"></i>
@@ -44,8 +44,8 @@
                         </div>
                     </div>
                     <div class="box-body" align="center">
-                        <p>Acceda con el siguiente botón para gestionar los módulos e items.</p>
-                        <a href="gestion_modulos.php" class="btn btn-success">Administrar módulos e items</a>
+                        <p>Registre nuevos módulos; modifique o elimine los existentes.</p>
+
                     </div>
                 </div>
             </div>
@@ -55,7 +55,7 @@
           <div class="col-md-12">
               <div class="box box-solid color-palette-box">
                   <div class="box-header bg-blue">
-                      <h3 class="box-title">Permisos de usuarios</h3>
+                      <h3 class="box-title">Items</h3>
                       <div class="box-tools pull-right">
                           <button style='color:#fff;' type="button" class="btn btn-box-tool" data-widget="collapse">
                               <i class="fa fa-minus"></i>
@@ -63,9 +63,7 @@
                       </div>
                   </div>
                   <div class="box-body" align="center">
-                      <p>A continuación se muestra un listado de los usuarios registrados en el sistema.</p>
-                      <p>Usted puede seleccionar uno de ellos y ver los permisos que presenta actualmente.</p>
-                      <p>Así mismo podrá asignar nuevos permisos o removerlos.</p>
+                      <p>Registre nuevos items; modifique o elimine los existentes.</p>
 
                       <table class="table" id="users_table">
                           <thead>
@@ -125,6 +123,7 @@
       $.getJSON('json/users.php', function (data) {
           app_data.users = data.users;
       });
+      activarMenuLateral('asignar_permisos.php');
   </script>
 </body>
 </html>
