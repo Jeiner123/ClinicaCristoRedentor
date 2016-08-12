@@ -46,13 +46,13 @@ form label ,.box-body label{
 	position:  absolute !important;
 	z-index: 100 !important;
 }
-/*Los estilos se agregan de acuerdo al tiempo de creacion */
-/*Los primeros fueron los ultimos*/
+/* Los estilos se agregan de acuerdo al tiempo de creación */
+/* Los primeros fueron los últimos */
 table th,table td {
 	padding: 5px 5px 5px 5px !important;
 	font-size:12px;
 	vertical-align:middle!important;
-	cursor: pointer;
+	/*cursor: pointer;*/
 }
 .dataTables_info,.paginate_button {
 	font-size:11px;
@@ -99,11 +99,11 @@ table th,table td {
 .bordeI{
 	border-left:1px #ccc solid;
 }
-/*Paddien para el texto en las cajas */
+/* Padding para el texto en las cajas */
 .contenido-texto{
 	font-size: 13px;
 	line-height: 22px;
-	font-family: verdana ;
+	font-family: verdana, serif;
 	padding:10px 20px 10px 20px;
 	text-align: justify;
 }
@@ -117,7 +117,7 @@ table th,table td {
 	left:18px;
 	top:0
 }
-/*.Contenedor*/
+/* Contenedor */
 .contenedor{
 	padding: 20px;
 	width: 100%;	
