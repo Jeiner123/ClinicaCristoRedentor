@@ -72,6 +72,10 @@ function validarNumeroSerie(element){
   else if(valor.length == 3) valor = '0'+valor;  
   $(element).val(valor);
 }
+function completarCerosAdelante(num,numDigitos){
+	if(num.length == numDigitos) return num;
+	else return completarCerosAdelante("0"+num,numDigitos);
+}
 function validarFechaMayor(elemento){
 	var fecha = $(elemento).val();
   if(fecha.length<1){

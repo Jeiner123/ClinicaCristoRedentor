@@ -5,7 +5,7 @@
 // ESPECIALIDADES
 	// cargar tabla especialidades
 	if($opc=='E_01'){
-		$consulta = "select especialidadID,especialidad,estado from especialidad where estado<3";
+		$consulta = "SELECT especialidadID,especialidad,estado FROM especialidad WHERE estado<3";
 		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
 		while($row = mysqli_fetch_row($res)){
 			if (utf8_decode($row[2]) == '1'){
@@ -53,7 +53,7 @@
 	if($opc=='E_02'){
 		$espec = $_POST['txtEspecialidad'];
 		$estado = $_POST['cboEstado'];
-		$consulta = "insert into especialidad(especialidad,estado) values
+		$consulta = "INSERT INTO especialidad(especialidad,estado) VALUES
 									('".$espec."','".$estado."')";
 		$res = mysqli_query($con,$consulta)or  die (mysqli_error($con));
 		if($res){
@@ -68,8 +68,8 @@
 		$especID = $_POST['txtEspecialidadID'];
 		$espec = $_POST['txtEspecialidad'];
 		$estado = $_POST['cboEstado'];
-		$consulta = "update especialidad set especialidad='".$espec."', estado='".$estado."'
-								 where especialidadID = '".$especID."'";
+		$consulta = "UPDATE especialidad SET especialidad='".$espec."', estado='".$estado."'
+								 WHERE especialidadID = '".$especID."'";
 
 		$res = mysqli_query($con,$consulta)or  die (mysqli_error($con));
 		if($res){
@@ -83,7 +83,7 @@
 	if($opc=='E_04'){
 		$estado = $_POST['estado'];
 		$especID = $_POST['especialidadID'];
-		$consulta = "update especialidad set estado='".$estado."'where especialidadID='".$especID."'";
+		$consulta = "UPDATE especialidad SET estado='".$estado."'WHERE especialidadID='".$especID."'";
 
 		$res = mysqli_query($con,$consulta)or die(mysqli_error($con));
 
@@ -97,12 +97,12 @@
 // SERVICIOS
 	// Cargar tabla
 	if($opc=='S_01'){
-		$consulta = "select S.servicioID,S.servicio,S.precioUnitario,S.estado,E.especialidad,
+		$consulta = "SELECT S.servicioID,S.servicio,S.precioUnitario,S.estado,E.especialidad,
 											E.especialidadID,T.tipoServicio,T.tipoServicioID
-									from servicio S
+									FROM servicio S
 									left join tipo_servicio T on S.tipoServicioID = T.tipoServicioID
 									inner join especialidad E on E.especialidadID = S.especialidadID
-									where S.estado<3";
+									WHERE S.estado<3";
 		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
 		while($row = mysqli_fetch_row($res)){
 			if (utf8_decode($row[3]) == '1'){
@@ -159,8 +159,8 @@
 		$tsID = $_POST['cboTipoServicio'];
 		$especID = $_POST['cboEspecialidad'];
 
-		$consulta = "insert into servicio(servicio,preciounitario,estado,tipoServicioID,especialidadID) 
-								values('".$servicio."','".$precio."','".$estado."','".$tsID."','".$especID."')";
+		$consulta = "INSERT INTO servicio(servicio,preciounitario,estado,tipoServicioID,especialidadID) 
+								VALUES('".$servicio."','".$precio."','".$estado."','".$tsID."','".$especID."')";
 
 		$res = mysqli_query($con,$consulta)or  die (mysqli_error($con));
 		if($res){
@@ -179,9 +179,9 @@
 		$tsID = $_POST['cboTipoServicio'];
 		$especID = $_POST['cboEspecialidad'];
 
-		$consulta = "update servicio set servicio='".$servicio."', precioUnitario='".$precio."',
+		$consulta = "UPDATE servicio set servicio='".$servicio."', precioUnitario='".$precio."',
 								estado = '".$estado."',tipoServicioID='".$tsID."', especialidadID='".$especID."'
-								 where servicioID = '".$servicioID."'";
+								 WHERE servicioID = '".$servicioID."'";
 
 		$res = mysqli_query($con,$consulta)or  die (mysqli_error($con));
 		if($res){
@@ -195,8 +195,7 @@
 	if($opc=='S_04'){
 		$estado = $_POST['estado'];
 		$servicioID = $_POST['servicioID'];
-		$consulta = "update servicio set estado='".$estado."'where servicioID='".$servicioID."'";
-
+		$consulta = "UPDATE servicio set estado='".$estado."'WHERE servicioID='".$servicioID."'";
 		$res = mysqli_query($con,$consulta)or die(mysqli_error($con));
 
 		if($res){
@@ -209,8 +208,8 @@
 	//Mostrar Datos
 	if($opc=='S_05'){
 		$servicioID = $_POST['servicioID'];
-		$consulta = "select servicioID,servicio,precioUnitario,estado,tipoServicioID,especialidadID
-									from servicio where estado<3 and servicioID='".$servicioID."'";
+		$consulta = "SELECT servicioID,servicio,precioUnitario,estado,tipoServicioID,especialidadID
+									FROM servicio WHERE estado<3 and servicioID='".$servicioID."'";
 		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
 		$row = mysqli_fetch_row($res);
 		echo json_encode($row);

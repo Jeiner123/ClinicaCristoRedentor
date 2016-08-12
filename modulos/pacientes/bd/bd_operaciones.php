@@ -9,11 +9,11 @@
 		$registrarPaciente = true;
 		$DNI = $_POST['txtDNI'];
 		//Verificamos el DNI de la persona
-		$consulta = "select * from persona where DNI ='".$DNI."'";
+		$consulta = "SELECT * FROM persona WHERE DNI ='".$DNI."'";
 		$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
 		if(mysqli_num_rows($res)>0){
 			$registrarPersona = false;
-			$consulta = "select pacienteID from paciente where DNI ='".$DNI."'";
+			$consulta = "SELECT pacienteID FROM paciente WHERE DNI ='".$DNI."'";
 			$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
 			if(mysqli_num_rows($res)>0){
 				$registrarPaciente = false;
@@ -39,13 +39,14 @@
 			$correoP = $_POST['txtCorreoP'];		
 			$direccion = $_POST['txtDireccion'];
 			// $foto = $_POST['txtFoto'];
-			$consulta = "insert into persona(DNI,nombres,apPaterno,apMaterno,fechaNacimiento,sexo,RUC,
+			$consulta = "INSERT INTO persona(DNI,nombres,apPaterno,apMaterno,fechaNacimiento,sexo,RUC,
 									telefono1,tipoTelefono1,telefono2,tipoTelefono2,
 									correoPersonal,direccion,foto,timestamp) values
-									('".$DNI."','".$nombres."','".$apPaterno."','".$apMaterno."','".$fechaN."',
+									(".(($DNI=='')?'NULL':("'".$DNI."'")).",
+									'".$nombres."','".$apPaterno."','".$apMaterno."','".$fechaN."',
 			 						'".$sexo."',
 			 						".(($RUC=='')?'NULL':("'".$RUC."'")).",
-			 						'".$telefono1."',
+			 						".(($telefono1=='')?'NULL':("'".$telefono1."'")).",
 			 						".(($tipoTelefono1==0)?'NULL':("'".$tipoTelefono1."'")).",
 			 						".(($telefono2=='')?'NULL':("'".$telefono2."'")).",
 			 						".(($tipoTelefono2==0)?'NULL':("'".$tipoTelefono2."'")).",
@@ -53,23 +54,21 @@
 			 						".(($direccion=='')?'NULL':("'".$direccion."'")).",
 			 						null,'".$timestamp."')";
 			$res = mysqli_query($con,$consulta)or  die (mysqli_error($con));
+			$personaID = mysqli_insert_id($con);
 			if(!$res){
 				echo "No se pudo registrar la persona";
 				exit();
 			}
-		}
+		}		
 		if($registrarPaciente){
-			// pacienteID
-			// $DNI
-			// $familiarDNI = $_POST['cboTipoPersonal'];
-			// $parentesco = $_POST['cboCargo'];
 			$procedencia = $_POST['cboProcedencia'];
 			$estado = $_POST['cboEstado'];		
 			$observaciones = $_POST['txtObservaciones'];
-			$consulta = "insert into paciente(DNI,familiarDNI,parentesco,procedenciaID,
+			$consulta = "INSERT INTO paciente(personaID,procedenciaID,familiar,telefonoFamiliar,parentesco,
 									estado,observaciones) values
-									('".$DNI."',null,null,
-									".(($procedencia==0)?'NULL':("'".$procedencia."'")).",
+									('".$personaID."',
+									".(($procedencia==0)?'NULL':("'".$procedencia."'")).",									
+									null,null,null,
 									'".$estado."',
 									".(($observaciones=='')?'NULL':("'".$observaciones."'")).")";
 			$res = mysqli_query($con,$consulta)or  die (mysqli_error($con));
@@ -83,15 +82,15 @@
 	}
 	// CARGAR TABLA DE PACIENTES
 	if($opc=='CTP_01'){
-		$consulta = "select P.DNI,P.nombres,P.apPaterno,P.apMaterno,P.telefono1,TT.tipoTelefono,PA.pacienteID,
+		$consulta = "SELECT P.DNI,P.nombres,P.apPaterno,P.apMaterno,P.telefono1,TT.tipoTelefono,PA.pacienteID,
 									PA.estado,P.fechaNacimiento
-									from PACIENTE PA 
-									inner join PERSONA P ON P.DNI = PA.DNI
-									inner join TIPO_TELEFONO TT on TT.tipoTelefonoID = P.tipoTelefono1
+									FROM PACIENTE PA 
+									INNER JOIN PERSONA P ON P.personaID = PA.personaID
+									INNER JOIN TIPO_TELEFONO TT ON TT.tipoTelefonoID = P.tipoTelefono1
 								";
 		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));		
-		while($row = mysqli_fetch_row($res)){
-			$historia = $row[6];
+		while($row = mysqli_fetch_row($res)){			
+			$historia = completarCerosAdelante($row[6],5);
 			$DNI = $row[0];
 			$nombres = $row[1].' '.$row[2].' '.$row[3];
 			$edad = $row[8];
@@ -148,13 +147,13 @@
 	//MOSTRAR DATOS DE UN PACIENTE
 	if($opc == 'MPAC_02'){
 		$historia = $_POST["historia"];
-		$consulta = "select P.DNI,P.nombres,P.apPaterno,P.apMaterno,P.fechaNacimiento,P.sexo,
+		$consulta = "SELECT P.DNI,P.nombres,P.apPaterno,P.apMaterno,P.fechaNacimiento,P.sexo,
 								P.telefono1,P.tipoTelefono1,P.telefono2,P.tipoTelefono2,P.correoPersonal,
 								P.RUC,P.direccion,PA.pacienteID,PA.procedenciaID,PA.estado,
 								PA.observaciones
-								from PACIENTE PA
-								inner join PERSONA P on PA.DNI = P.DNI
-								where PA.pacienteID ='".$historia."'";
+								FROM PACIENTE PA
+								INNER JOIN PERSONA P ON PA.personaID = P.personaID
+								WHERE PA.pacienteID ='".$historia."'";
 		$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
 		$datos = "";
 		if(mysqli_num_rows($res)>0){
@@ -166,7 +165,7 @@
 
 			echo $datos[0].",,".$datos[1].",,".$datos[2].",,".$datos[3].",,".$fechaN.",,".$datos[5].",,".
 					$datos[6].",,".	$datos[7].",,".$datos[8].",,".$datos[9].",,".$datos[10].",,".
-					$datos[11].",,".$datos[12].",,".$datos[13].",,".$datos[14].",,".$datos[15].",,".
+					$datos[11].",,".$datos[12].",,".completarCerosAdelante($datos[13],5).",,".$datos[14].",,".$datos[15].",,".
 					$datos[16];
 
 		}else{

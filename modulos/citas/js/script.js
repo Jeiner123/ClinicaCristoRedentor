@@ -5,14 +5,12 @@ var importeTotal = 0.0;
 
 // CITAS
 function guardarCita(form){
-	$('#btnGuardarCita').attr('disabled',true);
-	
+	$('#btnGuardarCita').attr('disabled',true);	
 	comboObligatorio('#cboPacientes',0);
 	comboObligatorio('#cboServicios',0);
 	comboObligatorio('#cboMedicos',0);	
 	inputObligatorio('#txtHoraCita',1);
-	validarFechaMayor('#txtFechaCita');	
-
+	validarFechaMayor('#txtFechaCita');
 	var numErrores = document.getElementsByClassName("has-error").length;
 	if(numErrores>0){
 		alert("Verifique los datos ingresados");
