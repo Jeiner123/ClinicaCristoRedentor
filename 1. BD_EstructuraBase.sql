@@ -131,6 +131,7 @@ CREATE TABLE personal (
   FOREIGN KEY (cargoID) REFERENCES cargo (cargoID),
   FOREIGN KEY (tipoPersonalID) REFERENCES tipo_personal (tipoPersonalID)
 );
+ALTER TABLE personal AUTO_INCREMENT = 1001;
 
 CREATE TABLE personal_salud (
   personalID     INT NOT NULL,
@@ -229,4 +230,59 @@ CREATE TABLE permissions (
   item_id int NOT NULL,
   FOREIGN KEY (username) REFERENCES usuario(usuario),
   FOREIGN KEY (item_id) REFERENCES items(id)
+);
+
+
+/*---------------- PIERI----------------------------*/
+
+create table TIPO_EXISTENCIA(
+  codigo char(02) not null,
+  descripcion varchar(150) not null,
+  estado char(01) not null,
+  primary key(codigo)
+);
+
+create table TIPO_ADQUISICION(
+  tipoAdquisicionID int not null,
+  tipoAdquisicion varchar(150) not null,
+  estado char(01) not null,
+  primary key(tipoAdquisicionID)
+);
+
+create table TIPO_DOCUMENTO(
+  tipoDocumentoID int not null,
+  tipoDocumento varchar(150) not null,
+  estado char(01) not null,
+  primary key(tipoDocumentoID)
+);
+
+create table TIPO_DETRACCION(
+  tipoDetraccionID int not null,
+  tipoDetraccion varchar(200) not null,
+  tipoCompra char(01) not null,
+  porcentaje decimal(6,3) not null,
+  estado char(01) not null,
+  primary key(tipoDetraccionID)
+);
+
+create table TIPO_PERCEPCION(
+  tipoPercepcionID int not null,
+  tipoPercepcion varchar(200) not null,
+  porcentaje decimal(6,3) not null,
+  estado char(01) not null,
+  primary key(tipoPercepcionID)
+);
+
+create table ENTIDAD_FINANCIERA(
+  entidadFinancieraID char(02) not null,
+  entidadFinanciera varchar(150) not null,
+  estado char(01) not null,
+  primary key(entidadFinancieraID)
+);
+
+CREATE TABLE MEDIO_PAGO(
+  medioPagoID CHAR(3)      NOT NULL,
+  medioPago   VARCHAR(200) NOT NULL,
+  estado      CHAR(01)          NOT NULL,
+  PRIMARY KEY (medioPagoID)
 );
