@@ -77,13 +77,14 @@
       while($row = mysqli_fetch_row($res)){
         $tipoAdquisicionID=$row[12];
         $comprobanteID=$row[3];
+
         if( $tipoAdquisicionID==1){
           $opGravada=$row[15];
         }
         if( $tipoAdquisicionID==3){
           $opNoGravada=$row[15];
         }
-        if($comprobanteID=='2'){
+        if($comprobanteID=='02'){
           $opGravada='0.000';
           $opNoGravada='0.000';
           $honorarios=$row[15];
@@ -91,10 +92,16 @@
           $honorarios='0.000';
         }
 
+        if($comprobanteID=='07' || $comprobanteID=='14'){
+          $fechaVencimiento=$row[2];
+        }else{
+          $fechaVencimiento='';
+        }
+
         echo "<tr>
                 <td class='tg-4cwu'>".$row[0]."</td>
                 <td class='tg-4cwu'>".$row[1]."</td>
-                <td class='tg-4cwu'>".$row[2]."</td>
+                <td class='tg-4cwu'>".$fechaVencimiento."</td>
                 <td class='tg-4cwu'>&nbsp;".$row[3]."</td>
                 <td class='tg-4cwu'>&nbsp;".$row[4]."</td>
                 <td class='tg-4cwu'>&nbsp;".$row[5]."</td>
