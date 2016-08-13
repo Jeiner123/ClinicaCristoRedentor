@@ -22,7 +22,41 @@ create table PROVEEDOR(
 	foreign key(tipoDocumento) references tipo_documento(tipoDocumentoID)
 );
 
+create table ORDEN_COMPRA(
+	codigo int not null,
+	fecha date not null,
+	areaID int not null,
+	proveedorID varchar(15) NOT NULL,
+	formaPagoID char(03) NOT NULL,
+	moneda int not null,
+	igv decimal(9,2) null,
+	percepcion decimal(9,2) null,
+	valorPercepcion decimal(9,2) null,
+	totalBruto decimal(9,2) not null,
+	descuento decimal(9,2) not null,
+	valorVenta decimal(9,2) not null,
+	impuesto decimal(9,2) not null,
+	precioVenta decimal(9,2) not null,
+	total decimal(9,2) not null,
+	etado CHAR(01) NOT NULL,
+	primary key(codigo),
+	foreign key(areaID) references area(areaID),
+	foreign key(proveedorID) references proveedor(proveedorID),
+	foreign key(formaPagoID) references forma_pago(formaPagoID)
+);
 
+create table DETALLE_ORDEN_COMPRA(
+	codigo int not null,
+	item int not null,
+	descripcion varchar(200) not null,
+	unidad varchar(100) not null,
+	cantidad int not null,
+	costo decimal(9,2) NOT NULL,
+	descuento decimal(9,2) NOT NULL,
+	importe decimal(9,2) NOT NULL,
+	primary key(codigo,item),
+	foreign key(codigo) references ORDEN_COMPRA(codigo)
+);
 
 create table COMPRA(
 	mesID int not null,
@@ -39,15 +73,15 @@ create table COMPRA(
 	formaPagoID char(3) not null,
 	tipoAdquisicionID int not null,
 	tipoExistencia char(02) not null,
-	IGV decimal(6,3) null,
-	detraccion decimal(6,3) null,
-	valorDetraccion decimal(6,3) null,
-	percepcion decimal(6,3) null,
-	valorPercepcion decimal(6,3) null,
-	renta decimal(6,3) null,
-	valorRenta decimal(6,3) null,
-	retencion decimal(6,3) null,
-	valorRetencion decimal(6,3) null,
+	IGV decimal(9,2) null,
+	detraccion decimal(9,2) null,
+	valorDetraccion decimal(9,2) null,
+	percepcion decimal(9,2) null,
+	valorPercepcion decimal(9,2) null,
+	renta decimal(9,2) null,
+	valorRenta decimal(9,2) null,
+	retencion decimal(9,2) null,
+	valorRetencion decimal(9,2) null,
 	totalBruto decimal(9,2) not null,
 	descuento decimal(9,2) not null,
 	valorVenta decimal(9,2) not null,
@@ -166,7 +200,7 @@ INSERT INTO estructura_plan_contable VALUES
   (13,2,1,'CUENTAS POR COBRAR','A'),
   (14,2,1,'PRÉSTAMOS POR COBRAR','A');
 
-INSERT INTO `proveedor` (`proveedorID`, `tipoDocumento`, `razonSocial`, `emailEmpresa`, `direccion`, `condPago`, `banco`, `cuentaBanco`, `cuentaDetraccion`, `nombres`, `apellidoPat`, `apellidoMat`, `telefono`, `tipoTelefono`, `emailPersonal`, `observaciones`, `estado`) VALUES
+INSERT INTO proveedor VALUES
 ('18182000', 1, '', '', '', '0', '00', '', '', 'LUIS', 'NEYRA', 'QUIPUSCO', '938302014', 5, '', '', 'A'),
 ('20100018625', 6, 'MEDIFARMA S A', '', 'JR. ECUADOR NRO. 787 LIMA - LIMA - LIMA', '0', '00', '', '', 'Eduardo', 'samana', 'velarde', '044563212', 2, '', '', 'A'),
 ('20131911310', 6, 'SEDALIB S.A.', '', 'AV. FEDERICO VILLARREAL NRO. 1300 URB. SEMI RUSTICA EL BOSQUE LA LIBERTAD - TRUJILLO - TRUJILLO', 'CON', '00', '', '', '', '', '', '', 0, '', '', 'A'),

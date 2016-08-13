@@ -1,5 +1,8 @@
 <?php include '../general/validar_sesion.php';?>
 <?php include '../general/variables.php';?>
+<?php
+$opcion='N'
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,7 +51,7 @@
         </div>        
         <div class="box-body" style='overflow-x:scroll;overflow-y:hidden' align="center">
           <!--registro de orden de compra-->
-          <form>
+          <form id="formOrdenCompra" name="formOrdenCompra">
             <div id="RegOCompra">
             <!-- COL-MD-6 -->
                 <div class="col-md-12">
@@ -57,7 +60,7 @@
                   </div>
                   <hr>
                 </div>
-              
+                <input id="txtFlag" name="txtFlag" class="form-control" type="hidden" value="<?php echo $opcion; ?>">
                 <div class="row" style="margin-left:5px;">
                   <div class="col-md-1">
                     <label class="control-label" style="font-weight: bold;">Número:</label>
@@ -118,14 +121,13 @@
                     </div>
                     <div class="col-md-4">
                       <label for="cboIGV">I.G.V</label>
-                      <select class="form-control input-sm" name="cboIGV" id="cboIGV">
-                        <option value="1">No aplica</option>
-                        <option value="2">I.G.V 18%</option>
+                      <select class="form-control input-sm" name="cboIGV" id="cboIGV" onchange="CalcularTotalOrden()">
+                        
                       </select>
                     </div>
                     <div class="col-md-8">
                       <label for="cboPercepcion">Percepción</label>
-                      <select class="form-control input-sm" name="cboPercepcion" id="cboPercepcion">
+                      <select class="form-control input-sm" name="cboPercepcion" id="cboPercepcion" onchange="validaPercepcion()">
                       </select>
                     </div>
                   </div>
@@ -161,28 +163,32 @@
                       <hr>
                     </div>
                     <div class="col-md-12">
-                      <div class="col-md-2">
+                      <div class="col-md-2" hidden>
                         <input type="checkbox" name="vehicle" value="Bike">Incluye impuestos<br>
                       </div>
                       <div class="col-md-2">
-                        <label for="txtSubTotal">SubTotal</label>
-                        <input class="form-control input-sm" name="txtSubTotal" id="txtSubTotal" onkeypress="return soloNumeroDecimal(event);" readonly="" />
+                        <label for="txtTotalBruto">Total bruto</label>
+                        <input class="form-control input-sm" name="txtTotalBruto" id="txtTotalBruto" onkeypress="return soloNumeroDecimal(event);" value="0.0" style="text-align:right;" readonly=""></input>
                       </div>
                       <div class="col-md-2">
-                         <label for="txtDescuento">Descuento</label>
-                        <input class="form-control input-sm" name="txtDescuento" id="txtDescuento" onkeypress="return soloNumeroDecimal(event);" />
+                        <label for="txtDescuento">Descuento</label>
+                        <input class="form-control input-sm" name="txtDescuento" id="txtDescuento" onkeypress="return soloNumeroDecimal(event);"  value="0.0" style="text-align:right;" onblur="CalcularTotalOrden()"></input>
                       </div>
                       <div class="col-md-2">
-                        <label for="txtBaseGravable">Base gravable</label>
-                        <input class="form-control input-sm" name="txtBaseGravable" id="txtBaseGravable" onkeypress="return soloNumeroDecimal(event);" />
+                         <label for="txtValorVenta">Valor venta</label>
+                        <input class="form-control input-sm" name="txtValorVenta" id="txtValorVenta" onkeypress="return soloNumeroDecimal(event);" readonly="" value="0.0" style="text-align:right;"></input>
                       </div>
                       <div class="col-md-2">
-                        <label for="txtImpuesto">Impuesto</label>
-                        <input class="form-control input-sm" name="txtImpuesto" id="txtImpuesto" onkeypress="return soloNumeroDecimal(event);" />
+                        <label for="txtIGV">I.G.V</label>
+                        <input class="form-control input-sm" name="txtIGV" id="txtIGV" onkeypress="return soloNumeroDecimal(event);" readonly="" value="0.0" style="text-align:right;"></input>
                       </div>
                       <div class="col-md-2">
-                        <label for="txtTotal">Total</label>
-                        <input class="form-control input-sm" name="txtTotal" id="txtTotal" onkeypress="return soloNumeroDecimal(event);" readonly="" />
+                        <label for="txtPrecioVenta">Precio de venta</label>
+                        <input class="form-control input-sm" name="txtPrecioVenta" id="txtPrecioVenta" onkeypress="return soloNumeroDecimal(event);" readonly="" value="0.0" style="text-align:right;"></input>
+                      </div>
+                      <div class="col-md-2" hidden id="divValorPercepcion">
+                        <label for="txtPercepcion">Valor percepcion</label>
+                        <input class="form-control input-sm" name="txtPercepcion" id="txtPercepcion" onkeypress="return soloNumeroDecimal(event);" value="0.0" style="text-align:right;" readonly=""></input>
                       </div>
                     </div>
                     <div class="col-md-12">
@@ -221,7 +227,7 @@
                     <a href="#" class="btn btn-default btn-block">Cancelar registro</a>
                 </div>
                 <div class="col-md-6" style="top:20px!important;">
-                    <button type="submit" class="btn btn-primary btn-block">Registrar nueva orden</button>
+                    <button type="button" class="btn btn-primary btn-block" onclick="registrarOrdenCompra()">Registrar nueva orden</button>
                 </div>
             </div>
             <br><br>
@@ -248,5 +254,6 @@
   cargarCboCondPago(0);
   cargarCboRequerimiento(0);
   cargarCboPercepcion(0);
+  cargarCboParametro(1,"#cboIGV",0);
   $('#tablaProducto tbody').on('click','tr',function(){seleccionSimple(this);});  
 </script>

@@ -880,7 +880,7 @@
 				                <li>
 			                      <button type='button' class='btn btn-block btn-transparente btn-flat btn-xs' onclick='UpdateEstadoRequerimiento(\"".$aprobar."\",\"".$requerimientoID."\",\"".$item."\");'>
 			                      	<span class='text-blue'>
-			                          <i class='ace-icon fa fa-remove bigger-120'></i>
+			                          <i class='ace-icon fa  fa-check bigger-120'></i>
 			                          Aprobar
 			                        </span>
 									</button>
@@ -896,7 +896,7 @@
 					             <li>
 			                      <button type='button' class='btn btn-block btn-transparente btn-flat btn-xs' onclick='UpdateEstadoRequerimiento(\"".$proveer."\",\"".$requerimientoID."\",\"".$item."\");'>
 			                      	<span class='text-blue'>
-			                          <i class='ace-icon fa fa-remove bigger-120'></i>
+			                          <i class='ace-icon fa fa-plus bigger-120'></i>
 			                          Proveer
 			                        </span>
 									</button>
@@ -952,7 +952,103 @@
 		exit();	
 	}
 
-	
+	//INSERTAR ORDEN DE COMPRA
+	if($opc=='OC_01'){
+		$detalles = $_POST['detalles'];
+		$mes = $_POST['txtMes'];
+		$anio = $_POST['txtAnio'];
+		$consulta = "SELECT IFNULL(MAX(codigo)+1,1) FROM `compra` WHERE mesID=$mes and anio=$anio";
+		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
+		while($row = mysqli_fetch_row($res)){	
+			$codigo=$row[0];
+		}
+
+		$fecha=$fechaHoyAMD;
+		$comprobanteID=$_POST['cboComprobante'];
+		$proveedorID=$_POST['cboProveedor'];
+		$serie=$_POST['txtSerie'];
+		$numero=$_POST['txtNumero'];
+		$fechaEmision = $_POST['txtFechaEmision'];
+		$fechaVencimiento = $_POST['txtFechaVcto'];
+
+		$fechaEmision = str_replace("/","-",$fechaEmision);
+	  	$fechaEmision = date('Y-m-d',strtotime($fechaEmision));
+
+		$fechaVencimiento = str_replace("/","-",$fechaVencimiento);
+	  	$fechaVencimiento = date('Y-m-d',strtotime($fechaVencimiento));
+
+		
+		$moneda = $_POST['cboMoneda'];
+		$formaPagoID = $_POST['cboModalidadPago'];
+		$tipoAdquisicionID = $_POST['cboAdquisicion'];
+		$tipoExistencia = $_POST['cboTipoExistencia'];
+		$IGV = $_POST['cboIGV'];
+		$detraccion = $_POST['cboDetraccion'];
+		$valorDetraccion = $_POST['txtDetraccion'];
+		$percepcion = $_POST['cboPercepcion'];
+		$valorPercepcion = $_POST['txtPercepcion'];
+		$renta = $_POST['cboRenta'];
+		$valorRenta = $_POST['txtRenta'];
+		$retencion = $_POST['cboRetencion'];
+		$valorRetencion = $_POST['txtRetencion'];
+		$totalBruto = $_POST['txtTotalBruto'];
+		$descuento = $_POST['txtDescuento'];
+		$valorVenta = $_POST['txtValorVenta'];
+		$impuesto = $_POST['txtIGV'];
+		$precioVenta = $_POST['txtPrecioVenta'];
+
+		if($detraccion!=0){
+			$saldoPagar=floatVal($precioVenta)-floatVal($valorDetraccion);
+		}else{
+			if($percepcion!=0){
+				$saldoPagar=floatVal($precioVenta)+floatVal($valorPercepcion);
+			}else{
+				if($retencion!=0){
+					$saldoPagar=floatVal($precioVenta)+floatVal($valorRetencion);
+				}else{
+					if($renta!=0){
+						$saldoPagar=floatVal($precioVenta)-floatVal($valorRenta);
+					}else{
+						$saldoPagar=$precioVenta;
+					}
+				}
+			}
+		}
+
+		$consulta = "INSERT INTO compra VALUES(".$mes.",".$anio.",".$codigo.",'".$fecha."','".$comprobanteID."','".$proveedorID."','".$serie."','".$numero."','".$fechaEmision."','".$fechaVencimiento."','".$moneda."','".$formaPagoID."','".$tipoAdquisicionID."','".$tipoExistencia."','".$IGV."','".$detraccion."','".$valorDetraccion."','".$percepcion."','".$valorPercepcion."','".$renta."','".$valorRenta."','".$retencion."','".$valorRetencion."','".$totalBruto."','".$descuento."','".$valorVenta."','".$impuesto."','".$precioVenta."','".$saldoPagar."','".$saldoPagar."','".$detalles."','D')";
+			
+		$res = mysqli_query($con,$consulta)or  die (mysqli_error($con));
+		if(!$res){
+			echo 0;
+		}else{
+			echo 1;
+		}
+
+		exit();
+	}
+
+	//INSERTAR DETALLE DE LA ORDEN DE COMPRA
+	if($opc=='CC_02'){
+		$item = $_POST['item'];
+		$mes = $_POST['txtMes'];
+		$anio = $_POST['txtAnio'];
+		$consulta = "SELECT IFNULL(MAX(codigo),1) FROM `compra` WHERE mesID=$mes and anio=$anio";
+		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
+		while($row = mysqli_fetch_row($res)){	
+			$codigo=$row[0];
+		}
+
+		$descripcion = $_POST['txtDescripcion'.$item];
+		$cantidad = $_POST['txtCantidad'.$item];
+		$costo = $_POST['txtCosto'.$item];
+		$importe = $_POST['txtImporte'.$item];
+
+		$consulta = "INSERT INTO detalle_compra VALUES(".$mes.",".$anio.",".$codigo.",".$item.",'','','".$descripcion."',".$cantidad.",'".$costo."','".$importe."')";
+			
+		mysqli_query($con,$consulta)or  die (mysqli_error($con));
+		
+		exit();
+	}	
 
 ?>
 

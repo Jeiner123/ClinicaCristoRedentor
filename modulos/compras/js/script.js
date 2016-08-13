@@ -352,7 +352,7 @@ function crearfila(){
 	$("#tablaProducto")
 	.append
 	(
-		'<tr><td><input class="form-control input-sm" value="'+fila+'" id="txtItem'+fila+'" name="txtItem'+fila+'" style="text-align:right"; readonly value=""/></td><td><input class="form-control input-sm" id="txtCodigo'+fila+'" name="txtCodigo'+fila+'"></td><td><input class="form-control input-sm" name="txtDescripcion'+fila+'" id="txtDescripcion'+fila+'"></td><td><input class="form-control input-sm" name="txtUnidad'+fila+'" id="txtUnidad'+fila+'"></td><td><input class="form-control input-sm" id="txtCantidad'+fila+'" name="txtCantidad'+fila+'"  onkeypress="return soloNumeroEntero(event);" onblur="calcularImporteOrden(event)"></td><td><input class="form-control input-sm" id="txtCosto'+fila+'" name="txtCosto'+fila+'" onkeypress="return soloNumeroDecimal(event);" onblur="calcularImporteOrden(event)"></td><td><input class="form-control input-sm" id="txtDescuento'+fila+'" name="txtDescuento'+fila+'" onkeypress="return soloNumeroDecimal(event);" onblur="calcularImporteOrden(event)" value="0.00"></td><td><input class="form-control input-sm" id="txtImporte'+fila+'" name="txtImporte'+fila+'" onkeypress="return soloNumeroDecimal(event);" readonly value="0.00"></td></tr>'
+		'<tr><td><input class="form-control input-sm" value="'+fila+'" id="txtItem'+fila+'" name="txtItem'+fila+'" style="text-align:right"; readonly value=""/></td><td><input class="form-control input-sm" id="txtCodigo'+fila+'" name="txtCodigo'+fila+'"></td><td><input class="form-control input-sm" name="txtDescripcion'+fila+'" id="txtDescripcion'+fila+'"></td><td><input class="form-control input-sm" name="txtUnidad'+fila+'" id="txtUnidad'+fila+'"></td><td><input class="form-control input-sm" id="txtCantidad'+fila+'" name="txtCantidad'+fila+'"  onkeypress="return soloNumeroEntero(event);" onblur="calcularImporteOrden(event)"></td><td><input class="form-control input-sm" id="txtCosto'+fila+'" name="txtCosto'+fila+'" onkeypress="return soloNumeroDecimal(event);" onblur="calcularImporteOrden(event)"></td><td><input class="form-control input-sm" id="txtDescuento'+fila+'" name="txtDescuento'+fila+'" onkeypress="return soloNumeroDecimal(event);" onblur="calcularImporteOrden(event)" value="0.00"></td><td><input class="form-control input-sm importe" id="txtImporte'+fila+'" name="txtImporte'+fila+'" onkeypress="return soloNumeroDecimal(event);" readonly value="0.00"></td></tr>'
 	);
 }
 
@@ -370,6 +370,9 @@ function calcularImporteOrden(e){
 	if(campo==12){
 		var fila = tag.substr(11);	
 	}
+	if(campo==13){
+		var fila = tag.substr(12);	
+	}
 
 	cantidad=$("#txtCantidad"+fila).val();
 	costo=$("#txtCosto"+fila).val();
@@ -380,11 +383,49 @@ function calcularImporteOrden(e){
 		$("#txtImporte"+fila).val('0.0');
 	}else{
 		inputObligatorio("#txtDescripcion"+fila,3);
-		alert(descuento);
 		importe=parseFloat(cantidad)*parseFloat(costo)-parseFloat(descuento);
 		$("#txtImporte"+fila).val(importe.toFixed(2));
 	}
 
+	CalcularTotalOrden();
+}
+
+function CalcularTotalOrden(){
+	if($("#txtDescuento").val()==""){
+		$("#txtDescuento").val("0.0");
+	}
+	total=0;
+	$(".importe").each(function (index){
+			index=parseInt(index)+1;
+            importe=$("#txtImporte"+index).val();
+            if(importe!="0.0"){
+            	total=parseFloat(total)+parseFloat(importe);
+            }
+    })
+
+    $("#txtTotalBruto").val(total.toFixed(2));
+    descuento=parseFloat($("#txtDescuento").val());
+    valorVenta=total-descuento;
+    if($("#cboIGV").val()!=0){
+    	valoIGV=$("#cboIGV").val();
+    	igv=parseFloat(valorVenta)*parseFloat(valoIGV);
+    	$("#txtIGV").val(igv.toFixed(2));
+    	precioVenta=valorVenta+igv;
+    }else{
+    	$("#txtIGV").val("0.00");
+    	precioVenta=valorVenta;
+    }
+
+	if($("#cboPercepcion").val()!=0){
+		Percepcion=$("#cboPercepcion").val();
+    	valorPercepcion=precioVenta*parseFloat(Percepcion);
+		$("#txtPercepcion").val(valorPercepcion.toFixed(2));
+	}else{
+		$("#txtPercepcion").val("0.00");
+	}
+
+    $("#txtValorVenta").val(valorVenta.toFixed(2));
+    $("#txtPrecioVenta").val(precioVenta.toFixed(2));
 }
 
 function crearfilaRequerida(){
@@ -418,7 +459,7 @@ function crearfilaRequerida(){
 					$("#tablaProducto")
 					.append
 					(
-						'<tr><td><input class="form-control input-sm" value="'+fila+'" id="txtItem'+fila+'" name="txtItem'+fila+'" style="text-align:right"; readonly value=""/></td><td><input class="form-control input-sm" id="txtCodigo'+fila+'" name="txtCodigo'+fila+'" value="'+requerimientoID+'"></td><td><input class="form-control input-sm" name="txtDescripcion'+fila+'" id="txtDescripcion'+fila+'" value="'+producto+'"></td><td><input class="form-control input-sm" name="txtUnidad'+fila+'" id="txtUnidad'+fila+'" value="'+unidad+'"></td><td><input class="form-control input-sm" id="txtCantidad'+fila+'" name="txtCantidad'+fila+'"  onkeypress="return soloNumeroEntero(event);" value="'+cantidad+'" onblur="calcularImporteOrden(event)"></td><td><input class="form-control input-sm" id="txtCosto'+fila+'" name="txtCosto'+fila+'" onkeypress="return soloNumeroDecimal(event);" onblur="calcularImporteOrden(event)"></td><td><input class="form-control input-sm" id="txtDescuento'+fila+'" name="txtDescuento'+fila+'" onkeypress="return soloNumeroDecimal(event);" onblur="calcularImporteOrden(event)" value="0.00"></td><td><input class="form-control input-sm" id="txtImporte'+fila+'" name="txtImporte'+fila+'" onkeypress="return soloNumeroDecimal(event);" readonly value="0.00"></td></tr>'
+						'<tr><td><input class="form-control input-sm" value="'+fila+'" id="txtItem'+fila+'" name="txtItem'+fila+'" style="text-align:right"; readonly value=""/></td><td><input class="form-control input-sm" id="txtCodigo'+fila+'" name="txtCodigo'+fila+'" value="'+requerimientoID+'"></td><td><input class="form-control input-sm" name="txtDescripcion'+fila+'" id="txtDescripcion'+fila+'" value="'+producto+'"></td><td><input class="form-control input-sm" name="txtUnidad'+fila+'" id="txtUnidad'+fila+'" value="'+unidad+'"></td><td><input class="form-control input-sm" id="txtCantidad'+fila+'" name="txtCantidad'+fila+'"  onkeypress="return soloNumeroEntero(event);" value="'+cantidad+'" onblur="calcularImporteOrden(event)"></td><td><input class="form-control input-sm" id="txtCosto'+fila+'" name="txtCosto'+fila+'" onkeypress="return soloNumeroDecimal(event);" onblur="calcularImporteOrden(event)"></td><td><input class="form-control input-sm" id="txtDescuento'+fila+'" name="txtDescuento'+fila+'" onkeypress="return soloNumeroDecimal(event);" onblur="calcularImporteOrden(event);" value="0.00"></td><td><input class="form-control input-sm importe" id="txtImporte'+fila+'" name="txtImporte'+fila+'" onkeypress="return soloNumeroDecimal(event);" readonly value="0.00"></td></tr>'
 					);
             }
          	cerrarCargando();
@@ -431,6 +472,78 @@ function crearfilaRequerida(){
 	});
 
 }
+
+function registrarOrdenCompra(){
+	detalles=0;
+	comboObligatorio('#cboModalidadPago',0);
+	comboObligatorio('#cboProveedor',0);
+
+	if(document.getElementsByClassName("has-error").length > 0){
+		alert("Verifique los datos ingresados");
+		return false;
+	}	
+
+	if($("#txtFlag").val()=="N"){
+		ajaxSaveOrdenCompra(detalles);
+	}
+	if($("#txtFlag").val()=="M"){
+		
+	}
+}
+
+function ajaxSaveOrdenCompra(){
+	abrirCargando();
+	var formData = new FormData($('formOrdenCompra')[0]);
+	formData.append("opc", "OC_01");
+	$.ajax({
+		type: 'POST',
+		data: formData,
+		url: url,
+		contentType :false,
+		processData: false,
+		success: function(rpta){
+			if(rpta==1){
+				ajaSaveDetalleOrdenCompra();
+				alert("Orden de compra registrada");
+    			cerrarCargando();
+			}else{
+				cerrarCargando();
+				alert("Ocurrió un error mientrás se intentaba registrar la orden de compra");
+			}
+		},
+		error: function(rpta){
+			cerrarCargando();
+			alert(rpta);
+		}
+	});	
+}
+
+function ajaSaveDetalleOrdenCompra(){
+
+	$(".importe").each(function (index){
+			index=parseInt(index)+1;
+            importe=$("#txtImporte"+index).val();
+            if(importe!="0.0"){
+            	var formData = new FormData($('#formOrdenCompra')[0]);
+				formData.append("opc", "OC_02");
+				formData.append("item",index);
+				$.ajax({
+					type: 'POST',
+					data: formData,
+					url: url,
+					contentType :false,
+					processData: false,
+					success: function(rpta){
+					},
+					error: function(rpta){
+						alert(rpta);
+						cerrarCargando();	
+					}
+				});	
+            }
+    })
+}
+
  
 //======================GESTIÓN DE FACTURA=======================================
 function crearDetalleFactura(){
