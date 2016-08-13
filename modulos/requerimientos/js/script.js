@@ -26,13 +26,13 @@ function registrarRequerimiento(){
 			data:'opc='+opc+'&detalles='+detalles,
 			url: url,
 			success: function(rpta){
-				if(rpta==1){
-					ajaSaveDetalleRequerimiento();
-					alert("Compra registrada");
+				if(rpta!=0){
+					ajaSaveDetalleRequerimiento(rpta);
+					alert("Requerimiento registrado");
 					cerrarCargando();
 				}else{
 					cerrarCargando();
-					alert("Ocurrió un error mientrás se intentaba registrar la compra");
+					alert("Ocurrió un error mientrás se intentaba registrar el requerimiento");
 				}
 			},
 			error: function(rpta){
@@ -41,7 +41,7 @@ function registrarRequerimiento(){
 		});
 }
 
-function ajaSaveDetalleRequerimiento(){
+function ajaSaveDetalleRequerimiento(requerimientoID){
 
 	$(".item").each(function (index){
 			index=parseInt(index)+1;
@@ -50,6 +50,7 @@ function ajaSaveDetalleRequerimiento(){
             	var formData = new FormData($('#formRequerimiento')[0]);
 				formData.append("opc", "RRQ_02");
 				formData.append("item",index);
+				formData.append("requerimientoID",requerimientoID);
 				$.ajax({
 					type: 'POST',
 					data: formData,
@@ -65,4 +66,66 @@ function ajaSaveDetalleRequerimiento(){
 				});	
             }
     })
+}
+
+function cargarTablaRequerimiento(){
+	abrirCargando();
+	var opc = 'RRQ_03';
+	$.ajax({
+		type: 'POST',
+		data:'opc='+opc,
+		url: url,
+		success: function(rpta){
+			$('.tablaDatos').DataTable().destroy();
+			$('#cuerpoTablaRequerimiento').html(rpta);
+			$('.tablaDatos').DataTable(
+				{
+			   	"columnDefs": [
+		            { "targets": [ 0 ],"width": "5%"}, 
+		            { "targets": [ 1 ],"width": "10%"},										 		//DNI
+		            { "targets": [ 2 ],"width": "15%"},											 //nomresb
+		            { "targets": [ 3 ],"width": "20%"},	
+		            { "targets": [ 4 ],"width": "25%"},
+		            { "targets": [ 5 ],"width": "5%"},
+		            { "targets": [ 6 ],"width": "10%"},											 //nomresb
+		            { "targets": [ 7 ],"width": "10%"},											 //nomresb
+				  ]
+	
+				}
+			);
+			cerrarCargando();
+		},
+		error: function(rpta){
+			alert(rpta);
+			cerrarCargando();
+		}
+	});
+}
+
+function UpdateEstadoRequerimiento(estado,requerimientoID,item){
+	if(estado=='R'){
+		r = confirm("Seguro que desea rechazar el requerimiento?");
+		if (r != true){
+		  return false;
+		}
+	}
+	
+	var opc = 'RRQ_04';
+	$.ajax({
+		type: 'POST',
+		data:'opc='+opc+'&estado='+estado+'&requerimientoID='+requerimientoID+'&item='+item,
+		url: url,
+		success: function(rpta){
+			if(rpta==1){
+				cargarTablaRequerimiento();
+			}else{
+				alert("No se puede actualizar el requerimiento en estos momentos");
+			}
+		},
+		error: function(rpta){
+			alert(rpta);
+			cerrarCargando();
+		}
+	});
+	
 }

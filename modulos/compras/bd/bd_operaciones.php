@@ -784,7 +784,271 @@
 		echo json_encode($datos);
 		exit();	
 	}
+
+
+	//ISERT REQUERIMIENTO
+	if($opc=='RRQ_01'){
+		$personalID='1001';
+		$fecha =$fechaHoyAMD;
+		$detalle=$_POST['detalles']; 
+		
+		$consulta = "SELECT IFNULL(MAX(requerimientoID)+1,1) FROM requerimiento";
+		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
+		while($row = mysqli_fetch_row($res)){	
+			$requerimientoID=$row[0];
+		}
+		
+		$consulta = "INSERT INTO requerimiento VALUES (".$requerimientoID.",".$personalID.",'".$fecha."',".$detalle.",'P')";
+			
+		$res = mysqli_query($con,$consulta)or  die (mysqli_error($con));
+		if(!$res){
+			echo 0;
+		}else{
+			echo $requerimientoID;
+		}
+
+		exit();
+	}
+
+	//ISERT DETALLE DE REQUERIMIENTO
+	if($opc=='RRQ_02'){
+		$item = $_POST['item'];
+		$requerimientoID = $_POST['requerimientoID'];
+		
+		$producto = $_POST['txtProducto'.$item];
+		$unidad = $_POST['txtUnidad'.$item];
+		$descripcion = $_POST['txtDescripcion'.$item];
+		$cantidad = $_POST['txtCantidad'.$item];
+		$requerimiento = $_POST['txtRequerimiento'.$item];
+		
+
+		$consulta = "INSERT INTO detalle_requerimiento VALUES (".$requerimientoID.",".$item.",'".$producto."','".$unidad."','".$descripcion."',".$cantidad.",'".$requerimiento."','P')";
+			
+		mysqli_query($con,$consulta)or  die (mysqli_error($con));
+		
+		exit();
+	}
+
+	//LISTAR REQUERIMIENTOS
+	if($opc=='RRQ_03'){
+		$i=0;
+		$consulta = "SELECT DATE_FORMAT(R.fecha, '%d-%m-%Y'),A.area,concat(PS.nombres,' ',PS.apPaterno,' ',PS.apMaterno),DR.producto,DR.unidadMedida,DR.descripcion,DR.stock,DR.requerimiento,DR.estado,DR.requerimientoID,DR.item,DR.requerimiento FROM requerimiento R inner join personal P on R.personalID=P.personalID inner join cargo C on P.cargoID=C.cargoID inner join area A on C.areaID=A.areaID inner join persona PS ON PS.personaID=P.personaID inner join detalle_requerimiento DR on DR.requerimientoID=R.requerimientoID";
 	
+		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
+			while($row = mysqli_fetch_row($res)){
+				$i++;
+				
+				if($row[8]=='P'){
+					$estado = "<span class='label label-warning'>Pendiente</span>";
+				}else{
+					if($row[8]=='A'){
+						$estado = "<span class='label label-primary'>Aprobado</span>";
+					}else{
+						if($row[8]=='R'){
+							$estado = "<span class='label label-danger'>Rechazado</span>";
+						}else{
+							if($row[8]=='E'){
+								$estado = "<span class='label label-success'>Proveído</span>";
+							}
+						}
+					}
+				}
+
+				$aprobar='A';
+				$rechazar='R';
+				$proveer='E';
+				$requerimientoID=$row[9];
+				$item=$row[10];
+
+				echo "<tr>					
+						<td style='text-align:center;'>".$i."</td>		
+						<td style='text-align:center;'>".$row[0]."</td>		
+						<td style='text-align:center;'>".$row[1]."</td>		
+						<td>".$row[2]."</td>
+						<td>".$row[11]." ".$row[3]." ".$row[5]." (".$row[4].")</td>
+						<td style='text-align:center;'>".$row[6]."</td>
+						<td style='text-align:center;'>".$estado."</td>
+						<td style='text-align:center;'>";
+				if($row[8]!='E'){
+				echo	"<div>
+			              <div class='inline pos-rel dropup'>
+			                <button  class='btn btn-secundary btn-flat btn-lista-flotante dropdown-toggle btn-xs'  data-toggle='dropdown' data-position='auto' aria-expanded='true'>
+			                    <i class='ace-icon fa fa-caret-down icon-only bigger-120'></i>
+			                </button>
+
+			                <ul class='lista-flotante dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close '>
+				                <li>
+			                      <button type='button' class='btn btn-block btn-transparente btn-flat btn-xs' onclick='UpdateEstadoRequerimiento(\"".$aprobar."\",\"".$requerimientoID."\",\"".$item."\");'>
+			                      	<span class='text-blue'>
+			                          <i class='ace-icon fa  fa-check bigger-120'></i>
+			                          Aprobar
+			                        </span>
+									</button>
+					             </li>
+		                  		<li>
+			                      <button type='button' class='btn btn-block btn-transparente btn-flat btn-xs' onclick='UpdateEstadoRequerimiento(\"".$rechazar."\",\"".$requerimientoID."\",\"".$item."\");'>
+			                      	<span class='text-blue'>
+			                          <i class='ace-icon fa fa-remove bigger-120'></i>
+			                          Rechazar
+			                        </span>
+									</button>
+					             </li>
+					             <li>
+			                      <button type='button' class='btn btn-block btn-transparente btn-flat btn-xs' onclick='UpdateEstadoRequerimiento(\"".$proveer."\",\"".$requerimientoID."\",\"".$item."\");'>
+			                      	<span class='text-blue'>
+			                          <i class='ace-icon fa fa-plus bigger-120'></i>
+			                          Proveer
+			                        </span>
+									</button>
+					             </li>
+					        </ul>
+	              			</div>";
+	              		}
+				echo	"</td>
+					</tr>";
+		}	
+	}
+
+	//ACTUALIZAR REQUERIMIENTO
+	if($opc=='RRQ_04'){
+		$estado = $_POST['estado'];
+		$requerimientoID = $_POST['requerimientoID'];
+		$item = $_POST['item'];
+		$consulta = "UPDATE detalle_requerimiento set estado='".$estado."' where requerimientoID=$requerimientoID and item=$item";
+		$res = mysqli_query($con,$consulta)or  die (mysqli_error($con));
+		if($res){
+			echo 1;
+		}else{
+			echo 0;
+		}
+		exit();
+	}
+
+	//CARGAR COMBO REQUERIMIENTOS
+	if($opc=='RRQ_05'){
+		$consulta = "SELECT requerimientoID,item,requerimiento,producto,descripcion,unidadMedida FROM detalle_requerimiento WHERE estado='A'";
+		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
+		echo "<option value='0'>--Seleccionar--</option>";
+		while($row = mysqli_fetch_row($res)){	
+			echo "<option value='".$row[0]."-".$row[1]."'>".$row[2]." ".$row[3]." ".$row[4]." (".$row[5].")</option>";
+		}
+		exit();
+	}
+
+	//DATOS DE UN DETALLE DE REQUERIMIENTO
+	if($opc=='RRQ_06'){
+		$requerimientoID = $_POST['requerimientoID'];
+		$item = $_POST['item'];
+		$sql = "SELECT * from detalle_requerimiento where requerimientoID=$requerimientoID and item=$item";
+		$resulset = mysqli_query($con,$sql);
+ 		$datos=array();
+	    while($row = mysqli_fetch_assoc($resulset))
+	    {
+	        $datos[] = $row;
+	        
+	    }
+		
+		echo json_encode($datos);
+		exit();	
+	}
+
+	//INSERTAR ORDEN DE COMPRA
+	if($opc=='OC_01'){
+		$detalles = $_POST['detalles'];
+		$mes = $_POST['txtMes'];
+		$anio = $_POST['txtAnio'];
+		$consulta = "SELECT IFNULL(MAX(codigo)+1,1) FROM `compra` WHERE mesID=$mes and anio=$anio";
+		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
+		while($row = mysqli_fetch_row($res)){	
+			$codigo=$row[0];
+		}
+
+		$fecha=$fechaHoyAMD;
+		$comprobanteID=$_POST['cboComprobante'];
+		$proveedorID=$_POST['cboProveedor'];
+		$serie=$_POST['txtSerie'];
+		$numero=$_POST['txtNumero'];
+		$fechaEmision = $_POST['txtFechaEmision'];
+		$fechaVencimiento = $_POST['txtFechaVcto'];
+
+		$fechaEmision = str_replace("/","-",$fechaEmision);
+	  	$fechaEmision = date('Y-m-d',strtotime($fechaEmision));
+
+		$fechaVencimiento = str_replace("/","-",$fechaVencimiento);
+	  	$fechaVencimiento = date('Y-m-d',strtotime($fechaVencimiento));
+
+		
+		$moneda = $_POST['cboMoneda'];
+		$formaPagoID = $_POST['cboModalidadPago'];
+		$tipoAdquisicionID = $_POST['cboAdquisicion'];
+		$tipoExistencia = $_POST['cboTipoExistencia'];
+		$IGV = $_POST['cboIGV'];
+		$detraccion = $_POST['cboDetraccion'];
+		$valorDetraccion = $_POST['txtDetraccion'];
+		$percepcion = $_POST['cboPercepcion'];
+		$valorPercepcion = $_POST['txtPercepcion'];
+		$renta = $_POST['cboRenta'];
+		$valorRenta = $_POST['txtRenta'];
+		$retencion = $_POST['cboRetencion'];
+		$valorRetencion = $_POST['txtRetencion'];
+		$totalBruto = $_POST['txtTotalBruto'];
+		$descuento = $_POST['txtDescuento'];
+		$valorVenta = $_POST['txtValorVenta'];
+		$impuesto = $_POST['txtIGV'];
+		$precioVenta = $_POST['txtPrecioVenta'];
+
+		if($detraccion!=0){
+			$saldoPagar=floatVal($precioVenta)-floatVal($valorDetraccion);
+		}else{
+			if($percepcion!=0){
+				$saldoPagar=floatVal($precioVenta)+floatVal($valorPercepcion);
+			}else{
+				if($retencion!=0){
+					$saldoPagar=floatVal($precioVenta)+floatVal($valorRetencion);
+				}else{
+					if($renta!=0){
+						$saldoPagar=floatVal($precioVenta)-floatVal($valorRenta);
+					}else{
+						$saldoPagar=$precioVenta;
+					}
+				}
+			}
+		}
+
+		$consulta = "INSERT INTO compra VALUES(".$mes.",".$anio.",".$codigo.",'".$fecha."','".$comprobanteID."','".$proveedorID."','".$serie."','".$numero."','".$fechaEmision."','".$fechaVencimiento."','".$moneda."','".$formaPagoID."','".$tipoAdquisicionID."','".$tipoExistencia."','".$IGV."','".$detraccion."','".$valorDetraccion."','".$percepcion."','".$valorPercepcion."','".$renta."','".$valorRenta."','".$retencion."','".$valorRetencion."','".$totalBruto."','".$descuento."','".$valorVenta."','".$impuesto."','".$precioVenta."','".$saldoPagar."','".$saldoPagar."','".$detalles."','D')";
+			
+		$res = mysqli_query($con,$consulta)or  die (mysqli_error($con));
+		if(!$res){
+			echo 0;
+		}else{
+			echo 1;
+		}
+
+		exit();
+	}
+
+	//INSERTAR DETALLE DE LA ORDEN DE COMPRA
+	if($opc=='CC_02'){
+		$item = $_POST['item'];
+		$mes = $_POST['txtMes'];
+		$anio = $_POST['txtAnio'];
+		$consulta = "SELECT IFNULL(MAX(codigo),1) FROM `compra` WHERE mesID=$mes and anio=$anio";
+		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
+		while($row = mysqli_fetch_row($res)){	
+			$codigo=$row[0];
+		}
+
+		$descripcion = $_POST['txtDescripcion'.$item];
+		$cantidad = $_POST['txtCantidad'.$item];
+		$costo = $_POST['txtCosto'.$item];
+		$importe = $_POST['txtImporte'.$item];
+
+		$consulta = "INSERT INTO detalle_compra VALUES(".$mes.",".$anio.",".$codigo.",".$item.",'','','".$descripcion."',".$cantidad.",'".$costo."','".$importe."')";
+			
+		mysqli_query($con,$consulta)or  die (mysqli_error($con));
+		
+		exit();
+	}	
 
 ?>
 

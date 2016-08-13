@@ -74,7 +74,7 @@
                  <div class="col-md-12">
                   <div class="input-group"><br><hr>
                     <div class="input-group-btn">
-                      <button onclick="crearfila();" type="button"class="btn btn-active" title="Agregar fila">
+                      <button onclick="crearfilaRequerimiento();" type="button"class="btn btn-active" title="Agregar fila">
                         <strong><i class='fa fa-plus'></i></strong>
                       </button>
                     </div>
@@ -87,9 +87,9 @@
                             </th>
                             <th width="25%" style='text-align:center;'>&nbsp;PRODUCTO</th>
                             <th width="10%">&nbsp;UNIDAD/MEDIDA</th>
-                            <th width="30%" style='text-align:center;'>DESCRIPCION</th>
+                            <th width="40%" style='text-align:center;'>DESCRIPCION</th>
                             <th width="10%" style='text-align:center;'>STOCK</th>
-                            <th width="20%" style='text-align:center;'>REQUERIMIENTO</th>
+                            <th width="10%" style='text-align:center;'>REQUERIMIENTO</th>
                           </tr>
                         </thead>
                         <tbody class="cuerpoTabla" id="cuerpoTablaRequerimiento">
