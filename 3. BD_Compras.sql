@@ -101,7 +101,7 @@ create table PAGO_COMPRA(
 	concepto char(01) null,
 	primary key(mesID,anio,correlativo),
 	foreign key(mesReferencia,anioReferencia,codigoReferencia) references COMPRA(mesID,anio,codigo)
-)
+);
 
 create table requerimiento(
 	requerimientoID int not null,
