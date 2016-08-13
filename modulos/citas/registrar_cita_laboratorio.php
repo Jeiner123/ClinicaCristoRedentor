@@ -48,7 +48,7 @@
             <div class="row">
               <div class="col-sm-5">
                 <div class="form-group">
-                  <label class="control-label">Paciente</label>                    
+                  <label class="control-label">Paciente</label><label style="color:red">&nbsp;*</label>
                   <select onchange="seleccionarCboPaciente(this)" class="chosen-select form-control input-sm" id="cboPacientes" name="cboPacientes" data-placeholder="-- Paciente --">
                     <!-- Lista de diagnósticos -->
                   </select> 
@@ -128,10 +128,7 @@
                     <i class="fa fa-plus"></i>
                   </button>
                 </div>
-              </div>
-              <div class="col-md-2 col-xs-4">
-                <input type="hidden" id="txtServicio" name="txtServicio" readonly="true" class="form-control">
-              </div>
+              </div>              
               <div class="col-md-3  col-xs-3">
                 <label class="form-label">Fecha</label>
                 <div class="input-group">
@@ -156,6 +153,9 @@
                   <input type="text" id="txtObservaciones" name="txtObservaciones" class="form-control input-sm" >
                 </div>
               </div>
+            </div>
+            <div class="col-md-2 col-xs-4">
+              <input style="display:none" id="txtServicio" name="txtServicio" readonly="true" class="form-control">
             </div>
             <!-- Servicios -->
             <div class="row" id="servicioDetalle">

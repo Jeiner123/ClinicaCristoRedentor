@@ -27,17 +27,15 @@ function guardarCita(form){
 		contentType :false,
 		processData: false,
 		success: function(rpta){
-			if(rpta==1){
+			if(rpta == 1){
 				bloqueoTotalForm(form,true);
 				alert("Registro exitoso");
-				cerrarCargando();
-				// window.location.replace("listar_citas.php");
-				return true;
+				window.location.replace("listar_citas.php");				
+			}else{
+				alert(rpta);
+				$('#btnGuardarCita').attr('disabled',false);
 			}
 			cerrarCargando();
-			alert(rpta);
-			$('#btnGuardarCita').attr('disabled',false);
-			return false;
 		},
 		error: function(rpta){
 			cerrarCargando();
@@ -259,35 +257,23 @@ function quitarFila(object,tabla,confirmacion){
   return true;
 }
 
-function seleccionarCboServicios(servicioID){	
-	// abrirCargando();	
+function seleccionarCboServicios(servicioID){
 	opc = 'M_SERV_01';	
 	$.ajax({
 		type: 'POST',
 		data:'opc='+opc+'&servicioID='+servicioID,
-		url: url,
+		url: url,		
 		success: function(rpta){
-			// alert(rpta);
-			if(rpta!=0){
-				var datos = rpta.split(",,");
-				var precio = datos[2];
-				var servicio = datos[1];
-				var especialidadID = datos[3];
-				var tipoServicioID = datos[4];
-				$('#txtPrecio').val(precio);
-				$('#txtServicio').val(servicio);
-				$('#cboEspecialidad').val(especialidadID);
-				$('#cboTipoServicio').val(tipoServicioID);
-				importe = parseFloat(precio) * parseFloat($('#txtCantidad').val());
-				$('#txtImporte').val(parseFloat(importe));				
-				$('#txtCantidad').focus();
-			}
-			// cerrarCargando();
+			$.each(jQuery.parseJSON(rpta), function(i,item){
+			    $('#txtPrecio').val(item.precioUnitario);
+					$('#txtServicio').val(item.servicio);
+					$('#cboEspecialidad').val(item.especialidadID); //para COnsultorio
+					$('#cboTipoServicio').val(item.tipoServicioID);	//para COnsultorio
+					importe = parseFloat(item.precioUnitario) * parseFloat($('#txtCantidad').val());
+					$('#txtImporte').val(parseFloat(importe));
+					$('#txtCantidad').focus();
+			});			
 		},
-		error: function(rpta){
-			alert(rpta);
-			// cerrarCargando();
-		}
 	});
 }
 

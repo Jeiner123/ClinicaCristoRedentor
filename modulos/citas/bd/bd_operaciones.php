@@ -7,27 +7,14 @@
 	if($opc == 'M_SERV_01'){
 		$servicioID = $_POST["servicioID"];
 		$consulta = "SELECT S.servicioID,S.servicio,S.precioUnitario,S.estado,E.especialidad,
-											E.especialidadID,T.tipoServicio,T.tipoServicioID
-									FROM servicio S
-									LEFT 	JOIN tipo_servicio T 	ON S.tipoServicioID = T.tipoServicioID
-									INNER JOIN especialidad E 	ON E.especialidadID = S.especialidadID
-									WHERE S.estado=1 AND S.servicioID='".$servicioID."'";
-
+									E.especialidadID,T.tipoServicio,T.tipoServicioID
+								FROM servicio S
+								LEFT 	JOIN tipo_servicio T 	ON S.tipoServicioID = T.tipoServicioID
+								INNER JOIN especialidad E 	ON E.especialidadID = S.especialidadID
+								WHERE S.estado=1 AND S.servicioID='".$servicioID."'";								
 		$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
-		$datos = "";
-		if(mysqli_num_rows($res)>0){
-			$datos = mysqli_fetch_array($res);
-			$servicioID = $datos[0];
-			$servicio = $datos[1];
-			$precioUnitario = $datos[2];
-			$especialidadID = $datos[5];
-			$tipoServicioID = $datos[7];			
-
-			echo $servicioID.",,".$servicio.",,".$precioUnitario.",,".$especialidadID.",,".$tipoServicioID;
-
-		}else{
-			echo 0;
-		}
+		$data = mysqli_fetch_all($res, MYSQLI_ASSOC);
+		echo json_encode($data);
 		exit();
 	}
 	// CARTAR TABLA CITAS DE CONSULTORIO - LABORATORIO
