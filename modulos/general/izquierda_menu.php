@@ -21,7 +21,11 @@
             $modules = $result_set->fetch_all();
 
             foreach ($modules as $module):
-                $query = 'SELECT I.nombre, I.file FROM items I INNER JOIN permissions P ON P.item_id=I.id WHERE module_id = ' . $module[0];
+                $query = 'SELECT I.nombre, I.file FROM items I ' .
+                            'INNER JOIN permissions P ON P.item_id=I.id ' .
+                            'INNER JOIN modules M ON I.module_id=M.id ' .
+                            'WHERE I.module_id = ' . $module[0] .
+                            ' AND M.active = 1';
                 $result_set_items = mysqli_query($con, $query);
                 $items = $result_set_items->fetch_all();
                 if (sizeof($items) > 0) {

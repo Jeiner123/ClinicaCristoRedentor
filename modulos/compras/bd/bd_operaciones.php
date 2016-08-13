@@ -44,7 +44,7 @@
 		$documento = $_POST['txtDocumento'];
 		$razonSocial=$_POST['txtRazonSocial'];
 		$direccion=$_POST['txtDireccion'];
-		$emailE=$_POST['txtEmailE'];
+		$emailE='';
 		$condPago=$_POST['cboModalidadPago'];
 		$banco=$_POST['cboBanco'];
 		$cuentaDetraccion=$_POST['txtDetraccion'];
@@ -463,11 +463,11 @@
 	  	$fechaEmision = date('Y-m-d',strtotime($fechaEmision));
 
 		$medioPagoID = $_POST['cboMedioPago'];
-		$total = $_POST['txtTotal'];
+		$total = $_POST['total'];
 		$valorVenta=$_POST['txtValorVenta'];
 		$igv=$_POST['txtIGV'];
 		$monto = $_POST['txtMonto'];
-		$saldo = $_POST['txtSaldo'];
+		$saldo = $_POST['saldo'];
 		$saldo=floatval($saldo)-floatval($monto);
 		
 		if(isset($_POST['cboBanco'])){

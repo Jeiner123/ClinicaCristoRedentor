@@ -212,9 +212,10 @@ CREATE TABLE comprobante_pago (
 );
 
 CREATE TABLE modules (
-  id int NOT NULL PRIMARY KEY,
+  id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
   nombre VARCHAR(35) NOT NULL,
-  folder VARCHAR(35) NOT NULL
+  folder VARCHAR(35) NOT NULL,
+  active BOOLEAN NOT NULL DEFAULT 1
 );
 
 CREATE TABLE items (
@@ -222,6 +223,7 @@ CREATE TABLE items (
   module_id int NOT NULL,
   nombre VARCHAR(55) NOT NULL,
   file VARCHAR(55) NOT NULL,
+  active BOOLEAN NOT NULL DEFAULT 1,
   FOREIGN KEY (module_id) REFERENCES modules(id)
 );
 

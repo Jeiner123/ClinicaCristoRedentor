@@ -5,7 +5,7 @@ USE clinica;
 create table PROVEEDOR(
 	proveedorID varchar(15) NOT NULL,
 	tipoDocumento int not null,
-	razonSocial varchar(100) null,
+	razonSocial varchar(300) null,
 	emailEmpresa varchar(50) null,
 	direccion varchar(100) null,
 	condPago char(03) null,
@@ -21,7 +21,6 @@ create table PROVEEDOR(
 	observaciones varchar(500) null,
 	estado char(01) not null,
 	primary key(proveedorID),
-	foreign key(tipoTelefono) references tipo_telefono(tipoTelefonoID),
 	foreign key(tipoDocumento) references tipo_documento(tipoDocumentoID)
 );
 

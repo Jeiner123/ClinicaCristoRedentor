@@ -56,30 +56,26 @@
               </div>
              
                 <div class="row">
-                  <div class="col-md-4">
+                  <div class="col-md-6">
                     <label class="control-label">Tipo de documento</label>
                     <label class="control-label" style="color:red;">*</label>
                     <select class="form-control input-sm" id="cboDocumento" name="cboDocumento" onchange="bloquearCampos()">
                     </select> 
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-3">
                     <label class="control-label">Número (RUC, DNI, Etc)</label>
                     <label class="control-label" style="color:red;"> *</label>
                     <input type="text" id="txtDocumento" name="txtDocumento"class="form-control input-sm"  onkeypress="return soloNumeroEntero(event);">
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-4">
+                  <div class="col-md-6">
                     <label class="control-label">Razón social</label>
                     <input type="text" id="txtRazonSocial" name="txtRazonSocial"class="form-control input-sm">
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-6">
                     <label class="control-label">Dirección fiscal</label>
                     <input type="text" id="txtDireccion" name="txtDireccion"class="form-control input-sm">
-                  </div>
-                  <div class="col-md-4">
-                    <label class="control-label">Email principal</label>
-                    <input type="text" id="txtEmailE" name="txtEmailE"class="form-control input-sm">
                   </div>
                 </div><br>
                 <div class="row">
@@ -134,7 +130,7 @@
                     <input type="text" id="txtApellidoMat" name="txtApellidoMat"class="form-control input-sm"  onkeypress="return soloLetras(event);" style="text-transform:uppercase;">
                   </div>
                   <div class="col-md-3">
-                    <label class="control-label">Email personal</label>
+                    <label class="control-label">Email</label>
                     <input id="txtEmail" name="txtEmail"class="form-control input-sm" >
                   </div>
                 </div>

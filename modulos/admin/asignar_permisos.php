@@ -32,6 +32,25 @@
 	<!-- Main content -->
 	<section class="content">
 
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-solid color-palette-box">
+                    <div class="box-header bg-blue">
+                        <h3 class="box-title">Módulos e items</h3>
+                        <div class="box-tools pull-right">
+                            <button style='color:#fff;' type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body" align="center">
+                        <p>Acceda con el siguiente botón para gestionar los módulos e items.</p>
+                        <a href="gestion_modulos.php" class="btn btn-success">Administrar módulos e items</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 	  <div class="row">
           <div class="col-md-12">
               <div class="box box-solid color-palette-box">
@@ -96,7 +115,7 @@
               postEstado: function (estado, i) {
                   var user = this.users[i];
                   var params = '?estado='+estado+'&usuario='+user.usuario;
-                  $.getJSON('json/cambiar_estado.php'+params, function (data) {
+                  $.getJSON('json/update_user.php'+params, function (data) {
                       if (data.success)
                           user.estado = estado;
                   });
