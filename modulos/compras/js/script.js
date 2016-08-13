@@ -343,6 +343,7 @@ function mostrarListaOrden(){
 }
 
 function crearfila(){
+	$('.filaNoValida').remove();
 	fila=1;
 	$("#tablaProducto tbody tr").each(function (index) {
 		fila++;
@@ -351,8 +352,84 @@ function crearfila(){
 	$("#tablaProducto")
 	.append
 	(
-		'<tr><td><input class="form-control input-sm" value="'+fila+'" id="txtItem'+fila+'" name="txtItem'+fila+'" style="text-align:right"; readonly value=""/></td><td><input class="form-control input-sm" id="txtCodigo'+fila+'" name="txtCodigo'+fila+'"></td><td><input class="form-control input-sm" name="txtDescripcion'+fila+'" id="txtDescripcion'+fila+'"></td><td><input class="form-control input-sm" name="txtUnidad'+fila+'" id="txtUnidad'+fila+'"></td><td><input class="form-control input-sm" id="txtCantidad'+fila+'" name="txtCantidad'+fila+'"  onkeypress="return soloNumeroEntero(event);"></td><td><input class="form-control input-sm" id="txtCosto'+fila+'" name="txtCosto'+fila+'" onkeypress="return soloNumeroDecimal(event);"></td><td><input class="form-control input-sm" id="txtDescuento'+fila+'" name="txtDescuento'+fila+'" onkeypress="return soloNumeroDecimal(event);"></td><td><input class="form-control input-sm" id="txtImporte'+fila+'" name="txtImporte'+fila+'" onkeypress="return soloNumeroDecimal(event);" readonly></td></tr>'
+		'<tr><td><input class="form-control input-sm" value="'+fila+'" id="txtItem'+fila+'" name="txtItem'+fila+'" style="text-align:right"; readonly value=""/></td><td><input class="form-control input-sm" id="txtCodigo'+fila+'" name="txtCodigo'+fila+'"></td><td><input class="form-control input-sm" name="txtDescripcion'+fila+'" id="txtDescripcion'+fila+'"></td><td><input class="form-control input-sm" name="txtUnidad'+fila+'" id="txtUnidad'+fila+'"></td><td><input class="form-control input-sm" id="txtCantidad'+fila+'" name="txtCantidad'+fila+'"  onkeypress="return soloNumeroEntero(event);" onblur="calcularImporteOrden(event)"></td><td><input class="form-control input-sm" id="txtCosto'+fila+'" name="txtCosto'+fila+'" onkeypress="return soloNumeroDecimal(event);" onblur="calcularImporteOrden(event)"></td><td><input class="form-control input-sm" id="txtDescuento'+fila+'" name="txtDescuento'+fila+'" onkeypress="return soloNumeroDecimal(event);" onblur="calcularImporteOrden(event)" value="0.00"></td><td><input class="form-control input-sm" id="txtImporte'+fila+'" name="txtImporte'+fila+'" onkeypress="return soloNumeroDecimal(event);" readonly value="0.00"></td></tr>'
 	);
+}
+
+function calcularImporteOrden(e){
+
+	if (e.srcElement)
+	  tag = e.srcElement.id;
+  	else if (e.target)
+  	  tag = e.target.id;
+  	
+	var campo = tag.length;
+	if(campo==9){
+		var fila = tag.substr(8);
+	}
+	if(campo==12){
+		var fila = tag.substr(11);	
+	}
+
+	cantidad=$("#txtCantidad"+fila).val();
+	costo=$("#txtCosto"+fila).val();
+	descuento=$("#txtDescuento"+fila).val();
+
+	if(cantidad=='' || costo==''){
+		inputObligatorio("#txtDescripcion"+fila,0);
+		$("#txtImporte"+fila).val('0.0');
+	}else{
+		inputObligatorio("#txtDescripcion"+fila,3);
+		alert(descuento);
+		importe=parseFloat(cantidad)*parseFloat(costo)-parseFloat(descuento);
+		$("#txtImporte"+fila).val(importe.toFixed(2));
+	}
+
+}
+
+function crearfilaRequerida(){
+	requerimiento=$("#cboRequerimientos").val();
+	if(requerimiento==0){
+		alert("Seleccione un requerimiento");
+		return;
+	}
+	var i = requerimiento.indexOf('-');
+	requerimientoID=requerimiento.substr(0,i);
+	item=requerimiento.substr(i+1);
+
+	var opc = 'RRQ_06';
+	$.ajax({
+		type: 'POST',
+		data:'opc='+opc+'&requerimientoID='+requerimientoID+'&item='+item,
+		url: url,
+		success: function(data){
+			var datos= JSON.parse(data);
+			for(var i in datos){
+					requerimientoID=datos[i].requerimientoID;
+					producto=datos[i].producto+' '+datos[i].descripcion;
+					unidad=datos[i].unidadMedida;
+					cantidad=datos[i].requerimiento;
+					fila=1;
+					$('.filaNoValida').remove();
+					$("#tablaProducto tbody tr").each(function (index) {
+						fila++;
+				    })
+    
+					$("#tablaProducto")
+					.append
+					(
+						'<tr><td><input class="form-control input-sm" value="'+fila+'" id="txtItem'+fila+'" name="txtItem'+fila+'" style="text-align:right"; readonly value=""/></td><td><input class="form-control input-sm" id="txtCodigo'+fila+'" name="txtCodigo'+fila+'" value="'+requerimientoID+'"></td><td><input class="form-control input-sm" name="txtDescripcion'+fila+'" id="txtDescripcion'+fila+'" value="'+producto+'"></td><td><input class="form-control input-sm" name="txtUnidad'+fila+'" id="txtUnidad'+fila+'" value="'+unidad+'"></td><td><input class="form-control input-sm" id="txtCantidad'+fila+'" name="txtCantidad'+fila+'"  onkeypress="return soloNumeroEntero(event);" value="'+cantidad+'" onblur="calcularImporteOrden(event)"></td><td><input class="form-control input-sm" id="txtCosto'+fila+'" name="txtCosto'+fila+'" onkeypress="return soloNumeroDecimal(event);" onblur="calcularImporteOrden(event)"></td><td><input class="form-control input-sm" id="txtDescuento'+fila+'" name="txtDescuento'+fila+'" onkeypress="return soloNumeroDecimal(event);" onblur="calcularImporteOrden(event)" value="0.00"></td><td><input class="form-control input-sm" id="txtImporte'+fila+'" name="txtImporte'+fila+'" onkeypress="return soloNumeroDecimal(event);" readonly value="0.00"></td></tr>'
+					);
+            }
+         	cerrarCargando();
+
+		},
+		error: function(rpta){
+			alert(rpta);
+			cerrarCargando();
+		}
+	});
+
 }
  
 //======================GESTIÓN DE FACTURA=======================================
@@ -1320,5 +1397,157 @@ function generarRegistroCompras(){
 		$("#txtAnio").val(anio);
 		return true;
 	}
+	
+}
+
+//============================REQUERIMIENTOS=============================================
+
+function cargarCboRequerimiento(valorDefecto){
+	abrirCargando();
+	var opc = 'RRQ_05';
+	$.ajax({
+		type: 'POST',
+		data:'opc='+opc,
+		url: url,
+		success: function(rpta){
+			$('#cboRequerimientos').html(rpta);
+			$("#cboRequerimientos").val(valorDefecto);
+			funcionSelect('#cboRequerimientos');
+			cerrarCargando();
+		},
+		error: function(rpta){
+			alert(rpta);
+			cerrarCargando();
+		}
+	});
+}
+
+function crearfilaRequerimiento(){
+	fila=1;
+	$("#tablaRequerimiento tbody tr").each(function (index) {
+		fila++;
+    })
+    
+	$("#tablaRequerimiento")
+	.append
+	(
+		'<tr><td><input class="form-control input-sm item" value="'+fila+'" id="txtItem'+fila+'" name="txtItem'+fila+'" style="text-align:right"; readonly value=""/></td><td><input class="form-control input-sm" id="txtProducto'+fila+'" name="txtProducto'+fila+'"></td><td><input class="form-control input-sm" name="txtUnidad'+fila+'" id="txtUnidad'+fila+'"></td><td><input class="form-control input-sm" name="txtDescripcion'+fila+'" id="txtDescripcion'+fila+'"></td><td><input class="form-control input-sm" id="txtCantidad'+fila+'" name="txtCantidad'+fila+'"  onkeypress="return soloNumeroEntero(event);"></td><td><input class="form-control input-sm" id="txtRequerimiento'+fila+'" name="txtRequerimiento'+fila+'"></td></tr>'
+	);
+}
+
+function registrarRequerimiento(){
+	detalles=0;
+	$(".item").each(function (index){
+		detalles++;
+	});
+
+	abrirCargando();
+	opc = 'RRQ_01';
+		$.ajax({
+			type: 'POST',
+			data:'opc='+opc+'&detalles='+detalles,
+			url: url,
+			success: function(rpta){
+				if(rpta!=0){
+					ajaSaveDetalleRequerimiento(rpta);
+					alert("Requerimiento registrado");
+					cerrarCargando();
+				}else{
+					cerrarCargando();
+					alert("Ocurrió un error mientrás se intentaba registrar el requerimiento");
+				}
+			},
+			error: function(rpta){
+				alert(rpta);
+			}
+		});
+}
+
+function ajaSaveDetalleRequerimiento(requerimientoID){
+
+	$(".item").each(function (index){
+			index=parseInt(index)+1;
+            producto=$("#txtProducto"+index).val();
+            if(producto!=""){
+            	var formData = new FormData($('#formRequerimiento')[0]);
+				formData.append("opc", "RRQ_02");
+				formData.append("item",index);
+				formData.append("requerimientoID",requerimientoID);
+				$.ajax({
+					type: 'POST',
+					data: formData,
+					url: url,
+					contentType :false,
+					processData: false,
+					success: function(rpta){
+					},
+					error: function(rpta){
+						alert(rpta);
+						cerrarCargando();	
+					}
+				});	
+            }
+    })
+}
+
+function cargarTablaRequerimiento(){
+	abrirCargando();
+	var opc = 'RRQ_03';
+	$.ajax({
+		type: 'POST',
+		data:'opc='+opc,
+		url: url,
+		success: function(rpta){
+			$('.tablaDatos').DataTable().destroy();
+			$('#cuerpoTablaRequerimiento').html(rpta);
+			$('.tablaDatos').DataTable(
+				{
+			   	"columnDefs": [
+		            { "targets": [ 0 ],"width": "5%"}, 
+		            { "targets": [ 1 ],"width": "10%"},										 		//DNI
+		            { "targets": [ 2 ],"width": "15%"},											 //nomresb
+		            { "targets": [ 3 ],"width": "20%"},	
+		            { "targets": [ 4 ],"width": "25%"},
+		            { "targets": [ 5 ],"width": "5%"},
+		            { "targets": [ 6 ],"width": "10%"},											 //nomresb
+		            { "targets": [ 7 ],"width": "10%"},											 //nomresb
+				  ]
+	
+				}
+			);
+			cerrarCargando();
+		},
+		error: function(rpta){
+			alert(rpta);
+			cerrarCargando();
+		}
+	});
+}
+
+function UpdateEstadoRequerimiento(estado,requerimientoID,item){
+	if(estado=='R'){
+		r = confirm("Seguro que desea rechazar el requerimiento?");
+		if (r != true){
+		  return false;
+		}
+	}
+	
+	var opc = 'RRQ_04';
+	$.ajax({
+		type: 'POST',
+		data:'opc='+opc+'&estado='+estado+'&requerimientoID='+requerimientoID+'&item='+item,
+		url: url,
+		success: function(rpta){
+			if(rpta==1){
+				cargarTablaRequerimiento();
+			}else{
+				alert("No se puede actualizar el requerimiento en estos momentos");
+			}
+		},
+		error: function(rpta){
+			alert(rpta);
+			cerrarCargando();
+		}
+	});
 	
 }

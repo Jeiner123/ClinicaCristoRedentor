@@ -866,8 +866,7 @@ INSERT INTO modules (id, nombre, folder) VALUES
   (7, 'Ventas', 'ventas'),
   (8, 'Compras', 'compras'),
   (9, 'Parámetros', 'parametros'),
-  (10, 'Admin', 'admin'),
-  (11, 'Requerimientos', 'requerimientos');
+  (10, 'Admin', 'admin');
 
 INSERT INTO items (module_id, nombre, file) VALUES
   (1, 'Control de documentos', 'control_documentos'),
@@ -899,6 +898,8 @@ INSERT INTO items (module_id, nombre, file) VALUES
   (7, 'Nuevo Cliente', 'nuevo_cliente'),
   (7, 'Listado de  clientes', 'listado_clientes'),
 
+  (8, 'Solicitud de requerimiento', 'solicitud_requerimiento'),
+  (8, 'Listar requerimientos', 'listado_requerimientos'),
   (8, 'Listado de proveedores', 'listado_proveedores'),
   (8, 'Nuevo proveedor', 'nuevo_proveedor'),
   (8, 'Orden de compra', 'orden_compra'),
@@ -918,10 +919,8 @@ INSERT INTO items (module_id, nombre, file) VALUES
   (9, 'Nueva cuenta', 'nueva_cuenta'),
   (9, 'Plan contable', 'plan_contable'),
 
-  (10, 'Asignar permisos', 'asignar_permisos'),
+  (10, 'Asignar permisos', 'asignar_permisos');
 
-  (11, 'Solicitud de requerimiento', 'solicitud_requerimiento'),
-  (11, 'Listar requerimeintos', 'listado_requerimeintos');
 
 -- Set global permissions to the administrator user
 INSERT INTO permissions (username, item_id)

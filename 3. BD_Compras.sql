@@ -108,7 +108,7 @@ create table requerimiento(
 	personalID INT  NOT NULL,
 	fecha date NOT NULL,
 	detalle int not null,
-	estado INT NOT NULL,
+	estado char(01) NOT NULL,
 	primary key(requerimientoID),
 	foreign key(personalID) references personal(personalID)
 );
@@ -120,7 +120,7 @@ create table detalle_requerimiento(
 	unidadMedida varchar(50) null,
 	descripcion varchar(200) null,
 	stock int not null,
-	requerimiento varchar(100) null,
+	requerimiento int null,
 	estado char(01) not null,
 	primary key(requerimientoID,item),
 	foreign key(requerimientoID) references requerimiento(requerimientoID)
@@ -166,3 +166,10 @@ INSERT INTO estructura_plan_contable VALUES
   (13,2,1,'CUENTAS POR COBRAR','A'),
   (14,2,1,'PRÉSTAMOS POR COBRAR','A');
 
+INSERT INTO `proveedor` (`proveedorID`, `tipoDocumento`, `razonSocial`, `emailEmpresa`, `direccion`, `condPago`, `banco`, `cuentaBanco`, `cuentaDetraccion`, `nombres`, `apellidoPat`, `apellidoMat`, `telefono`, `tipoTelefono`, `emailPersonal`, `observaciones`, `estado`) VALUES
+('18182000', 1, '', '', '', '0', '00', '', '', 'LUIS', 'NEYRA', 'QUIPUSCO', '938302014', 5, '', '', 'A'),
+('20100018625', 6, 'MEDIFARMA S A', '', 'JR. ECUADOR NRO. 787 LIMA - LIMA - LIMA', '0', '00', '', '', 'Eduardo', 'samana', 'velarde', '044563212', 2, '', '', 'A'),
+('20131911310', 6, 'SEDALIB S.A.', '', 'AV. FEDERICO VILLARREAL NRO. 1300 URB. SEMI RUSTICA EL BOSQUE LA LIBERTAD - TRUJILLO - TRUJILLO', 'CON', '00', '', '', '', '', '', '', 0, '', '', 'A'),
+('20132023540', 6, 'EMPRESA REGIONAL DE SERVICIO PUBLICO DE ELECTRICIDAD ELECTRONORTEMEDIO SOCIEDAD ANONIMA - HIDRANDINA', '', 'JR. SAN MARTIN NRO. 831 LA LIBERTAD - TRUJILLO - TRUJILLO', '0', '00', '', '', '', '', '', '', 0, '', '', 'A'),
+('20559727459', 6, 'CONSTRUCTORES & ACABADOS S.A.C.', '', 'CAL.LAS ORQUIDEAS NRO. 250 INT. 402 URB. SANTA EDELMIRA LA LIBERTAD - TRUJILLO - VICTOR LARCO HERRER', '0', '00', '', '', 'pEDRO', 'MARTINEZ', 'PEÑA', '987458656', 3, '', '', 'A'),
+('48055960', 1, '', '', '', 'CON', '00', '', '', 'MARÍA', 'MEDINA', 'CARRERA', '958654589', 8, '', '', 'A');

@@ -53,32 +53,33 @@
               <select class="form-control input-sm" id="cboEstado" name="cboEstado" onchange="cargarFacturasFiltro();">
                 <option value="0">Todas</option>
                 <option value="D">Pendientes</option>
-                <option value="P">Pagadas</option>
-                <option value="V">Vencidas</option>
-                <option value="A">Anuladas</option>
+                <option value="P">Aprobadas</option>
+                <option value="V">Rechazadas</option>
               </select>
             </div>
             
-            <div class="col-md-1"><label class="control-label">Periodo</label></div>
-          <div class="col-md-3">
-              <select class="chosen-select form-control" name="cboPeriodoCompra" id="cboPeriodoCompra" onchange="cargarFacturasFiltro();">
+            <div class="col-md-1"><label class="control-label">Área</label></div>
+          <div class="col-md-4">
+              <select class="form-control input-sm" name="cboArea" id="cboArea" onchange="cargarFacturasFiltro();">
               </select>
             </div>
           </div><br>
           <div class="row">
             <div class="col-md-12">
-              <table id="tablaMovSalida" class="table table-bordered table-hover tablaDatos">
+              <table id="tablaRequerimiento" class="table table-bordered table-hover tablaDatos">
                 <thead>
                   <tr>
-                    <th>Item</th>
-                    <th>Producto</th>
-                    <th style="text-align:center">Unid/medida</th>
-                    <th>Descripcion</th>
+                    <th>Nº</th>
+                    <th style="text-align:center">Fecha</th>
+                    <th>Área</th>
+                    <th style="text-align:center">Solicita</th>
+                    <th>Requerimiento</th>
                     <th style="text-align:center">Stock</th>
+                    <th style="text-align:center">Estado</th>
                     <th style="text-align:center">Opciones</th>
                   </tr>
                 </thead>
-                <tbody class="cuerpoTabla" id="cuerpoTablaMovSalida">
+                <tbody class="cuerpoTabla" id="cuerpoTablaRequerimiento">
                   <!-- Aqui irán los elementos de la tabla -->
                 </tbody>
               </table>
@@ -104,9 +105,8 @@
   .datepicker{z-index:1151 !important;}
 </style>
 <script type="text/javascript">
-  cargarCboPeriodoPago(0);
-  cargarCboProveedor(0);
-  cargarTablaMovimientosSalida(); 
-  $('#tablaMovSalida tbody').on('click','tr',function(){seleccionSimple(this);});  
+  cargarCboAreas();
+  cargarTablaRequerimiento(); 
+  $('#tablaRequerimiento tbody').on('click','tr',function(){seleccionSimple(this);});  
   
 </script>
