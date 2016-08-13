@@ -1,4 +1,8 @@
 <?php include '../general/validar_sesion.php';?>
+<?php include '../general/variables.php';?>
+<?php 
+  require('../bd/bd_conexion.php');
+ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,230 +25,319 @@
         Caja
         <small>Apertura / Cierre</small>
       </h1>
-
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i>Inicio</a></li>
         <li class="active">Gestión de documentos</li>
       </ol>
     </section>
     <!-- Main content -->
-    <section class="content">
-
+    <section class="content">        
         <div class="row" align="center">
           <div class="col-xs-4 col-xs-offset-4">
-            <div class="row" id="btnAbrirCaja">
-              <div class="col-sm-4 col-sm-offset-4">
-                  <a href="javascrit:;" id="mostrarDatosCaja" data-toggle="modal" class="btn btn-block btn-success">
-                      <i class="ace-icon fa fa-unlock bigger-110" style="font-size:30px;"></i>
-                      <br>
-                      ABRIR
-                  </a>
-              </div>
-            </div>
-            <div class="row" id="btnCerrarCaja" style="display:none" >
-              <div class="col-sm-4 col-sm-offset-4" >
-                  <a href="javascrit:;" id="mostrarDatosCaja" data-toggle="modal" class="btn btn-block btn-danger">
-                      <i class="ace-icon fa fa-lock  bigger-110" style="font-size:30px;"></i>
-                      <br>
-                      CERRAR
-                  </a>
-              </div>
+            <?php 
+                if ($_SESSION['estadoCaja'] == "C"){
+                  ?>
+                    <div class="row" id="btnAbrirCaja">
+                      <div class="col-sm-4 col-sm-offset-4">
+                          <a onclick="$('#formularioApertura').show('slow');"  id="mostrarDatosCaja" data-toggle="modal" class="btn btn-block btn-success">
+                              <i class="ace-icon fa fa-unlock bigger-110" style="font-size:30px;"></i>
+                              <br>
+                              ABRIR
+                          </a>
+                      </div>
+                    </div>
+                  <?php 
+                }else{
+                  ?>
+                    <div class="col-sm-4 col-sm-offset-4" >
+                        <a onclick="$('#formularioCierre').show('slow');" href="javascrit:;" id="mostrarDatosCaja" data-toggle="modal" class="btn btn-block btn-danger">
+                            <i class="ace-icon fa fa-lock  bigger-110" style="font-size:30px;"></i>
+                            <br>
+                            CERRAR
+                        </a>
+                    </div>
+                  <?php 
+                }
+             ?>
+            <div class="row" id="btnCerrarCaja">
+              
             </div>
           </div>
         </div>
         <br>
-                  
+        <?php 
+          if ($_SESSION['estadoCaja'] == "C"){
+            ?>
+                <div class="row" id="formularioApertura" style="display:none">
+                  <div class="col-sm-12">
+                    <form id="formApertura">
+                      <div class="box box-primary color-palette-box">          
+                        <div class="box-body">
+                            <div class="box-header" style="margin: -7px 0px -22px -10px">
+                              <h1 class="box-title">Apertura de caja</h1>
+                            </div>
+                            <hr>
+                            <div class="row">
+                              <div class="col-sm-12" align="center">
+                                <div class="form-group">
+                                  <label for="txtFechaCierre">Seleccionar caja</label><label style="color:red">&nbsp;*</label>
+                                  <div class="row">
+                                    <div class="col-sm-2 col-sm-offset-5">
+                                      <select class="form-control input-sm" id="cboCajas" name="cboCajas">
+                                        <option value="1">Caja 1</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-2 col-sm-offset-3">
+                                <div class="form-group">
+                                  <label for="txtFechaApertura">Fecha</label>
+                                  <input  style="font-weight: bold;" type="text" class="form-control input-sm" id="txtFechaApertura" name="txtFechaApertura" value="<?php echo date("d").'-'.date("m").'-'.date("Y"); ?>" disabled>
+                                </div>
+                              </div>
+                              <div class="col-sm-2">
+                                <div class="form-group">
+                                  <label for="txtHoraApertura">Hora</label>
+                                  <input   style="font-weight: bold;" type="text" class="form-control input-sm" id="txtHoraApertura" name="txtHoraApertura" value="<?php echo date("G").':'.date("i").':'.date("s"); ?>" disabled>
+                                </div>
+                              </div>
+                              <div class="col-sm-2">
+                                <div class="form-group">
+                                  <label for="txtSaldoInicial">Saldo inicial (S/.)</label><label style="color:red">*</label>
+                                  <input  style="font-weight: bold;" type="text" class="form-control input-sm text-center" id="txtSaldoInicial" name="txtSaldoInicial" maxlength="50" placeholder="0.00" onkeypress="return soloNumeroDecimal(event);">
+                                </div>
+                              </div>
+                            </div>
+                            <!-- ROW -->
+                            <div class="row">
+                              <div class="col-sm-4 col-sm-offset-3">
+                                <div class="form-group">
+                                  <label for="txtObservacionesI">Observaciones</label>
+                                  <textarea class="form-control input-sm" id="txtObservacionesI" name="txtObservacionesI"></textarea>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                        <!-- BOx-body -->
+                        <div class="box-footer" align="ceter">
+                          <div class="row">
+                            <div class="col-sm-3 col-sm-offset-3">
+                              <div class="form-group" align="center">
+                                <input  onClick="abrirCaja(this.form);" id="btnGuardar" value="Abrir caja" style="margin-right:20px;" type="button" class="btn btn-success btn-flat btn-block" />
+                              </div>
+                            </div>
+                            <div class="col-sm-3">
+                              <div class="form-group">
+                                  <a class="btn btn-primary btn-flat btn-block" onclick="$('#formularioApertura').hide('slow');" >Cancelar</a>  
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <!-- Apertura de caja -->
+            <?php
+          }else{
+            ?>
+              <div class="row" id="formularioCierre" style="display:none">
+                <div class="col-sm-12">
+                  <form id="formCierre">
+                    <div class="box box-primary color-palette-box">          
+                      <div class="box-body">
+                          <div class="box-header" style="margin: -7px 0px -22px -10px">
+                            <h1 class="box-title">Cierre de caja</h1>
+                          </div>
+                          <hr>
+                          <div class="row">  
+                            <div class="col-sm-6">
+                              <div class="row">
+                                <div class="col-sm-4">
+                                  <div class="form-group">
+                                    <label for="txtFechaApertura"><strong>Caja</strong></label>
+                                    <input type="text" class="form-control input-sm" id="txtFechaApertura" name="txtFechaApertura" value="Caja 1" disabled>
+                                  </div>
+                                </div>
+                                <div class="col-sm-4">
+                                  <div class="form-group">
+                                    <label for="txtFechaApertura">Fecha</label>
+                                    <input type="text" class="form-control input-sm" id="txtFechaApertura" name="txtFechaApertura" value="<?php echo date("d").'-'.date("m").'-'.date("Y"); ?>" disabled>
+                                  </div>
+                                </div>
+                                <div class="col-sm-4">
+                                  <div class="form-group">
+                                    <label for="txtHoraApertura">Hora</label>
+                                    <input type="text" class="form-control input-sm" id="txtHoraApertura" name="txtHoraApertura" value="<?php echo date("G").':'.date("i").':'.date("s"); ?>" disabled>
+                                  </div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label for="txtTotalBoletas">Total boletas S/.</label>
+                                    <input type="text" class="form-control input-sm" id="txtTotalBoletas" name="txtTotalBoletas" disabled>
+                                  </div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label for="txtCantidadBoletas">N° boletas</label>
+                                    <input type="text" class="form-control input-sm" id="txtCantidadBoletas" name="txtCantidadBoletas" disabled>
+                                  </div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label for="txtBoletaInicial">Boleta inicial</label>
+                                    <input type="text" class="form-control input-sm" id="txtBoletaInicial" name="txtBoletaInicial" disabled>
+                                  </div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label for="txtBoletaFinal">Boleta final</label>
+                                    <input type="text" class="form-control input-sm" id="txtBoletaFinal" name="txtBoletaFinal" disabled>
+                                  </div>
+                                </div>                          
+                              </div>
+                              <!-- row -->
+                            </div>
+                            <div class="col-sm-6">
+                              <div class="row">
+                                <div class="col-sm-4">
+                                  <div class="form-group">
+                                    <label for="txtTotalVentas"><strong>Total ventas</strong></label>
+                                    <input type="text" class="form-control input-sm" id="txtTotalVentas" name="txtTotalVentas" disabled>
+                                  </div>
+                                </div>
+                                <div class="col-sm-4">
+                                  <div class="form-group">
+                                    <label for="txtTotalTarjeta">Total tarjeta</label>
+                                    <input type="text" class="form-control input-sm" id="txtTotalTarjeta" name="txtTotalTarjeta" disabled>
+                                  </div>
+                                </div>
+                                <div class="col-sm-4">
+                                  <div class="form-group">
+                                    <label for="txtTotalEfectivo">Total efectivo</label>
+                                    <input type="text" class="form-control input-sm" id="txtTotalEfectivo" name="txtTotalEfectivo" disabled>
+                                  </div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label for="txtTotalIngreso">Total ingresos</label>
+                                    <input type="text" class="form-control input-sm" id="txtTotalIngreso" name="txtTotalIngreso" disabled>
+                                  </div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label for="txtTotalEgresos">Total ingresos</label>
+                                    <input type="text" class="form-control input-sm" id="txtTotalEgresos" name="txtTotalEgresos" disabled>
+                                  </div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label for="txtSaldoInicio">Saldo inicio caja</label>
+                                    <input type="text" class="form-control input-sm" id="txtSaldoInicio" name="txtSaldoInicio" disabled>
+                                  </div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label for="txtSaldoActual">Saldo actual caja</label>
+                                    <input type="text" class="form-control input-sm" id="txtSaldoActual" name="txtSaldoActual" disabled>
+                                  </div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label for="txtSaldoReal"><strong>Saldo real caja</strong></label>
+                                    <input type="text" class="form-control input-sm" id="txtSaldoReal" name="txtSaldoReal">
+                                  </div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label for="txtDescuadre"><strong>Descuadre</strong></label>
+                                    <input type="text" class="form-control input-sm" id="txtDescuadre" name="txtDescuadre" disabled>
+                                  </div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label for="txtRetira"><strong>Retira</strong></label>
+                                    <input type="text" class="form-control input-sm" id="txtRetira" name="txtRetira">
+                                  </div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label for="txtQueda"><strong>Queda</strong></label>
+                                    <input type="text" class="form-control input-sm" id="txtQueda" name="txtQueda" disabled>
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- row -->
+                            </div>
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="txtObservaciones">Observaciones</label>
+                                <textarea class="form-control input-sm" id="txtObservaciones" name="txtObservaciones" ></textarea>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- ROW -->
+                      </div>
+                      <!-- BOx-body -->
+                      <div class="box-footer" align="ceter">
+                        <div class="row">
+                          <div class="col-sm-3 col-sm-offset-3">
+                            <div class="form-group" align="center">
+                              <input  onClick="cerrarCaja(this.form);" id="btnGuardar" value="Cerrar caja" style="margin-right:20px;" type="button" class="btn btn-success btn-flat btn-block" />
+                            </div>
+                          </div>
+                          <div class="col-sm-3">
+                            <div class="form-group">
+                                <a class="btn btn-primary btn-flat btn-block" onclick="$('#formularioCierre').hide('slow');" >Cancelar</a>  
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <!-- Apertura de cierre -->
+            <?php
+          }
+         ?>
+                
+             
       <div class="box box-solid color-palette-box">
         <div class="box-header bg-blue" >
           <div>
             <h3 class="box-title">Historial de registros</h3>
-            <a href="#" style='color:#fff; font-size:16px; margin-left:15px;' onclick="abrirModal('#modalRegDocumento');limpiarForm('formDocumento');">
-              <i class='fa fa-plus-square' title='Registrar nuevo'></i>
-            </a>
           </div>
           <div class="box-tools pull-right">
             <button style='color:#fff;' type="button" class="btn btn-box-tool" data-widget="collapse">
               <i class="fa fa-minus"></i>
             </button>
-            <button style='color:#fff;' type="button" class="btn btn-box-tool" data-widget="remove">
-              <i class="fa fa-times"></i>
-            </button>
           </div>
         </div>
-        
         <div class="box-body" style='overflow-x:scroll;overflow-y:hidden' align="center">
-          <table id="tablaDocumentos" class="table table-bordered table-hover tablaDatos">
+          <table id="tablaRegistros" class="table table-bordered table-hover tablaDatos">
             <thead>
-              <tr>                
+              <tr>
                 <th>Item</th>
                 <th>Apertura</th>
                 <th>Saldo inicial</th>
                 <th>Cierre</th>
-                <th>ESTADO</th>
-                <th>TIPO DOC</th>
-                <th>ÁREA</th>
-                <th> </th>
+                <th>Saldo actual</th>
+                <th>Saldo real</th>
+                <th>Descruadre</th>
+                <th>Retira</th>
+                <th>Remanente</th>
               </tr>
             </thead>
-            <tbody class="cuerpoTabla" id="cuerpoTablaDocumentos">
-              <!-- Aqui irán los elementos de la tabla -->
-              <!-- <tr role="row" class="odd">
-                    <td>PG-09</td>
-                    <td style="text-align:center;">0</td>
-                    <td class="sorting_1">ATENCION DE QUEJAS Y RECLAMOS DE CLIENTES</td>
-                    <td>APROBADO</td>
-                    <td>PROCEDIMIENTO</td>
-                    <td>DIRECCION DE GESTION</td>
-                    <td style="text-align:center;">
-                      <div class="action-buttons">
-                        <a href="../../docs/PG-09 ATENCIÓN QUEJAS CLIENTES R00.pdf" class="text-blue" target="blanck" style="margin-right:7px;">
-                            <i class="fa fa-file-o" title="Ver documento"></i>
-                        </a>
-                         <a href="#" class="text-green" onclick="alert(No disponible&quot;);" style="margin-right:7px;">
-                            <i class="fa fa-search" title="Modificar servicio"></i>
-                        </a>
-                        <a href="#" class="text-yellow" onclick="alert(&quot;No disponible&quot;);" style="margin-right:7px;">
-                            <i class="fa fa-pencil" title="Modificar servicio"></i>
-                        </a>                  
-                        <a href="#" class="text-red" onclick="alert(&quot;No disponible&quot;);" style="margin-right:7px;">
-                            <i class="fa fa-trash" title="Eliminar"></i>
-                        </a>
-                      </div>
-                    </td>
-                  </tr> -->
+            <tbody class="cuerpoTabla" id="cuerpoTablaRegistros">               
             </tbody>            
           </table>
+          <!-- tablaRegistros -->
         </div>            
         <!-- /.box-body -->
       </div>
       <!-- Lista de items -->
-      <div class="modal fade" id="modalRegDocumento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg ">
-          <div class="modal-content">             
-            <form method="post"   id="formDocumento" class="form-horizontal" enctype="multipart/form-data">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                  <h4 id="titulo" class="modal-title subfuente text-center">Registrar nuevo documento</h4>
-              </div>
-              <!-- /.modal-header -->
-              <div class="modal-body">
-                <input id="txtFlag" name="txtFlag" class="form-control" value="N"  type="hidden" >
-                <input id="txtEspecialidadID" name="txtEspecialidadID" class="form-control" type="hidden" >
-                <div class="row" align="center">
-                  <div class="col-md-4 col-md-offset-4">
-                    <label class="control-label"><strong>Seleccionar documento</strong></label>
-                    <label style="color:red;">*</label>
-                    <input type="file" id="txtRuta" name="txtRuta"class="">
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-3">
-                    <label class="control-label"><strong>Código</strong></label>
-                    <label style="color:red;">*</label>
-                    <input id="txtCodigo" name="txtCodigo"class="form-control input-sm"  maxlength="10" >
-                  </div>                  
-                  <div class="col-md-7">
-                    <label class="control-label"><strong>Título</strong></label>
-                    <label style="color:red;">*</label>
-                    <input id="txtTitulo" name="txtTitulo"class="form-control input-sm"  maxlength="200">
-                  </div>
-                  <div class="col-md-2">
-                    <label class="control-label"><strong>Revisión N°</strong></label>
-                    <label style="color:white;">*</label>
-                    <input id="txtRevisionN" name="txtRevisionN"class="form-control input-sm" onkeypress="return soloNumeroEntero(event);">
-                  </div>
-                  <div class="col-md-3">
-                    <label class="control-label"><strong>Estado</strong></label>
-                    <label style="color:red;">*</label>
-                    <select class="form-control input-sm" id="cboEstado" name="cboEstado">
-                      <option value="0">-- Seleccionar --</option>                      
-                      <option value="EN ELABORACIÓN"> EN ELABORACIÓN </option>
-                      <option value="ELABORADO"> ELABORADO </option>
-                      <option value="REVISIÓN"> REVISIÓN </option>
-                      <option value="APROBADO"> APROBADO </option>
-                      <option value="IMPLEMENTADO"> IMPLEMENTADO </option>
-                      <option value="OBSOLETO"> OBSOLETO </option>
-                    </select>
-                  </div>                  
-                  <div class="col-md-4">
-                    <label class="control-label"><strong>Área</strong></label>
-                    <label style="color:red;">*</label>
-                    <select class="form-control input-sm" id="cboArea" name="cboArea">
-                      <option value="0">-- Seleccionar --</option>
-                      <option value="1">-- SALUD OCUPACIONAL --</option>
-                    </select>
-                  </div>
-                  <div class="col-md-3">
-                    <label class="control-label"><strong>Tipo de documento</strong></label>
-                    <label style="color:red;">*</label>
-                    <select class="form-control input-sm" id="cboTipoDocumento" name="cboTipoDocumento">
-                      <option value="0">-- Seleccionar --</option>
-                      <option value="MANUAL"> MANUAL </option>
-                      <option value="POLÍTICO"> POLÍTICO </option>
-                      <option value="PROCEDIMIENTO"> PROCEDIMIENTO </option>
-                      <option value="INSTRUCTIVO"> INSTRUCTIVO </option>
-                      <option value="EXTERNO"> EXTERNO </option>
-                      <option value="LEGAL"> LEGAL </option>
-                      <option value="REGALMENTO"> REGLAMENTO </option>
-                    </select>
-                  </div>                    
-                </div>
-                <div class="row">                  
-                  <div class="col-md-3">
-                    <label class="control-label"><strong>Fecha aprobación</strong></label>
-                    <label style="color:white;">*</label>
-                    <input type="date" id="txtFechaAp" name="txtFechaAp"class=" form-control input-sm">
-                  </div>
-                  <div class="col-md-3">
-                    <label class="control-label"><strong>Fecha vencimiento</strong></label>
-                    <label style="color:white;">*</label>
-                    <input type="date" id="txtFechaV" name="txtFechaV"class=" form-control input-sm">
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <label class="control-label"><strong>Acceso</strong></label>
-                    <label style="color:white;">*</label>
-                    <input id="txtAcceso" name="txtAcceso"class="form-control input-sm"  maxlength="150">
-                  </div>
-                  <div class="col-md-6">
-                    <label class="control-label"><strong>Distribución</strong></label>
-                    <label style="color:white;">*</label>
-                    <input id="txtDistribucion" name="txtDistribucion"class="form-control input-sm"  maxlength="255">
-                  </div>
-                  <div class="col-md-6">
-                    <label class="control-label"><strong>Observaciones</strong></label>
-                    <label style="color:white;">*</label>
-                   <textarea  id="txtObservaciones" name="txtObservaciones" class="form-control input-sm" maxlength="250"></textarea>
-                  </div> 
-                </div>
-                <br>
-                <div class="row">
-                  <div class="col-md-12">
-                    <label style="color:red;">*</label> 
-                    <small>Estos campos son obligatorios.</small>
-                  </div>
-                </div>                
-              </div>
-              <!-- /.modal-body -->
-              <div class="modal-footer">
-                <div class="row" align="center">
-                  <input type="button" class="btn btn-successInverse btnGuardar" id="btnGuardar" onClick="guardarDocumento(this.form);" value="Guardar"/>
-                  <a class="btn btn-secundary" data-dismiss="modal" onClick="limpiarForm(this.form);">Regresar</a>
-                </div>
-              </div>
-              <!-- /.modal-footer -->
-            </form>
-            <!-- /.form -->
-          </div>
-          <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-Dialog -->
-      </div>
-      <!-- /.modalRegDocumento -->
-      <div>
-        Revisión:  00 / Fecha: 05/2016
-      </div>
     </section>
     <!-- /.content -->
   </div>
@@ -256,8 +349,9 @@
 </body>
 </html>
 <script src="js/script.js"></script>
+<script src="js/caja.js"></script>
 <script type="text/javascript">
-  cargarTablaDocumentos();
-  cargarCboAreas();
-  $('#tablaDocumentos tbody').on('click','tr',function(){seleccionSimple(this);});
+  // cargarTablaDocumentos();
+  // cargarCboAreas();
+  // $('#tablaDocumentos tbody').on('click','tr',function(){seleccionSimple(this);});
 </script>

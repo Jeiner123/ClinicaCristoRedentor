@@ -4,8 +4,8 @@
   $anio = $_GET['anio'];
   $fileName =  "reporte_".$mes."_".$anio.".xls";
   $link = "Content-Disposition: attachment; filename=".$fileName;  
-  // header("Content-type: application/vnd.ms-excel");
-  // header($link);
+  header("Content-type: application/vnd.ms-excel");
+  header($link);
  ?>
 <html>
 <head>

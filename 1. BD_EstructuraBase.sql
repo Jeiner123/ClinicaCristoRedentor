@@ -288,3 +288,7 @@ CREATE TABLE MEDIO_PAGO(
   estado      CHAR(01)          NOT NULL,
   PRIMARY KEY (medioPagoID)
 );
+
+
+
+
