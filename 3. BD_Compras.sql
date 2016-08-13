@@ -103,7 +103,6 @@ create table PAGO_COMPRA(
 	foreign key(mesReferencia,anioReferencia,codigoReferencia) references COMPRA(mesID,anio,codigo)
 )
 
----------------------------------REQUERIMIENTOS-----------------------------------------------
 create table requerimiento(
 	requerimientoID int not null,
 	personalID INT  NOT NULL,
@@ -126,7 +125,7 @@ create table detalle_requerimiento(
 	primary key(requerimientoID,item),
 	foreign key(requerimientoID) references requerimiento(requerimientoID)
 );
----------------------------------PLAN CONTABLE-----------------------------------------------
+
 
 create table estructura_plan_contable(
 	estructuraID int not null,
