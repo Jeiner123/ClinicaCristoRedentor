@@ -915,6 +915,8 @@ INSERT INTO items (module_id, nombre, file) VALUES
   (9, 'Forma de pago', 'forma_pago'),
   (9, 'Tipo de documento', 'tipo_documento'),
   (9, 'Comprobante de pago', 'comprobante_pago'),
+  (9, 'Nueva cuenta', 'nueva_cuenta'),
+  (9, 'Plan contable', 'plan_contable'),
 
   (10, 'Asignar permisos', 'asignar_permisos'),
 

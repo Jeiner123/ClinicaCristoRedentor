@@ -1,7 +1,5 @@
 USE clinica;
 
-
-
 create table PROVEEDOR(
 	proveedorID varchar(15) NOT NULL,
 	tipoDocumento int not null,
@@ -105,5 +103,67 @@ create table PAGO_COMPRA(
 	foreign key(mesReferencia,anioReferencia,codigoReferencia) references COMPRA(mesID,anio,codigo)
 )
 
+---------------------------------REQUERIMIENTOS-----------------------------------------------
+create table requerimiento(
+	requerimientoID int not null,
+	personalID INT  NOT NULL,
+	fecha date NOT NULL,
+	detalle int not null,
+	estado INT NOT NULL,
+	primary key(requerimientoID),
+	foreign key(personalID) references personal(personalID)
+);
 
-	
+create table detalle_requerimiento(
+	requerimientoID int not null,
+	item int not null,
+	producto varchar(150) not null,
+	unidadMedida varchar(50) null,
+	descripcion varchar(200) null,
+	stock int not null,
+	requerimiento varchar(100) null,
+	estado char(01) not null,
+	primary key(requerimientoID,item),
+	foreign key(requerimientoID) references requerimiento(requerimientoID)
+);
+---------------------------------PLAN CONTABLE-----------------------------------------------
+
+create table estructura_plan_contable(
+	estructuraID int not null,
+	nombre varchar(100) not null,
+	estado char(01) not null,
+	primary key(estructuraID)
+);
+
+create table tipo_cuenta(
+	tipoCuentaID varchar(8) NOT NULL,
+	estructuraID int not null,
+	CuentaPadre varchar(8) null,
+	tipoCuenta varchar(200) not null,
+	estado char(01) not null,
+	primary key(tipoCuentaID),
+	foreign key(estructuraID) references estructura_plan_contable(estructuraID)
+);
+
+INSERT INTO estructura_plan_contable VALUES
+  (1, 'Clase','A'),
+  (2, 'Grupo','A'),
+  (3, 'Cuenta','A'),
+  (4, 'Subcuenta','A'),
+  (5, 'Auxiliares','A');
+
+ INSERT INTO tipo_cuenta VALUES
+  (1,1,0,'ACTIVOS','A'),
+  (2,1,0,'PASIVOS','A'),
+  (3,1,0,'PATRIMONIO','A'),
+  (4,1,0,'INGRESOS','A'),
+  (5,1,0,'GASTOS','A'),
+  (6,1,0,'COSTOS DE VENTAS','A'),
+  (7,1,0,'COSTOS DE TRANSFORMACIÓN','A'),
+  (8,1,0,'CUENTAS DE ORDEN DEUDORAS','A'),
+  (9,1,0,'CUENTAS DE ORDEN ACREEDORAS','A'),
+  (11,2,1,'EFECTIVO Y EQUIVALENTES AL EFECTIVO','A'),
+  (12,2,1,'INVERSIONES E INSTRUMENTOS DERIVADAS','A'),
+  (13,2,1,'CUENTAS POR COBRAR','A'),
+  (14,2,1,'PRÉSTAMOS POR COBRAR','A');
+

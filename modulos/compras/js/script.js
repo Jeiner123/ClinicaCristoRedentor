@@ -1,4 +1,5 @@
 url = 'bd/bd_operaciones.php';
+tasaIGV=$("#txtValorIGV").val();
 
 function validarCorrelativo(element){
   var valor = $(element).val();
@@ -97,6 +98,7 @@ function guardarProveedor(form){
 			cerrarCargando();
 			alert(rpta);
 			limpiarForm("#formProveedor");
+			$("#cargarCboTipoDocumento").val(6);
 		},
 		error: function(rpta){
 			alert(rpta);
@@ -448,10 +450,10 @@ function generarPeriodo(mes,anio){
 	cargarCboAreas();
 	cargarCboExistencias();
 	cargarCboTipoAdquision(1);
-	cargarCboComprobanteCompra('03');
+	cargarCboComprobanteCompra('01');
 	cargarCboDetraccion(0);
 	cargarCboPercepcion(0);
-	cargarCboParametro(1,"#cboIGV",0);
+	cargarCboParametro(1,"#cboIGV",tasaIGV);
 	cargarCboParametro(2,"#cboRetencion",0);
 	cargarCboParametro(3,"#cboRenta",0);
 	$("#txtFecha").prop("disabled",true);
@@ -558,9 +560,11 @@ function cargarTablaFacturaFiltro(estado,periodo,proveedor){
 function validarTributos(){
 	if($('#cboComprobante').val()=='01' || $('#cboComprobante').val()=='03'){
 		$("#cboAdquisicion").val(1);
+		$("#cboIGV").val(tasaIGV);
 		$("#divRenta").hide();
 	}else{
 		$("#cboAdquisicion").val(3);
+		$("#cboIGV").val(0);
 		$("#divRenta").show();
 	}
 
@@ -568,6 +572,15 @@ function validarTributos(){
 		$(".tributo-comun").hide();
 	}else{
 		$(".tributo-comun").show();
+	}
+}
+
+function validarAdquisicion(){
+	tipoAdquisicionID=$("#cboAdquisicion").val();
+	if(tipoAdquisicionID==1){
+		$("#cboIGV").val(tasaIGV);
+	}else{
+		$("#cboIGV").val(0);
 	}
 }
 

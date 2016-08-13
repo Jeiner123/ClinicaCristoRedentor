@@ -75,6 +75,7 @@
                     <input id="txtMes" name="txtMes"class="form-control input-sm" type="hidden" value="<?php echo $mesID; ?>">
                     <input id="txtAnio" name="txtAnio"class="form-control input-sm" type="hidden" value="<?php echo $anioID; ?>">
                      <input id="txtCorrelativo" name="txtCorrelativo"class="form-control input-sm" type="hidden" value="<?php echo $codigo; ?>">
+                    <input type="hidden" value="<?php echo obtenerIGV(); ?>" id="txtValorIGV"></input>
                     <label class="control-label">Periódo</label>
                     <input type="text" id="txtPeriodo" name="txtPeriodo"class="form-control input-sm" readonly="" value="">
                   </div>
@@ -167,7 +168,7 @@
                     </div>
                     <div class="col-md-3">
                         <label class="control-label">Tipo de adquisición</label>
-                        <select class="form-control input-sm" id="cboAdquisicion" name="cboAdquisicion" onchange="validaAdquisicion();">
+                        <select class="form-control input-sm" id="cboAdquisicion" name="cboAdquisicion" onchange="validarAdquisicion();">
                         </select> 
                     </div>
                     <div class="col-md-2 tributo-comun">
@@ -348,7 +349,7 @@
                   </div>
                 </div>
               </div>
-              <?php echo obtenerIGV(); ?>
+              
               <!-- /.modal-footer -->
               <div class="modal-footer">                  
                 <div class="row" align="center">

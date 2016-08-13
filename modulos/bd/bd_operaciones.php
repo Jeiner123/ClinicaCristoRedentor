@@ -138,7 +138,6 @@
 	if($opc=='CC_TD'){
 		$consulta = "SELECT tipoDocumentoID,tipoDocumento FROM tipo_documento WHERE estado='A'";
 		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
-		echo "<option value=''>--Seleccionar--</option>";
 		while($row = mysqli_fetch_row($res)){
 			echo "<option value='".$row[0]."'>".$row[0]." - ".$row[1]."</option>";
 		}
