@@ -56,7 +56,7 @@
               <table id="tablaPersonal" class="table table-bordered table-hover tablaDatos">
                 <thead>
                   <tr>
-                    <th style='text-align:center;'>Código</th>
+                    <th style='text-align:left;'>Código</th>
                     <th style='text-align:center;'>DNI</th>
                     <th>Nombres y apellidos</th>
                     <th>Teléfono</th>

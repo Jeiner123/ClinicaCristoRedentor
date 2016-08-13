@@ -12,9 +12,10 @@ function cargarTablaPedidos(){
 		type: 'POST',
 		data:'opc='+opc+'&anio='+anio+'&mes='+mes+'&estado='+estado+'&tipo='+tipo,
 		url: url,
-		success: function(rpta){			
+		success: function(rpta){
 			$('#tablaPedidos').DataTable().destroy();
 			$('#cuerpoTablaPedidos').html(rpta);
+			var numFilas = $('#tablaPedidos >tbody >tr').length;   //Numero de pedidos
 			$('#tablaPedidos').DataTable(
 				{
            "columnDefs": [
@@ -34,6 +35,7 @@ function cargarTablaPedidos(){
           ]
         }
 			);
+			$('#txtNumeroPedidos').val(numFilas);
 			cerrarCargando();
 		},
 		error: function(rpta){
@@ -59,6 +61,7 @@ function cargarTablaCitas(){
 		success: function(rpta){						
 			$('#tablaCitas').DataTable().destroy();
 			$('#cuerpoTablaCitas').html(rpta);
+			var numFilas = $('#tablaCitas >tbody >tr').length;   //Numero de citas
 			$('#tablaCitas').DataTable(
 				{
            "columnDefs": [
@@ -75,6 +78,7 @@ function cargarTablaCitas(){
           ]
         }
 			);
+			$('#txtNumeroCitas').val(numFilas);
 			cerrarCargando();
 		},
 		error: function(rpta){
@@ -140,6 +144,7 @@ function cargarTablaPagos(){
 		success: function(rpta){			
 			$('#tablaPagos').DataTable().destroy();
 			$('#cuerpoTablaPagos').html(rpta);
+			var numFilas = $('#tablaPagos >tbody >tr').length;   //Numero de citas
 			$('#tablaPagos').DataTable(
 				{
            "columnDefs": [
@@ -154,6 +159,7 @@ function cargarTablaPagos(){
           ]
         }
 			);
+			$('#txtNumeroPagos').val(numFilas);
 			cerrarCargando();
 		},
 		error: function(rpta){

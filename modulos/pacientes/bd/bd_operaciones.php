@@ -9,16 +9,21 @@
 		$registrarPaciente = true;
 		$DNI = $_POST['txtDNI'];
 		//Verificamos el DNI de la persona
-		$consulta = "SELECT * FROM persona WHERE DNI ='".$DNI."'";
+		$consulta = "SELECT personaID FROM persona WHERE DNI ='".$DNI."'";
 		$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
-		if(mysqli_num_rows($res)>0){
+		$row = mysqli_fetch_row($res);
+		$personaID = $row[0];
+		if(mysqli_num_rows($res) > 0){
 			$registrarPersona = false;
-			$consulta = "SELECT pacienteID FROM paciente WHERE DNI ='".$DNI."'";
+			$consulta = "SELECT PA.pacienteID
+									FROM paciente PA
+									INNER JOIN PERSONA PE ON PE.personaID = PA.personaID
+									WHERE PE.DNI ='".$DNI."'";
 			$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
 			if(mysqli_num_rows($res)>0){
 				$registrarPaciente = false;
 				$row = mysqli_fetch_row($res);
-				echo "El Paciente ya esta registrado. Su Historia Clínica es: ".$row[0];
+				echo "El Paciente ya esta registrado. Su Historia Clínica es: ".completarCerosAdelante($row[0],5);
 				exit();
 			}
 		}
@@ -75,7 +80,7 @@
 			if(!$res){
 				echo "No se pudo registrar el paciente";
 			}
-			echo mysqli_insert_id($con);
+			echo completarCerosAdelante(mysqli_insert_id($con),5);
 			exit();
 		}
 		exit();
@@ -173,6 +178,4 @@
 		}
 		exit();
 	}
-
-
 ?>

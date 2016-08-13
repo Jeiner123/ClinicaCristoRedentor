@@ -24,74 +24,104 @@
 	// INSERT PERSONAL
 	if($opc=='PL_02'){
 		// Datos de la persona
-		$DNI = $_POST['txtDNI'];
-		$nombres = $_POST['txtNombres'];
-		$apPaterno = $_POST['txtPaterno'];
-		$apMaterno = $_POST['txtMaterno'];
-		$fechaNacimiento = $_POST['txtFechaN'];
-		$sexo = $_POST['cboSexo'];
-		$telefono1 = $_POST['txtTelefono1'];
-		$tipoTelefono1 = $_POST['cboTipoTelefono1'];
-		$telefono2 = $_POST['txtTelefono2'];
-		$tipoTelefono2 = $_POST['cboTipoTelefono2'];
-		$correoPersonal = $_POST['txtCorreoP'];
-		$direccion = $_POST['txtDireccion'];
-		// $foto = $_POST['txtFoto'];
-		// $timestamp = $timestamp;
+		$registrarPersona = true;
+		$registrarPersonal = true;
+		$DNI = $_POST['txtDNI'];		
+		$consulta = "SELECT personaID FROM persona WHERE DNI ='".$DNI."'";
+		$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
+		$row = mysqli_fetch_row($res);
+		$personaID = $row[0];
+		if(mysqli_num_rows($res) > 0){
+			$registrarPersona = false;
+			$consulta = "SELECT PE.personalID
+									FROM personal PE
+									INNER JOIN PERSONA P ON P.personaID = PE.personaID
+									WHERE P.DNI ='".$DNI."'";
+			$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
+			if(mysqli_num_rows($res)>0){
+				$registrarPersonal = false;
+				$row = mysqli_fetch_row($res);
+				echo "El personal ya esta registrado. Su código es: ".completarCerosAdelante($row[0]);
+				exit();
+			}
+		}
 
-		$consulta = "INSERT INTO persona(DNI,nombres,apPaterno,apMaterno,fechaNacimiento,sexo,
-								telefono1,tipoTelefono1,telefono2,tipoTelefono2,
-								correoPersonal,direccion,foto,timestamp) values
-								('".$DNI."','".$nombres."','".$apPaterno."','".$apMaterno."','".$fechaNacimiento."',
-								'".$sexo."','".$telefono1."','".$tipoTelefono1."',".$telefono2.",
-								'".$tipoTelefono2."','".$correoPersonal."','".$direccion."',null,'".$timestamp."')";
-		if($tipoTelefono2==0){
-			$consulta = "INSERT INTO persona(DNI,nombres,apPaterno,apMaterno,fechaNacimiento,sexo,
-								telefono1,tipoTelefono1,correoPersonal,direccion,foto,timestamp) values
-								('".$DNI."','".$nombres."','".$apPaterno."','".$apMaterno."','".$fechaNacimiento."',
-								'".$sexo."','".$telefono1."','".$tipoTelefono1."',
-								'".$correoPersonal."','".$direccion."',null,'".$timestamp."')";
-		}			
-		$res = mysqli_query($con,$consulta)or  die (mysqli_error($con));
-		if(!$res){
-			echo "No se pudo registrar la persona";
+		if($registrarPersona){
+			// Datos de la persona
+			$nombres = strtoupper($_POST['txtNombres']);
+			$apPaterno = strtoupper($_POST['txtPaterno']);
+			$apMaterno = strtoupper($_POST['txtMaterno']);
+			$fechaN = $_POST['txtFechaN'];
+			$fechaN = str_replace("/","-",$fechaN);
+		  $fechaN = date('Y/m/d',strtotime($fechaN));
+			$sexo = $_POST['cboSexo'];
+			$RUC = $_POST['txtRUC'];
+			$telefono1 = $_POST['txtTelefono1'];
+			$tipoTelefono1 = $_POST['cboTipoTelefono1'];
+			$telefono2 = $_POST['txtTelefono2'];
+			$tipoTelefono2 = $_POST['cboTipoTelefono2'];
+			$correoP = $_POST['txtCorreoP'];		
+			$direccion = $_POST['txtDireccion'];
+			// $foto = $_POST['txtFoto'];
+			$consulta = "INSERT INTO persona(DNI,nombres,apPaterno,apMaterno,fechaNacimiento,sexo,RUC,
+									telefono1,tipoTelefono1,telefono2,tipoTelefono2,
+									correoPersonal,direccion,foto,timestamp) values
+									(".(($DNI=='')?'NULL':("'".$DNI."'")).",
+									'".$nombres."','".$apPaterno."','".$apMaterno."','".$fechaN."',
+			 						'".$sexo."',
+			 						".(($RUC=='')?'NULL':("'".$RUC."'")).",
+			 						".(($telefono1=='')?'NULL':("'".$telefono1."'")).",
+			 						".(($tipoTelefono1==0)?'NULL':("'".$tipoTelefono1."'")).",
+			 						".(($telefono2=='')?'NULL':("'".$telefono2."'")).",
+			 						".(($tipoTelefono2==0)?'NULL':("'".$tipoTelefono2."'")).",
+			 						".(($correoP=='')?'NULL':("'".$correoP."'")).",
+			 						".(($direccion=='')?'NULL':("'".$direccion."'")).",
+			 						null,'".$timestamp."')";
+			$res = mysqli_query($con,$consulta)or  die (mysqli_error($con));
+			$personaID = mysqli_insert_id($con);
+			if(!$res){
+				echo "No se pudo registrar la persona";
+				exit();
+			}
 		}
 		// PersonalID
 		// $DNI
-		$tipoPersonalID = $_POST['cboTipoPersonal'];
-		$cargoID = $_POST['cboCargo'];			
-		$fechaIngreso = $_POST['txtFechaI'];
-		$correoCorporativo = $_POST['txtCorreoC'];
-		$sueldoMensual = $_POST['txtSueldo'];
-		$estado = $_POST['cboEstado'];
-		$observaciones = $_POST['txtObservaciones'];
+		if($registrarPersonal){
+			$tipoPersonalID = $_POST['cboTipoPersonal'];
+			$cargoID = $_POST['cboCargo'];			
+			$fechaIngreso = $_POST['txtFechaI'];
+			$correoCorporativo = $_POST['txtCorreoC'];
+			$sueldoMensual = $_POST['txtSueldo'];
+			$estado = $_POST['cboEstado'];
+			$observaciones = $_POST['txtObservaciones'];
 
-		$consulta = "INSERT INTO personal(DNI,tipoPersonalID,cargoID,fechaIngreso,correoCorporativo,
-								sueldoMensual,estado,observaciones) values
-								('".$DNI."','".$tipoPersonalID."','".$cargoID."',
-									'".$fechaIngreso."','".$correoCorporativo."','".$sueldoMensual."',
-									'".$estado."','".$observaciones."')";
+			$consulta = "INSERT INTO personal(personaID,tipoPersonalID,cargoID,fechaIngreso,correoCorporativo,
+									sueldoMensual,estado,observaciones) values
+									('".$personaID."','".$tipoPersonalID."','".$cargoID."',
+										'".$fechaIngreso."','".$correoCorporativo."','".$sueldoMensual."',
+										'".$estado."','".$observaciones."')";
 
-		$res = mysqli_query($con,$consulta)or  die (mysqli_error($con));
-		if(!$res){
-			echo "No se pudo registrar el personal";
+			$res = mysqli_query($con,$consulta)or  die (mysqli_error($con));
+			if(!$res){
+				echo "No se pudo registrar el personal";
+				exit();
+			}
 		}
 		echo 1;
 		exit();
-	}
-	// VERIFICAR SI EXISTE
+	}	
 	
 	// CARGAR TABLA DE PERSONAL
 	if($opc=='CT_P_01'){
 		$tipoPersonal = $_POST["tipoPersonal"];
 		$consulta = "SELECT P.DNI,PL.personalID,P.nombres,P.apPaterno,P.apMaterno,P.telefono1,TT.tipoTelefono,
 								TP.tipoPersonal,PL.estado
-								FROM personal PL
-								INNER JOIN persona P on P.DNI = PL.DNI
-								LEFT JOIN tipo_telefono TT on TT.tipoTelefonoID = P.tipoTelefono1
-								INNER JOIN tipo_personal TP on TP.tipoPersonalID = PL.tipoPersonalID
-								LEFT JOIN cargo C on C.cargoID = PL.cargoID
-								LEFT JOIN area A on A.areaID = C.areaID
+								FROM PERSONAL PL
+								INNER JOIN PERSONA P on P.personaID = PL.personaID
+								LEFT JOIN TIPO_TELEFONO TT on TT.tipoTelefonoID = P.tipoTelefono1
+								INNER JOIN TIPO_PERSONAL TP on TP.tipoPersonalID = PL.tipoPersonalID
+								LEFT JOIN CARGO C on C.cargoID = PL.cargoID
+								LEFT JOIN AREA A on A.areaID = C.areaID
 								WHERE PL.estado <=2
 								";
 		if($tipoPersonal!='T'){  //TODOS

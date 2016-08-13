@@ -59,7 +59,7 @@
                           FROM PAGO P
                           INNER JOIN PEDIDO_SERVICIO PS ON PS.pedidoServicioID = P.pedidoServicioID
                           INNER JOIN PACIENTE PA ON PA.pacienteID = PS.pacienteID
-                          INNER JOIN PERSONA PE ON PE.DNI = PA.DNI
+                          INNER JOIN PERSONA PE ON PE.personaID = PA.personaID
                           INNER JOIN COMPROBANTE_PAGO CP ON CP.comprobanteID = P.comprobanteID
                           WHERE MONTH(P.fechaPago) = '".$mes."' and YEAR(P.fechaPago) = '".$anio."'
                           ";
