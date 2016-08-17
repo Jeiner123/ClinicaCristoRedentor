@@ -110,7 +110,7 @@
 
                                     <button v-else v-on:click="UpdateStatus(1, $index)" type="button" class="btn btn-sm btn-success">Activar módulo</button>
 
-                                    <a href="#" class="btn btn-sm btn-info">Gestionar items</a>
+                                    <a href="./gestion_items.php?id={{ module.id }}" class="btn btn-sm btn-info">Gestionar items</a>
                                 </td>
                             </tr>
                             </tbody>
