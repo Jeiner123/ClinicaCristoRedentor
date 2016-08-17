@@ -119,6 +119,13 @@
                   <!-- Aqui irán los elementos de la tabla -->
                 </tbody>
               </table>
+              <hr>
+              <div class="row">
+                <div class="col-md-2">
+                  <label for="txtNumeroPedidos" class="text-red"><strong>N° de pedidos</strong></label>
+                  <input class="form-control input-sm" id="txtNumeroPedidos" name="txtNumeroPedidos" disabled>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -198,6 +205,13 @@
                   <!-- Aqui irán los elementos de la tabla -->
                 </tbody>
               </table>
+              <hr>
+              <div class="row">
+                <div class="col-md-2">
+                  <label for="txtNumeroCitas" class="text-red"><strong>N° de citas</strong></label>
+                  <input class="form-control input-sm" id="txtNumeroCitas" name="txtNumeroCitas" disabled>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -246,6 +260,13 @@
                   <!-- Aqui irán los elementos de la tabla -->
                 </tbody>
               </table>
+              <hr>
+              <div class="row">
+                <div class="col-md-2">
+                  <label for="txtNumeroPagos" class="text-red"><strong>N° de pagos</strong></label>
+                  <input class="form-control input-sm" id="txtNumeroPagos" name="txtNumeroPagos" disabled>
+                </div>
+              </div>
             </div>
           </div>
         </div>

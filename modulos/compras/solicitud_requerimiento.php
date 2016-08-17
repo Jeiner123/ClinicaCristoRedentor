@@ -1,5 +1,8 @@
 <?php include '../general/validar_sesion.php';?>
 <?php include '../general/variables.php';?>
+<?php
+  $detalles=3;
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,30 +51,30 @@
         </div>        
         <div class="box-body" style='overflow-x:scroll;overflow-y:hidden' align="center">
           <!--registro de orden de compra-->
-          <form>
+          <form id="formRequerimiento" name="formRequerimiento">
             <div id="RegOCompra">
             <!-- COL-MD-6 -->
                 
                 <div class="row" style="margin-left:5px;">
                   <div class="col-md-4 col-md-offset-4">
-                    <label class="control-label">REQUERIMIENTO Nº <p></p></label>
+                    <label class="control-label" style="font-weight: bold;">REQUERIMIENTO Nº <p></p></label>
                   </div>
                 </div>
                 <div class="row" style="margin-left:5px;">
                   <div class="col-md-4">
-                    <label class="control-label">ÁREA: <p></p></label>
+                    <label class="control-label" style="font-weight: bold;">ÁREA: <p></p></label>
                   </div>
                   <div class="col-md-5">
-                    <label class="control-label">NOMBRE: <?= $full_name ?></label>
+                    <label class="control-label" style="font-weight: bold;">NOMBRE: <?= $full_name ?></label>
                   </div>
                   <div class="col-md-3">
-                    <label class="control-label">FECHA: <?= $fechaHoyDMA ?></label>
+                    <label class="control-label" style="font-weight: bold;">FECHA: <?= $fechaHoyDMA ?></label>
                   </div>
                 </div>
                  <div class="col-md-12">
                   <div class="input-group"><br><hr>
                     <div class="input-group-btn">
-                      <button onclick="crearfila();" type="button"class="btn btn-active" title="Agregar fila">
+                      <button onclick="crearfilaRequerimiento();" type="button"class="btn btn-active" title="Agregar fila">
                         <strong><i class='fa fa-plus'></i></strong>
                       </button>
                     </div>
@@ -84,15 +87,15 @@
                             </th>
                             <th width="25%" style='text-align:center;'>&nbsp;PRODUCTO</th>
                             <th width="10%">&nbsp;UNIDAD/MEDIDA</th>
-                            <th width="30%" style='text-align:center;'>DESCRIPCION</th>
+                            <th width="40%" style='text-align:center;'>DESCRIPCION</th>
                             <th width="10%" style='text-align:center;'>STOCK</th>
-                            <th width="20%" style='text-align:center;'>REQUERIMIENTO</th>
+                            <th width="10%" style='text-align:center;'>REQUERIMIENTO</th>
                           </tr>
                         </thead>
                         <tbody class="cuerpoTabla" id="cuerpoTablaRequerimiento">
-                        <?php for ($i=1;$i<=3;++$i): ?>
+                        <?php for ($i=1;$i<=$detalles;++$i): ?>
                           <tr>
-                            <td><input class="form-control input-sm" id="txtItem<?php echo $i;?>" name="txtItem<?php echo $i;?>" style='text-align:right;' readonly value="<?php echo $i;?>" /></td>
+                            <td><input class="form-control input-sm item" id="txtItem<?php echo $i;?>" name="txtItem<?php echo $i;?>" style='text-align:right;' readonly value="<?php echo $i;?>" /></td>
                             <td><input class="form-control input-sm" id="txtProducto<?php echo $i;?>" name="txtProducto<?php echo $i;?>" /></td>
                             <td><input class="form-control input-sm" id="txtUnidad<?php echo $i;?>" name="txtUnidad<?php echo $i;?>" /></td>
                             <td><input class="form-control input-sm" id="txtDescripcion<?php echo $i;?>" name="txtDescripcion<?php echo $i;?>" /></td>
@@ -105,10 +108,10 @@
                 </div>
                 <div class="row">
                   <div class="col-md-6" style="top:20px!important;">
-                        <a href="#" class="btn btn-default btn-block">Cancelar registro</a>
+                        <a href="listado_requerimeintos.php" class="btn btn-default btn-block">Ver listado de requerimientos</a>
                     </div>
                     <div class="col-md-6" style="top:20px!important;">
-                        <button type="submit" class="btn btn-primary btn-block">Registrar requerimiento</button>
+                        <button type="button" class="btn btn-primary btn-block" onclick="registrarRequerimiento()">Registrar requerimiento</button>
                     </div>
                 </div><br><br>
                 </div>
@@ -129,14 +132,4 @@
 </body>
 </html>
 <script src="js/script.js"></script>
-<script type="text/javascript">
-  cargarListaProveedor();
-  cargarListaProductos();
-  cargarCboAreas();
-  cargarCboExistencias();
-  $('#tablaOCompra tbody').on('click','tr',function(){seleccionSimple(this);});  
-   $('.date-picker').datepicker({
-    autoclose: true,
-    todayHighlight: true
-  })    
-</script>
+

@@ -62,6 +62,7 @@ function guardarPersonal(form){
 		alert("Hay problemas en el formulario.");
 		return false;
 	}
+	comboObligatorio('#txtDNI',8);
 	comboObligatorio('#cboTipoTelefono1',0);
 	comboObligatorio('#cboTipoPersonal',0);
 	comboObligatorio('#cboArea',0);
@@ -126,11 +127,11 @@ function cargarTablaPersonal() {
 			$('.tablaDatos').DataTable(
 				{
 			   	"columnDefs": [
-            { "targets": [ 0 ],"width": "5%","searchable": false,}, 		//Codigo
+            { "targets": [ 0 ],"width": "8%","searchable": false,}, 		//Codigo
             { "targets": [ 1 ],"width": "10%"},										 		//DNI
             { "targets": [ 2 ],"width": "30%"},											 //nomresb
             { "targets": [ 3 ],"width": "15%", "searchable": false ,},	//telefono
-            { "targets": [ 4 ],"width": "15%", "searchable": false ,},	//tipo personal
+            { "targets": [ 4 ],"width": "12%", "searchable": false ,},	//tipo personal
             { "targets": [ 5 ],"width": "10%","searchable": false , },	//Especia
             { "targets": [ 6 ],"width": "10%","searchable": false , }, //Estado
 		      ]

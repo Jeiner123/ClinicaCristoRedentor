@@ -36,7 +36,7 @@
     <!-- Main content -->
     <section class="content">
       <form method="post" class="" id="formPaciente" enctype="multipart/form-data">
-        <div class="box box-primary color-palette-box">          
+        <div class="box box-primary color-palette-box">
           <div class="box-body">
             <input type="hidden" value="N" id="txtFlag">
             <div class="col-md-6">

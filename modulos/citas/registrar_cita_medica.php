@@ -50,98 +50,90 @@
             <form method="post" id="formCitaConsultorio" enctype="multipart/form-data">
               <input id="txtFlag" name="txtFlag" class="form-control" value="N" type="hidden">
               <div class="row">
-              </div>
-
-              <div class="col-sm-5">
-                <div class="form-group">
-                  <label class="control-label">Paciente</label>                    
-                  <select onchange="seleccionarCboPaciente(this)" class="chosen-select form-control input-sm" id="cboPacientes" name="cboPacientes" >
-                    <!-- Lista de diagnósticos -->
-                  </select> 
-                </div>
-              </div>
-              <!-- COL- Paciente -->
-              <div class="col-sm-3">
-                <div class="form-group">
-                  <label for="cboEspecialidad">Especialidad</label>
-                  <select class="form-control input-sm" id="cboEspecialidad" name="cboEspecialidad" onchange="cargarListaPersonalSalud();">
-                    <option value="0" selected> -- Especialidad -- </option>
-                  </select> 
-                </div>
-              </div>
-              <div class="col-sm-3">
-                <div class="form-group">
-                  <label for="cboTipoServicio">Tipo de servicio</label>
-                  <select class="form-control input-sm" id="cboTipoServicio" name="cboTipoServicio">
-                    <option value="0" selected> -- Tipo de servicio -- </option>
-                  </select> 
-                </div>
-              </div>
-              <div class="col-sm-5">                 
-                <div class="form-group">
-                  <label for="cboServicios">Servicio</label>
-                  <select class="chosen-select form-control" id="cboServicios" name="cboServicios"  onchange="seleccionarCboServicios(this.value);">
-                    <!-- Lista de diagnósticos -->
-                  </select> 
-                </div>
-              </div>
-              <div class="col-sm-5">
-                <div class="form-group">
-                  <label class="control-label">Médico</label>
-                  <select onchange="seleccionarCboMedico(this);" class="chosen-select form-control input-sm" id="cboMedicos" name="cboMedicos">
-                    <!-- Lista de diagnósticos -->
-                  </select> 
-                </div>
-              </div>
-              <!-- COL Medico referencia -->
-              <div class="col-sm-5">
-                <div class="form-group">
-                  <label class="control-label">Médico Referencia</label>                  
-                  <select onchange="seleccionarCboMedico(this);" class="chosen-select form-control input-sm" id="cboMedicosRef" name="cboMedicosRef" data-placeholder="-- Médico --">
-                    <!-- Lista de diagnósticos -->
-                  </select> 
-                </div>
-              </div>
-              <!-- COL Medico -->              
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label for="txtFechaCita">Día</label>
-                  <div class="input-group">
-                    <input id="txtFechaCita" name="txtFechaCita"class="form-control date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" onchange="validarFechaMayor(this);">
-                    <span class="input-group-addon">
-                      <i class="fa fa-calendar bigger-110"></i>
-                    </span>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="cboPacientes">Paciente</label><label style="color:red">&nbsp;*</label>                    
+                    <select onchange="seleccionarCboPaciente(this)" class="chosen-select form-control input-sm" id="cboPacientes" name="cboPacientes" >
+                      <!-- Lista de diagnósticos -->
+                    </select> 
                   </div>
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  <label class="txtHoraCita">Hora</label>
-                  <div class="input-group">
-                    <input id="txtHoraCita" name="txtHoraCita" value="" type="text" class="form-control timepicker">
-                    <div class="input-group-addon">
-                      <i class="fa fa-clock-o"></i>
+                  <div class="form-group">
+                    <label for="cboServicios">Servicio</label><label style="color:red">&nbsp;*</label>
+                    
+                    <select class="chosen-select form-control" id="cboServicios" name="cboServicios"  onchange="seleccionarCboServicios(this.value);">
+                      <!-- Lista de diagnósticos -->
+                    </select> 
+                  </div>                  
+                  <div class="form-group">
+                    <label for="cboMedicos">Médico</label><label style="color:red">&nbsp;*</label>
+                    <select onchange="seleccionarCboMedico(this);" class="chosen-select form-control input-sm" id="cboMedicos" name="cboMedicos">
+                      <!-- Lista de diagnósticos -->
+                    </select> 
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="txtFechaCita">Día</label><label style="color:red">&nbsp;*</label>
+                        <div class="input-group">
+                          <input id="txtFechaCita" name="txtFechaCita"class="form-control date-picker" placeholder="dd-mm-aaaa" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" onchange="validarFechaMayor(this);">
+                          <span class="input-group-addon">
+                            <i class="fa fa-calendar bigger-110"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">                      
+                      <div class="form-group">
+                        <label for="txtHoraCita">Hora</label><label style="color:red">&nbsp;*</label>                        
+                        <div class="input-group">
+                          <input id="txtHoraCita" name="txtHoraCita" value="" type="text" class="form-control timepicker">
+                          <div class="input-group-addon">
+                            <i class="fa fa-clock-o"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group ">
+                    <div for="txtMotivo">
+                      <label for="txtMotivo">Motivo/observaciones</label>
+                      <textarea class="form-control" id="txtMotivo" name="txtMotivo" rows="2"></textarea>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-md-2">
-                <div for="cboVia">
-                  <label for="txtHoraCita">Vía</label>
-                  <select class="form-control " id="cboVia" name="cboVia">
-                    <option value="P" selected>Personal</option>
-                    <option value="T">Teléfono</option>
-                    <option value="W">Web</option>
-                    <option value="F">Facebook</option>
-                  </select> 
-                </div>
-              </div>
-              <div class="col-md-5">
-                <div for="cboVia">
-                  <label for="txtMotivo">Motivo</label>
-                  <textarea class="form-control" id="txtMotivo" name="txtMotivo" rows="2"></textarea>
-                </div>
-              </div>
+                <!-- COL MD 6 -->
+                <div class="col-sm-6">
+                  <div class="form-group" align="left">
+                    <label for="cboMedicosRef">Médico Referencia</label>
+                    <span class="text-blue" title="descripción"><i class="fa fa-question-circle bigger-110" onclick="$('#helpMR').show('slow');" onmouseout="$('#helpMR').hide('slow');" style="cursor:pointer"></i></span>
+                    <p id="helpMR" class="help-block" style="display:none;">Si algún médico sugirió realizarse esta cita.</p>
+                    <select onchange="seleccionarCboMedico(this);" class="chosen-select form-control input-sm" id="cboMedicosRef" name="cboMedicosRef">
+                      <!-- Lista de diagnósticos -->
+                    </select> 
+                  </div>
+                  <div class="form-group">
+                    <label for="cboEspecialidad">Especialidad</label>
+                    <select class="form-control input-sm" id="cboEspecialidad" name="cboEspecialidad" onchange="cargarListaPersonalSalud();">
+                      <option value="0" selected> -- Especialidad -- </option>
+                    </select> 
+                  </div>
+                  <div class="form-group">
+                    <label for="cboTipoServicio">Tipo de servicio</label>
+                    <select class="form-control input-sm" id="cboTipoServicio" name="cboTipoServicio">
+                      <option value="0" selected> -- Tipo de servicio -- </option>
+                    </select> 
+                  </div>
+                  <div class="form-group">
+                    <label for="txtHoraCita">Vía</label>
+                    <select class="form-control " id="cboVia" name="cboVia">
+                      <option value="P" selected>Personal</option>
+                      <option value="T">Teléfono</option>
+                      <option value="W">Web</option>
+                      <option value="F">Facebook</option>
+                    </select> 
+                  </div>                  
+                </div>                  
+              </div>              
             </form>
             <!-- /.form -->
           </div>
@@ -177,7 +169,7 @@
   cargarCboMedicos('#cboMedicos',0);
   cargarCboServicios('#cboServicios',0,0);  
   cargarCboTipoServicio();
-  cargarCboEspecialidades("#cboEspecialidad",-1);
+  cargarCboEspecialidades2("#cboEspecialidad",-1);
     //Timepicker
     $(".timepicker").timepicker({
       showInputs: false

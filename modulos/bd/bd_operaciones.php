@@ -1,3 +1,4 @@
+<?php include '../general/variables.php';?>
 <?php
 	$opc = $_POST['opc'];
 	$hoy = date('Y').'-'.date('m').'-'.date('d');
@@ -121,8 +122,8 @@
 		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
 		echo "<option value='0'>-- Seleccionar paciente --</option>";
 		while($row = mysqli_fetch_row($res)){
-			$pacienteID = $row[1];
-			$DNI = $row[0];
+			$pacienteID = $row[1];			
+			$DNI = completarCerosAdelante($row[0],8);
 			$nombresP = explode(" ", $row[2]);
 			$paciente = $nombresP[0].' '.$row[3].' '.$row[4];
 			$historiaClinica = "";
@@ -138,7 +139,6 @@
 	if($opc=='CC_TD'){
 		$consulta = "SELECT tipoDocumentoID,tipoDocumento FROM tipo_documento WHERE estado='A'";
 		$res = mysqli_query($con,$consulta) or die (mysqli_error($con));
-		echo "<option value=''>--Seleccionar--</option>";
 		while($row = mysqli_fetch_row($res)){
 			echo "<option value='".$row[0]."'>".$row[0]." - ".$row[1]."</option>";
 		}

@@ -14,7 +14,7 @@
 											PE.DNI,PE.nombres,PE.apPaterno,PE.apMaterno,PE.telefono1
 								FROM PEDIDO_SERVICIO PS
 								INNER JOIN PACIENTE PA ON PS.pacienteID = PA.pacienteID
-								INNER JOIN PERSONA PE ON PE.DNI = PA.DNI
+								INNER JOIN PERSONA PE ON PE.personaID = PA.personaID
 								LEFT 	JOIN FORMA_PAGO FP ON FP.formaPagoID = PS.formaPagoID
 								WHERE MONTH(PS.timestamp) = '".$mes."' and YEAR(PS.timestamp) = '".$anio."'
 								";
@@ -81,16 +81,16 @@
 
 		$consulta = "SELECT C.citaID,P.nombres,P.apPaterno,P.apMaterno,PA.pacienteID,
 												E.especialidad,S.servicio,C.fecha,C.hora,PP.nombres,
-												PP.apPaterno,PP.apMaterno,C.estado,PS.estadoPago,PS.pedidoServicioID,PA.DNI,
+												PP.apPaterno,PP.apMaterno,C.estado,PS.estadoPago,PS.pedidoServicioID,P.DNI,
 												PS.tipo,C.precio*C.cantidad
 									FROM CITA C
 									INNER JOIN PEDIDO_SERVICIO PS ON C.pedidoServicioID = PS.pedidoServicioID
 									INNER JOIN PACIENTE PA ON PA.pacienteID = C.pacienteID
-									INNER JOIN PERSONA P ON P.DNI = PA.DNI
+									INNER JOIN PERSONA P ON P.personaID = PA.personaID
 									LEFT 	JOIN ESPECIALIDAD E ON E.especialidadID = C.especialidadID
 									INNER JOIN SERVICIO S ON S.servicioID = C.servicioID
 									LEFT 	JOIN PERSONAL PE ON PE.personalID = C.medicoID
-									LEFT 	JOIN PERSONA PP ON PP.DNI = PE.DNI
+									LEFT 	JOIN PERSONA PP ON PP.personaID = PE.personaID
 									where MONTH(PS.timestamp) = '".$mes."' and YEAR(PS.timestamp) = '".$anio."'
 									";
 
@@ -160,7 +160,7 @@
 									substring_index(PS.timestamp,' ',1) as 'fecha',PS.estadoPago,C.estado
 								FROM PEDIDO_SERVICIO PS
 								INNER JOIN PERSONAL PL ON PS.personalReferenciaID = PL.personalID
-								INNER JOIN PERSONA P ON P.DNI = PL.DNI
+								INNER JOIN PERSONA P ON P.personaID = PL.personaID
 								INNER JOIN CITA C ON C.pedidoServicioID = PS.pedidoServicioID
 								left 	JOIN ESPECIALIDAD E ON E.especialidadID = C.especialidadID
 								INNER JOIN SERVICIO S ON S.servicioID = C.servicioID
@@ -216,7 +216,7 @@
 								FROM PAGO P
 								INNER JOIN PEDIDO_SERVICIO PS ON PS.pedidoServicioID = P.pedidoServicioID
 								INNER JOIN PACIENTE PA ON PA.pacienteID = PS.pacienteID
-								INNER JOIN PERSONA PE ON PE.DNI = PA.DNI
+								INNER JOIN PERSONA PE ON PE.personaID = PA.personaID
 								INNER JOIN COMPROBANTE_PAGO CP ON CP.comprobanteID = P.comprobanteID
 								WHERE MONTH(P.fechaPago) = '".$mes."' and YEAR(P.fechaPago) = '".$anio."'
 								";

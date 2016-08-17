@@ -39,8 +39,6 @@ function guardarPaciente(form){
 			if(rpta>0){
 				alert("Registro exitoso");
 				$('#txtNroHistoria').val(rpta);
-				// limpiarForm(form);
-				// cargarTablaPersonal();
 				cerrarCargando();
 				return true;
 			}

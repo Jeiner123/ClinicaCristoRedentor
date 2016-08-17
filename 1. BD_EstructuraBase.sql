@@ -83,7 +83,7 @@ CREATE TABLE cargo (
 );
 CREATE TABLE persona (
   personaID       INT          NOT NULL AUTO_INCREMENT,
-  DNI             CHAR(8)      NOT NULL,
+  DNI             CHAR(8)      NULL,
   nombres         VARCHAR(50)  NOT NULL,
   apPaterno       VARCHAR(50)  NOT NULL,
   apMaterno       VARCHAR(50)  NOT NULL,
@@ -288,3 +288,7 @@ CREATE TABLE MEDIO_PAGO(
   estado      CHAR(01)          NOT NULL,
   PRIMARY KEY (medioPagoID)
 );
+
+
+
+

@@ -7,27 +7,14 @@
 	if($opc == 'M_SERV_01'){
 		$servicioID = $_POST["servicioID"];
 		$consulta = "SELECT S.servicioID,S.servicio,S.precioUnitario,S.estado,E.especialidad,
-											E.especialidadID,T.tipoServicio,T.tipoServicioID
-									FROM servicio S
-									LEFT 	JOIN tipo_servicio T 	ON S.tipoServicioID = T.tipoServicioID
-									INNER JOIN especialidad E 	ON E.especialidadID = S.especialidadID
-									WHERE S.estado=1 AND S.servicioID='".$servicioID."'";
-
+									E.especialidadID,T.tipoServicio,T.tipoServicioID
+								FROM servicio S
+								LEFT 	JOIN tipo_servicio T 	ON S.tipoServicioID = T.tipoServicioID
+								INNER JOIN especialidad E 	ON E.especialidadID = S.especialidadID
+								WHERE S.estado=1 AND S.servicioID='".$servicioID."'";
 		$res = mysqli_query($con,$consulta)or die (mysqli_error($con));
-		$datos = "";
-		if(mysqli_num_rows($res)>0){
-			$datos = mysqli_fetch_array($res);
-			$servicioID = $datos[0];
-			$servicio = $datos[1];
-			$precioUnitario = $datos[2];
-			$especialidadID = $datos[5];
-			$tipoServicioID = $datos[7];			
-
-			echo $servicioID.",,".$servicio.",,".$precioUnitario.",,".$especialidadID.",,".$tipoServicioID;
-
-		}else{
-			echo 0;
-		}
+		$data = mysqli_fetch_all($res, MYSQLI_ASSOC);
+		echo json_encode($data);
 		exit();
 	}
 	// CARTAR TABLA CITAS DE CONSULTORIO - LABORATORIO
@@ -179,7 +166,7 @@
 		$estadoPago = "PEN";   //PE: Pendiente
 		$importePagado = 0;		//Total Pagado = 0
 		// OBTENEMOS EL PRECIO DEL SERVICIO
-					// $tasaIGV = 0.18; Variable global
+					$tasaIGV = 0.18; //Variable global
 					$csPrecio = "SELECT precioUnitario FROM servicio WHERE servicioID = '".$servicioID."'";
 					$res = mysqli_query($con,$csPrecio)or  die (mysqli_error($con));
 					$row = mysqli_fetch_row($res);
@@ -230,7 +217,7 @@
 		$importeIGV = 0;
 		$importeTotal = 0;
 		// OBTENEMOS EL TOTAL DE LOS PRECIOS DE LOS SERVICIOS
-					// $tasaIGV = 0.18; Variable global
+					$tasaIGV = 0.18; 
 					for($i=0;$i<count($listaServicios)-1;$i++){
 						$fila = explode(",,", $listaServicios[$i]);
 						$servicioID = $fila[0];
